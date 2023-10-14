@@ -118,7 +118,8 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildUnmarkedAsDuplicateCard(
-          final UnmarkedAsDuplicateMixin item,) =>
+    final UnmarkedAsDuplicateMixin item,
+  ) =>
       BasicEventTextCard(
         textContent: 'Marked this as not a duplicate of',
         footer: Builder(
@@ -190,7 +191,7 @@ class TimelineItem extends StatelessWidget {
                     (item.requestedReviewer as dynamic)?.avatarUrl.toString(),
                 size: 20,
                 padding: EdgeInsets.zero,
-                textStyle: const TextStyle(fontSize: 12),
+                // textStyle: cont,
                 userLogin: (item.requestedReviewer as dynamic)?.login ??
                     (item.requestedReviewer as dynamic)?.nameKey,
               ),
@@ -208,7 +209,9 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventCard _buildRenamedTitleCard(
-          final RenamedTitleMixin item, final BuildContext context,) =>
+    final RenamedTitleMixin item,
+    final BuildContext context,
+  ) =>
       BasicEventCard(
         user: item.actor,
         leading: const Icon(Octicons.pencil),
@@ -239,7 +242,9 @@ class TimelineItem extends StatelessWidget {
       );
 
   BaseComment _buildPullRequestReviewCard(
-          final PullRequestReviewMixin item, final BuildContext context,) =>
+    final PullRequestReviewMixin item,
+    final BuildContext context,
+  ) =>
       BaseComment(
         description: getReviewState(item.state),
         onQuote: onQuote,
@@ -278,7 +283,8 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildPullRequestCommitCard(
-          final PullRequestCommitMixin item,) =>
+    final PullRequestCommitMixin item,
+  ) =>
       BasicEventTextCard(
         user: item.commit.author?.user,
         date: item.commit.authoredDate,
@@ -319,7 +325,8 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildMarkedAsDuplicateCard(
-          final MarkedAsDuplicateMixin item,) =>
+    final MarkedAsDuplicateMixin item,
+  ) =>
       BasicEventTextCard(
         textContent: 'Marked this as a duplicate of',
         footer: Builder(
@@ -426,7 +433,8 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildForcePushedCard(
-          final BaseRefForcePushedMixin item,) =>
+    final BaseRefForcePushedMixin item,
+  ) =>
       BasicEventTextCard(
         textContent:
             'Force pushed to base ref ${item.ref?.name}, from ${item.beforeCommit?.abbreviatedOid} to ${item.afterCommit?.abbreviatedOid}.',

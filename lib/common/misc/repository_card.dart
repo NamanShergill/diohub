@@ -71,8 +71,8 @@ class RepositoryCardState extends State<RepositoryCard> {
                                   padding: const EdgeInsets.only(right: 8),
                                   child: Icon(
                                     Octicons.lock,
-                                    size: context
-                                        .textTheme.bodyLarge!.contextIconSize,
+                                    size: context.textTheme.bodyLarge!
+                                        .getIconSize(context),
                                   ),
                                 ),
                               ),
@@ -118,9 +118,9 @@ class RepositoryCardState extends State<RepositoryCard> {
                         children: <Widget>[
                           Flexible(
                             child: Text(
-                              widget.repo!.description!.length > 100
-                                  ? '${widget.repo!.description!.substring(0, 100)}...'
-                                  : widget.repo!.description!,
+                              widget.repo!.description!,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                               style: context.textTheme.bodyMedium?.asHint(),
                             ),
                           ),
@@ -268,6 +268,9 @@ class RepoCardLoading extends StatelessWidget {
                       width: 200,
                       color: context.colorScheme.onSurface,
                     ),
+                  ),
+                  const SizedBox(
+                    height: 16,
                   ),
                 ],
               ),

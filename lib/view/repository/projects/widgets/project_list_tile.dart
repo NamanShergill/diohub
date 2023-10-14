@@ -67,7 +67,7 @@
 //                             getDate(project.updatedAt.toString()),
 //                             style: TextStyle(
 //                               color: context.palette.faded3,
-//                               fontSize: 12,
+//                                12,
 //                             ),
 //                           ),
 //                         ],
@@ -82,7 +82,7 @@
 //                     style: Theme.of(context)
 //                         .textTheme
 //                         .titleLarge!
-//                         .copyWith(fontSize: 16),
+//                         .copyWith( 16),
 //                   ),
 //                   const SizedBox(
 //                     height: 4,

@@ -79,10 +79,7 @@ class FontSettingCardState extends State<FontSettingCard> {
               padding: const EdgeInsets.only(top: 8),
               child: Text(
                 Provider.of<FontSettings>(context).currentSetting,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(fontSize: 17),
+                style: context.textTheme.bodyLarge,
               ),
             ),
           ],

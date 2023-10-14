@@ -65,7 +65,7 @@ class FileViewerAPIState extends State<FileViewerAPI> {
         appBar: AppBar(
           title: Text(
             widget.fileName!,
-            style: const TextStyle(fontSize: 14),
+            // style: const TextStyle(14),
           ),
           actions: <Widget>[
             // IconButton(

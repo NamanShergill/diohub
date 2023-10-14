@@ -3,6 +3,7 @@ import 'package:dio_hub/common/misc/app_scroll_view.dart';
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/models/users/user_info_model.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/profile/about/about_user.dart';
 import 'package:dio_hub/view/profile/overview/user_overview_screen.dart';
 import 'package:dio_hub/view/profile/repositories/user_repositories.dart';
@@ -59,23 +60,12 @@ class UserProfileScreenState<T extends UserInfoModel>
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        data.name ?? data.login!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(fontSize: 18),
-                      ),
+                      Text(data.name ?? data.login!,
+                          style: Theme.of(context).textTheme.bodyLarge),
                       if (data.name != null)
                         Text(
                           data.login!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                              ),
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                     ],
                   ),
@@ -96,10 +86,6 @@ class UserProfileScreenState<T extends UserInfoModel>
                         ),
                         Text.rich(
                           TextSpan(
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(fontSize: 15),
                             children: <InlineSpan>[
                               TextSpan(
                                 text: data.followers.toString(),
@@ -140,10 +126,6 @@ class UserProfileScreenState<T extends UserInfoModel>
                   if (data.type == Type.user)
                     Text.rich(
                       TextSpan(
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(fontSize: 15),
                         children: <InlineSpan>[
                           TextSpan(
                             text: data.following.toString(),
@@ -177,10 +159,7 @@ class UserProfileScreenState<T extends UserInfoModel>
                 Flexible(
                   child: Text(
                     data.login!,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(fontSize: 18),
+                    style: context.textTheme.headlineSmall,
                   ),
                 ),
               ],

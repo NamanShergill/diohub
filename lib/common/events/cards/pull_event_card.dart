@@ -1,4 +1,5 @@
 import 'package:dio_hub/common/events/cards/base_card.dart';
+import 'package:dio_hub/common/misc/tappable_card.dart';
 import 'package:dio_hub/common/pulls/pull_list_card.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class PullEventCard extends StatelessWidget {
         childPadding: EdgeInsets.zero,
         child: PullListCard(
           event.payload!.pullRequest!,
-          disableMaterial: true,
+          cardLinkType: CardLinkType.atTop,
           compact: true,
           padding: EdgeInsets.zero,
         ),

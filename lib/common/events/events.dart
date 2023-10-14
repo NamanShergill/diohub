@@ -3,11 +3,13 @@ import 'package:dio_hub/common/events/cards/issues_event_card.dart';
 import 'package:dio_hub/common/events/cards/pull_event_card.dart';
 import 'package:dio_hub/common/events/cards/push_event_card.dart';
 import 'package:dio_hub/common/events/cards/watch_event_card.dart';
+import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/models/events/events_model.dart' hide Key;
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/activity/events_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class Events extends StatelessWidget {
@@ -19,10 +21,72 @@ class Events extends StatelessWidget {
   Widget build(final BuildContext context) {
     final CurrentUserProvider user = Provider.of<CurrentUserProvider>(context);
     return InfiniteScrollWrapper<EventsModel>(
-      topSpacing: 8,
       separatorBuilder: (final BuildContext context, final int index) =>
           const SizedBox(
         height: 16,
+      ),
+      header: (context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            // SizedBox(
+            //   height: 8,
+            // ),
+            Card(
+              margin: EdgeInsets.zero,
+              child: ListTile(
+                title: const Text('Organizations'),
+                leading: const Icon(
+                  Octicons.organization,
+                  // color: Colors.,
+                ),
+                trailing: InfoCard.leadingIcon(
+                  icon: Icons.arrow_right_rounded,
+                  context: context,
+                ),
+                // child: const Text('1'),
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Card(
+              margin: EdgeInsets.zero,
+              child: ListTile(
+                subtitle: Text('2 open'),
+                title: Text('Pull Requests'),
+                leading: const Icon(
+                  Octicons.git_pull_request,
+                  color: Colors.deepPurple,
+                ),
+                trailing: InfoCard.leadingIcon(
+                  icon: Icons.arrow_right_rounded,
+                  context: context,
+                ),
+                // child: const Text('7 Open'),
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Card(
+              margin: EdgeInsets.zero,
+              child: ListTile(
+                leading: const Icon(
+                  Octicons.issue_opened,
+                  color: Colors.green,
+                ),
+                title: Text('Issues'),
+                trailing: InfoCard.leadingIcon(
+                  icon: Icons.arrow_right_rounded,
+                  context: context,
+                ),
+                subtitle: Text('27 Open'),
+                // child: const Text('27 Open'),
+              ),
+            ),
+          ],
+        ),
       ),
       filterFn: (final List<EventsModel> items) {
         final List<EventsModel> temp = <EventsModel>[];

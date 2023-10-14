@@ -10,6 +10,7 @@ import 'package:dio_hub/routes/router.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/style/text_field_themes.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
@@ -79,12 +80,11 @@ class NewIssueScreenState extends State<NewIssueScreen> {
             children: <Widget>[
               const Text(
                 'New Issue',
-                style: TextStyle(fontSize: 12),
+                // style: TextStyle(12),
               ),
               Text(
                 '${widget.owner}/${widget.repo}',
-                style:
-                    const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                style: context.textTheme.bodySmall?.asBold(),
               ),
             ],
           ),

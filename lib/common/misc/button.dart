@@ -14,7 +14,7 @@ class Button extends StatefulWidget {
     this.elevation = 2,
     this.borderRadius = 10,
     this.leadingIcon,
-    this.loadingWidget,
+    // this.loadingWidget,
     super.key,
   });
   final VoidCallback? onTap;
@@ -24,7 +24,7 @@ class Button extends StatefulWidget {
   final Icon? leadingIcon;
   final Icon? trailingIcon;
   final double borderRadius;
-  final Widget? loadingWidget;
+  // final Widget? loadingWidget;
   final bool stretch;
   final bool loading;
   final double elevation;
@@ -77,18 +77,7 @@ class ButtonState extends State<Button> {
                   ],
                 )
               else
-                Row(
-                  mainAxisSize:
-                      widget.stretch ? MainAxisSize.max : MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Visibility(
-                      visible: widget.loadingWidget != null,
-                      child: widget.loadingWidget ?? Container(),
-                    ),
-                    const LoadingIndicator(),
-                  ],
-                ),
+                const LoadingIndicator(),
             ],
           ),
         ),
@@ -110,7 +99,7 @@ class StringButton extends StatelessWidget {
     this.textSize,
     this.leadingIcon,
     this.padding = const EdgeInsets.all(16),
-    this.loadingText,
+    // this.loadingText,
     super.key,
   });
   final VoidCallback? onTap;
@@ -121,7 +110,7 @@ class StringButton extends StatelessWidget {
   final String? subtitle;
   final Icon? leadingIcon;
   final double borderRadius;
-  final String? loadingText;
+  // final String? loadingText;
   final Icon? trailingIcon;
   final bool loading;
   final bool stretch;
@@ -132,13 +121,10 @@ class StringButton extends StatelessWidget {
   Widget build(final BuildContext context) => Button(
         onTap: onTap,
         trailingIcon: trailingIcon,
-        loadingWidget: Text(
-          loadingText ?? '',
-          style: Theme.of(context)
-              .textTheme
-              .labelLarge!
-              .copyWith(fontSize: textSize),
-        ),
+        // loadingWidget: Text(
+        //   loadingText ?? '',
+        //   style: Theme.of(context).textTheme.labelLarge!.copyWith(textSize),
+        // ),
         color: color,
         borderRadius: borderRadius,
         leadingIcon: leadingIcon,
@@ -150,10 +136,7 @@ class StringButton extends StatelessWidget {
           children: <Widget>[
             Text(
               title!,
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge!
-                  .copyWith(fontSize: textSize),
+              // style: Theme.of(context).textTheme.labelLarge!.copyWith(textSize),
             ),
             Visibility(
               visible: subtitle != null,

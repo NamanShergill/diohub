@@ -177,8 +177,7 @@ class PRReviewScreen extends StatelessWidget {
                                     comment.path,
                                     style: const TextStyle(
                                       fontFamily: 'monospace',
-                                      fontSize: 12,
-                                    ),
+                                    ).merge(context.textTheme.bodySmall),
                                   ),
                                 ),
                               ),

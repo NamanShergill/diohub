@@ -107,7 +107,7 @@ class ProfileTile extends StatelessWidget {
                                       // color: Provider.of<PaletteSettings>(
                                       //   context,
                                       // ).currentSetting.baseElements,
-                                      // fontSize: 15,
+                                      //  15,
                                       ))
                               .copyWith(fontWeight: FontWeight.bold),
                         ),

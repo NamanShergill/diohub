@@ -61,7 +61,7 @@ class InfoCard extends StatelessWidget {
   }) =>
       Icon(
         icon,
-        size: 18,
+        // size: 18,
         color: color,
       );
   Widget _buildUI(final BuildContext context) => IntrinsicWidth(
@@ -104,7 +104,7 @@ class InfoCard extends StatelessWidget {
             Theme(
               data: context.themeData.copyWith(
                 iconTheme: context.themeData.iconTheme.copyWith(
-                  // size: 18,
+                  size: 16,
                   color: context.colorScheme.onSurface.asHint(),
                 ),
               ),

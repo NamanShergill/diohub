@@ -69,7 +69,7 @@ class IssueInformation extends StatelessWidget {
     //                     color: Provider.of<PaletteSettings>(context)
     //                         .currentSetting
     //                         .faded3,
-    //                     fontSize: 12),
+    //                      12),
     //               )
     //             : null,
     //         onTap: _editingEnabled
@@ -125,7 +125,7 @@ class IssueInformation extends StatelessWidget {
     //                     color: Provider.of<PaletteSettings>(context)
     //                         .currentSetting
     //                         .faded3,
-    //                     fontSize: 12),
+    //                      12),
     //               )
     //             : null,
     //         onTap: _editingEnabled

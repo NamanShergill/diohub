@@ -9,6 +9,7 @@ import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/issues_pulls/pull_information.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
@@ -110,26 +111,14 @@ class PullScreenState extends State<PullScreen>
                                 : value.data.merged
                                     ? 'Merged'
                                     : 'Closed',
-                            style: TextStyle(
-                              color: value.data.state == PullRequestState.open
-                                  ? Colors.green
-                                  : value.data.merged
-                                      ? Colors.deepPurpleAccent
-                                      : Colors.red,
-                              fontSize: 14,
-                            ),
+                            // style: context.colorScheme,
                           ),
                           const SizedBox(
                             width: 8,
                           ),
                           Text(
                             '#${value.data.number}',
-                            style: const TextStyle(
-                              // color: Provider.of<PaletteSettings>(context)
-                              //     .currentSetting
-                              //     .faded3,
-                              fontSize: 14,
-                            ),
+                            style: context.textTheme.bodySmall?.asHint(),
                           ),
                         ],
                       ),
@@ -153,32 +142,12 @@ class PullScreenState extends State<PullScreen>
                                     : value.data.merged
                                         ? 'Merged'
                                         : 'Closed',
-                                style: const TextStyle(
-                                  // color:
-                                  //     value.data.state == PullRequestState.open
-                                  // ? Provider.of<PaletteSettings>(
-                                  //     context,
-                                  //   ).currentSetting.green
-                                  // : value.data.merged
-                                  //     ? deepPurpleAccent
-                                  //     : Provider.of<PaletteSettings>(
-                                  //         context,
-                                  //       ).currentSetting.red,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
                               ),
                               const SizedBox(
                                 width: 8,
                               ),
                               Text(
                                 '#${value.data.number}',
-                                style: const TextStyle(
-                                  // color: Provider.of<PaletteSettings>(context)
-                                  //     .currentSetting
-                                  //     .faded3,
-                                  fontSize: 16,
-                                ),
                               ),
                               const SizedBox(
                                 width: 24,
@@ -195,12 +164,6 @@ class PullScreenState extends State<PullScreen>
                               ),
                               Text(
                                 '${value.data.comments} comments',
-                                style: const TextStyle(
-                                  // color: Provider.of<PaletteSettings>(context)
-                                  //     .currentSetting
-                                  //     .faded3,
-                                  fontSize: 12,
-                                ),
                               ),
                             ],
                           ),
@@ -210,10 +173,6 @@ class PullScreenState extends State<PullScreen>
                           const Text(
                             'value.data.title!',
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
                           ),
                           Material(
                             // color: transparent,
@@ -232,7 +191,6 @@ class PullScreenState extends State<PullScreen>
                                     '',
                                   ),
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(fontSize: 14),
                                 ),
                               ),
                             ),
@@ -245,7 +203,7 @@ class PullScreenState extends State<PullScreen>
                           //       color: Provider.of<PaletteSettings>(context)
                           //           .currentSetting
                           //           .faded3,
-                          //       fontSize: 12),
+                          //        12),
                           // ),
                         ],
                       ),

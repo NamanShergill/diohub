@@ -19,6 +19,7 @@ import 'package:dio_hub/providers/repository/pinned_issues_provider.dart';
 import 'package:dio_hub/providers/repository/readme_provider.dart';
 import 'package:dio_hub/providers/repository/repository_provider.dart';
 import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/repository/code/code_browser.dart';
 import 'package:dio_hub/view/repository/issues/issues_list.dart';
 import 'package:dio_hub/view/repository/pulls/pulls_list.dart';
@@ -285,10 +286,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                               Flexible(
                                 child: Text.rich(
                                   TextSpan(
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall!
-                                        .copyWith(fontSize: 18),
+                                    style: context.textTheme.bodyLarge,
                                     children: <InlineSpan>[
                                       TextSpan(text: '${repo.owner!.login}/'),
                                       TextSpan(
@@ -392,10 +390,6 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                         ),
                                         Text(
                                           repo.forksCount.toString(),
-                                          style: const TextStyle(
-                                            fontSize: 13,
-                                            // color: theme.faded3,
-                                          ),
                                         ),
                                       ],
                                     ),
@@ -436,35 +430,39 @@ Tab buildDynamicTabMenuButton({
 }) =>
     Tab(
       // text: tab.tab?.label ?? tab.identifier,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: tab.isDismissible ? 24.0 : 0),
-            child: Text(tab.identifier),
-          ),
-          if (tab.isDismissible)
-            MenuButton(
-              buttonBuilder: (final BuildContext context, final showMenu) =>
-                  IconButton(
-                icon: Icon(
-                  Icons.adaptive.more_rounded,
-                ),
-                // padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-
-                onPressed: showMenu,
-              ),
-              itemBuilder: (final BuildContext context) => <PullDownMenuEntry>[
-                PullDownMenuItem(
-                  onTap: () {
-                    tabController.closeTab(tab.identifier);
-                  },
-                  title: 'Close Tab',
-                  icon: Icons.close_rounded,
-                ),
-              ],
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: tab.isDismissible ? 0.0 : 16),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: tab.isDismissible ? 24.0 : 0),
+              child: Text(tab.identifier),
             ),
-        ],
+            if (tab.isDismissible)
+              MenuButton(
+                buttonBuilder: (final BuildContext context, final showMenu) =>
+                    IconButton(
+                  icon: Icon(
+                    Icons.adaptive.more_rounded,
+                  ),
+                  // padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+
+                  onPressed: showMenu,
+                ),
+                itemBuilder: (final BuildContext context) =>
+                    <PullDownMenuEntry>[
+                  PullDownMenuItem(
+                    onTap: () {
+                      tabController.closeTab(tab.identifier);
+                    },
+                    title: 'Close Tab',
+                    icon: Icons.close_rounded,
+                  ),
+                ],
+              ),
+          ],
+        ),
       ),
     );

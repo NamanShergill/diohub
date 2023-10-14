@@ -44,8 +44,7 @@ class UserSearchDropdown extends StatelessWidget {
                       height: 8,
                     ),
                     disableRefresh: true,
-                    topSpacing: 8,
-                    bottomSpacing: 8,
+                    padding: const EdgeInsets.all(8),
                     listEndIndicator: false,
                     future: (
                       final ({

@@ -180,10 +180,6 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                 },
                                 title: Text(
                                   searchTypeValues.map.keys.toList()[index],
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
                                 ),
                               ),
                               separatorBuilder: (
@@ -229,7 +225,7 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                             child: ListView(
                               shrinkWrap: true,
                               physics: const BouncingScrollPhysics(),
-                              children: const <Widget>[
+                              children: <Widget>[
                                 Center(
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 8),
@@ -237,10 +233,8 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                       padding: EdgeInsets.all(8),
                                       child: Text(
                                         'How to format your filters',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        style: context.textTheme.bodyLarge
+                                            ?.asBold(),
                                       ),
                                     ),
                                   ),
@@ -1050,7 +1044,8 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
                 );
               } else if (SearchFilters.orOperatorRegExp.hasMatch(m[0]!)) {
                 baseTextStyle = baseTextStyle.copyWith(
-                    color: context.colorScheme.secondary,);
+                  color: context.colorScheme.secondary,
+                );
               } else if (SearchFilters.andOperatorRegExp.hasMatch(m[0]!)) {
                 baseTextStyle = baseTextStyle.copyWith(
                   color: context.colorScheme.primary,
@@ -1184,7 +1179,6 @@ class _ValidQuery extends SpecialText {
                   Flexible(
                     child: Text.rich(
                       TextSpan(
-                        style: textStyle?.copyWith(fontSize: 14),
                         children: <InlineSpan>[
                           TextSpan(
                             text:

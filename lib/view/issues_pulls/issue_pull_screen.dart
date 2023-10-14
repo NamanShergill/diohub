@@ -216,101 +216,106 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
 
   @override
   Widget build(final BuildContext context) => SafeArea(
-      child: DynamicTabsParent(
-        controller: dynamicTabsController,
-        tabBuilder: (final BuildContext context, final DynamicTab tab) =>
-            buildDynamicTabMenuButton(
-          tab: tab,
-          tabController: dynamicTabsController,
-        ),
-        tabs: List<DynamicTab>.from(widget.dynamicTabs)
-          ..addAll(
-            <DynamicTab>[
-              DynamicTab(
-                identifier: 'About',
-                isDismissible: false,
-                tabViewBuilder: (final BuildContext context) => _AboutTab(
-                  widget: widget,
-                  descEditingController: descEditingController,
-                  assigneeEditingController: assigneeEditingController,
-                  dynamicTabsController: dynamicTabsController,
-                ),
-              ),
-              DynamicTab(
-                identifier: 'Conversation',
-                keepViewAlive: true,
-                tabViewBuilder: (final BuildContext context) =>
-                    ChangeNotifierProvider<CommentProvider>(
-                  create: (final _) => CommentProvider(),
-                  builder: (final BuildContext context, final Widget? child) =>
-                      Discussion(
-                    number: widget.number,
-                    isLocked: false,
-                    createdAt: widget.createdAt,
-                    owner: widget.repoInfo.owner.login,
-                    repoName: widget.repoInfo.name,
-                    initComment: BaseComment(
-                      onQuote: () {},
-                      isMinimized: false,
-                      reactions: widget.reactionGroups,
-                      viewerCanDelete: false,
-                      viewerCanMinimize: false,
-                      viewerCannotUpdateReasons: null,
-                      viewerCanReact: widget.viewerCanReact,
-                      viewerCanUpdate: false,
-                      viewerDidAuthor: false,
-                      createdAt: widget.createdAt,
-                      author: widget.createdBy,
-                      body: widget.body,
-                      lastEditedAt: null,
-                      bodyHTML: widget.bodyHTML,
-                      authorAssociation: CommentAuthorAssociation.none,
-                    ),
-                    issueUrl: widget.uri,
-                    isPull: false,
-                    // nestedScrollViewController: scrollController,
-                  ),
-                ),
-              ),
+        child: DynamicTabsParent(
+          controller: dynamicTabsController,
+          tabBuilder: (final BuildContext context, final DynamicTab tab) =>
+              buildDynamicTabMenuButton(
+            tab: tab,
+            tabController: dynamicTabsController,
+          ),
+          tabs: _buildTabs(),
+          builder: (
+            final BuildContext context,
+            final PreferredSizeWidget tabBar,
+            final Widget tabView,
+          ) =>
+              EditingWrapper(
+            onSave: () {},
+            editingControllers: <EditingController<dynamic>>[
+              titleEditingController,
+              labelsEditingController,
+              descEditingController,
+              assigneeEditingController,
             ],
-          ),
-        builder: (
-          final BuildContext context,
-          final PreferredSizeWidget tabBar,
-          final Widget tabView,
-        ) =>
-            EditingWrapper(
-          onSave: () {},
-          editingControllers: <EditingController<dynamic>>[
-            titleEditingController,
-            labelsEditingController,
-            descEditingController,
-            assigneeEditingController,
-          ],
-          builder: (final BuildContext context) => ScrollScaffold(
-            subHeader: SizeExpandedSection(
-              expand: dynamicTabsController.activeLength > 1,
-              child: buildTabsView(tabBar),
-            ),
-            appBar: buildAppBar(context),
-            wrapperBuilder: (final BuildContext context, final Widget child) =>
-                RefreshIndicator(
-              onRefresh: () => Future<void>.sync(
-                () async => widget.apiWrapperKey.currentState?.refreshData(),
+            builder: (final BuildContext context) => ScrollScaffold(
+              subHeader: SizeExpandedSection(
+                expand: dynamicTabsController.activeLength > 1,
+                child: buildTabsView(tabBar),
               ),
-              triggerMode: RefreshIndicatorTriggerMode.anywhere,
-              child: child,
+              appBar: buildAppBar(context),
+              wrapperBuilder:
+                  (final BuildContext context, final Widget child) =>
+                      RefreshIndicator(
+                onRefresh: () => Future<void>.sync(
+                  () async => widget.apiWrapperKey.currentState?.refreshData(),
+                ),
+                triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                child: child,
+              ),
+              header: _ScreenHeader(
+                widget: widget,
+                titleEditingController: titleEditingController,
+                labelsEditingController: labelsEditingController,
+              ),
+              body: tabView,
             ),
-            header: _ScreenHeader(
-              widget: widget,
-              titleEditingController: titleEditingController,
-              labelsEditingController: labelsEditingController,
-            ),
-            body: tabView,
           ),
         ),
-      ),
-    );
+      );
+
+  List<DynamicTab> _buildTabs() {
+    return List<DynamicTab>.from(widget.dynamicTabs)
+      ..addAll(
+        <DynamicTab>[
+          DynamicTab(
+            identifier: 'About',
+            isDismissible: false,
+            tabViewBuilder: (final BuildContext context) => _AboutTab(
+              widget: widget,
+              descEditingController: descEditingController,
+              assigneeEditingController: assigneeEditingController,
+              dynamicTabsController: dynamicTabsController,
+            ),
+          ),
+          DynamicTab(
+            identifier: 'Conversation',
+            keepViewAlive: true,
+            tabViewBuilder: (final BuildContext context) =>
+                ChangeNotifierProvider<CommentProvider>(
+              create: (final _) => CommentProvider(),
+              builder: (final BuildContext context, final Widget? child) =>
+                  Discussion(
+                number: widget.number,
+                isLocked: false,
+                createdAt: widget.createdAt,
+                owner: widget.repoInfo.owner.login,
+                repoName: widget.repoInfo.name,
+                initComment: BaseComment(
+                  onQuote: () {},
+                  isMinimized: false,
+                  reactions: widget.reactionGroups,
+                  viewerCanDelete: false,
+                  viewerCanMinimize: false,
+                  viewerCannotUpdateReasons: null,
+                  viewerCanReact: widget.viewerCanReact,
+                  viewerCanUpdate: false,
+                  viewerDidAuthor: false,
+                  createdAt: widget.createdAt,
+                  author: widget.createdBy,
+                  body: widget.body,
+                  lastEditedAt: null,
+                  bodyHTML: widget.bodyHTML,
+                  authorAssociation: CommentAuthorAssociation.none,
+                ),
+                issueUrl: widget.uri,
+                isPull: false,
+                // nestedScrollViewController: scrollController,
+              ),
+            ),
+          ),
+        ],
+      );
+  }
 
   DHAppBar buildAppBar(final BuildContext context) => DHAppBar(
         hasEditableChildren: true,
@@ -435,8 +440,10 @@ class _AboutTab extends StatelessWidget {
                   ),
                   EditWidget<String>(
                     editingController: descEditingController,
-                    builder: (final BuildContext context,
-                            final EditingData<String> data,) =>
+                    builder: (
+                      final BuildContext context,
+                      final EditingData<String> data,
+                    ) =>
                         Row(
                       children: <Widget>[
                         if (widget.bodyHTML.isNotEmpty)
@@ -626,7 +633,8 @@ class _AboutTab extends StatelessWidget {
                                       e,
                                 ) =>
                                     NodeWithPaginationInfo<ActorMixin>.fromEdge(
-                                        e!,),
+                                  e!,
+                                ),
                               )
                               .toList(),
                     );
@@ -873,26 +881,27 @@ class _AssigneeInfoCard extends StatelessWidget {
   final Widget? trailing;
   @override
   Widget build(final BuildContext context) => InfoCard(
-      onTap: availableList.limitedAvailableList.isEmpty
-          ? null
-          : () async {
-              if (availableList.totalCount > 1) {
-                await BottomSheetPagination<NodeWithPaginationInfo<ActorMixin>>(
-                  paginatedListItemBuilder: _paginatedListItemBuilder,
-                  paginationFuture: fetchActorsList,
-                  title: titleBuilder.call(availableList),
-                ).openSheet(context);
-              } else {
-                navigateToProfile(
-                  login: availableList.limitedAvailableList.first.login,
-                  context: context,
-                );
-              }
-            },
-      trailing: _getIcon(availableList.totalCount),
-      title: titleBuilder.call(availableList),
-      child: _buildChild(),
-    );
+        onTap: availableList.limitedAvailableList.isEmpty
+            ? null
+            : () async {
+                if (availableList.totalCount > 1) {
+                  await BottomSheetPagination<
+                      NodeWithPaginationInfo<ActorMixin>>(
+                    paginatedListItemBuilder: _paginatedListItemBuilder,
+                    paginationFuture: fetchActorsList,
+                    title: titleBuilder.call(availableList),
+                  ).openSheet(context);
+                } else {
+                  navigateToProfile(
+                    login: availableList.limitedAvailableList.first.login,
+                    context: context,
+                  );
+                }
+              },
+        trailing: _getIcon(availableList.totalCount),
+        title: titleBuilder.call(availableList),
+        child: _buildChild(),
+      );
 
   Widget _buildChild() => switch (availableList.totalCount) {
         0 => const Text('None'),
@@ -960,21 +969,22 @@ ScrollWrapperBuilder<NodeWithPaginationInfo<ActorMixin>>
             NodeWithPaginationInfo<ActorMixin> item,
             bool refresh,
           }) data,
-        ) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Card(
-              color: context.colorScheme.surface,
-              child: ProfileTile.login(
-                avatarUrl: data.item.node.avatarUrl.toString(),
-                userLogin: data.item.node.login,
-                wrapperBuilder: (final Widget child) => Row(
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  children: _buildListItemChildren(data, context, child),
+        ) =>
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Card(
+                color: context.colorScheme.surface,
+                child: ProfileTile.login(
+                  avatarUrl: data.item.node.avatarUrl.toString(),
+                  userLogin: data.item.node.login,
+                  wrapperBuilder: (final Widget child) => Row(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    children: _buildListItemChildren(data, context, child),
+                  ),
+                  // wrapperBuilder: ,
                 ),
-                // wrapperBuilder: ,
               ),
-            ),
-          );
+            );
 Icon? _getIcon(final int listLength) => switch (listLength) {
       0 => null,
       1 => Icon(Icons.adaptive.arrow_forward_rounded),
@@ -996,10 +1006,7 @@ List<Widget> _buildListItemChildren(
         padding: const EdgeInsets.only(left: 16),
         child: Text(
           '${data.index + 1}',
-          style: const TextStyle(
-            // color: context.palette.faded3,
-            fontSize: 12,
-          ),
+          style: context.textTheme.bodySmall,
         ),
       ),
       Padding(

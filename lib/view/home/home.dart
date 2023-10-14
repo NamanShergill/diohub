@@ -8,15 +8,13 @@ import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
 import 'package:dio_hub/graphql/graphql.graphql.dart';
 import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/providers/search_data_provider.dart';
 import 'package:dio_hub/providers/users/current_user_provider.dart';
 import 'package:dio_hub/services/users/user_info_service.dart';
 import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/home/widgets/issues_tab.dart';
 import 'package:dio_hub/view/home/widgets/pulls_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -50,77 +48,83 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(final BuildContext context) {
-    final SearchDataProvider search = Provider.of<SearchDataProvider>(context);
-
     super.build(context);
     return ScrollScaffold(
       appBar: AppBar(
-          title: switch (context.providerStatus<CurrentUserProvider>()) {
-            Status.loaded => Text(
-                context.provider<CurrentUserProvider>().data.login!,
-              ),
-            _ => null,
-          },
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: switch (context.providerStatus<CurrentUserProvider>()) {
-                Status.loaded => ClipOval(
-                    child: InkWell(
-                      onTap: () {
-                        widget.tabNavigators.toProfile();
-                      },
-                      child:
-                          ProviderLoadingProgressWrapper<CurrentUserProvider>(
-                        childBuilder: (
-                          final BuildContext context,
-                          final CurrentUserProvider value,
-                        ) =>
-                            CachedNetworkImage(
-                          height: 36,
-                          imageUrl: value.data.avatarUrl!,
-                          placeholder: (final BuildContext context, final _) =>
-                              ShimmerWidget(
-                            child: Container(
-                              color: context.colorScheme.surface,
-                            ),
+        title: switch (context.providerStatus<CurrentUserProvider>()) {
+          Status.loaded => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ClipOval(
+                  child: InkWell(
+                    onTap: () {
+                      widget.tabNavigators.toProfile();
+                    },
+                    child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
+                      childBuilder: (
+                        final BuildContext context,
+                        final CurrentUserProvider value,
+                      ) =>
+                          CachedNetworkImage(
+                        height: 32,
+                        imageUrl: value.data.avatarUrl!,
+                        placeholder: (final BuildContext context, final _) =>
+                            ShimmerWidget(
+                          child: Container(
+                            color: context.colorScheme.surface,
                           ),
                         ),
-                        errorBuilder:
-                            (final BuildContext context, final Object error) =>
-                                const Icon(
-                          LineIcons.exclamationCircle,
-                          size: 40,
-                        ),
-                        loadingBuilder: (final BuildContext context) =>
-                            const ShimmerWidget(),
                       ),
+                      errorBuilder:
+                          (final BuildContext context, final Object error) =>
+                              const Icon(
+                        MdiIcons.exclamation,
+                        size: 25,
+                      ),
+                      loadingBuilder: (final BuildContext context) =>
+                          const ShimmerWidget(),
                     ),
                   ),
-                _ => Container(),
-              },
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  context.provider<CurrentUserProvider>().data.login!,
+                  style: context.textTheme.bodyLarge?.asBold(),
+                ),
+              ],
             ),
-          ],),
-      subHeader: TabBar(
-        isScrollable: true,
-        controller: _tabController,
-        tabs: const <String>[
-          'Activity',
-          'Issues',
-          'Pull Requests',
-          'Organizations',
-          'Public Activity',
-        ]
-            .map(
-              (final String e) => Tab(
-                text: e,
-              ),
-            )
-            .toList(),
+          _ => null,
+        },
       ),
-      header: Container(
-        height: 100,
-      ),
+      // subHeader: Padding(
+      //   padding: const EdgeInsets.only(bottom: 8),
+      //   child: TabBar(
+      //     isScrollable: true,
+      //     controller: _tabController,
+      //     tabs: const <String>[
+      //       'Feed',
+      //       'Issues',
+      //       'Pull Requests',
+      //       'Organizations',
+      //       'Public Activity',
+      //     ]
+      //         .map(
+      //           (final String e) => Tab(
+      //             child: Padding(
+      //               padding: const EdgeInsets.all(8.0),
+      //               child: Text(e),
+      //             ),
+      //           ),
+      //         )
+      //         .toList(),
+      //   ),
+      // ),
+      // header: Padding(
+      //   padding: const EdgeInsets.all(8.0),
+      //   child: const SearchBar(),
+      // ),
       body: TabBarView(
         controller: _tabController,
         physics: const BouncingScrollPhysics(),
@@ -154,7 +158,6 @@ class HomeScreenState extends State<HomeScreen>
                 const Divider(
               height: 8,
             ),
-            topSpacing: 8,
             listEndIndicator: false,
             // divider: false,
             builder: (

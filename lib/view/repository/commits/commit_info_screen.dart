@@ -42,11 +42,7 @@ class CommitInfoScreenState extends State<CommitInfoScreen> {
                           width: 8,
                         ),
                         Text(
-                          Provider.of<CommitProvider>(context)
-                              .data
-                              .sha!
-                              .substring(0, 6),
-                          style: const TextStyle(fontSize: 14),
+                          Provider.of<CommitProvider>(context).data.sha!,
                         ),
                       ],
                     ),

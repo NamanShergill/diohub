@@ -22,7 +22,7 @@ class NestedScroll extends StatelessWidget {
           SliverOverlapAbsorber(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
             sliver: SliverSafeArea(
-              bottom: false,
+              // bottom: false,
               sliver: MultiSliver(
                 children: header(
                   (

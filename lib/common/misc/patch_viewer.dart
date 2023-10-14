@@ -291,7 +291,6 @@ class PatchViewerState extends State<PatchViewer> {
                                 const Text(
                                   'Patch Diff',
                                   style: TextStyle(
-                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -350,11 +349,10 @@ class PatchViewerState extends State<PatchViewer> {
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               fontFamily: 'monospace',
-                              fontSize: 12,
                               // color: Provider.of<PaletteSettings>(context)
                               //     .currentSetting
                               //     .faded3,
-                            ),
+                            ).merge(context.textTheme.bodySmall),
                           ),
                         ),
                       if (widget.limitLines != null &&
@@ -555,13 +553,13 @@ class ChunkHeaderState extends State<ChunkHeader> {
               ),
               Text(
                 widget.displayHeader![widget.index!],
-                style: const TextStyle(fontSize: 12),
+                style: context.textTheme.bodySmall,
               ),
               Flexible(
                 child: Text(
                   widget.displayCode![0],
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 12),
+                  style: context.textTheme.bodySmall,
                 ),
               ),
             ],

@@ -51,7 +51,7 @@ android {
             resValue "string", "app_name", "DioHub - Dev"
             applicationIdSuffix ".dev"
         }
-        testing {
+        alpha {
             dimension "build-type"
             resValue "string", "app_name", "DioHub - Testing"
             applicationIdSuffix ".test"

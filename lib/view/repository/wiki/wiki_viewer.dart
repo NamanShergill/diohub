@@ -65,14 +65,14 @@ class WikiViewerState extends State<WikiViewer> {
     //           children: const [
     //             Text(
     //               'Wiki',
-    //               style: TextStyle(fontSize: 14),
+    //               style: TextStyle( 14),
     //             ),
     //             // SizedBox(
     //             //   width: 8,
     //             // ),
     //             // Text(
     //             //   repoLink.replaceAll('https://github.com/', ''),
-    //             //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+    //             //   style: TextStyle(fontWeight: FontWeight.bold,  14),
     //             // ),
     //           ],
     //         ),

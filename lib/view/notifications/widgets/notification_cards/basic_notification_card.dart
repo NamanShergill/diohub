@@ -155,12 +155,10 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
                         Flexible(
                           child: Text(
                             widget.notification.subject!.title!,
-                            style: TextStyle(
+                            style: context.textTheme.bodyLarge?.copyWith(
                               color: widget.notification.unread!
                                   ? context.colorScheme.onPrimary
                                   : context.colorScheme.onSurface,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),

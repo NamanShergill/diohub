@@ -84,7 +84,8 @@ class NotificationsScreenState extends State<NotificationsScreen>
   Widget build(final BuildContext context) {
     super.build(context);
     return NestedScroll(
-      header: (final (BuildContext, {bool isInnerBoxScrolled}) data) => <Widget>[
+      header: (final (BuildContext, {bool isInnerBoxScrolled}) data) =>
+          <Widget>[
         SliverAppBar(
           expandedHeight: 150,
           collapsedHeight: 100,
@@ -203,7 +204,6 @@ class NotificationsScreenState extends State<NotificationsScreen>
                           const Divider(
                     height: 0,
                   ),
-                  topSpacing: 16,
                   future: (
                     final ({
                       NotificationModel? lastItem,

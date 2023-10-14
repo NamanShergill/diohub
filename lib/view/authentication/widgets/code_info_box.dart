@@ -163,18 +163,16 @@ class CodeInfoBoxState extends State<CodeInfoBox> {
                         ),
                         Visibility(
                           visible: !copied,
-                          replacement: const Text(
+                          replacement: Text(
                             'COPIED',
                             style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
+                              color: context.colorScheme.onSurface.asHint(),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'TAP TO COPY',
                             style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
+                              color: context.colorScheme.onSurface.asHint(),
                             ),
                           ),
                         ),

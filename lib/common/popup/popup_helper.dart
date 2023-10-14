@@ -47,14 +47,14 @@ class DialogHelper {
               (appPopup.popupType == PopupType.failed
                   ? MdiIcons.information
                   : MdiIcons.checkCircle),
-          size: 30,
+          // size: 30,
         ),
         messageText: Text(
           appPopup.title!,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
+          // style: const TextStyle(
+          //   18,
+          //   fontWeight: FontWeight.w600,
+          // ),
         ),
       ).show(context);
 }

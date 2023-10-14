@@ -56,7 +56,7 @@
 //                     const Text(
 //                       'Do you want to exit?',
 //                       style:
-//                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+//                           TextStyle( 20, fontWeight: FontWeight.bold),
 //                     ),
 //                     Padding(
 //                       padding: const EdgeInsets.only(right: 16, left: 16),

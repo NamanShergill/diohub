@@ -18,9 +18,8 @@ class ShimmerWidget extends StatelessWidget {
   Widget build(final BuildContext context) => ClipRRect(
         borderRadius: borderRadius ?? BorderRadius.circular(0),
         child: Shimmer.fromColors(
-          baseColor: baseColor ?? context.colorScheme.surface,
-          highlightColor:
-              highlightColor ?? context.colorScheme.surface.asDisabled(),
+          baseColor: baseColor ?? context.colorScheme.surfaceVariant.asHint(),
+          highlightColor: highlightColor ?? context.colorScheme.surfaceVariant,
           child: child ?? Container(),
         ),
       );

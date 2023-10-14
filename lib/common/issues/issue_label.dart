@@ -33,7 +33,8 @@ class IssueLabel extends StatelessWidget {
                 child: Text(
                   name,
                   style: TextStyle(
-                      color: context.colorScheme.onSurface, fontSize: 11,),
+                    color: context.colorScheme.onSurface,
+                  ).merge(context.textTheme.bodySmall),
                 ),
               ),
             ),

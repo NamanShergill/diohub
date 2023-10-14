@@ -151,7 +151,7 @@ class _ReactionBarState extends State<ReactionBar> {
                                       getReaction(
                                         widget.reactionGroups[index].content,
                                       ),
-                                      style: const TextStyle(fontSize: 18),
+                                      // style: const TextStyle(18),
                                     ),
                                   ),
                                   value: widget.reactionGroups[index],
@@ -321,7 +321,7 @@ class ReactionItemState extends State<ReactionItem> {
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Text(
                           widget.reactionGroup.reactors.totalCount.toString(),
-                          style: const TextStyle(fontSize: 12),
+                          style: context.textTheme.labelMedium,
                         ),
                       ),
                       const SizedBox(

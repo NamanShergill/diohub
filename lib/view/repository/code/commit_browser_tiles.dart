@@ -89,10 +89,8 @@ class _CommitTilesState extends State<_CommitTiles> {
                                 Flexible(
                                   child: Text(
                                     widget.message,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style:
+                                        context.textTheme.bodyLarge?.asBold(),
                                   ),
                                 ),
                                 if (!widget.compact)
@@ -105,18 +103,12 @@ class _CommitTilesState extends State<_CommitTiles> {
                                       ),
                                       Row(
                                         children: <Widget>[
-                                          ProfileTile.avatar(
+                                          ProfileTile.login(
                                             avatarUrl: widget.authorAvatarUrl,
                                             size: 13,
+                                            userLogin:
+                                                widget.authorLogin ?? 'N/A',
                                             padding: EdgeInsets.zero,
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            widget.authorLogin ?? 'N/A',
-                                            style:
-                                                const TextStyle(fontSize: 11),
                                           ),
                                         ],
                                       ),
@@ -146,11 +138,10 @@ class _CommitTilesState extends State<_CommitTiles> {
                             Text(
                               widget.sha.substring(0, 6),
                               style: TextStyle(
-                                fontSize: 11,
                                 color: widget.highlighted
                                     ? context.colorScheme.onPrimary
                                     : null,
-                              ),
+                              ).merge(context.textTheme.bodySmall),
                             ),
                             Icon(
                               expanded
@@ -188,11 +179,10 @@ class _CommitTilesState extends State<_CommitTiles> {
                                       shorten: false,
                                     ),
                                     style: TextStyle(
-                                      fontSize: 11,
                                       color: widget.highlighted
                                           ? context.colorScheme.onPrimary
                                           : null,
-                                    ),
+                                    ).merge(context.textTheme.bodySmall),
                                   ),
                                 ],
                               ),

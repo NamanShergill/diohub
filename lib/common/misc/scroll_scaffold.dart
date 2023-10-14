@@ -1,11 +1,12 @@
 import 'package:dio_hub/common/misc/nested_scroll.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:dio_hub/common/misc/scroll_dynamic_elevation.dart';
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class ScrollScaffold extends StatelessWidget {
   const ScrollScaffold({
-    required this.body, this.header,
+    required this.body,
+    this.header,
     this.subHeader,
     super.key,
     this.appBar,
@@ -25,25 +26,16 @@ class ScrollScaffold extends StatelessWidget {
             <Widget>[
           if (header != null)
             SliverToBoxAdapter(
-              child: header,
+              child: ScrollDynamicElevation(
+                child: header!,
+              ),
             ),
           if (subHeader != null)
             SliverPinnedHeader(
-                child: Theme(
-              data: context.themeData.copyWith(
-                colorScheme: context.themeData.colorScheme.copyWith(
-                  surfaceVariant: Colors.transparent,
-                ),
+              child: ScrollDynamicElevation(
+                child: subHeader!,
               ),
-              // tabBarTheme: context.themeData.tabBarTheme.copyWith(col)),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 100),
-                color: data.isInnerBoxScrolled
-                    ? context.colorScheme.surface
-                    : context.colorScheme.background,
-                child: subHeader,
-              ),
-            ),),
+            ),
         ],
         body: body,
       ),

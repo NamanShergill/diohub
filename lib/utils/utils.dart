@@ -55,22 +55,34 @@ extension TextStyles on TextStyle {
 }
 
 extension OpacityColors on Color {
-  Color asHint() => Color(value).fadeBrightness(-0.1);
+  Color asHint() => Color(value).fadeBrightness(-0.15);
 
-  Color asDisabled() => Color(value).fadeBrightness(-0.2);
+  Color asDisabled() => Color(value).fadeBrightness(-0.25);
 }
 
 extension IconSize on TextStyle {
-  double get contextIconSize => switch (fontSize) {
-        null => 25,
-        _ => fontSize! * 0.9,
-      };
+  double getIconSize(final BuildContext context, {final double scale = 0.7}) {
+    // Get the current text scale factor from the MediaQuery
+    final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
+    // You can adjust the scale factor based on your preferences
+    // You can remove this line if you want to use the raw textScaleFactor
+    final double adjustedScaleFactor = textScaleFactor * scale;
+
+    // Calculate the scaled icon size
+    final double scaledSize =
+        fontSize != null ? fontSize! * adjustedScaleFactor : 25;
+
+    return scaledSize;
+  }
 }
 
 extension ColorFader on Color {
   Color fadeBrightness(final double factor) {
-    assert(factor >= -1.0 && factor <= 1.0,
-        'Factor value must be between -1.0 and 1.0',);
+    assert(
+      factor >= -1.0 && factor <= 1.0,
+      'Factor value must be between -1.0 and 1.0',
+    );
 
     final HSLColor hslColor = HSLColor.fromColor(this);
     final HSLColor newHslColor = hslColor.withLightness(

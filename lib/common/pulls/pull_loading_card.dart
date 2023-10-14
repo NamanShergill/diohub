@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/misc/shimmer_widget.dart';
+import 'package:dio_hub/common/misc/tappable_card.dart';
 import 'package:dio_hub/common/pulls/pull_list_card.dart';
 import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
 import 'package:dio_hub/controller/deep_linking_handler.dart';
@@ -20,7 +21,9 @@ class PullLoadingCard extends StatelessWidget {
     // this.disableMaterial = false,
     this.padding = const EdgeInsets.symmetric(horizontal: 8),
     super.key,
+    this.cardLinkType = CardLinkType.none,
   });
+  final CardLinkType cardLinkType;
   final String url;
   final bool compact;
   final IssueModel? issueModel;
@@ -89,10 +92,7 @@ class PullLoadingCard extends StatelessWidget {
                       ),
                       Text(
                         issueModel!.title!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontSize: 14),
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       if (!compact)
                         Column(
@@ -126,7 +126,7 @@ class PullLoadingCard extends StatelessWidget {
               PullListCard(
             data,
             compact: compact,
-            disableMaterial: true,
+            cardLinkType: cardLinkType,
             padding: EdgeInsets.zero,
           ),
         ),

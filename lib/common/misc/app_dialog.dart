@@ -1,3 +1,4 @@
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class AppDialog extends StatelessWidget {
@@ -10,7 +11,7 @@ class AppDialog extends StatelessWidget {
         title: title != null
             ? Text(
                 title!,
-                style: Theme.of(context).textTheme.titleLarge,
+                style: context.textTheme.headlineMedium,
               )
             : null,
         content: content,

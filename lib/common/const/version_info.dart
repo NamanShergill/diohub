@@ -29,12 +29,7 @@ class VersionInfoWidget extends StatelessWidget {
                   ),
                   Text(
                     snapshot.data!.version,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      // color: Provider.of<PaletteSettings>(context)
-                      //     .currentSetting
-                      //     .faded2,
-                    ),
+                    style: context.textTheme.labelSmall?.asHint(),
                   ),
                 ],
               );

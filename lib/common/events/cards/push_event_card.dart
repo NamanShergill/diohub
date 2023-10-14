@@ -49,7 +49,6 @@ class PushEventCard extends StatelessWidget {
               Flexible(
                 child: BranchLabel(
                   data.ref!.split('/').last,
-                  size: 12,
                 ),
               ),
             ],

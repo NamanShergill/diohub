@@ -3,6 +3,7 @@ import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
@@ -109,18 +110,17 @@ class DiscussionState extends State<Discussion> {
                       Text(
                         'Showing timeline since ${DateFormat('d MMM yyyy').format(commentsSince!)}.',
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 12,
+                        style: context.textTheme.labelSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(
                         height: 4,
                       ),
-                      const Text(
+                      Text(
                         'Load the whole timeline?',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
+                        style: context.textTheme.labelSmall,
                       ),
                     ],
                   ),
@@ -174,10 +174,10 @@ class DiscussionState extends State<Discussion> {
                       currentTime: widget.createdAt,
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     'Show timeline from a specific time?',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                    style: context.textTheme.labelSmall,
                   ),
                 ),
               ),

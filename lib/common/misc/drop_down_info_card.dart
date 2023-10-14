@@ -77,7 +77,6 @@ class DropDownInfoCardState extends State<DropDownInfoCard>
                             widget.title,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
                             ),
                           ),
                         ),

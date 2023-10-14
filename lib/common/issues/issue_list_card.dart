@@ -8,6 +8,7 @@ import 'package:dio_hub/models/issues/issue_model.dart';
 import 'package:dio_hub/services/issues/issues_service.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/utils/get_date.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart' hide State;
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -58,7 +59,7 @@ class IssueListCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Row(
+                Row(crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     getIcon(item.state!),
                     const SizedBox(
@@ -85,11 +86,7 @@ class IssueListCard extends StatelessWidget {
                       ),
                     Text(
                       '#${item.number}',
-                      style: const TextStyle(
-                          // color: Provider.of<PaletteSettings>(context)
-                          //     .currentSetting
-                          //     .faded3,
-                          ),
+                      style: context.textTheme.labelMedium?.asHint(),
                     ),
                     if (item.comments != 0)
                       Row(
@@ -97,11 +94,9 @@ class IssueListCard extends StatelessWidget {
                           const SizedBox(
                             width: 16,
                           ),
-                          const Icon(
+                          Icon(
                             Octicons.comment,
-                            // color: Provider.of<PaletteSettings>(context)
-                            //     .currentSetting
-                            //     .faded3,
+                            color: context.colorScheme.onSurface.asHint(),
                             size: 11,
                           ),
                           const SizedBox(
@@ -109,12 +104,7 @@ class IssueListCard extends StatelessWidget {
                           ),
                           Text(
                             '${item.comments} comments',
-                            style: const TextStyle(
-                              // color: Provider.of<PaletteSettings>(context)
-                              //     .currentSetting
-                              //     .faded3,
-                              fontSize: 12,
-                            ),
+                            style: context.textTheme.labelMedium?.asHint(),
                           ),
                         ],
                       ),
@@ -125,10 +115,7 @@ class IssueListCard extends StatelessWidget {
                 ),
                 Text(
                   item.title!,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(fontSize: 14),
+                  style: context.textTheme.bodyLarge?.asBold(),
                 ),
                 if (!compact)
                   Column(
@@ -141,12 +128,7 @@ class IssueListCard extends StatelessWidget {
                         item.state == IssueState.CLOSED
                             ? 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
                             : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
-                        style: const TextStyle(
-                          // color: Provider.of<PaletteSettings>(context)
-                          //     .currentSetting
-                          //     .faded3,
-                          fontSize: 12,
-                        ),
+                        style: context.textTheme.bodySmall?.asHint(),
                       ),
                       const SizedBox(
                         height: 8,
@@ -180,16 +162,19 @@ Widget getIcon(final IssueState state) {
       return const Icon(
         Octicons.issue_closed,
         size: 15,
+        color: Colors.red,
       );
     case IssueState.OPEN:
       return const Icon(
         Octicons.issue_opened,
         size: 15,
+        color: Colors.green,
       );
     case IssueState.REOPENED:
       return const Icon(
         Octicons.issue_reopened,
         size: 15,
+        color: Colors.green,
       );
   }
 }

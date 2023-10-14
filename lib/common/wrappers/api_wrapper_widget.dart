@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:animations/animations.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_hub/common/misc/loading_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 typedef ResponseBuilder<T> = Widget Function(
-    BuildContext context, APISnapshot<T> snapshot,);
+  BuildContext context,
+  APISnapshot<T> snapshot,
+);
 typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
 typedef APICall<T> = Future<T> Function({required bool refresh});
 typedef DeferredBuilder<T> = Widget Function(BuildContext context, T data);
@@ -32,20 +35,42 @@ class APIWrapper<T> extends StatefulWidget {
           loadingBuilder: loadingBuilder,
         );
 
+  static ResponseBuilder<T> emptyDeferredBuilder<T>({
+    required final DeferredBuilder<T> builder,
+    final DeferredBuilder<Object?>? errorBuilder,
+    final WidgetBuilder? loadingBuilder,
+  }) =>
+      deferredBuilder(
+        builder: builder,
+        loadingBuilder:
+            loadingBuilder ?? (final BuildContext context) => Container(),
+        errorBuilder: errorBuilder ??
+            (final BuildContext context, final Object? error) => Container(),
+      );
+
   static ResponseBuilder<T> deferredBuilder<T>({
     required final DeferredBuilder<T> builder,
     final DeferredBuilder<Object?>? errorBuilder,
     final WidgetBuilder? loadingBuilder,
   }) =>
       (final BuildContext context, final APISnapshot<T> snapshot) =>
-          switch (snapshot) {
-            APISnapshotLoaded<T>() => builder.call(context, snapshot.data),
-            APISnapshotLoading<T>() =>
-              loadingBuilder?.call(context) ?? const LoadingIndicator(),
-            APISnapshotError<T>() =>
-              errorBuilder?.call(context, snapshot.error) ??
-                  _buildError(snapshot.error),
-          };
+          PageTransitionSwitcher(
+            transitionBuilder: (final Widget child,
+                    final Animation<double> primaryAnimation,
+                    final Animation<double> secondaryAnimation) =>
+                FadeScaleTransition(
+                    animation: primaryAnimation,
+                    // secondaryAnimation: secondaryAnimation,
+                    child: child),
+            child: switch (snapshot) {
+              APISnapshotLoaded<T>() => builder.call(context, snapshot.data),
+              APISnapshotLoading<T>() =>
+                loadingBuilder?.call(context) ?? const LoadingIndicator(),
+              APISnapshotError<T>() =>
+                errorBuilder?.call(context, snapshot.error) ??
+                    _buildError(snapshot.error),
+            },
+          );
 
   final APICall<T> apiCall;
   final ResponseBuilder<T> builder;

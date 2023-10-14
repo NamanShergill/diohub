@@ -108,7 +108,7 @@ class LandingScreenState extends State<LandingScreen>
             //     .withOpacity(0.3),
             // iconSize: 20,
             // textStyle: TextStyle(
-            //   fontSize: 14,
+            //    14,
             //   // color: Provider.of<PaletteSettings>(context)
             //   //     .currentSetting
             //   //     .baseElements,

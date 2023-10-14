@@ -142,10 +142,6 @@ class RangePickerState extends State<RangePicker> {
                     },
                     title: Text(
                       types[index],
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
                     ),
                   ),
                   separatorBuilder:

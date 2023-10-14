@@ -24,7 +24,6 @@ class BranchSelectSheet extends StatelessWidget {
   Widget build(final BuildContext context) =>
       InfiniteScrollWrapper<RepoBranchListItemModel>(
         listEndIndicator: false,
-        topSpacing: 8,
         separatorBuilder: (final BuildContext context, final int index) =>
             const SizedBox(
           height: 16,
@@ -90,12 +89,9 @@ class BranchSelectSheet extends StatelessWidget {
                     Visibility(
                       visible: defaultBranch == data.item.name,
                       replacement: Container(),
-                      child: const Text(
+                      child: Text(
                         'Default',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                        ),
+                        style: context.textTheme.bodySmall,
                       ),
                     ),
                   ],

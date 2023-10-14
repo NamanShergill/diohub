@@ -222,15 +222,12 @@ class CodeBrowserState extends State<CodeBrowser>
                     Text(
                       'Currently browsing commit ${Provider.of<RepoBranchProvider>(context).currentSHA.substring(0, 6)}.',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: context.textTheme.labelSmall?.asBold(),
                     ),
-                    const Text(
+                    Text(
                       'Load the latest code?',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
+                      style: context.textTheme.labelMedium?.asBold(),
                     ),
                   ],
                 ),
@@ -258,9 +255,9 @@ void showCommitHistory(final BuildContext context, final String? currentSHA) {
       headerBuilder: (final BuildContext context, final StateSetter setState) =>
           Column(
         children: <Widget>[
-          const Text(
+          Text(
             'Commit History',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: context.textTheme.titleSmall,
           ),
           const SizedBox(
             height: 8,

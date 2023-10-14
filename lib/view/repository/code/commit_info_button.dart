@@ -1,6 +1,7 @@
 import 'package:dio_hub/common/misc/profile_banner.dart';
 import 'package:dio_hub/providers/repository/code_provider.dart';
 import 'package:dio_hub/utils/get_date.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
@@ -27,10 +28,7 @@ class CommitInfoButton extends StatelessWidget {
                       value.tree.last.commit!.commit!.message!.length > 25
                           ? '${value.tree.last.commit!.commit!.message!.substring(0, 25)}...'
                           : value.tree.last.commit!.commit!.message!,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: context.textTheme.bodyLarge,
                     ),
                   ),
                   const SizedBox(
@@ -49,7 +47,7 @@ class CommitInfoButton extends StatelessWidget {
                       ),
                       Text(
                         value.tree.last.commit!.author?.login ?? 'N/A',
-                        style: const TextStyle(fontSize: 11),
+                        style: context.textTheme.bodyMedium,
                       ),
                     ],
                   ),
@@ -70,9 +68,7 @@ class CommitInfoButton extends StatelessWidget {
                     ),
                     Text(
                       value.tree.last.commit!.sha!.substring(0, 6),
-                      style: const TextStyle(
-                        fontSize: 11,
-                      ),
+                      style: context.textTheme.bodyMedium,
                     ),
                     const Icon(
                       Icons.arrow_drop_down,
@@ -104,12 +100,7 @@ class CommitInfoButton extends StatelessWidget {
                             .toString(),
                         shorten: false,
                       ),
-                      style: const TextStyle(
-                        fontSize: 11,
-                        // color: Provider.of<PaletteSettings>(context)
-                        //     .currentSetting
-                        //     .faded3,
-                      ),
+                      style: context.textTheme.bodySmall,
                     ),
                   ],
                 ),

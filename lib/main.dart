@@ -168,6 +168,15 @@ ThemeData getTheme(
   // cs= cs.copyWith(surfaceTint: Colors.transparent);
   return ThemeData(
     useMaterial3: true,
+    // tabBarTheme: TabBarTheme(
+    //   labelPadding: EdgeInsets.all(8),
+    // indicator: BoxDecoration(
+    //   color: context.colorScheme.primary,
+    //   borderRadius: bigBorderRadius,
+    // ),
+    // labelStyle: TextStyle(color: context.colorScheme.onPrimary)
+    //     .merge(context.textTheme.titleSmall),
+    // ),
     // visualDensity: VisualDensity.compact,
     // unselectedWidgetColor: palette.faded1,
     // cardColor: palette.primary,
@@ -185,11 +194,11 @@ ThemeData getTheme(
     //   unselectedLabelStyle: Theme.of(context)
     //       .textTheme
     //       .titleLarge!
-    //       .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
+    //       .copyWith( 14, fontWeight: FontWeight.w600),
     //   labelStyle: Theme.of(context)
     //       .textTheme
     //       .titleLarge!
-    //       .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+    //       .copyWith( 20, fontWeight: FontWeight.bold),
     //   labelPadding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
     // ),
 
@@ -222,12 +231,13 @@ ThemeData getTheme(
     //   shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
     // ),
     bottomSheetTheme: BottomSheetThemeData(
-        surfaceTintColor: Colors.transparent,
-        modalBackgroundColor: cs.background,
-        backgroundColor: cs.background,),
+      surfaceTintColor: Colors.transparent,
+      modalBackgroundColor: cs.background,
+      backgroundColor: cs.background,
+    ),
     inputDecorationTheme: InputDecorationTheme(
       // contentPadding: const EdgeInsets.all(16),
-      // hintStyle: TextStyle(fontSize: 12),
+      // hintStyle: TextStyle( 12),
       filled: true,
       enabledBorder: OutlineInputBorder(
         borderSide: const BorderSide(color: Colors.transparent),

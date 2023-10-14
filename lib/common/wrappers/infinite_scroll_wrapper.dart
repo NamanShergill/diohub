@@ -43,14 +43,13 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
     // this.nestedScrollViewController,
     this.filterFn,
     this.paginationKey,
-    this.bottomSpacing = 0,
     this.separatorBuilder,
     this.header,
     this.pinnedHeader,
     this.showScrollToTopButton = true,
     this.pageNumber = 1,
     this.pageSize = 10,
-    this.topSpacing = 0,
+    this.padding = const EdgeInsets.symmetric(vertical: 16),
     this.disableScroll = false,
     this.disableRefresh = false,
     this.firstPageLoadingBuilder,
@@ -82,10 +81,7 @@ class InfiniteScrollWrapper<T> extends StatefulWidget {
   final InfiniteScrollWrapperController? controller;
 
   /// Spacing to add to the top of the list.
-  final double topSpacing;
-
-  /// Spacing to add to the bottom of the list.
-  final double bottomSpacing;
+  final EdgeInsets padding;
 
   /// Show the list end indicator or not.
   final bool listEndIndicator;
@@ -157,11 +153,10 @@ class InfiniteScrollWrapperState<T> extends State<InfiniteScrollWrapper<T>> {
               key: widget.paginationKey,
               filterFn: widget.filterFn,
               firstPageLoadingBuilder: widget.firstPageLoadingBuilder,
-              bottomSpacing: widget.bottomSpacing,
+              padding: widget.padding,
               pageNumber: widget.pageNumber,
               separatorBuilder: widget.separatorBuilder,
               pageSize: widget.pageSize,
-              topSpacing: widget.topSpacing,
               listEndIndicator: widget.listEndIndicator,
             ),
           ],
@@ -230,10 +225,9 @@ class _InfinitePagination<T> extends StatefulWidget {
     required this.filterFn,
     required this.controller,
     required this.firstPageLoadingBuilder,
-    required this.bottomSpacing,
     required this.pageNumber,
     required this.pageSize,
-    required this.topSpacing,
+    required this.padding,
     required this.separatorBuilder,
     required this.listEndIndicator,
     super.key,
@@ -252,6 +246,8 @@ class _InfinitePagination<T> extends StatefulWidget {
   /// Page Number to start with. Default value is **1**.
   final int pageNumber;
 
+  final EdgeInsets padding;
+
   /// Filter the results before displaying them.
   /// Gives the list of results that can be modified and returned.
   final FilterFn<T>? filterFn;
@@ -259,13 +255,7 @@ class _InfinitePagination<T> extends StatefulWidget {
   /// A controller to call the refresh function if required.
   final InfiniteScrollWrapperController controller;
 
-  /// Spacing to add to the top of the list.
-  final double topSpacing;
-
   final IndexedWidgetBuilder? separatorBuilder;
-
-  /// Spacing to add to the bottom of the list.
-  final double bottomSpacing;
 
   /// Show the list end indicator or not.
   final bool listEndIndicator;
@@ -396,7 +386,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
             children: <Widget>[
               if (index == 0)
                 SizedBox(
-                  height: widget.topSpacing,
+                  height: widget.padding.top,
                 ),
               widget.builder(
                 context,
@@ -423,7 +413,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: widget.topSpacing,
+                  height: widget.padding.top,
                 ),
                 const Expanded(
                   child: Center(
@@ -450,23 +440,19 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
                         padding: const EdgeInsets.all(16),
                         child: Column(
                           children: <Widget>[
-                            const Text(
-                              'Nothing more.',
-                              style: TextStyle(
-                                  // color: Provider.of<PaletteSettings>(context)
-                                  //     .currentSetting
-                                  //     .faded3,
-                                  ),
+                            Text(
+                              '----*----',
+                              style: context.textTheme.labelSmall?.asHint(),
                             ),
                             SizedBox(
-                              height: widget.bottomSpacing,
+                              height: widget.padding.bottom,
                             ),
                           ],
                         ),
                       ),
                     )
                   : Padding(
-                      padding: EdgeInsets.only(bottom: widget.bottomSpacing),
+                      padding: EdgeInsets.only(bottom: widget.padding.bottom),
                       child: Container(),
                     ),
         ),

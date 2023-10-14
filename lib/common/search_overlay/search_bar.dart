@@ -507,8 +507,8 @@ class AppSearchBarState extends State<AppSearchBar> {
                               padding: const EdgeInsets.all(8),
                               child: Icon(
                                 Icons.search_rounded,
-                                size: context
-                                    .textTheme.bodyMedium?.contextIconSize,
+                                size: context.textTheme.bodyLarge
+                                    ?.getIconSize(context, scale: 1),
                                 color: context.colorScheme.onSurface.asHint(),
                                 // color: Provider.of<PaletteSettings>(context)
                                 //     .currentSetting

@@ -70,7 +70,7 @@ class BranchButton extends StatelessWidget {
                         Navigator.pop(context);
                       }
                     },
-                    child: _buildListBranchItem(data, currentBranch),
+                    child: _buildListBranchItem(data, currentBranch, context),
                   ),
                 ),
               ),
@@ -211,45 +211,44 @@ class BranchButton extends StatelessWidget {
   Padding _buildListBranchItem(
     final ({int index, RepoBranchListItemModel item, bool refresh}) data,
     final String currentBranch,
-  ) => Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Flexible(
-            child: Row(
-              children: <Widget>[
-                const Icon(Octicons.git_branch),
-                const SizedBox(
-                  width: 8,
-                ),
-                Flexible(
-                  child: Text(
-                    data.item.name!,
-                    style: TextStyle(
-                      fontWeight: data.item.name == currentBranch
-                          ? FontWeight.bold
-                          : FontWeight.normal,
+    final BuildContext context,
+  ) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Flexible(
+              child: Row(
+                children: <Widget>[
+                  const Icon(Octicons.git_branch),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Flexible(
+                    child: Text(
+                      data.item.name!,
+                      style: TextStyle(
+                        fontWeight: data.item.name == currentBranch
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Visibility(
-            visible: _repo!.defaultBranch == data.item.name,
-            replacement: Container(),
-            child: const Text(
-              'Default',
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 12,
+                ],
               ),
             ),
-          ),
-        ],
-      ),
-    );
+            Visibility(
+              visible: _repo!.defaultBranch == data.item.name,
+              replacement: Container(),
+              child: Text(
+                'Default',
+                style: context.textTheme.bodySmall,
+              ),
+            ),
+          ],
+        ),
+      );
 }
 
 // class BranchMultiItemAdapter extends PaginatedInfoCardAdapter<BranchModel> {

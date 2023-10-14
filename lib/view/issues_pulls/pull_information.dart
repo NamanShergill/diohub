@@ -35,7 +35,7 @@ class PullInformation extends StatelessWidget {
     //                 Text(
     //                   '${_pull.commits} commits',
     //                   style: const TextStyle(
-    //                       fontWeight: FontWeight.w300, fontSize: 12),
+    //                       fontWeight: FontWeight.w300,  12),
     //                 ),
     //               ],
     //             ),
@@ -53,7 +53,7 @@ class PullInformation extends StatelessWidget {
     //                     color: Provider.of<PaletteSettings>(context)
     //                         .currentSetting
     //                         .faded3,
-    //                     fontSize: 12),
+    //                      12),
     //               )
     //             : null,
     //         onTap: _editingEnabled
@@ -112,7 +112,7 @@ class PullInformation extends StatelessWidget {
     //                     color: Provider.of<PaletteSettings>(context)
     //                         .currentSetting
     //                         .faded3,
-    //                     fontSize: 12),
+    //                      12),
     //               )
     //             : null,
     //         onTap: _editingEnabled
@@ -170,7 +170,7 @@ class PullInformation extends StatelessWidget {
     //                     color: Provider.of<PaletteSettings>(context)
     //                         .currentSetting
     //                         .faded3,
-    //                     fontSize: 12),
+    //                      12),
     //               )
     //             : null,
     //         onTap: _editingEnabled

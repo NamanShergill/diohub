@@ -16,6 +16,7 @@ dependencies:
   artemis: '>=7.13.0-beta.2 <8.0.0'
   auto_route: ^7.8.3
   cached_network_image: ^3.3.0
+  chucker_flutter: ^1.5.1
   collection: ^1.18.0
   connectivity_plus:
     git:
@@ -150,6 +151,8 @@ dependency_overrides:
   gql_dio_link: 1.0.1
   gql_exec: 1.0.0
   gql_link: 1.0.0
+  # chucker_flutter incompatibility.
+  share_plus: ^7.1.0
 
 flutter_native_splash:
   color: '#17181c'

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio_hub/models/commits/commit_model.dart';
 import 'package:dio_hub/routes/router.gr.dart';
+import 'package:dio_hub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ChangedFilesListCard extends StatelessWidget {
@@ -13,30 +14,21 @@ class ChangedFilesListCard extends StatelessWidget {
         return Text.rich(
           TextSpan(
             text: 'File added: +${file.additions}',
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
+            style: context.textTheme.bodySmall,
           ),
         );
       } else if (file.status == CommitStatus.REMOVED) {
         return Text.rich(
           TextSpan(
             text: 'File removed: -${file.deletions}',
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
+            style: context.textTheme.bodySmall,
           ),
         );
       }
 
       return Text.rich(
         TextSpan(
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(fontSize: 12, fontWeight: FontWeight.w500),
+          style: context.textTheme.bodySmall,
           children: <InlineSpan>[
             TextSpan(
               text: '${file.changes} Changes: ',
