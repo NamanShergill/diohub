@@ -37,7 +37,6 @@ import 'package:dio_hub/view/repository/repository_screen.dart';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:image_stack/image_stack.dart';
 import 'package:provider/provider.dart';
@@ -726,14 +725,14 @@ class _ScreenHeader extends StatelessWidget {
                       (final BuildContext context, final String? newValue) =>
                           MarkdownBody(
                     newValue != null ? mdToHtml(newValue) : widget.title,
-                    defaultBodyStyle: Style(
-                      padding: HtmlPaddings.zero,
-                      margin: Margins.zero,
-                      fontSize: FontSize(
-                        context.textTheme.headlineSmall!.fontSize!,
-                      ),
-                      fontWeight: context.textTheme.headlineSmall?.fontWeight,
-                    ),
+                    // defaultBodyStyle: Style(
+                    //   padding: HtmlPaddings.zero,
+                    //   margin: Margins.zero,
+                    //   fontSize: FontSize(
+                    //     context.textTheme.headlineSmall!.fontSize!,
+                    //   ),
+                    //   fontWeight: context.textTheme.headlineSmall?.fontWeight,
+                    // ),
                   ),
                 ),
                 buildLabelsWidget(),

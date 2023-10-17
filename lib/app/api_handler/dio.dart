@@ -406,7 +406,7 @@ abstract class BaseAPIHandler {
           error: logSettings.error,
           responseBody: logSettings.responseBody,
           compact: logSettings.compact,
-          logPrint: logSettings.logPrint,
+          logPrint: logSettings.logPrint ?? print,
           maxWidth: logSettings.maxWidth,
           request: logSettings.request,
         ),
@@ -445,13 +445,13 @@ class APILoggingSettings {
     this.error = true,
     this.maxWidth = 90,
     this.compact = true,
-    this.logPrint = print,
+    this.logPrint,
   });
 
   APILoggingSettings.comprehensive({
     this.maxWidth = 90,
     this.compact = true,
-    this.logPrint = print,
+    this.logPrint,
   })  : request = true,
         requestHeader = true,
         requestBody = true,
@@ -494,5 +494,5 @@ class APILoggingSettings {
   /// Log printer; defaults logPrint log to console.
   /// In flutter, you'd better use debugPrint.
   /// you can also write log in a file.
-  void Function(Object object) logPrint;
+  void Function(Object object)? logPrint;
 }

@@ -13,7 +13,7 @@ String getDate(final String date, {final bool shorten = true}) {
     return '${difference.inDays}${shorten ? 'd' : ' days ago'}';
   } else {
     return shorten
-        ? DateFormat('d MMM').format(dateTime)
+        ? DateFormat('d MMM yy').format(dateTime)
         : DateFormat('d MMM yyyy').format(dateTime);
   }
 }

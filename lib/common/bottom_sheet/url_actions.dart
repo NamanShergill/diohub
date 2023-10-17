@@ -4,6 +4,7 @@ import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:dio_hub/utils/open_in_app_browser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:pull_down_button/pull_down_button.dart';
@@ -79,7 +80,7 @@ class URLActions {
 
   IconData get _getOpenIcon => switch (uri.scheme) {
         'mailto' => MdiIcons.email,
-        _ => MdiIcons.web,
+        _ => MdiIcons.openInNew,
       };
   String get _getOpenText => switch (uri.scheme) {
         'mailto' => 'Mail',
@@ -120,6 +121,7 @@ class URLActions {
   }
 
   Future<void> showMenu(final BuildContext context) async {
+    await HapticFeedback.lightImpact();
     await showPullDownMenu(
       context: context,
       items: menuItems,

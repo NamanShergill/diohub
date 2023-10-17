@@ -14,7 +14,7 @@ dependencies:
   animations: ^2.0.8
   another_flushbar: ^1.12.31-dev.1
   artemis: '>=7.13.0-beta.2 <8.0.0'
-  auto_route: ^7.8.3
+  auto_route: ^7.8.4
   cached_network_image: ^3.3.0
   chucker_flutter: ^1.5.1
   collection: ^1.18.0
@@ -60,11 +60,6 @@ dependencies:
     path:
       dependencies/highlight.dart/flutter_highlight
 
-  flutter_html:
-    path: dependencies/flutter_html
-
-  flutter_html_table: ^3.0.0-beta.2
-
   # Temporary dependency until the following is fixed: https://github.com/pichillilorenzo/flutter_inappwebview/issues/1735#issuecomment-1725248033
   flutter_inappwebview:
     git:
@@ -74,8 +69,8 @@ dependencies:
   flutter_keyboard_visibility: ^5.4.1
   flutter_material_design_icons: ^1.1.7296
   flutter_portal: ^1.1.4
-  flutter_reaction_button: ^2.0.1+2
-  flutter_riverpod: ^2.4.2
+  flutter_reaction_button: ^3.0.0+2
+  flutter_riverpod: ^2.4.3
   flutter_scroll_to_top:
     path: dependencies/flutter_scroll_to_top
 
@@ -83,6 +78,7 @@ dependencies:
   flutter_slidable: ^3.0.0
   flutter_svg: ^2.0.7
   flutter_vector_icons: ^2.0.0
+  flutter_widget_from_html: ^0.14.0-alpha.1
   google_nav_bar: ^5.0.6
   gql: ^1.0.0
   gql_dio_link: ^1.0.1
@@ -106,14 +102,14 @@ dependencies:
     path: dependencies/markdown-editable-textinput
 
   mime: ^1.0.4
-  package_info_plus: ^4.1.0
+  package_info_plus: ^4.2.0
   path_provider: ^2.1.1
   pretty_dio_logger: ^1.3.1
   provider: ^6.1.0-dev.1
   pull_down_button:
     path: dependencies/pull_down_button
-  share_plus: ^7.1.0
-  shared_preferences: ^2.2.1
+  share_plus: ^7.2.0
+  shared_preferences: ^2.2.2
   shimmer: ^3.0.0
   sliver_tools: ^0.2.12
   sqlite3_flutter_libs: ^0.5.17
@@ -123,7 +119,7 @@ dependencies:
   uuid: ^3.0.4
 
 dev_dependencies:
-  auto_route_generator: ^7.3.1
+  auto_route_generator: ^7.3.2
   build_runner: ^2.4.6
   # pub run dependency_validator
   dependency_validator: ^3.2.3
@@ -136,13 +132,9 @@ dev_dependencies:
   json_serializable: ^6.7.1
 
 dependency_overrides:
-  # flutter_html 2.1.2 uses a version not compatible with flutter >3.
-#  chewie_audio: ^1.5.0
   # Override for conflict between artemis and flutter_test.
   collection: ^1.18.0
   # flutter_html 2.1.2 uses a version not compatible with flutter >3.
-  flutter_html:
-    path: dependencies/flutter_html
 #  flutter_layout_grid: ^2.0.4
 #  flutter_math_fork: ^0.7.1
 #  flutter_svg: ^2.0.7
@@ -152,7 +144,7 @@ dependency_overrides:
   gql_exec: 1.0.0
   gql_link: 1.0.0
   # chucker_flutter incompatibility.
-  share_plus: ^7.1.0
+  share_plus: ^7.2.0
 
 flutter_native_splash:
   color: '#17181c'

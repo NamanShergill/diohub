@@ -1,18 +1,14 @@
-import 'dart:collection';
-
 import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
 import 'package:dio_hub/common/misc/code_block_view.dart';
-import 'package:dio_hub/common/misc/image_loader.dart';
 import 'package:dio_hub/common/misc/info_card.dart';
 import 'package:dio_hub/style/border_radiuses.dart';
 import 'package:dio_hub/utils/copy_to_clipboard.dart';
 import 'package:dio_hub/utils/lang_colors/get_language_color.dart';
-import 'package:dio_hub/utils/utils.dart';
 import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:html/dom.dart' as dom;
 import 'package:pull_down_button/pull_down_button.dart';
 
 part 'a_extension.dart';
@@ -21,92 +17,221 @@ part 'div_extension.dart';
 part 'img_extension.dart';
 part 'pre_extension.dart';
 
-extension InlineSpanExtension on ExtensionContext {
-  Widget get child => CssBoxWidget.withInlineSpanChildren(
-        children: inlineSpanChildren!,
-        style: style!,
-      );
-
-  Widget childWithStyle(final Style style) =>
-      CssBoxWidget.withInlineSpanChildren(
-        children: inlineSpanChildren!,
-        style: this.style!.merge(style),
-      );
+extension Tag on dom.Element {
+  bool isTag(final String tag) => localName == tag;
 }
 
-List<HtmlExtension> markdownTagExtensions(
-  final BuildContext context, {
-  required final List<MarkdownImgSrcModifiers>? imgSrcModifiers,
-}) =>
-    <HtmlExtension>[
-      ..._tagWrapExtensions(context),
-      ..._tagExtensions(
-        context,
-        imgSrcModifiers: imgSrcModifiers,
-      ),
-    ];
+extension on BuildTree {
+  bool isTag(final String tag) => element.localName == tag;
 
-List<TagExtension> _tagExtensions(
-  final BuildContext context, {
-  required final List<MarkdownImgSrcModifiers>? imgSrcModifiers,
-}) =>
-    <TagExtension>[
-      _divExtension(context).extension,
-      _imgExtension(
-        context,
-        imgSrcModifiers: imgSrcModifiers ?? <MarkdownImgSrcModifiers>[],
-      ).extension,
-      _preExtension(context).extension,
-      _aExtension(context).extension,
-      _codeExtension(context).extension,
-      // TagExtension(tagsToExtend: {'li'}, child: Placeholder()),
-    ];
-
-List<TagExtension> _tagWrapExtensions(final BuildContext context) =>
-    <TagExtension>[
-      TagExtension(
-        tagsToExtend: <String>{
-          'blockquote',
-        },
-        builder: (final ExtensionContext p0) => DecoratedBox(
-          // padding: const EdgeInsets.only(bottom: 40),
-          decoration: BoxDecoration(
-            // color: context.colorScheme.surface.,
-            border: Border(
-              left: BorderSide(
-                color: context.colorScheme.primary,
-                width: 2,
+  void wrapTaggedWidget({
+    required final String tag,
+    required final Widget? Function(
+      BuildContext context,
+      Widget child,
+      BuildTree tree,
+    ) newWidgetBuilder,
+  }) {
+    if (isTag(tag)) {
+      register(
+        BuildOp(
+          onParsed: (final BuildTree tree) {
+            final BuildTree parent = tree.parent;
+            final WidgetPlaceholder placeholder = WidgetPlaceholder(
+              builder: (final BuildContext context, final Widget child) =>
+                  Builder(
+                builder: (final BuildContext context) =>
+                    newWidgetBuilder.call(
+                      context,
+                      tree.build() ?? Container(),
+                      tree,
+                    ) ??
+                    tree.build() ??
+                    Container(),
               ),
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: p0.child,
-          ),
+            );
+            return parent.sub()
+              ..append(
+                WidgetBit.inline(
+                  tree,
+                  placeholder,
+                ),
+              );
+          },
         ),
-      ),
-      TagExtension(
-        tagsToExtend: <String>{
-          'code',
-        },
-        builder: (final ExtensionContext child) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 1),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              // color: context.palette.faded1,
-              borderRadius: smallBorderRadius,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: child.child,
-            ),
-          ),
-        ),
-      ),
-    ];
+      );
+    }
+  }
+}
 
-class _CodeView extends StatefulWidget {
-  const _CodeView(
+// extension BuildTreeCopyWith on BuildTree {
+//   BuildTree copyWith({
+//     dom.Element? element,
+//     InheritanceResolvers? inheritanceResolvers,
+//     List<BuildBit>? children,
+//     List<dynamic>? nonInherited,
+//     LockableList<css.Declaration>? styles,
+//   }) {
+//     return BuildTree(
+//       element: element ?? this.element,
+//       inheritanceResolvers: inheritanceResolvers ?? this.inheritanceResolvers,
+//       _children: children ?? this._children,
+//       _nonInherited: nonInherited ?? this._nonInherited,
+//       styles: styles ?? this.styles,
+//     );
+//   }
+// }
+
+// extension on BuildTree {
+//   // ... (rest of your class)
+//
+//   /// Creates a copy of the current BuildTree with optional parameter overrides.
+//   BuildTree copyWith({
+//     dom.Element? element,
+//     InheritanceResolvers? inheritanceResolvers,
+//     List<BuildBit>? children,
+//     List<dynamic>? nonInherited,
+//     LockableList<css.Declaration>? styles,
+//   }) {
+//     return BuildTree(
+//       element: element ?? this.element,
+//       inheritanceResolvers: inheritanceResolvers ?? this.inheritanceResolvers,
+//       _children: children ?? this._children,
+//       _nonInherited: nonInherited ?? this._nonInherited,
+//       styles: styles ?? this.styles,
+//     );
+//   }
+// }
+
+class MyWidgetFactory extends WidgetFactory {
+  MyWidgetFactory({required this.fetchState});
+
+  final HtmlWidgetState? Function() fetchState;
+  @override
+  void parse(final BuildTree meta) {
+    meta
+      // ..wrapTaggedWidget(
+      //   tag: 'code',
+      //   newWidgetBuilder: (final BuildContext context, final Widget child,
+      //           final BuildTree tree) =>
+      //       DecoratedBox(
+      //     decoration: BoxDecoration(
+      //       color: context.colorScheme.surfaceVariant,
+      //       borderRadius: smallBorderRadius,
+      //     ),
+      //     child: Padding(
+      //       padding: const EdgeInsets.symmetric(horizontal: 4),
+      //       child: DefaultTextStyle.merge(
+      //         style: TextStyle(
+      //           color: context.colorScheme.onSurfaceVariant,
+      //         ),
+      //         child: child,
+      //       ),
+      //     ),
+      //   ),
+      // )
+      ..wrapTaggedWidget(
+        tag: 'a',
+        newWidgetBuilder: (final BuildContext context, final Widget child,
+            final BuildTree tree) {
+          final String link = tree.element.attributes['href'] ?? '';
+          print(link);
+          if (link.startsWith('#')) {
+            return InkWell(
+              onTap: () async => fetchState()?.scrollToAnchor(
+                link.replaceAll('#', ''),
+              ),
+              child: child,
+            );
+          }
+          final URLActions urlActions = URLActions(
+            uri: Uri.parse(link),
+          );
+          return InkWell(
+            onTap: () async => urlActions.launchURL(),
+            onLongPress: () async => urlActions.showMenu(context),
+            borderRadius: medBorderRadius,
+            child: child,
+          );
+        },
+      );
+    super.parse(meta);
+  }
+}
+
+// List<HtmlExtension> markdownTagExtensionsTagExtensions(
+//   final BuildContext context, {
+//   required final List<MarkdownImgSrcModifiers>? imgSrcModifiers,
+// }) =>
+//     <HtmlExtension>[
+//       ..._tagWrapExtensions(context),
+//       ..._tagExtensions(
+//         context,
+//         imgSrcModifiers: imgSrcModifiers,
+//       ),
+//     ];
+
+// List<TagExtension> _tagExtensions(
+//   final BuildContext context, {
+//   required final List<MarkdownImgSrcModifiers>? imgSrcModifiers,
+// }) =>
+//     <TagExtension>[
+//       // _divExtension(context).extension,
+//       // _imgExtension(
+//       //   context,
+//       //   imgSrcModifiers: imgSrcModifiers ?? <MarkdownImgSrcModifiers>[],
+//       // ).extension,
+//       // _preExtension(context).extension,
+//       // _aExtension(context).extension,
+//       // _codeExtension(context).extension,
+//       // TagExtension(tagsToExtend: {'li'}, child: Placeholder()),
+//     ];
+
+// List<TagExtension> _tagWrapExtensions(final BuildContext context) =>
+//     <TagExtension>[
+//       TagExtension(
+//         tagsToExtend: <String>{
+//           'blockquote',
+//         },
+//         builder: (final ExtensionContext p0) => DecoratedBox(
+//           // padding: const EdgeInsets.only(bottom: 40),
+//           decoration: BoxDecoration(
+//             // color: context.colorScheme.surface.,
+//             border: Border(
+//               left: BorderSide(
+//                 color: context.colorScheme.primary,
+//                 width: 2,
+//               ),
+//             ),
+//           ),
+//           // child: Padding(
+//           //   padding: const EdgeInsets.only(left: 4),
+//           //   child: p0.child,
+//           // ),
+//         ),
+//       ),
+//       // TagExtension(
+//       //   tagsToExtend: <String>{
+//       //     'code',
+//       //   },
+//       //   builder: (final ExtensionContext child) => Padding(
+//       //     padding: const EdgeInsets.symmetric(vertical: 1),
+//       //     child: DecoratedBox(
+//       //       decoration: BoxDecoration(
+//       //         // color: context.palette.faded1,
+//       //         borderRadius: smallBorderRadius,
+//       //       ),
+//       //       child: Padding(
+//       //         padding: const EdgeInsets.symmetric(horizontal: 4),
+//       //         child: child.child,
+//       //       ),
+//       //     ),
+//       //   ),
+//       // ),
+//     ];
+
+class CodeView extends StatefulWidget {
+  const CodeView(
     this.data, {
     this.language,
   });
@@ -118,7 +243,7 @@ class _CodeView extends StatefulWidget {
   _CodeViewState createState() => _CodeViewState();
 }
 
-class _CodeViewState extends State<_CodeView> {
+class _CodeViewState extends State<CodeView> {
   bool wrapText = false;
 
   @override
@@ -193,41 +318,42 @@ class _CodeViewState extends State<_CodeView> {
   }
 }
 
-abstract class _ExtensionWidget extends StatelessWidget {
-  const _ExtensionWidget(
-    this.extensionContext,);
-
-  final ExtensionContext extensionContext;
-
-  String? get divClass => extensionContext.elementName;
-
-  LinkedHashMap<Object, String>? get attributes =>
-      extensionContext.element?.attributes;
-
-  Widget get defaultChild => extensionContext.child;
-}
+// abstract class _ExtensionWidget extends StatelessWidget {
+//   const _ExtensionWidget(
+//     this.extensionContext,
+//   );
+//
+//   final ExtensionContext extensionContext;
+//
+//   String? get divClass => extensionContext.elementName;
+//
+//   LinkedHashMap<Object, String>? get attributes =>
+//       extensionContext.element?.attributes;
+//
+//   Widget get defaultChild => extensionContext.child;
+// }
 
 class _MarkdownExtension {
-  _MarkdownExtension({
-    required this.tag,
-    this.child,
-    this.builder,
-  }) : assert(
-          (child != null) || (builder != null),
-          'Either child or builder needs to be provided to TagExtension',
-        );
-
-  final String tag;
-  final Widget? child;
-  final _ExtensionWidget Function(ExtensionContext extensionContext)? builder;
-
-  TagExtension get extension => TagExtension(
-        tagsToExtend: <String>{
-          tag,
-        },
-        builder: builder,
-        child: child,
-      );
+  // _MarkdownExtension({
+  //   required this.tag,
+  //   this.child,
+  //   this.builder,
+  // }) : assert(
+  //         (child != null) || (builder != null),
+  //         'Either child or builder needs to be provided to TagExtension',
+  //       );
+  //
+  // final String tag;
+  // final Widget? child;
+  // final _ExtensionWidget Function(ExtensionContext extensionContext)? builder;
+  //
+  // TagExtension get extension => TagExtension(
+  //       tagsToExtend: <String>{
+  //         tag,
+  //       },
+  //       builder: builder,
+  //       child: child,
+  //     );
 }
 
 // class FixedTagWrap extends TagWrapExtension {
