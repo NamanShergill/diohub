@@ -1,8 +1,8 @@
-import 'package:dio_hub/common/issues/issue_label.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:diohub/common/issues/issue_label.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/services/issues/issues_service.dart';
 import 'package:flutter/material.dart';
 
 class LabelSelectSheet extends StatefulWidget {

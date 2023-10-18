@@ -1,16 +1,97 @@
-## [0.4.0] - In Development
+## [1.0.0] - Draft
 
-**iOS Build support added**
-- The project now builds for iOS, and will be available on the app store soon.
+**Platforms build support/releases roadmap**
+- Android - Feature Complete
+  - Release:
+    - apk/appBundle - Next Update
+    - Play Store - Next Update
+    - FDroid - Medium Priority
+- iOS || iPadOS - Feature Complete
+  - Release: 
+    - App Store - High Priority 
+    - (Where else? lol)
+    - (Ok fine, TestFlight - High Priority)
+    - (And for the EU folks if mr Tim Apple allows us non EU peasants access to iOS sideloading, for me to be able to test it)
+    - (PS, If you are an EU dev and would like to help with the above point, I am open to relocation job offers/referrals :>)
+  - Broken:
+    - Sharing sheet (iPadOS)
+- macOS - Builds with some features broken
+  - Release: 
+    - DMG - High Priority
+    - App Store - Low Priority
+- Windows - Might build with some debugging, haven't tested
+  - Release:
+    - Windows Installer - N/A
+    - Hotel - Trivago
+    - Microsoft Store - N/A
+- Linux - Might build with some debugging, haven't tested
+  - Release:
+    ~~- Steam Deck - Maximum Priority~~
+    - Snap - N/A
+    - Bundle - N/A
+- Web -
+  - Release:
+    - www.github.com (Idk what else you expected)
+    - Why would you even want this project as a web app? (I mean, I am not stopping you from compiling it, but why?)
+    - Flutter web is a prank
+    - Never happening
+
+_Please don't open new issues for this build, instead post the issues as comments on the PR for it._
+**UNDER DEV STUFF FOR NEXT RELEASE(A LOT OF STUFF WILL BE BROKEN)**
+- Repo Screens
+- Issue/Pull Screens
+- Home Screen
+- User Profile Screen
+*Currently disabled*
+- Editing Themes (Need to implement a new setup to handle 2 possible theme brightnesses)
+*Planned Additions (Not in any particular order)*
+- View followers, starred repos of users (with filtering options), watchers, people who starred a repo etc
+- New settings screen
+- Chucker integration
+
+**Upcoming DLCs (free I promise)**
+- Edit comments
+- More issue editing options
+- More pull editing options
+- Share github link into app to open as deeplink (for iOS and Android>=13)
+- Releases
+- Gists
+- Multi account support
+
+**Font/UI scaling**
 
 **Dynamic Tabs**
 - Browser like openable/closeable tabs to prevent clutter on Repo, Issue, Pull screens.
+
+**Context Menus**
+- URL menus- open in browser, copy link, share link, open in app if deeplink
+
+**UI Redesign**
+
+**Retry buttons**
+
+**Dark/Light Themes, Material You support**
+
+**Build Flavors for Android**
+
+**Code Blocks**
+
+**Readme Updates**
+- Copy on code block
+- Anchor links now work
+
+
+**Info Cards**
+
+**Scroll to top**
 
 **Issue/Pull Screen Redesign**
 - Redesigned issue/pull screen.
 - Comment reactions are here!
 - Dynamic tabs added to these screens.
 - Issues and pulls are editable now.
+
+**Comment Reactions**
 
 **Editing System**
 - Editing system that integrates with the UI redesigns mentioned in this changelog.
@@ -25,7 +106,16 @@
 - Fixed case where multiple API calls might happen on widget rebuilds.
 - Fixed an issue with graphQL requests not caching.
 - `.markdown` files now render in markdown mode in the file viewer.
-- 
+- "-" filter fix in search.
+- Rewrote API Handler.
+- Rewrote Bottom Sheet utilities.
+
+
+Dev Changelog:
+- Migrated Readme Parser - 
+- Added lint rules to project
+- Submodule setup to manage forked or personal dependencies.
+- Migrated GraphQL codegen - Apollo to Ferry
 
 ---
 ## [0.3.2] - 07 August 2021

@@ -1,20 +1,20 @@
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
-import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/utils/utils.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
+import 'package:diohub/providers/issue_pulls/comment_provider.dart';
+import 'package:diohub/services/issues/issues_service.dart';
+import 'package:diohub/utils/utils.dart';
+import 'package:diohub/view/issues_pulls/widgets/comment_box.dart';
+import 'package:diohub/view/issues_pulls/widgets/discussion_comment.dart';
+import 'package:diohub/view/issues_pulls/widgets/timeline_item.dart';
 import 'package:flutter/material.dart' hide DatePickerTheme;
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class Discussion extends StatefulWidget {
-  const Discussion({
+class IssuePullTimeline extends StatefulWidget {
+  const IssuePullTimeline({
     required this.number,
     required this.owner,
     required this.repoName,
@@ -44,10 +44,10 @@ class Discussion extends StatefulWidget {
   final DateTime? createdAt;
 
   @override
-  DiscussionState createState() => DiscussionState();
+  IssuePullTimelineState createState() => IssuePullTimelineState();
 }
 
-class DiscussionState extends State<Discussion> {
+class IssuePullTimelineState extends State<IssuePullTimeline> {
   DateTime? commentsSince;
 
   InfiniteScrollWrapperController commentsSinceController =
@@ -207,7 +207,7 @@ class DiscussionState extends State<Discussion> {
             owner: widget.owner,
             refresh: data.refresh,
             since: commentsSince?.toUtc().subtract(const Duration(seconds: 30)),
-          ),
+          ).toAsyncList(),
           // scrollController: widget.nestedScrollViewController,
           controller: commentsSinceController,
           firstPageLoadingBuilder: (final BuildContext context) =>

@@ -1,6 +1,6 @@
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/controller/internet_connectivity.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/controller/internet_connectivity.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ScaffoldBody extends StatefulWidget {

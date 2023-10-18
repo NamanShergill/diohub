@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/button.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/button.dart';
 import 'package:flutter/material.dart';
 
 class BasePopupNotification extends StatelessWidget {

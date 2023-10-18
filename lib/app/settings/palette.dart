@@ -1,7 +1,7 @@
 // import 'dart:convert';
 //
-// import 'package:dio_hub/app/settings/base.dart';
-// import 'package:dio_hub/utils/to_hex_string.dart';
+// import 'package:diohub/app/settings/base.dart';
+// import 'package:diohub/utils/to_hex_string.dart';
 // import 'package:flutter/material.dart';
 //
 // class PaletteSettings extends Settings<DioHubPalette> {

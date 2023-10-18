@@ -1,3 +1,6 @@
+# import './timeline.query.graphql'
+
+
 query issueTemplates($name: String!, $owner: String!) {
     repository(name: $name, owner: $owner) {
         issueTemplates {

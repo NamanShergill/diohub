@@ -1,6 +1,6 @@
-import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
-import 'package:dio_hub/common/misc/menu_button.dart';
-import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
+import 'package:diohub/common/bottom_sheet/url_actions.dart';
+import 'package:diohub/common/misc/menu_button.dart';
+import 'package:diohub/common/wrappers/editing_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

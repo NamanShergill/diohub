@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/type_cast.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/type_cast.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';

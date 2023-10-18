@@ -1,16 +1,16 @@
-import 'package:dio_hub/common/issues/issue_list_card.dart';
-import 'package:dio_hub/common/misc/profile_card.dart';
-import 'package:dio_hub/common/misc/repository_card.dart';
-import 'package:dio_hub/common/misc/round_button.dart';
-import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/common/search_overlay/search_bar.dart';
-import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/repositories/repository_model.dart' hide Type;
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/services/search/search_service.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/issues/issue_list_card.dart';
+import 'package:diohub/common/misc/profile_card.dart';
+import 'package:diohub/common/misc/repository_card.dart';
+import 'package:diohub/common/misc/round_button.dart';
+import 'package:diohub/common/search_overlay/filters.dart';
+import 'package:diohub/common/search_overlay/search_bar.dart';
+import 'package:diohub/common/search_overlay/search_overlay.dart';
+import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/repositories/repository_model.dart' hide Type;
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/services/search/search_service.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 //
@@ -32,7 +32,8 @@ typedef WrapperReplacementBuilder = Widget Function(
 class SearchScrollWrapper extends StatefulWidget {
   SearchScrollWrapper(
     this.searchData, {
-    required this.searchHeroTag, this.searchBarMessage,
+    required this.searchHeroTag,
+    this.searchBarMessage,
     this.quickFilters,
     this.replacementBuilder,
     this.quickOptions,
@@ -202,7 +203,6 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
               padding: widget.padding,
               child: IssueListCard(
                 data.item,
-                padding: EdgeInsets.zero,
                 showRepoName: widget.showRepoNameOnIssues,
               ),
             ),

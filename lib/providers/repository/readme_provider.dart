@@ -1,7 +1,7 @@
-import 'package:dio_hub/models/repositories/readme_model.dart';
-import 'package:dio_hub/providers/proxy_provider.dart';
-import 'package:dio_hub/providers/repository/branch_provider.dart';
-import 'package:dio_hub/services/repositories/repo_services.dart';
+import 'package:diohub/models/repositories/readme_model.dart';
+import 'package:diohub/providers/proxy_provider.dart';
+import 'package:diohub/providers/repository/branch_provider.dart';
+import 'package:diohub/services/repositories/repo_services.dart';
 
 class RepoReadmeProvider
     extends ProxyProvider<RepositoryReadmeModel?, RepoBranchProvider> {

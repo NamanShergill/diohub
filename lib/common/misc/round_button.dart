@@ -1,4 +1,4 @@
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class RoundButton extends StatelessWidget {

@@ -1,8 +1,8 @@
-import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:dio_hub/common/misc/language_indicator.dart';
-import 'package:dio_hub/common/misc/repository_card.dart';
-import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/utils/markdown_emoji.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/common/misc/language_indicator.dart';
+import 'package:diohub/common/misc/repository_card.dart';
+import 'package:diohub/models/repositories/repository_model.dart';
+import 'package:diohub/utils/markdown_emoji.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 

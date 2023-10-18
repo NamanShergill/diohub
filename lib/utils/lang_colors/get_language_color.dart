@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:dio_hub/utils/lang_colors/colors_data.dart';
+import 'package:diohub/utils/lang_colors/colors_data.dart';
 
 int getLangColor(final String? language) {
   final LinkedHashMap<String, dynamic> langData =

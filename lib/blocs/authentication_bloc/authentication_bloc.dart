@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:dio_hub/models/authentication/access_token_model.dart';
-import 'package:dio_hub/models/authentication/device_code_model.dart';
-import 'package:dio_hub/services/authentication/auth_service.dart';
-import 'package:dio_hub/utils/type_cast.dart';
+import 'package:diohub/models/authentication/access_token_model.dart';
+import 'package:diohub/models/authentication/device_code_model.dart';
+import 'package:diohub/services/authentication/auth_service.dart';
+import 'package:diohub/utils/type_cast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

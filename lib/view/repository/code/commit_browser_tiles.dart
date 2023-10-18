@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/api_handler/response_handler.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/popup/popup_type.dart';
-import 'package:dio_hub/models/repositories/commit_list_model.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/get_date.dart';
-import 'package:dio_hub/utils/http_to_api.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/app/api_handler/response_handler.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/models/popup/popup_type.dart';
+import 'package:diohub/models/repositories/commit_list_model.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/get_date.dart';
+import 'package:diohub/utils/http_to_api.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
@@ -330,7 +330,7 @@ class CommitTilesGQL extends StatelessWidget {
     this.compact = true,
     this.backgroundColor,
   });
-  final CommitMixin item;
+  final Gcommit item;
   final bool highlighted;
   final bool compact;
   final Color? backgroundColor;

@@ -1,16 +1,20 @@
 import 'package:dio/dio.dart';
-import 'package:dio_hub/app/api_handler/dio.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/commits/commit_model.dart';
-import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
-import 'package:dio_hub/models/pull_requests/review_model.dart';
-import 'package:dio_hub/models/repositories/commit_list_model.dart';
-import 'package:dio_hub/utils/type_cast.dart';
+import 'package:diohub/app/api_handler/dio.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/pr_review_comment.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/pr_review_comment.query.req.gql.dart';
+import 'package:diohub/models/commits/commit_model.dart';
+import 'package:diohub/models/pull_requests/pull_request_model.dart';
+import 'package:diohub/models/pull_requests/review_model.dart';
+import 'package:diohub/models/repositories/commit_list_model.dart';
+import 'package:diohub/utils/type_cast.dart';
+import 'package:diohub/utils/utils.dart';
 
 class PullsService {
+  PullsService(this.temp);
+
   static final GraphqlHandler _gqlHandler = GraphqlHandler();
   static final RESTHandler _restHandler = RESTHandler();
-
+  final String temp;
   // Ref: https://docs.github.com/en/rest/reference/pulls#get-a-pull-request
   static Future<PullRequestModel> getPullInformation({
     required final String fullUrl,
@@ -112,48 +116,55 @@ class PullsService {
     return parsedData;
   }
 
-  static Future<List<PRReviewCommentsMixin$Comments$Edges?>> getPRReview(
+  static Future<
+          List<
+              GgetPRReviewCommentsData_node__asPullRequestReview_comments_edges?>>
+      getPRReview(
     final String id, {
     required final bool refresh,
     final String? cursor,
   }) async {
     final GQLResponse res = await _gqlHandler.query(
-      GetPRReviewCommentsQuery(
-        variables: GetPRReviewCommentsArguments(cursor: cursor, id: id),
+      GgetPRReviewCommentsReq(
+        (final GgetPRReviewCommentsReqBuilder b) => b
+          ..vars.cursor = cursor
+          ..vars.id = id,
       ),
       refreshCache: refresh,
     );
-    return (GetPRReviewComments$Query.fromJson(res.data!).node!
-            as GetPRReviewComments$Query$Node$PullRequestReview)
-        .comments
-        .edges!;
+    return GgetPRReviewCommentsData.fromJson(res.data!)!.node!.when(
+          pullRequestReview:
+              (final GgetPRReviewCommentsData_node__asPullRequestReview p0) =>
+                  p0.comments!.edges!.toList(),
+          orElse: unimplemented,
+        );
   }
 
   static Future<
           List<
-              ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>>
+              GreviewThreadCommentsQueryData_node__asPullRequestReviewThread_comments_edges?>>
       getReviewThreadReplies(
     final String nodeID,
     final String? cursor, {
     required final bool refresh,
   }) async {
     final GQLResponse res = await _gqlHandler.query(
-      ReviewThreadCommentsQueryQuery(
-        variables: ReviewThreadCommentsQueryArguments(
-          nodeID: nodeID,
-          cursor: cursor,
-        ),
+      GreviewThreadCommentsQueryReq(
+        (b) => b
+          ..vars.cursor = cursor
+          ..vars.nodeID = nodeID,
       ),
       refreshCache: refresh,
     );
-    return (ReviewThreadCommentsQuery$Query.fromJson(res.data!).node!
-            as ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread)
+    return (GreviewThreadCommentsQueryData.fromJson(res.data!)!.node!
+            as GreviewThreadCommentsQueryData_node__asPullRequestReviewThread)
         .comments
-        .edges!;
+        .edges!
+        .toList();
   }
 
   static Future<
-          ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?>
+          GreviewThreadFirstCommentQueryData_repository_pullRequest_reviewThreads_edges?>
       getPRReviewThreadID(
     final String commentID, {
     required final String name,
@@ -163,21 +174,20 @@ class PullsService {
     required final bool refresh,
   }) async {
     final GQLResponse res = await _gqlHandler.query(
-      ReviewThreadFirstCommentQueryQuery(
-        variables: ReviewThreadFirstCommentQueryArguments(
-          cursor: cursor,
-          owner: owner,
-          number: number,
-          name: name,
-        ),
+      GreviewThreadFirstCommentQueryReq(
+        (b) => b
+          ..vars.cursor = cursor
+          ..vars.name = name
+          ..vars.number = number
+          ..vars.owner = owner,
       ),
       refreshCache: refresh,
     );
-    final ReviewThreadFirstCommentQuery$Query parsed =
-        ReviewThreadFirstCommentQuery$Query.fromJson(res.data!);
+    final GreviewThreadFirstCommentQueryData parsed =
+        GreviewThreadFirstCommentQueryData.fromJson(res.data!)!;
 
     if (parsed.repository!.pullRequest!.reviewThreads.edges!.isNotEmpty) {
-      for (final ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges? thread
+      for (final GreviewThreadFirstCommentQueryData_repository_pullRequest_reviewThreads_edges? thread
           in parsed.repository!.pullRequest!.reviewThreads.edges!) {
         if (thread?.node?.comments.nodes?.first?.id == commentID) {
           return thread!;
@@ -201,21 +211,22 @@ class PullsService {
     final String user,
   ) async {
     final GQLResponse res = await _gqlHandler.query(
-      CheckPendingViewerReviewsQuery(
-        variables: CheckPendingViewerReviewsArguments(
-          author: user,
-          pullNodeID: pullNode,
-        ),
+      GcheckPendingViewerReviewsReq(
+        (b) => b
+          ..vars.author = user
+          ..vars.pullNodeID = pullNode,
       ),
     );
-    final CheckPendingViewerReviews$Query$Node$PullRequest item =
-        CheckPendingViewerReviews$Query.fromJson(res.data!).node!
-            as CheckPendingViewerReviews$Query$Node$PullRequest;
-    if ((item.reviews?.totalCount ?? 0) > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return GcheckPendingViewerReviewsData.fromJson(res.data!)!.node!.when(
+          pullRequest: (p0) {
+            if ((p0.reviews?.totalCount ?? 0) > 0) {
+              return true;
+            } else {
+              return false;
+            }
+          },
+          orElse: unimplemented,
+        );
   }
 
   // Ref: https://docs.github.com/en/rest/reference/pulls#create-a-reply-for-a-review-comment

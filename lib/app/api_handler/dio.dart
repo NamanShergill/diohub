@@ -1,17 +1,15 @@
 // import 'package:artemis/artemis.dart';
-import 'package:artemis/schema/graphql_query.dart';
 import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.dart';
-import 'package:dio_hub/app/api_handler/response_handler.dart';
-import 'package:dio_hub/app/global.dart';
-import 'package:dio_hub/models/popup/popup_type.dart';
-import 'package:dio_hub/services/authentication/auth_service.dart';
+import 'package:diohub/app/api_handler/response_handler.dart';
+import 'package:diohub/app/global.dart';
+import 'package:diohub/models/popup/popup_type.dart';
+import 'package:diohub/services/authentication/auth_service.dart';
+import 'package:ferry/ferry.dart';
 import 'package:gql_dio_link/gql_dio_link.dart';
 import 'package:gql_exec/gql_exec.dart' as gql_exec;
-import 'package:gql_link/gql_link.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:uuid/uuid.dart';
@@ -172,6 +170,27 @@ class RESTHandler extends BaseAPIHandler {
       rethrow;
     }
   }
+
+  @override
+  Future<void> onError(
+      final DioException error, final ErrorInterceptorHandler handler) async {
+    // TODO: implement onError
+    // throw UnimplementedError();
+  }
+
+  @override
+  Future<void> onRequest(final RequestOptions options,
+      final RequestInterceptorHandler handler) async {
+    // TODO: implement onRequest
+    // throw UnimplementedError();
+  }
+
+  @override
+  Future<void> onResponse(final Response<Object?> response,
+      final ResponseInterceptorHandler handler) async {
+    // TODO: implement onResponse
+    // throw UnimplementedError();
+  }
 }
 
 class GraphqlHandler extends BaseAPIHandler {
@@ -183,20 +202,20 @@ class GraphqlHandler extends BaseAPIHandler {
         );
 
   Future<GQLResponse> mutation(
-    final GraphQLQuery<dynamic, JsonSerializable> query,
+    final OperationRequest<dynamic, dynamic> operationRequest,
   ) =>
       _query(
-        query,
+        operationRequest,
         overrideAPICache: APICache.noCache(),
       );
 
   Future<GQLResponse> query(
-    final GraphQLQuery<dynamic, JsonSerializable> query, {
+    final OperationRequest<dynamic, dynamic> operationRequest, {
     final bool refreshCache = false,
     final Map<String, dynamic>? requestHeaders,
   }) async =>
       _query(
-        query,
+        operationRequest,
         requestHeaders: requestHeaders,
         overrideAPICache: activeCacheOptions.copyWith(
           cachePolicy: refreshCache ? CachePolicy.refresh : null,
@@ -206,8 +225,14 @@ class GraphqlHandler extends BaseAPIHandler {
   @override
   APICache get _defaultCacheOptions => CacheManager.defaultGQLCache();
 
+  @override
+  APILoggingSettings get defaultAPILogSettings =>
+      APILoggingSettings.comprehensive(
+        cURL: false,
+      );
+
   Future<GQLResponse> _query(
-    final GraphQLQuery<dynamic, JsonSerializable> query, {
+    final OperationRequest<dynamic, dynamic> operationRequest, {
     final APICache? overrideAPICache,
     final Map<String, dynamic>? requestHeaders,
   }) async =>
@@ -220,17 +245,16 @@ class GraphqlHandler extends BaseAPIHandler {
       )
           .request(
             GQLRequest(
-              operation: GQLOperation(document: query.document),
-              variables: query.variables!.toJson(),
+              operation: operationRequest.operation,
+              variables: operationRequest.vars.toJson(),
             ),
           )
           .first
-          .onError(
-        (final Object? error, final StackTrace stackTrace) {
+          .onError<DioLinkServerException>(
+        (final DioLinkServerException error, final StackTrace stackTrace) {
           // If data is from cache the header would be 304, hence the value should
           // be returned.
-          if (error is DioLinkServerException &&
-              error.response.statusCode == 304) {
+          if (error.response.statusCode == 304) {
             final gql_exec.Response gqlResponse =
                 const ResponseParser().parseResponse(error.response.data);
             return GQLResponse(
@@ -239,11 +263,38 @@ class GraphqlHandler extends BaseAPIHandler {
               response: gqlResponse.response,
             );
           } else {
-            throw error! as DioLinkServerException;
+            throw error;
           }
         },
-        test: (final Object? error) => error is DioLinkServerException,
       );
+
+  @override
+  Future<void> onError(
+      final DioException error, final ErrorInterceptorHandler handler) async {
+    // TODO: implement onError
+  }
+
+  @override
+  Future<void> onRequest(final RequestOptions options,
+      final RequestInterceptorHandler handler) async {
+    // TODO: implement onRequest
+  }
+
+  @override
+  Future<void> onResponse(final Response<Object?> response,
+      final ResponseInterceptorHandler handler) async {
+    final gql_exec.Response gqlResponse = const ResponseParser()
+        .parseResponse(response.data! as Map<String, dynamic>);
+    print(gqlResponse);
+    if (gqlResponse.errors != null) {
+      handler.reject(
+        DioError(
+          requestOptions: response.requestOptions,
+          error: gqlResponse.errors,
+        ),
+      );
+    }
+  }
 }
 
 abstract class BaseAPIHandler {
@@ -268,6 +319,19 @@ abstract class BaseAPIHandler {
 
   APILoggingSettings? get defaultAPILogSettings => null;
 
+  Future<void> onError(
+    final DioException error,
+    final ErrorInterceptorHandler handler,
+  );
+  Future<void> onRequest(
+    final RequestOptions options,
+    final RequestInterceptorHandler handler,
+  );
+  Future<void> onResponse(
+    final Response<Object?> response,
+    final ResponseInterceptorHandler handler,
+  );
+
   Dio _request({
     final Map<String, dynamic>? requestHeaders,
     final APICache? overrideAPICache,
@@ -276,6 +340,31 @@ abstract class BaseAPIHandler {
         overrideAPICache ?? cacheOptions ?? _defaultCacheOptions;
 
     final Dio dio = Dio();
+    // Log the request in the console if `apiLogSettings` is not null.
+    final APILoggingSettings? logSettings =
+        apiLogSettings ?? defaultAPILogSettings;
+    if (logSettings != null) {
+      if (logSettings.cURL) {
+        dio.interceptors.add(
+          CurlLoggerDioInterceptor(
+            printOnSuccess: true,
+          ),
+        );
+      }
+      dio.interceptors.add(
+        PrettyDioLogger(
+          requestHeader: logSettings.requestHeader,
+          requestBody: logSettings.requestBody,
+          responseHeader: logSettings.responseHeader,
+          error: logSettings.error,
+          responseBody: logSettings.responseBody,
+          compact: logSettings.compact,
+          logPrint: logSettings.logPrint ?? print,
+          maxWidth: logSettings.maxWidth,
+          request: logSettings.request,
+        ),
+      );
+    }
 
     if (addAuthHeader) {
       dio.interceptors.add(
@@ -315,6 +404,7 @@ abstract class BaseAPIHandler {
           if (requestHeaders != null) {
             options.headers.addAll(requestHeaders);
           }
+          await onRequest(options, handler);
           // Proceed with the request.
           handler.next(options);
         },
@@ -322,6 +412,7 @@ abstract class BaseAPIHandler {
           final Response<Object?> response,
           final ResponseInterceptorHandler handler,
         ) async {
+          await onResponse(response, handler);
           final Object? data = response.data;
           // If response contains a ['message'] key, show success popup to the
           // user with the message.
@@ -338,6 +429,7 @@ abstract class BaseAPIHandler {
           final DioException error,
           final ErrorInterceptorHandler handler,
         ) async {
+          await onError(error, handler);
           // TODO(namanshergill): Add better exception handling based on response codes.
           if (error.response == null) {
             handler.next(error);
@@ -387,32 +479,6 @@ abstract class BaseAPIHandler {
       DioCacheInterceptor(options: cache.cacheOptions),
     );
 
-    // Log the request in the console if `apiLogSettings` is not null.
-    final APILoggingSettings? logSettings =
-        apiLogSettings ?? defaultAPILogSettings;
-    if (logSettings != null) {
-      if (logSettings.cURL) {
-        dio.interceptors.add(
-          CurlLoggerDioInterceptor(
-            printOnSuccess: true,
-          ),
-        );
-      }
-      dio.interceptors.add(
-        PrettyDioLogger(
-          requestHeader: logSettings.requestHeader,
-          requestBody: logSettings.requestBody,
-          responseHeader: logSettings.responseHeader,
-          error: logSettings.error,
-          responseBody: logSettings.responseBody,
-          compact: logSettings.compact,
-          logPrint: logSettings.logPrint ?? print,
-          maxWidth: logSettings.maxWidth,
-          request: logSettings.request,
-        ),
-      );
-    }
-
     return dio;
   }
 
@@ -452,13 +518,13 @@ class APILoggingSettings {
     this.maxWidth = 90,
     this.compact = true,
     this.logPrint,
+    this.cURL = true,
   })  : request = true,
         requestHeader = true,
         requestBody = true,
         responseHeader = true,
         responseBody = true,
-        error = true,
-        cURL = true;
+        error = true;
 
   /// Print request [Options]
   final bool request;

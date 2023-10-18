@@ -1,11 +1,11 @@
-import 'package:dio_hub/common/issues/issue_label.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/events/events_model.dart' hide Key;
-import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/utils/get_date.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/issues/issue_label.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/models/events/events_model.dart' hide Key;
+import 'package:diohub/models/issues/issue_timeline_event_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/utils/get_date.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
@@ -19,7 +19,7 @@ class BasicEventCard extends StatelessWidget {
     this.name,
     super.key,
   });
-  final ActorMixin? user;
+  final Gactor? user;
   final Widget leading;
   final String? name;
   // final Color? iconColor;
@@ -89,7 +89,7 @@ class BasicEventTextCard extends StatelessWidget {
     // this.iconColor,
     super.key,
   });
-  final ActorMixin? user;
+  final Gactor? user;
   final Widget leading;
   // final Color? iconColor;
   final DateTime date;
@@ -126,8 +126,8 @@ class BasicEventAssignedCard extends StatelessWidget {
     required this.isAssigned,
     super.key,
   });
-  final ActorMixin? actor;
-  final ActorMixin? assignee;
+  final Gactor? actor;
+  final Gactor? assignee;
   final DateTime createdAt;
   final bool isAssigned;
   @override
@@ -176,10 +176,10 @@ class BasicEventLabeledCard extends StatelessWidget {
     // this.iconColor,
     super.key,
   });
-  final ActorMixin? actor;
+  final Gactor? actor;
   // final Color? iconColor;
   final DateTime date;
-  final LabelMixin content;
+  final Glabel content;
   final bool added;
   @override
   Widget build(final BuildContext context) => BasicEventCard(

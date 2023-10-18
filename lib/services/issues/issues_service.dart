@@ -1,12 +1,18 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_hub/app/api_handler/dio.dart';
-import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/issues/issue_comments_model.dart';
-import 'package:dio_hub/models/issues/issue_event_model.dart' hide Label;
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/utils/type_cast.dart';
+import 'package:diohub/app/api_handler/dio.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.req.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.req.gql.dart';
+import 'package:diohub/models/issues/issue_comments_model.dart';
+import 'package:diohub/models/issues/issue_event_model.dart' hide Label;
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/utils/type_cast.dart';
+import 'package:diohub/utils/utils.dart';
 
 class IssuesService {
   IssuesService({
@@ -20,8 +26,8 @@ class IssuesService {
   final int number;
 
   static final GraphqlHandler _gqlHandler = GraphqlHandler(
-      // apiLogSettings: APILoggingSettings.comprehensive(),
-      );
+    apiLogSettings: APILoggingSettings.comprehensive(),
+  );
   static final RESTHandler _restHandler = RESTHandler(
       // apiLogSettings: APILoggingSettings.comprehensive(),
       );
@@ -41,7 +47,7 @@ class IssuesService {
     return IssueModel.fromJson(response.data!);
   }
 
-  static Future<IssuePullInfo$Query$Repository$IssueOrPullRequest>
+  static Future<GissuePullInfoData_repository_issueOrPullRequest>
       getIssuePullInfo(
     final int number, {
     required final String user,
@@ -49,106 +55,172 @@ class IssuesService {
     final bool refresh = false,
   }) async {
     final GQLResponse response = await _gqlHandler.query(
-      IssuePullInfoQuery(
-        variables:
-            IssuePullInfoArguments(user: user, repo: repo, number: number),
+      GissuePullInfoReq(
+        (final GissuePullInfoReqBuilder b) => b
+          ..vars.repo = repo
+          ..vars.number = number
+          ..vars.user = user,
       ),
       refreshCache: refresh,
     );
-    return IssuePullInfo$Query.fromJson(response.data!)
+    return GissuePullInfoData.fromJson(response.data!)!
         .repository!
         .issueOrPullRequest!;
   }
 
-  Future<List<AssigneeUserListMixin$Assignees$Edges?>> getAssignees({
+  Future<List<NodeWithPaginationInfo<Gactor>>> getAssignees({
     required final String? after,
   }) async {
     final GQLResponse response = await _gqlHandler.query(
-      IssuePullAssigneesQuery(
-        variables: IssuePullAssigneesArguments(
-          number: number,
-          repo: repo,
-          user: user,
-          after: after,
-        ),
+      GissuePullAssigneesReq(
+        (final GissuePullAssigneesReqBuilder b) => b
+          ..vars.number = number
+          ..vars.user = user
+          ..vars.repo = repo
+          ..vars.after = after,
       ),
     );
-    return typeCast<AssigneeUserListMixin>(
-      IssuePullAssignees$Query.fromJson(response.data!)
-          .repository!
-          .issueOrPullRequest,
-    ).assignees.edges!;
+    return GissuePullAssigneesData.fromJson(response.data!)!
+        .repository!
+        .issueOrPullRequest!
+        .when(
+          issue: (
+            final GissuePullAssigneesData_repository_issueOrPullRequest__asIssue
+                data,
+          ) =>
+              data.assignees.edges!
+                  .map<NodeWithPaginationInfo<Gactor>>(
+                    (final GissuePullAssigneesData_repository_issueOrPullRequest__asIssue_assignees_edges?
+                            p0) =>
+                        NodeWithPaginationInfo<Gactor>.fromEdge(p0!),
+                  )
+                  .toList(),
+          pullRequest: (
+            final GissuePullAssigneesData_repository_issueOrPullRequest__asPullRequest
+                data,
+          ) =>
+              data.assignees.edges!
+                  .map<NodeWithPaginationInfo<Gactor>>(
+                    (final GissuePullAssigneesData_repository_issueOrPullRequest__asPullRequest_assignees_edges?
+                            p0) =>
+                        NodeWithPaginationInfo<Gactor>.fromEdge(p0!),
+                  )
+                  .toList(),
+          orElse: unimplemented,
+        );
   }
 
-  Future<List<NodeWithPaginationInfo<ActorMixin>>> getParticipants({
+  Future<List<NodeWithPaginationInfo<Gactor>>> getParticipants({
     required final String? after,
   }) async {
     final GQLResponse response = await _gqlHandler.query(
-      IssuePullParticipantsQuery(
-        variables: IssuePullParticipantsArguments(
-          number: number,
-          repo: repo,
-          user: user,
-          after: after,
-        ),
+      GissuePullParticipantsReq(
+        (final GissuePullParticipantsReqBuilder b) => b
+          ..vars.number = number
+          ..vars.repo = repo
+          ..vars.user = user
+          ..vars.after = after
+          ..vars,
       ),
     );
+
+    // BuiltList<Gactor> getList()=>
     // ignore: avoid_dynamic_calls
-    return typeCast<dynamic>(
-      IssuePullParticipants$Query.fromJson(response.data!)
-          .repository!
-          .issueOrPullRequest,
-    )
-        .participants
-        .edges!
-        .map<NodeWithPaginationInfo<ActorMixin>>(
-          (final dynamic e) => NodeWithPaginationInfo<ActorMixin>.fromEdge(e!),
-        )
-        .toList();
+    return GissuePullParticipantsData.fromJson(response.data!)!
+        .repository!
+        .issueOrPullRequest!
+        .when(
+          issue: (
+            final GissuePullParticipantsData_repository_issueOrPullRequest__asIssue
+                p0,
+          ) =>
+              p0.participants.edges!
+                  .map<NodeWithPaginationInfo<Gactor>>(
+                    (final GissuePullParticipantsData_repository_issueOrPullRequest__asIssue_participants_edges?
+                            p0) =>
+                        NodeWithPaginationInfo<Gactor>.fromEdge(p0!),
+                  )
+                  .toList(),
+          pullRequest: (
+            final GissuePullParticipantsData_repository_issueOrPullRequest__asPullRequest
+                p0,
+          ) =>
+              p0.participants.edges!
+                  .map<NodeWithPaginationInfo<Gactor>>(
+                    (final GissuePullParticipantsData_repository_issueOrPullRequest__asPullRequest_participants_edges?
+                            p0) =>
+                        NodeWithPaginationInfo<Gactor>.fromEdge(p0!),
+                  )
+                  .toList(),
+          orElse: unimplemented,
+        );
+    // .when(issue: (GissuePullParticipantsData_repository_issueOrPullRequest__asIssue data) {data.participants;  });
+
+    // .participants
+    // .edges!
+    // .map<NodeWithPaginationInfo<Gactor>>(
+    //   (final dynamic e) => NodeWithPaginationInfo<Gactor>.fromEdge(e!),
+    // )
+    // .toList();
   }
 
   static Future<void> addReaction(
-    final ReactionContent content,
+    final GReactionContent content,
     final String id,
   ) async {
     await _gqlHandler.mutation(
-      AddReactionMutation(
-        variables: AddReactionArguments(content: content, id: id),
+      GaddReactionReq(
+        (final GaddReactionReqBuilder b) => b
+          ..vars.content = content
+          ..vars.id = id,
       ),
     );
   }
 
   static Future<void> removeReaction(
-    final ReactionContent content,
+    final GReactionContent content,
     final String id,
   ) async {
     await _gqlHandler.mutation(
-      RemoveReactionMutation(
-        variables: RemoveReactionArguments(content: content, id: id),
+      GremoveReactionReq(
+        (final GremoveReactionReqBuilder b) => b
+          ..vars.id = id
+          ..vars.content = content,
       ),
     );
   }
 
-  static Future<List<ReactorsGroupMixin$Reactors$Edges?>> getReactors(
+  static Future<List<GreactorsGroup_reactors_edges?>> getReactors(
     final String reactableID,
-    final ReactionContent content,
+    final GReactionContent content,
   ) async {
     final GQLResponse res = await _gqlHandler.query(
-      GetReactorsQuery(
-        variables: GetReactorsArguments(
-          id: reactableID,
-        ),
+      GgetReactorsReq(
+        (final GgetReactorsReqBuilder b) => b..vars.id = reactableID,
       ),
     );
-    return (GetReactors$Query.fromJson(res.data!).node!
-            as GetReactors$Query$Node$Issue)
-        .reactionGroups!
-        .firstWhere(
-          (final GetReactors$Query$Node$Issue$ReactionGroups element) =>
-              element.content == content,
+    return GgetReactorsData.fromJson(res.data!)!
+        .node!
+        .when<BuiltList<GreactorsGroup_reactors_edges?>>(
+          issue: (final GgetReactorsData_node__asIssue p0) => p0.reactionGroups!
+              .firstWhere(
+                (final GgetReactorsData_node__asIssue_reactionGroups element) =>
+                    element.content == content,
+              )
+              .reactors
+              .edges!,
+          pullRequest: (final GgetReactorsData_node__asPullRequest p0) =>
+              p0.reactionGroups!
+                  .firstWhere(
+                    (final GgetReactorsData_node__asPullRequest_reactionGroups
+                            element) =>
+                        element.content == content,
+                  )
+                  .reactors
+                  .edges!,
+          orElse: unimplemented,
         )
-        .reactors
-        .edges!;
+        .toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#get-an-issue-comment
@@ -258,7 +330,7 @@ class IssuesService {
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#list-timeline-events-for-an-issue
-  static Future<List<dynamic>> getTimeline({
+  static Future<BuiltList<dynamic>> getTimeline({
     required final String repo,
     required final String owner,
     required final int number,
@@ -267,24 +339,32 @@ class IssuesService {
     final DateTime? since,
   }) async {
     final GQLResponse response = await _gqlHandler.query(
-      GetTimelineQuery(
-        variables: GetTimelineArguments(
-          after: after,
-          owner: owner,
-          number: number,
-          repoName: repo,
-          since: since,
-        ),
+      GgetTimelineReq(
+        (final GgetTimelineReqBuilder b) => b
+          ..vars.number = number
+          ..vars.owner = owner
+          ..vars.repoName = repo
+          ..vars.after = after
+          ..vars.since = since,
       ),
       refreshCache: refresh,
       requestHeaders: _gqlHandler
           .acceptHeader('application/vnd.github.starfox-preview+json'),
     );
-    return (GetTimeline$Query.fromJson(response.data!)
-            .repository!
-            .issueOrPullRequest! as dynamic)
-        .timelineItems
-        .edges!;
+    print(response.errors);
+    return GgetTimelineData.fromJson(response.data!)!
+        .repository!
+        .issueOrPullRequest!
+        .when<BuiltList<dynamic>>(
+          issue: (final GgetTimelineData_repository_issueOrPullRequest__asIssue
+                  p0) =>
+              p0.timelineItems.edges!,
+          pullRequest:
+              (final GgetTimelineData_repository_issueOrPullRequest__asPullRequest
+                      p0) =>
+                  p0.timelineItems.edges!,
+          orElse: unimplemented,
+        );
   }
 
   // Ref: https://docs.github.com/en/rest/reference/issues#check-if-a-user-can-be-assigned

@@ -1,7 +1,7 @@
-import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
-import 'package:dio_hub/common/markdown_view/markdown_body.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:diohub/common/markdown_view/markdown_body.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
 

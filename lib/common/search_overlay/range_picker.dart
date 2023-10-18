@@ -1,7 +1,7 @@
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/custom_expand_tile.dart';
-import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/style/text_field_themes.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/custom_expand_tile.dart';
+import 'package:diohub/common/search_overlay/filters.dart';
+import 'package:diohub/style/text_field_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

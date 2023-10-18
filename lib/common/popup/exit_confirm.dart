@@ -1,4 +1,4 @@
-// import 'package:dio_hub/app/settings/palette.dart';
+// import 'package:diohub/app/settings/palette.dart';
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 //

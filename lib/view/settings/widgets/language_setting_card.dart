@@ -1,7 +1,7 @@
-import 'package:dio_hub/app/settings/font.dart';
-import 'package:dio_hub/common/misc/app_dialog.dart';
-import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/app/settings/font.dart';
+import 'package:diohub/common/misc/app_dialog.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,7 +1,7 @@
-import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
-import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/utils/get_date.dart';
+import 'package:diohub/common/bottom_sheet/url_actions.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/utils/get_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
@@ -23,13 +23,15 @@ class AboutUser extends StatelessWidget {
               context: context,
             ),
             onTap: () async => URLActions(
-                    uri: Uri.parse(
-                        'https://twitter.com/${userInfoModel!.twitterUsername}',),)
-                .launchURL(),
+              uri: Uri.parse(
+                'https://twitter.com/${userInfoModel!.twitterUsername}',
+              ),
+            ).launchURL(),
             menuBuilder: (final BuildContext context) => URLActions(
-                    uri: Uri.parse(
-                        'https://twitter.com/${userInfoModel!.twitterUsername}',),)
-                .menuItems,
+              uri: Uri.parse(
+                'https://twitter.com/${userInfoModel!.twitterUsername}',
+              ),
+            ).menuItems,
             child: Text('@${userInfoModel!.twitterUsername}'),
           ),
         if (userInfoModel!.email != null)

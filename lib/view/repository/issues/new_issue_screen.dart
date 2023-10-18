@@ -1,17 +1,17 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/markdown_view/markdown_body.dart';
-import 'package:dio_hub/common/misc/custom_expand_tile.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/wrappers/loading_wrapper.dart';
-import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/routes/router.dart';
-import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/text_field_themes.dart';
-import 'package:dio_hub/utils/utils.dart';
-import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
+import 'package:diohub/common/markdown_view/markdown_body.dart';
+import 'package:diohub/common/misc/custom_expand_tile.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/wrappers/loading_wrapper.dart';
+import 'package:diohub/controller/deep_linking_handler.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.data.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/routes/router.dart';
+import 'package:diohub/services/issues/issues_service.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/style/text_field_themes.dart';
+import 'package:diohub/utils/utils.dart';
+import 'package:diohub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
 
@@ -23,7 +23,7 @@ class NewIssueScreen extends StatefulWidget {
     super.key,
     this.template,
   });
-  final IssueTemplates$Query$Repository$IssueTemplates? template;
+  final GissueTemplatesData_repository_issueTemplates? template;
   final String owner;
   final String repo;
 

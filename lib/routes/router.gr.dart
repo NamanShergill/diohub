@@ -9,25 +9,25 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i15;
-import 'package:dio_hub/common/search_overlay/search_overlay.dart' as _i13;
-import 'package:dio_hub/controller/deep_linking_handler.dart' as _i17;
-import 'package:dio_hub/graphql/graphql.dart' as _i18;
-import 'package:dio_hub/view/authentication/auth_screen.dart' as _i1;
-import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart' as _i5;
-import 'package:dio_hub/view/issues_pulls/widgets/p_r_review_screen.dart'
+import 'package:diohub/common/search_overlay/search_overlay.dart' as _i13;
+import 'package:diohub/controller/deep_linking_handler.dart' as _i17;
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.data.gql.dart'
+    as _i18;
+import 'package:diohub/view/authentication/auth_screen.dart' as _i1;
+import 'package:diohub/view/issues_pulls/issue_pull_screen.dart' as _i5;
+import 'package:diohub/view/issues_pulls/widgets/p_r_review_screen.dart'
     as _i10;
-import 'package:dio_hub/view/landing/landing.dart' as _i7;
-import 'package:dio_hub/view/landing/widgets/landing_loading_screen.dart'
-    as _i6;
-import 'package:dio_hub/view/landing/widgets/place_holder_screen.dart' as _i11;
-import 'package:dio_hub/view/profile/other_user_profile_screen.dart' as _i9;
-import 'package:dio_hub/view/repository/code/file_viewer.dart' as _i4;
-import 'package:dio_hub/view/repository/commits/commit_info_screen.dart' as _i3;
-import 'package:dio_hub/view/repository/commits/widgets/changes_viewer.dart'
+import 'package:diohub/view/landing/landing.dart' as _i7;
+import 'package:diohub/view/landing/widgets/landing_loading_screen.dart' as _i6;
+import 'package:diohub/view/landing/widgets/place_holder_screen.dart' as _i11;
+import 'package:diohub/view/profile/other_user_profile_screen.dart' as _i9;
+import 'package:diohub/view/repository/code/file_viewer.dart' as _i4;
+import 'package:diohub/view/repository/commits/commit_info_screen.dart' as _i3;
+import 'package:diohub/view/repository/commits/widgets/changes_viewer.dart'
     as _i2;
-import 'package:dio_hub/view/repository/issues/new_issue_screen.dart' as _i8;
-import 'package:dio_hub/view/repository/repository_screen.dart' as _i12;
-import 'package:dio_hub/view/repository/wiki/wiki_viewer.dart' as _i14;
+import 'package:diohub/view/repository/issues/new_issue_screen.dart' as _i8;
+import 'package:diohub/view/repository/repository_screen.dart' as _i12;
+import 'package:diohub/view/repository/wiki/wiki_viewer.dart' as _i14;
 import 'package:flutter/material.dart' as _i16;
 
 abstract class $AppRouter extends _i15.RootStackRouter {
@@ -522,7 +522,7 @@ class NewIssueRoute extends _i15.PageRouteInfo<NewIssueRouteArgs> {
     required String repo,
     required String owner,
     _i16.Key? key,
-    _i18.IssueTemplates$Query$Repository$IssueTemplates? template,
+    _i18.GissueTemplatesData_repository_issueTemplates? template,
     List<_i15.PageRouteInfo>? children,
   }) : super(
           NewIssueRoute.name,
@@ -555,7 +555,7 @@ class NewIssueRouteArgs {
 
   final _i16.Key? key;
 
-  final _i18.IssueTemplates$Query$Repository$IssueTemplates? template;
+  final _i18.GissueTemplatesData_repository_issueTemplates? template;
 
   @override
   String toString() {

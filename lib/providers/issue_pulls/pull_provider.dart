@@ -1,12 +1,12 @@
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/providers/base_provider.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/pull_requests/pull_request_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/providers/base_provider.dart';
 
-class PullProvider extends BaseDataProvider<PullInfoMixin> {
+class PullProvider extends BaseDataProvider<GpullInfo> {
   PullProvider(this.pullInfo);
-  final PullInfoMixin pullInfo;
+  final GpullInfo pullInfo;
 
   void updateLabels(final List<Label> labels) {
     // data.labels = labels;
@@ -24,7 +24,7 @@ class PullProvider extends BaseDataProvider<PullInfoMixin> {
   }
 
   @override
-  Future<PullInfoMixin> setInitData({
+  Future<GpullInfo> setInitData({
     final bool isInitialisation = false,
   }) async =>
       pullInfo;

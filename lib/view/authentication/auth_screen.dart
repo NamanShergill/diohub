@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/const/app_info.dart';
-import 'package:dio_hub/common/const/version_info.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/view/authentication/widgets/code_info_box.dart';
-import 'package:dio_hub/view/authentication/widgets/error_popup.dart';
-import 'package:dio_hub/view/authentication/widgets/login_popup.dart';
+import 'package:diohub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/const/app_info.dart';
+import 'package:diohub/common/const/version_info.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/view/authentication/widgets/code_info_box.dart';
+import 'package:diohub/view/authentication/widgets/error_popup.dart';
+import 'package:diohub/view/authentication/widgets/login_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

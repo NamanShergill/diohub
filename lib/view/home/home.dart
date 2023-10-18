@@ -1,18 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio_hub/common/events/events.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/common/misc/scroll_scaffold.dart';
-import 'package:dio_hub/common/misc/shimmer_widget.dart';
-import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/graphql/graphql.graphql.dart';
-import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/providers/users/current_user_provider.dart';
-import 'package:dio_hub/services/users/user_info_service.dart';
-import 'package:dio_hub/utils/utils.dart';
-import 'package:dio_hub/view/home/widgets/issues_tab.dart';
-import 'package:dio_hub/view/home/widgets/pulls_tab.dart';
+import 'package:diohub/common/events/events.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/common/misc/scroll_scaffold.dart';
+import 'package:diohub/common/misc/shimmer_widget.dart';
+import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
+import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:diohub/controller/deep_linking_handler.dart';
+import 'package:diohub/graphql/queries/viewer/__generated__/viewer.query.data.gql.dart';
+import 'package:diohub/providers/base_provider.dart';
+import 'package:diohub/providers/users/current_user_provider.dart';
+import 'package:diohub/services/users/user_info_service.dart';
+import 'package:diohub/utils/utils.dart';
+import 'package:diohub/view/home/widgets/issues_tab.dart';
+import 'package:diohub/view/home/widgets/pulls_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
@@ -140,11 +140,10 @@ class HomeScreenState extends State<HomeScreen>
                 ? widget.deepLinkData
                 : null,
           ),
-          InfiniteScrollWrapper<
-              GetViewerOrgs$Query$Viewer$Organizations$Edges?>(
+          InfiniteScrollWrapper<GgetViewerOrgsData_viewer_organizations_edges?>(
             future: (
               final ({
-                GetViewerOrgs$Query$Viewer$Organizations$Edges? lastItem,
+                GgetViewerOrgsData_viewer_organizations_edges? lastItem,
                 int pageNumber,
                 int pageSize,
                 bool refresh
@@ -164,7 +163,7 @@ class HomeScreenState extends State<HomeScreen>
               final BuildContext context,
               final ({
                 int index,
-                GetViewerOrgs$Query$Viewer$Organizations$Edges? item,
+                GgetViewerOrgsData_viewer_organizations_edges? item,
                 bool refresh
               }) data,
             ) =>

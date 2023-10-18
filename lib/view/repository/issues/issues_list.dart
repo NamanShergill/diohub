@@ -1,22 +1,22 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/animations/slide_expanded_widget.dart';
-import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
-import 'package:dio_hub/common/issues/issue_list_card.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/models/users/current_user_info_model.dart';
-import 'package:dio_hub/providers/repository/issue_templates_provider.dart';
-import 'package:dio_hub/providers/repository/pinned_issues_provider.dart';
-import 'package:dio_hub/providers/repository/repository_provider.dart';
-import 'package:dio_hub/providers/users/current_user_provider.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/utils/http_to_api.dart';
+import 'package:diohub/common/animations/slide_expanded_widget.dart';
+import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:diohub/common/issues/issue_list_card.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/search_overlay/filters.dart';
+import 'package:diohub/common/search_overlay/search_overlay.dart';
+import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:diohub/common/wrappers/search_scroll_wrapper.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.data.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/repositories/repository_model.dart';
+import 'package:diohub/models/users/current_user_info_model.dart';
+import 'package:diohub/providers/repository/issue_templates_provider.dart';
+import 'package:diohub/providers/repository/pinned_issues_provider.dart';
+import 'package:diohub/providers/repository/repository_provider.dart';
+import 'package:diohub/providers/users/current_user_provider.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/utils/http_to_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:provider/provider.dart';
@@ -215,7 +215,7 @@ class IssuesList extends StatelessWidget {
 class IssueTemplateCard extends StatelessWidget {
   const IssueTemplateCard(this.template, {super.key, this.isBlank = false});
   final bool isBlank;
-  final IssueTemplates$Query$Repository$IssueTemplates template;
+  final GissueTemplatesData_repository_issueTemplates template;
 
   @override
   Widget build(final BuildContext context) => Padding(
@@ -260,9 +260,11 @@ class BlankIssueTemplate extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => IssueTemplateCard(
-        IssueTemplates$Query$Repository$IssueTemplates()
-          ..name = 'Don’t see your issue here?'
-          ..about = 'Open a blank issue.',
+        GissueTemplatesData_repository_issueTemplates(
+          (b) => b
+            ..name = 'Don’t see your issue here?'
+            ..about = 'Open a blank issue.',
+        ),
         isBlank: true,
       );
 }

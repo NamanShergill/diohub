@@ -1,6 +1,6 @@
-import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:diohub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';

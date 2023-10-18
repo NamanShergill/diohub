@@ -1,6 +1,6 @@
-import 'package:dio_hub/common/animations/fade_animation_widget.dart';
-import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
-import 'package:dio_hub/style/anim_durations.dart';
+import 'package:diohub/common/animations/fade_animation_widget.dart';
+import 'package:diohub/common/wrappers/editing_wrapper.dart';
+import 'package:diohub/style/anim_durations.dart';
 import 'package:flutter/material.dart';
 
 class EditableTextItem extends StatefulWidget {

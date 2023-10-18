@@ -1,6 +1,6 @@
-import 'package:dio_hub/common/misc/menu_button.dart';
-import 'package:dio_hub/common/misc/tappable_card.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/misc/menu_button.dart';
+import 'package:diohub/common/misc/tappable_card.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flex_list/flex_list.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_down_button/pull_down_button.dart';
@@ -24,32 +24,64 @@ class WrappedCollection extends StatelessWidget {
 }
 
 class InfoCard extends StatelessWidget {
-  const InfoCard({
-    required this.child,
-    this.onTap,
+  InfoCard({
+    required final Widget child,
+    final VoidCallback? onTap,
     this.trailing,
     super.key,
     this.title,
     this.leading,
-    this.childPadding,
     this.headerPadding =
         const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
     this.onHeaderTap,
+    this.headerColor,
+    this.elevation,
+    final EdgeInsets? childPadding,
+    // this.titleTextStyle,
+    // this.leadingIconColor,
+  })  : children = <Widget>[
+          InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: childPadding ?? const EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  Flexible(child: child),
+                ],
+              ),
+            ),
+          )
+        ],
+        assert(
+          title != null || leading != null,
+          'Provide at least one descriptor.',
+        );
+  const InfoCard.children({
+    required this.children,
+    this.trailing,
+    super.key,
+    this.title,
+    this.leading,
+    this.headerPadding =
+        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+    this.onHeaderTap,
+    this.headerColor,
+    this.elevation,
     // this.titleTextStyle,
     // this.leadingIconColor,
   }) : assert(
           title != null || leading != null,
           'Provide at least one descriptor.',
         );
-  final Widget child;
-  final VoidCallback? onTap;
+
+  final List<Widget> children;
   final VoidCallback? onHeaderTap;
   final Widget? trailing;
-  final EdgeInsets? childPadding;
   final String? title;
   final Widget? leading;
   final EdgeInsets headerPadding;
-
+  final Color? headerColor;
+  final double? elevation;
   static Icon get dropdownTrailingIcon => const Icon(
         Icons.arrow_drop_down_rounded,
       );
@@ -69,7 +101,9 @@ class InfoCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             CardHeader(
-              onTap: onHeaderTap ?? onTap,
+              onTap: onHeaderTap,
+              elevation: elevation,
+              color: headerColor,
               child: Padding(
                 padding: headerPadding,
                 child: Row(
@@ -82,18 +116,23 @@ class InfoCard extends StatelessWidget {
                 ),
               ),
             ),
-            BasicCard.linked(
-              cardLinkType: CardLinkType.atTop,
-              onTap: onTap,
-              child: Padding(
-                padding: childPadding ?? const EdgeInsets.all(12),
-                child: Row(
-                  children: <Widget>[
-                    Flexible(child: child),
-                  ],
-                ),
-              ),
-            ),
+            ...List<Widget>.generate(children.length, (final int index) {
+              final bool isLast = index == children.length - 1;
+              return Column(
+                children: <Widget>[
+                  if (index > 0)
+                    const Divider(
+                      height: 0,
+                    ),
+                  BasicCard.linked(
+                    elevation: elevation,
+                    cardLinkType:
+                        isLast ? CardLinkType.atTop : CardLinkType.both,
+                    child: children[index],
+                  ),
+                ],
+              );
+            }),
           ],
         ),
       );
@@ -138,17 +177,16 @@ class MenuInfoCard extends StatelessWidget {
     required this.menuBuilder,
     this.onTap,
     super.key,
-    this.childPadding,
     this.leading,
-    this.headerPadding =
-        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+    this.headerColor,
+    this.elevation,
     // this.titleTextStyle,
     // this.onTap,
   });
   final VoidCallback? onTap;
-  final EdgeInsets? childPadding;
-  final EdgeInsets headerPadding;
   final Widget? leading;
+  final Color? headerColor;
+  final double? elevation;
   // final TextStyle? titleTextStyle;
   // final VoidCallback? onTap;
   final String title;
@@ -162,14 +200,14 @@ class MenuInfoCard extends StatelessWidget {
       return MenuButton(
         itemBuilder: menuBuilder,
         buttonBuilder: (final BuildContext context, final showMenu) => SizedBox(
-          height: 25,
-          width: 25,
+          height: 32,
+          width: 32,
           child: IconButton(
             onPressed: showMenu,
             icon: Icon(
               Icons.adaptive.more_rounded,
             ),
-            padding: const EdgeInsets.all(4),
+            // padding: const EdgeInsets.all(4),
             // constraints: const BoxConstraints(),
           ),
         ),
@@ -178,11 +216,16 @@ class MenuInfoCard extends StatelessWidget {
                 GestureDetector(
           onLongPress: showMenu,
           child: InfoCard(
-            trailing: button,
+            trailing: button, headerColor: headerColor,
+            headerPadding: const EdgeInsets.only(
+              left: 12,
+              bottom: 2,
+              top: 2,
+            ),
+            elevation: elevation,
             onTap: onTap, onHeaderTap: showMenu,
             title: title,
-            leading: leading, headerPadding: headerPadding,
-            childPadding: childPadding,
+            leading: leading,
             // titleTextStyle: titleTextStyle,
             child: child,
           ),
@@ -192,7 +235,8 @@ class MenuInfoCard extends StatelessWidget {
     return InfoCard(
       onTap: onTap,
       title: title,
-      childPadding: childPadding,
+      elevation: elevation,
+      headerColor: headerColor,
       leading: leading,
       child: child,
     );
@@ -200,22 +244,28 @@ class MenuInfoCard extends StatelessWidget {
 }
 
 class CardHeader extends StatelessWidget {
+  final Color? color;
+
   const CardHeader({
     required this.child,
     super.key,
     this.cardLinkType = CardLinkType.atBottom,
     this.menuItems = const <PullDownMenuItem>[],
     this.onTap,
+    this.color,
+    this.elevation,
+    // this.padding = const EdgeInsets.all(8),
   });
-
+  final double? elevation;
+  // final EdgeInsets padding;
   final CardLinkType cardLinkType;
   final Widget child;
   final List<PullDownMenuItem> menuItems;
   final VoidCallback? onTap;
   @override
   Widget build(final BuildContext context) => BasicCard.linked(
-        cardLinkType: cardLinkType,
-        color: context.colorScheme.surfaceVariant,
+        cardLinkType: cardLinkType, elevation: elevation,
+        color: color ?? context.colorScheme.surfaceVariant,
         // elevation: 0,
         onTap: onTap,
         child: DefaultTextStyle(

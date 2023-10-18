@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:dio_hub/app/api_handler/response_handler.dart';
-import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
-import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/models/authentication/device_code_model.dart';
-import 'package:dio_hub/models/popup/popup_type.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/app/api_handler/response_handler.dart';
+import 'package:diohub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:diohub/common/animations/scale_expanded_widget.dart';
+import 'package:diohub/common/bottom_sheet/url_actions.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/models/authentication/device_code_model.dart';
+import 'package:diohub/models/popup/popup_type.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

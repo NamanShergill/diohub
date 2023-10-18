@@ -1,16 +1,16 @@
-import 'package:dio_hub/app/api_handler/dio.dart';
-import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
-import 'package:dio_hub/common/const/app_info.dart';
-import 'package:dio_hub/common/const/version_info.dart';
-import 'package:dio_hub/common/misc/app_scroll_view.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:dio_hub/common/misc/profile_card.dart';
-import 'package:dio_hub/common/misc/repository_card.dart';
-import 'package:dio_hub/utils/http_to_api.dart';
-import 'package:dio_hub/view/settings/widgets/color_setting_card.dart';
-import 'package:dio_hub/view/settings/widgets/language_setting_card.dart';
+import 'package:diohub/app/api_handler/dio.dart';
+import 'package:diohub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:diohub/common/bottom_sheet/url_actions.dart';
+import 'package:diohub/common/const/app_info.dart';
+import 'package:diohub/common/const/version_info.dart';
+import 'package:diohub/common/misc/app_scroll_view.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/common/misc/profile_card.dart';
+import 'package:diohub/common/misc/repository_card.dart';
+import 'package:diohub/utils/http_to_api.dart';
+import 'package:diohub/view/settings/widgets/color_setting_card.dart';
+import 'package:diohub/view/settings/widgets/language_setting_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -159,9 +159,9 @@ class _About extends StatelessWidget {
                 'diohub',
               ),
             ),
-            const InfoCard(
+            InfoCard(
               title: 'Maintained By',
-              child: ProfileCardLoading(
+              child: const ProfileCardLoading(
                 'NamanShergill',
                 compact: true,
               ),
@@ -169,9 +169,10 @@ class _About extends StatelessWidget {
             MenuInfoCard(
               title: 'Bugs or Suggestions?',
               menuBuilder: (final BuildContext context) => URLActions(
-                      uri: Uri.parse(
-                          'https://github.com/NamanShergill/diohub/issues',),)
-                  .menuItems,
+                uri: Uri.parse(
+                  'https://github.com/NamanShergill/diohub/issues',
+                ),
+              ).menuItems,
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[

@@ -1,6 +1,6 @@
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/copy_to_clipboard.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/copy_to_clipboard.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class CopyButton extends StatefulWidget {

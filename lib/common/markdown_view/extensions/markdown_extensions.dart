@@ -1,15 +1,20 @@
-import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
-import 'package:dio_hub/common/misc/code_block_view.dart';
-import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/copy_to_clipboard.dart';
-import 'package:dio_hub/utils/lang_colors/get_language_color.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
+import 'package:diohub/common/bottom_sheet/url_actions.dart';
+import 'package:diohub/common/markdown_view/markdown_body.dart';
+import 'package:diohub/common/misc/code_block_view.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/copy_to_clipboard.dart';
+import 'package:diohub/utils/lang_colors/get_language_color.dart';
+import 'package:diohub/utils/utils.dart';
+import 'package:diohub/view/issues_pulls/widgets/discussion_comment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:pull_down_button/pull_down_button.dart';
+
+import '../../misc/image_loader.dart';
 
 part 'a_extension.dart';
 part 'code_extension.dart';
@@ -34,30 +39,20 @@ extension on BuildTree {
   }) {
     if (isTag(tag)) {
       register(
-        BuildOp(
-          onParsed: (final BuildTree tree) {
-            final BuildTree parent = tree.parent;
-            final WidgetPlaceholder placeholder = WidgetPlaceholder(
-              builder: (final BuildContext context, final Widget child) =>
-                  Builder(
-                builder: (final BuildContext context) =>
-                    newWidgetBuilder.call(
-                      context,
-                      tree.build() ?? Container(),
-                      tree,
-                    ) ??
-                    tree.build() ??
-                    Container(),
-              ),
-            );
-            return parent.sub()
-              ..append(
-                WidgetBit.inline(
+        BuildOp.inline(
+          onRenderInlineBlock: (
+            final BuildTree tree,
+            final Widget child,
+          ) =>
+              Builder(
+            builder: (final BuildContext context) =>
+                newWidgetBuilder.call(
+                  context,
+                  child,
                   tree,
-                  placeholder,
-                ),
-              );
-          },
+                ) ??
+                child,
+          ),
         ),
       );
     }
@@ -104,32 +99,58 @@ extension on BuildTree {
 // }
 
 class MyWidgetFactory extends WidgetFactory {
-  MyWidgetFactory({required this.fetchState});
-
+  MyWidgetFactory({
+    required this.fetchState,
+    // required this.codeBlockStyle,
+  });
+  // final MarkdownBodyCodeBlockStyle? codeBlockStyle;
   final HtmlWidgetState? Function() fetchState;
   @override
   void parse(final BuildTree meta) {
     meta
-      // ..wrapTaggedWidget(
-      //   tag: 'code',
-      //   newWidgetBuilder: (final BuildContext context, final Widget child,
-      //           final BuildTree tree) =>
-      //       DecoratedBox(
-      //     decoration: BoxDecoration(
-      //       color: context.colorScheme.surfaceVariant,
-      //       borderRadius: smallBorderRadius,
-      //     ),
-      //     child: Padding(
-      //       padding: const EdgeInsets.symmetric(horizontal: 4),
-      //       child: DefaultTextStyle.merge(
-      //         style: TextStyle(
-      //           color: context.colorScheme.onSurfaceVariant,
-      //         ),
-      //         child: child,
-      //       ),
-      //     ),
-      //   ),
-      // )
+      ..wrapTaggedWidget(
+        tag: 'code',
+        newWidgetBuilder: (
+          final BuildContext context,
+          final Widget child,
+          final BuildTree tree,
+        ) {
+          Future<void> onPress() async => showActionsMenu(
+                <PullDownMenuEntry>[
+                  PullDownMenuTitle(
+                    title: Text(
+                      tree.element.text,
+                    ),
+                  ),
+                  PullDownMenuItem(
+                    onTap: () => copyToClipboard(tree.element.text),
+                    title: 'Copy',
+                    icon: MdiIcons.contentCopy,
+                  ),
+                ],
+                context,
+              );
+          return GestureDetector(
+            onLongPress: onPress,
+            onTap: onPress,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: context.colorScheme.surfaceVariant,
+                borderRadius: smallBorderRadius,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: DefaultTextStyle.merge(
+                  style: TextStyle(
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
+                  child: child,
+                ),
+              ),
+            ),
+          );
+        },
+      )
       ..wrapTaggedWidget(
         tag: 'a',
         newWidgetBuilder: (final BuildContext context, final Widget child,
@@ -154,9 +175,70 @@ class MyWidgetFactory extends WidgetFactory {
             child: child,
           );
         },
+      )
+      ..wrapTaggedWidget(
+        tag: 'blockquote',
+        newWidgetBuilder: (context, child, tree) => DecoratedBox(
+          decoration: BoxDecoration(
+            // color: context.colorScheme.surface.,
+            border: Border(
+              left: BorderSide(
+                color: context.colorScheme.primary,
+                width: 2,
+              ),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: child,
+          ),
+        ),
       );
+    // ..wrapTaggedWidget(
+    //   tag: 'img',
+    //   newWidgetBuilder: (context, child, tree) => buildImageTag(
+    //     tree.element,
+    //     imgSrcModifiers: null,
+    //   ),
+    // );
     super.parse(meta);
   }
+}
+
+Widget buildImageTag(
+  final dom.Element element, {
+  required final Iterable<MarkdownImgSrcModifiers>? imgSrcModifiers,
+}) {
+  String src = element.attributes['src']!;
+  for (final MarkdownImgSrcModifiers modifier
+      in imgSrcModifiers ?? <MarkdownImgSrcModifiers>[]) {
+    src = modifier.call(
+      MarkdownImgSrcData(src),
+    );
+  }
+  if (src.split('.').last.contains('svg')) {
+    return SvgPicture.network(
+      src,
+    );
+  }
+  return Padding(
+    padding: const EdgeInsets.all(4),
+    child: ImageLoader(
+      src,
+      height: double.tryParse(
+        element.attributes['height'] ?? '',
+      ),
+      width: double.tryParse(
+        element.attributes['width'] ?? '',
+      ),
+      // Some SVGs don't have svg in their URL so will miss the
+      // if check above. They will fail in the image loader
+      // so will build here.
+      errorBuilder: (final BuildContext context) => SvgPicture.network(
+        src,
+      ),
+    ),
+  );
 }
 
 // List<HtmlExtension> markdownTagExtensionsTagExtensions(
@@ -195,19 +277,11 @@ class MyWidgetFactory extends WidgetFactory {
 //         },
 //         builder: (final ExtensionContext p0) => DecoratedBox(
 //           // padding: const EdgeInsets.only(bottom: 40),
-//           decoration: BoxDecoration(
-//             // color: context.colorScheme.surface.,
-//             border: Border(
-//               left: BorderSide(
-//                 color: context.colorScheme.primary,
-//                 width: 2,
-//               ),
-//             ),
-//           ),
-//           // child: Padding(
-//           //   padding: const EdgeInsets.only(left: 4),
-//           //   child: p0.child,
-//           // ),
+
+// child: Padding(
+//   padding: const EdgeInsets.only(left: 4),
+//   child: p0.child,
+// ),
 //         ),
 //       ),
 //       // TagExtension(
@@ -233,12 +307,14 @@ class MyWidgetFactory extends WidgetFactory {
 class CodeView extends StatefulWidget {
   const CodeView(
     this.data, {
+    super.key,
     this.language,
+    this.codeBlockStyle,
   });
 
   final String data;
   final String? language;
-
+  final MarkdownBodyCodeBlockStyle? codeBlockStyle;
   @override
   _CodeViewState createState() => _CodeViewState();
 }
@@ -258,7 +334,8 @@ class _CodeViewState extends State<CodeView> {
 
     return MenuInfoCard(
       title: widget.language ?? 'Code',
-      headerPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+      elevation: widget.codeBlockStyle?.elevation,
+      headerColor: widget.codeBlockStyle?.headerColor,
       leading: Container(
         decoration: BoxDecoration(
           color: Color(
@@ -305,7 +382,6 @@ class _CodeViewState extends State<CodeView> {
           ],
         ),
       ],
-      childPadding: EdgeInsets.zero,
       child: wrapText
           ? child
           : Scrollbar(

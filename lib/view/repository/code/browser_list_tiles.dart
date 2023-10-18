@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/models/repositories/code_tree_model.dart';
-import 'package:dio_hub/providers/repository/branch_provider.dart';
-import 'package:dio_hub/providers/repository/code_provider.dart';
-import 'package:dio_hub/providers/repository/repository_provider.dart';
-import 'package:dio_hub/routes/router.gr.dart';
+import 'package:diohub/models/repositories/code_tree_model.dart';
+import 'package:diohub/providers/repository/branch_provider.dart';
+import 'package:diohub/providers/repository/code_provider.dart';
+import 'package:diohub/providers/repository/repository_provider.dart';
+import 'package:diohub/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:provider/provider.dart';

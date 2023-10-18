@@ -1,5 +1,5 @@
-import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
-import 'package:dio_hub/view/authentication/widgets/base_auth_dialog.dart';
+import 'package:diohub/common/animations/scale_expanded_widget.dart';
+import 'package:diohub/view/authentication/widgets/base_auth_dialog.dart';
 import 'package:flutter/material.dart';
 
 class SuccessPopup extends StatelessWidget {

@@ -1,10 +1,10 @@
-import 'package:dio_hub/common/markdown_view/markdown_body.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/common/wrappers/scroll_to_top_wrapper.dart';
-import 'package:dio_hub/providers/repository/branch_provider.dart';
-import 'package:dio_hub/providers/repository/readme_provider.dart';
-import 'package:dio_hub/providers/repository/repository_provider.dart';
+import 'package:diohub/common/markdown_view/markdown_body.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:diohub/common/wrappers/scroll_to_top_wrapper.dart';
+import 'package:diohub/providers/repository/branch_provider.dart';
+import 'package:diohub/providers/repository/readme_provider.dart';
+import 'package:diohub/providers/repository/repository_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:provider/provider.dart';

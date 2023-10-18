@@ -1,5 +1,5 @@
-import 'package:dio_hub/graphql/graphql.graphql.dart';
-import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
+import 'package:diohub/providers/issue_pulls/pull_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,7 +7,7 @@ class PullInformation extends StatelessWidget {
   const PullInformation({super.key});
   @override
   Widget build(final BuildContext context) {
-    final PullInfoMixin pull = Provider.of<PullProvider>(context).data;
+    final GpullInfo pull = Provider.of<PullProvider>(context).data;
     // final _editingEnabled = Provider.of<PullProvider>(context).editingEnabled;
     return Container();
     // SingleChildScrollView(

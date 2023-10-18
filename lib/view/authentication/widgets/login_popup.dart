@@ -1,9 +1,9 @@
-import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
-import 'package:dio_hub/common/misc/app_dialog.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/models/authentication/access_token_model.dart';
-import 'package:dio_hub/services/authentication/auth_service.dart';
+import 'package:diohub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:diohub/common/animations/scale_expanded_widget.dart';
+import 'package:diohub/common/misc/app_dialog.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/models/authentication/access_token_model.dart';
+import 'package:diohub/services/authentication/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';

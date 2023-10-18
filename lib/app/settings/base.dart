@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:dio_hub/app/global.dart';
-import 'package:dio_hub/utils/type_cast.dart';
+import 'package:diohub/app/global.dart';
+import 'package:diohub/utils/type_cast.dart';
 import 'package:flutter/widgets.dart';
 
 abstract class Settings<T> extends ChangeNotifier {

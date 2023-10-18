@@ -1,5 +1,5 @@
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/const/version_info.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/const/version_info.dart';
 import 'package:flutter/material.dart';
 
 class AppNameWidget extends StatelessWidget {

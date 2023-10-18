@@ -1,8 +1,7 @@
-// import 'package:dio_hub/app/settings/palette.dart';
-// import 'package:dio_hub/graphql/graphql.dart';
-// import 'package:dio_hub/style/border_radiuses.dart';
-// import 'package:dio_hub/utils/get_date.dart';
-// import 'package:dio_hub/utils/utils.dart';
+// import 'package:diohub/app/settings/palette.dart';
+// // import 'package:diohub/style/border_radiuses.dart';
+// import 'package:diohub/utils/get_date.dart';
+// import 'package:diohub/utils/utils.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 //

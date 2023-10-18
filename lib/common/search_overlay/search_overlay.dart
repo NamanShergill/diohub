@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:auto_route/annotations.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/custom_expand_tile.dart';
-import 'package:dio_hub/common/misc/overlay_menu_widget.dart';
-import 'package:dio_hub/common/misc/user_search_dropdown.dart';
-import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/common/search_overlay/range_picker.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/text_field_themes.dart';
-import 'package:dio_hub/utils/string_compare.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/custom_expand_tile.dart';
+import 'package:diohub/common/misc/overlay_menu_widget.dart';
+import 'package:diohub/common/misc/user_search_dropdown.dart';
+import 'package:diohub/common/search_overlay/filters.dart';
+import 'package:diohub/common/search_overlay/range_picker.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/style/text_field_themes.dart';
+import 'package:diohub/utils/string_compare.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:extended_text_field/extended_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

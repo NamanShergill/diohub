@@ -1,7 +1,7 @@
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/providers/repository/code_provider.dart';
-import 'package:dio_hub/utils/get_date.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/providers/repository/code_provider.dart';
+import 'package:diohub/utils/get_date.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';

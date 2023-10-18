@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/events/cards/base_card.dart';
-import 'package:dio_hub/common/misc/branch_label.dart';
-import 'package:dio_hub/common/misc/custom_expansion_tile.dart';
-import 'package:dio_hub/models/events/events_model.dart' hide Key;
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/events/cards/base_card.dart';
+import 'package:diohub/common/misc/branch_label.dart';
+import 'package:diohub/common/misc/custom_expansion_tile.dart';
+import 'package:diohub/models/events/events_model.dart' hide Key;
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class PushEventCard extends StatelessWidget {
@@ -13,7 +13,7 @@ class PushEventCard extends StatelessWidget {
   final EventsModel event;
   final Payload data;
   @override
-  Widget build(final BuildContext context) => BaseEventCard(
+  Widget build(final BuildContext context) => BaseEventCard.singular(
         onTap: () async {
           await AutoRouter.of(context).push(
             RepositoryRoute(
@@ -25,7 +25,6 @@ class PushEventCard extends StatelessWidget {
         },
         userLogin: event.actor!.login,
         date: event.createdAt,
-        childPadding: const EdgeInsets.all(8),
         actor: event.actor!.login,
         headerText: <TextSpan>[
           const TextSpan(

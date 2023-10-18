@@ -1,4 +1,4 @@
-import 'package:dio_hub/routes/router.dart';
+import 'package:diohub/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
@@ -91,3 +92,16 @@ extension ColorFader on Color {
     return newHslColor.toColor();
   }
 }
+
+T unimplemented<T>() => throw UnimplementedError();
+
+String unimplementedString() => 'Unimplemented';
+
+extension BuiltListExtn<T> on Future<BuiltList<T>> {
+  Future<List<T>> toAsyncList() async {
+    final BuiltList<T> list = await this;
+    return list.toList();
+  }
+}
+
+T returnItself<T>(final T data) => data;

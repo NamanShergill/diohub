@@ -1,9 +1,10 @@
-import 'package:dio_hub/common/misc/app_dialog.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/providers/issue_pulls/issue_provider.dart';
-import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:diohub/common/misc/app_dialog.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
+import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/providers/issue_pulls/issue_provider.dart';
+import 'package:diohub/services/issues/issues_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
@@ -24,7 +25,7 @@ class IssueInformation extends StatelessWidget {
     //       if (_editingEnabled ||
     //           (Provider.of<CurrentUserProvider>(context).data.login ==
     //                   _issue.user!.login &&
-    //               (!(_issue.state == IssueState.CLOSED) ||
+    //               (!(_issue.state == GIssueState.CLOSED) ||
     //                   _issue.closedBy!.login ==
     //                       Provider.of<CurrentUserProvider>(context)
     //                           .data
@@ -44,7 +45,7 @@ class IssueInformation extends StatelessWidget {
     //           ],
     //         ),
     //       ),
-    //       if (_issue.state == IssueState.CLOSED)
+    //       if (_issue.state == GIssueState.CLOSED)
     //         InfoCard(
     //           'Closed By',
     //           child: Row(
@@ -237,7 +238,7 @@ class __IssueButtonState extends State<_IssueButton> {
           await showDialog(
             context: context,
             builder: (final _) => AppDialog(
-              title: widget.issue.state != IssueState.CLOSED
+              title: widget.issue.state != GIssueState.CLOSED
                   ? 'Close Issue?'
                   : 'Reopen Issue?',
               actions: <Widget>[
@@ -254,7 +255,7 @@ class __IssueButtonState extends State<_IssueButton> {
                     });
                     // ignore: omit_local_variable_types
                     final Map<String, dynamic> data = <String, dynamic>{};
-                    if (widget.issue.state != IssueState.CLOSED) {
+                    if (widget.issue.state != GIssueState.CLOSED) {
                       data['state'] = 'closed';
                     } else {
                       data['state'] = 'open';
@@ -276,9 +277,10 @@ class __IssueButtonState extends State<_IssueButton> {
             ),
           );
         },
-        color:
-            widget.issue.state != IssueState.CLOSED ? Colors.red : Colors.green,
-        child: widget.issue.state != IssueState.CLOSED
+        color: widget.issue.state != GIssueState.CLOSED
+            ? Colors.red
+            : Colors.green,
+        child: widget.issue.state != GIssueState.CLOSED
             ? const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

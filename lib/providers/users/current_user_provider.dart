@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/models/users/current_user_info_model.dart';
-import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/services/users/user_info_service.dart';
+import 'package:diohub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:diohub/models/users/current_user_info_model.dart';
+import 'package:diohub/providers/base_provider.dart';
+import 'package:diohub/services/users/user_info_service.dart';
 
 class CurrentUserProvider extends BaseDataProvider<CurrentUserInfoModel> {
   CurrentUserProvider({required this.authenticationBloc})

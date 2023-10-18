@@ -4,40 +4,85 @@ targets:
       - lib/**
       - graphql/**
     builders:
+      ferry_generator|graphql_builder:
+        enabled: true
+        options:
+          schema: diohub|lib/graphql/schema.graphql
+          when_extensions:
+            when: true
+            maybeWhen: true
+#          output_dir: 'test'
+          type_overrides:
+            Base64String:
+              name: String
+            BigInt:
+              name: BigInt
+            Date:
+              name: DateTime
+            DateTime:
+              name: DateTime
+            GitObjectID:
+              name: String
+            GitSSHRemote:
+              name: String
+            GitTimestamp:
+              name: DateTime
+            HTML:
+              name: String
+            PreciseDateTime:
+              name: DateTime
+            URI:
+              name: Uri
+            X509Certificate:
+              name: String
+          custom_serializers:
+            - import: "package:diohub/lib/graphql/serializer/date.dart"
+              name: DateSerializer
+            - import: "package:diohub/lib/graphql/serializer/date.dart"
+              name: DateTimeSerializer
+      ferry_generator|serializer_builder:
+        enabled: true
+        options:
+          schema: diohub|lib/graphql/schema.graphql
+          custom_serializers:
+            - import: "package:diohub/graphql/serializer/date.dart"
+              name: DateSerializer
+            - import: "package:diohub/graphql/serializer/date.dart"
+              name: DateTimeSerializer
       source_gen:combining_builder:
         options:
           ignore_for_file:
             - "type=lint"
-      artemis:
-        options:
-          fragments_glob: graphql/**.fragment.graphql
-          scalar_mapping:
-            - graphql_type: Date
-              dart_type: DateTime
-            - graphql_type: DateTime
-              dart_type: DateTime
-            - graphql_type: GitTimestamp
-              dart_type: DateTime
-            - graphql_type: PreciseDateTime
-              dart_type: DateTime
-            - graphql_type: X509Certificate
-              dart_type: DateTime
-            - graphql_type: GitRefname
-              dart_type: DateTime
-            - graphql_type: HTML
-              dart_type: String
-            - graphql_type: DeclineTopicSuggestionInput
-              dart_type: String
-            - graphql_type: GitObjectID
-              dart_type: String
-            - graphql_type: GitSignature
-              dart_type: String
-            - graphql_type: URI
-              dart_type: Uri
-          schema_mapping:
-            - schema: graphql/schema.docs.graphql
-              queries_glob: graphql/queries/**.query.graphql
-              output: lib/graphql/graphql.dart
-              naming_scheme: pathedWithFields
-          ignore_for_file:
-            - "type=lint"
+#      artemis:
+#        options:
+#          fragments_glob: graphql/**.fragment.graphql
+#          scalar_mapping:
+#            Date
+#              name: DateTime
+#            DateTime
+#              name: DateTime
+#            GitTimestamp
+#              name: DateTime
+#            PreciseDateTime
+#              name: DateTime
+#            X509Certificate
+#              name: DateTime
+#            GitRefname
+#              name: DateTime
+#            HTML
+#              name: String
+#            DeclineTopicSuggestionInput
+#              name: String
+#            GitObjectID
+#              name: String
+#            GitSignature
+#              name: String
+#            URI
+#              name: Uri
+#          schema_mapping:
+#            - schema: graphql/schema.docs.graphql
+#              queries_glob: graphql/queries/**.query.graphql
+#              output: lib/graphql/graphql.dart
+#              naming_scheme: pathedWithFields
+#          ignore_for_file:
+#            - "type=lint"

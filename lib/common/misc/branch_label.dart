@@ -1,5 +1,5 @@
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class BranchLabel extends StatelessWidget {

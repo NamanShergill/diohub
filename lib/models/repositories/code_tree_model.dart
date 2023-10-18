@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:dio_hub/models/repositories/commit_list_model.dart';
+import 'package:diohub/models/repositories/commit_list_model.dart';
 
 class CodeTreeModel {
   CodeTreeModel({this.sha, this.url, this.tree, this.truncated, this.commit});

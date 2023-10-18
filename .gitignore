@@ -22,6 +22,7 @@
 
 # Flutter/Dart/Pub related
 **/doc/api/
+**/__generated__/**.dart
 **/ios/Flutter/.last_build_id
 .dart_tool/
 .flutter-plugins
@@ -29,7 +30,6 @@
 .packages
 .pub-cache/
 .pub/
-/build/
 
 # Web related
 lib/generated_plugin_registrant.dart

@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:dio_hub/app/global.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/wrappers/scroll_to_top_wrapper.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/app/global.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/wrappers/scroll_to_top_wrapper.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:flutter_scroll_to_top/modified_scroll_view.dart' as scrollview;
@@ -455,6 +456,11 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
                       padding: EdgeInsets.only(bottom: widget.padding.bottom),
                       child: Container(),
                     ),
+          firstPageErrorIndicatorBuilder: (final BuildContext context) =>
+              _FirstPageErrorIndicator(
+            onTryAgain: _pagingController.retryLastFailedRequest,
+            error: _pagingController.error,
+          ),
         ),
       );
 }
@@ -468,5 +474,56 @@ class _ListItem<T> {
     final bool temp = refresh;
     refresh = false;
     return temp;
+  }
+}
+
+class _FirstPageErrorIndicator extends StatelessWidget {
+  const _FirstPageErrorIndicator({
+    required this.error,
+    this.onTryAgain,
+    super.key,
+  });
+  final Object? error;
+  final VoidCallback? onTryAgain;
+
+  @override
+  Widget build(final BuildContext context) => _FirstPageExceptionIndicator(
+        title: 'Something went wrong',
+        message: error is Error
+            ? (error! as Error).stackTrace.toString()
+            : error.toString(),
+        onTryAgain: onTryAgain,
+      );
+}
+
+class _FirstPageExceptionIndicator extends StatelessWidget {
+  const _FirstPageExceptionIndicator({
+    required this.title,
+    this.message,
+    this.onTryAgain,
+    final Key? key,
+  }) : super(key: key);
+
+  final String title;
+  final String? message;
+  final VoidCallback? onTryAgain;
+
+  @override
+  Widget build(final BuildContext context) {
+    final String? message = this.message;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 32,
+          horizontal: 16,
+        ),
+        child: Button(
+          onTap: onTryAgain,
+          child: const Text(
+            'Retry',
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -1,7 +1,7 @@
-import 'package:dio_hub/common/animations/fade_animation_widget.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/style/anim_durations.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:diohub/common/animations/fade_animation_widget.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/style/anim_durations.dart';
+import 'package:diohub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 
 class DropDownInfoCard extends StatefulWidget {

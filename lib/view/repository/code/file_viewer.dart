@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:auto_route/annotations.dart';
-import 'package:dio_hub/common/markdown_view/markdown_body.dart';
-import 'package:dio_hub/common/misc/code_block_view.dart';
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
-import 'package:dio_hub/models/repositories/blob_model.dart';
-import 'package:dio_hub/services/git_database/git_database_service.dart';
-import 'package:dio_hub/utils/parse_base64.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/markdown_view/markdown_body.dart';
+import 'package:diohub/common/misc/code_block_view.dart';
+import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
+import 'package:diohub/models/repositories/blob_model.dart';
+import 'package:diohub/services/git_database/git_database_service.dart';
+import 'package:diohub/utils/parse_base64.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:mime/mime.dart';
 

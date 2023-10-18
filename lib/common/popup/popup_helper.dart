@@ -1,6 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:dio_hub/models/popup/popup_type.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/models/popup/popup_type.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 

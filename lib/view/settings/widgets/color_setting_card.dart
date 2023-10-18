@@ -1,5 +1,5 @@
-import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 

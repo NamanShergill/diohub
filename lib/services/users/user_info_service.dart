@@ -1,14 +1,19 @@
 import 'package:dio/dio.dart';
-import 'package:dio_hub/app/api_handler/dio.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/models/users/current_user_info_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/utils/type_cast.dart';
+import 'package:diohub/app/api_handler/dio.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.query.req.gql.dart';
+import 'package:diohub/graphql/queries/viewer/__generated__/viewer.query.data.gql.dart';
+import 'package:diohub/graphql/queries/viewer/__generated__/viewer.query.req.gql.dart';
+import 'package:diohub/models/repositories/repository_model.dart';
+import 'package:diohub/models/users/current_user_info_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/utils/type_cast.dart';
 
 class UserInfoService {
-  static final GraphqlHandler _gqlHandler = GraphqlHandler();
+  UserInfoService(this.temp);
 
+  static final GraphqlHandler _gqlHandler = GraphqlHandler();
+  final String temp;
   static final RESTHandler _restHandler = RESTHandler();
 
   // Ref: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
@@ -79,39 +84,43 @@ class UserInfoService {
     return UserInfoModel.fromJson(response.data!);
   }
 
-  static Future<List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>
+  static Future<List<GgetUserPinnedReposData_user_pinnedItems_edges?>>
       getUserPinnedRepos(final String user) async {
     final GQLResponse res = await _gqlHandler.query(
-      GetUserPinnedReposQuery(
-        variables: GetUserPinnedReposArguments(user: user),
-      ),
+      GgetUserPinnedReposReq((b) => b..vars.user = user),
     );
-    return GetUserPinnedRepos$Query.fromJson(res.data!)
+    return GgetUserPinnedReposData.fromJson(res.data!)!
         .user!
         .pinnedItems
-        .edges!;
+        .edges!
+        .toList();
   }
 
-  static Future<List<GetViewerOrgs$Query$Viewer$Organizations$Edges?>>
+  static Future<List<GgetViewerOrgsData_viewer_organizations_edges?>>
       getViewerOrgs({required final bool refresh, final String? after}) async {
     final GQLResponse res = await _gqlHandler.query(
-      GetViewerOrgsQuery(variables: GetViewerOrgsArguments(cursor: after)),
+      GgetViewerOrgsReq((b) => b..vars.cursor = after),
       refreshCache: refresh,
     );
-    return GetViewerOrgs$Query.fromJson(res.data!).viewer.organizations.edges!;
+    return GgetViewerOrgsData.fromJson(res.data!)!
+        .viewer
+        .organizations
+        .edges!
+        .toList();
   }
 
-  static Future<FollowStatusInfo$Query$User> getFollowInfo(
+  static Future<GfollowStatusInfoData_user> getFollowInfo(
     final String login,
   ) async =>
-      FollowStatusInfo$Query.fromJson(
+      GfollowStatusInfoData.fromJson(
         (await _gqlHandler.query(
-          FollowStatusInfoQuery(
-            variables: FollowStatusInfoArguments(user: login),
+          GfollowStatusInfoReq(
+            (b) => b..vars.user = login,
           ),
         ))
             .data!,
-      ).user!;
+      )!
+          .user!;
 
   static Future<GQLResponse> changeFollowStatus(
     final String id, {
@@ -119,13 +128,15 @@ class UserInfoService {
   }) async {
     if (follow) {
       return _gqlHandler.mutation(
-        FollowUserMutation(
-          variables: FollowUserArguments(user: id),
+        GfollowUserReq(
+          (b) => b..vars.user = id,
         ),
       );
     } else {
       return _gqlHandler.mutation(
-        UnfollowUserMutation(variables: UnfollowUserArguments(user: id)),
+        GunfollowUserReq(
+          (b) => b..vars.user = id,
+        ),
       );
     }
   }

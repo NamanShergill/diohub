@@ -1,4 +1,4 @@
-import 'package:dio_hub/common/misc/round_button.dart';
+import 'package:diohub/common/misc/round_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 

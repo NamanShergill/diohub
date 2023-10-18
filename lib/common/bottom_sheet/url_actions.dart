@@ -1,7 +1,7 @@
-import 'package:dio_hub/common/const/app_info.dart';
-import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/utils/copy_to_clipboard.dart';
-import 'package:dio_hub/utils/open_in_app_browser.dart';
+import 'package:diohub/common/const/app_info.dart';
+import 'package:diohub/controller/deep_linking_handler.dart';
+import 'package:diohub/utils/copy_to_clipboard.dart';
+import 'package:diohub/utils/open_in_app_browser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -56,25 +56,21 @@ class URLActions {
             ),
           ],
         ),
-        PullDownMenuActionsRow.medium(
-          items: <PullDownMenuItem>[
-            if (isDeepLink(
-                  uri.toString(),
-                ) &&
-                showOpenAction)
-              PullDownMenuItem(
-                onTap: openInApp,
-                title: 'Open in App',
-                iconWidget: const AppLogoWidget(
-                  size: 25,
-                ),
-              ),
-            PullDownMenuItem(
-              onTap: launchURLInBrowser,
-              title: _getOpenText,
-              icon: _getOpenIcon,
+        if (isDeepLink(
+              uri.toString(),
+            ) &&
+            showOpenAction)
+          PullDownMenuItem(
+            onTap: openInApp,
+            title: 'Open in App',
+            iconWidget: const AppLogoWidget(
+              size: 25,
             ),
-          ],
+          ),
+        PullDownMenuItem(
+          onTap: launchURLInBrowser,
+          title: _getOpenText,
+          icon: _getOpenIcon,
         ),
       ];
 
@@ -121,7 +117,17 @@ class URLActions {
   }
 
   Future<void> showMenu(final BuildContext context) async {
-    await HapticFeedback.lightImpact();
+    await showActionsMenu(
+      menuItems,
+      context,
+    );
+  }
+}
+
+Future<void> showActionsMenu(
+    final List<PullDownMenuEntry> menuItems, final BuildContext context) async {
+  await HapticFeedback.lightImpact();
+  if (context.mounted) {
     await showPullDownMenu(
       context: context,
       items: menuItems,

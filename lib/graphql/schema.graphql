@@ -1052,7 +1052,7 @@ union RequestedReviewer = Bot | Mannequin | Team | User
 union ReviewDismissalAllowanceActor = App | Team | User
 
 "Types which can be parameters for `RepositoryRule` objects."
-union RuleParameters = BranchNamePatternParameters | CommitAuthorEmailPatternParameters | CommitMessagePatternParameters | CommitterEmailPatternParameters | PullRequestParameters | RequiredDeploymentsParameters | RequiredStatusChecksParameters | TagNamePatternParameters | UpdateParameters
+union RuleParameters = BranchNamePatternParameters | CommitAuthorEmailPatternParameters | CommitMessagePatternParameters | CommitterEmailPatternParameters | PullRequestParameters | RequiredDeploymentsParameters | RequiredStatusChecksParameters | TagNamePatternParameters | UpdateParameters | WorkflowsParameters
 
 "Types which can have `RepositoryRule` objects."
 union RuleSource = Organization | Repository
@@ -3918,6 +3918,8 @@ type DeploymentEnvironmentChangedEvent implements Node {
 type DeploymentProtectionRule {
     "Identifies the primary key from the database."
     databaseId: Int
+    "Whether deployments to this environment can be approved by the user who created the deployment."
+    preventSelfReview: Boolean
     "The teams or users that can review the deployment"
     reviewers(
         "Returns the elements in the list that come after the specified cursor."
@@ -20380,6 +20382,18 @@ type Workflow implements Node & UniformResourceLocatable {
     url: URI!
 }
 
+"A workflow that must run for this rule to pass"
+type WorkflowFileReference {
+    "The path to the workflow file"
+    path: String!
+    "The ref (branch or tag) of the workflow file to use"
+    ref: String
+    "The ID of the repository where the workflow is defined"
+    repositoryId: Int!
+    "The commit SHA of the workflow file to use"
+    sha: String
+}
+
 "A workflow run."
 type WorkflowRun implements Node & UniformResourceLocatable {
     "The check suite this workflow run belongs to."
@@ -20466,6 +20480,12 @@ type WorkflowRunFile implements Node & UniformResourceLocatable {
     viewerCanPushRepository: Boolean!
     "If the viewer has permissions to read the repository which stores the workflow."
     viewerCanReadRepository: Boolean!
+}
+
+"Require all changes made to a targeted branch to pass the specified workflows before they can be merged."
+type WorkflowsParameters {
+    "Workflows that must pass for this rule to pass."
+    workflows: [WorkflowFileReference!]!
 }
 
 "The actor's type."
@@ -22370,6 +22390,8 @@ enum RepositoryLockReason {
     RENAME
     "The repository is locked due to a trade controls related reason."
     TRADE_RESTRICTION
+    "The repository is locked due to an ownership transfer."
+    TRANSFERRING_OWNERSHIP
 }
 
 "Possible directions in which to order a list of repository migrations when provided an `orderBy` argument."
@@ -22424,6 +22446,8 @@ enum RepositoryPrivacy {
 
 "The rule types supported in rulesets"
 enum RepositoryRuleType {
+    "Authorization"
+    AUTHORIZATION
     "Branch name pattern"
     BRANCH_NAME_PATTERN
     "Committer email pattern"
@@ -22436,6 +22460,16 @@ enum RepositoryRuleType {
     CREATION
     "Only allow users with bypass permissions to delete matching refs."
     DELETION
+    "File path pattern"
+    FILE_PATH_PATTERN
+    "Branch is read-only. Users cannot push to the branch."
+    LOCK_BRANCH
+    "Max ref updates"
+    MAX_REF_UPDATES
+    "Merges must be performed via a merge queue."
+    MERGE_QUEUE
+    "Merge queue locked ref"
+    MERGE_QUEUE_LOCKED_REF
     "Prevent users with push access from force pushing to refs."
     NON_FAST_FORWARD
     "Require all commits be made to a non-target branch and submitted via a pull request before they can be merged."
@@ -22444,14 +22478,28 @@ enum RepositoryRuleType {
     REQUIRED_DEPLOYMENTS
     "Prevent merge commits from being pushed to matching refs."
     REQUIRED_LINEAR_HISTORY
+    "When enabled, all conversations on code must be resolved before a pull request can be merged into a branch that matches this rule."
+    REQUIRED_REVIEW_THREAD_RESOLUTION
     "Commits pushed to matching refs must have verified signatures."
     REQUIRED_SIGNATURES
     "Choose which status checks must pass before branches can be merged into a branch that matches this rule. When enabled, commits must first be pushed to another branch, then merged or pushed directly to a ref that matches this rule after status checks have passed."
     REQUIRED_STATUS_CHECKS
+    "Require all commits be made to a non-target branch and submitted via a pull request and required workflow checks to pass before they can be merged."
+    REQUIRED_WORKFLOW_STATUS_CHECKS
+    "Commits pushed to matching refs must have verified signatures."
+    RULESET_REQUIRED_SIGNATURES
+    "Secret scanning"
+    SECRET_SCANNING
+    "Tag"
+    TAG
     "Tag name pattern"
     TAG_NAME_PATTERN
     "Only allow users with bypass permission to update matching refs."
     UPDATE
+    "Require all changes made to a targeted branch to pass the specified workflows before they can be merged."
+    WORKFLOWS
+    "Workflow files cannot be modified."
+    WORKFLOW_UPDATES
 }
 
 "The bypass mode for a specific actor on a ruleset."
@@ -22660,6 +22708,8 @@ enum SocialAccountProvider {
     LINKEDIN
     "Open-source federated microblogging service."
     MASTODON
+    "JavaScript package registry."
+    NPM
     "Social news aggregation and discussion website."
     REDDIT
     "Live-streaming service."
@@ -23162,7 +23212,7 @@ enum SponsorsCountryOrRegionCode {
     TN
     "Tonga"
     TO
-    "Turkey"
+    "Türkiye"
     TR
     "Trinidad and Tobago"
     TT
@@ -26114,6 +26164,8 @@ input RuleParametersInput {
     tagNamePattern: TagNamePatternParametersInput
     "Parameters used for the `update` rule type"
     update: UpdateParametersInput
+    "Parameters used for the `workflows` rule type"
+    workflows: WorkflowsParametersInput
 }
 
 "Ordering options for saved reply connections."
@@ -26850,6 +26902,8 @@ input UpdateEnvironmentInput {
     clientMutationId: String
     "The node ID of the environment."
     environmentId: ID!
+    "Whether deployments to this environment can be approved by the user who created the deployment."
+    preventSelfReview: Boolean
     "The ids of users or teams that can approve deployments to this environment"
     reviewers: [ID!]
     "The wait timer in minutes."
@@ -27294,10 +27348,28 @@ input VerifyVerifiableDomainInput {
     id: ID!
 }
 
+"A workflow that must run for this rule to pass"
+input WorkflowFileReferenceInput {
+    "The path to the workflow file"
+    path: String!
+    "The ref (branch or tag) of the workflow file to use"
+    ref: String
+    "The ID of the repository where the workflow is defined"
+    repositoryId: Int!
+    "The commit SHA of the workflow file to use"
+    sha: String
+}
+
 "Ways in which lists of workflow runs can be ordered upon return."
 input WorkflowRunOrder {
     "The direction in which to order workflow runs by the specified field."
     direction: OrderDirection!
     "The field by which to order workflows."
     field: WorkflowRunOrderField!
+}
+
+"Require all changes made to a targeted branch to pass the specified workflows before they can be merged."
+input WorkflowsParametersInput {
+    "Workflows that must pass for this rule to pass."
+    workflows: [WorkflowFileReferenceInput!]!
 }

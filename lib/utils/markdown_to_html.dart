@@ -1,4 +1,4 @@
-import 'package:dio_hub/utils/string_compare.dart';
+import 'package:diohub/utils/string_compare.dart';
 import 'package:markdown/markdown.dart';
 
 String mdToHtml(final String data, {final String? repo}) => markdownToHtml(

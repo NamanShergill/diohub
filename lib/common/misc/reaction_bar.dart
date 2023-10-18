@@ -1,33 +1,35 @@
-import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
-import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/common/misc/shimmer_widget.dart';
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/animations/scale_expanded_widget.dart';
+import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/common/misc/shimmer_widget.dart';
+import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
+import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/services/issues/issues_service.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
-String getReaction(final ReactionContent reaction) {
+String getReaction(final GReactionContent reaction) {
   switch (reaction) {
-    case ReactionContent.thumbsUp:
+    case GReactionContent.THUMBS_UP:
       return '👍';
-    case ReactionContent.thumbsDown:
+    case GReactionContent.THUMBS_DOWN:
       return '👎';
 
-    case ReactionContent.laugh:
+    case GReactionContent.LAUGH:
       return '😄';
-    case ReactionContent.confused:
+    case GReactionContent.CONFUSED:
       return '😕';
-    case ReactionContent.heart:
+    case GReactionContent.HEART:
       return '❤️';
-    case ReactionContent.hooray:
+    case GReactionContent.HOORAY:
       return '🎉';
-    case ReactionContent.rocket:
+    case GReactionContent.ROCKET:
       return '🚀';
-    case ReactionContent.eyes:
+    case GReactionContent.EYES:
       return '👀';
     default:
       return '';
@@ -43,7 +45,7 @@ class ReactionBar extends StatefulWidget {
     required this.viewerCanReact,
     super.key,
   });
-  final List<ReactionGroupsMixin> reactionGroups;
+  final List<GreactionGroups> reactionGroups;
   final bool viewerCanReact;
 
   @override
@@ -52,7 +54,7 @@ class ReactionBar extends StatefulWidget {
 
 class _ReactionBarState extends State<ReactionBar> {
   bool loading = false;
-  Future<void> updateReaction(final ReactionGroupsMixin value) async {
+  Future<void> updateReaction(final GreactionGroups value) async {
     setState(() {
       loading = true;
     });
@@ -62,15 +64,16 @@ class _ReactionBarState extends State<ReactionBar> {
           value.content,
           value.subject.id,
         );
-        value.viewerHasReacted = false;
-        value.reactors.totalCount--;
+        // final newValue = value.viewerHasReacted;
+        // value.viewerHasReacted = false;
+        // value.reactors.totalCount--;
       } else {
         await IssuesService.addReaction(
           value.content,
           value.subject.id,
         );
-        value.viewerHasReacted = true;
-        value.reactors.totalCount++;
+        // value.viewerHasReacted = true;
+        // value.reactors.totalCount++;
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -107,17 +110,20 @@ class _ReactionBarState extends State<ReactionBar> {
                             //     .currentSetting
                             //     .primary,
                             borderRadius: bigBorderRadius,
-                            child: ReactionButton<ReactionGroupsMixin>(
+                            child: ReactionButton<GreactionGroups>(
                               // splashColor: transparent,
                               boxPadding: const EdgeInsets.all(16),
-                              shouldChangeReaction: false,
-                              boxPosition: VerticalPosition.bottom,
+                              itemSize: const Size(30, 30),
+                              isChecked: true,
+                              // shouldChangeReaction: false,
+                              // boxPosition: VerticalPosition.bottom,
                               boxColor: context.colorScheme.primary,
                               onReactionChanged:
-                                  (final ReactionGroupsMixin? value) async {
-                                await updateReaction(value!);
+                                  (final Reaction<GreactionGroups>?
+                                      value) async {
+                                await updateReaction(value!.value!);
                               },
-                              initialReaction: Reaction<ReactionGroupsMixin>(
+                              selectedReaction: Reaction<GreactionGroups>(
                                 icon: Padding(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 8,
@@ -141,10 +147,9 @@ class _ReactionBarState extends State<ReactionBar> {
                                 value: null,
                               ),
                               reactions:
-                                  List<Reaction<ReactionGroupsMixin>>.generate(
+                                  List<Reaction<GreactionGroups>>.generate(
                                 widget.reactionGroups.length,
-                                (final int index) =>
-                                    Reaction<ReactionGroupsMixin>(
+                                (final int index) => Reaction<GreactionGroups>(
                                   icon: Padding(
                                     padding: const EdgeInsets.all(8),
                                     child: Text(
@@ -173,7 +178,7 @@ class _ReactionBarState extends State<ReactionBar> {
                           widget.reactionGroups[index],
                           onTap: loading || !widget.viewerCanReact
                               ? null
-                              : (final ReactionGroupsMixin group) async {
+                              : (final GreactionGroups group) async {
                                   try {
                                     await updateReaction(group);
                                   } catch (e) {
@@ -194,8 +199,8 @@ class _ReactionBarState extends State<ReactionBar> {
 
 class ReactionItem extends StatefulWidget {
   const ReactionItem(this.reactionGroup, {this.onTap, super.key});
-  final ReactionGroupsMixin reactionGroup;
-  final Future<void> Function(ReactionGroupsMixin group)? onTap;
+  final GreactionGroups reactionGroup;
+  final Future<void> Function(GreactionGroups group)? onTap;
 
   @override
   ReactionItemState createState() => ReactionItemState();
@@ -245,8 +250,7 @@ class ReactionItemState extends State<ReactionItem> {
                   final StateSetter setState,
                   final ScrollController scrollController,
                 ) =>
-                    APIWrapper<
-                        List<ReactorsGroupMixin$Reactors$Edges?>>.deferred(
+                    APIWrapper<List<GreactorsGroup_reactors_edges?>>.deferred(
                   apiCall: ({required final bool refresh}) =>
                       IssuesService.getReactors(
                     widget.reactionGroup.subject.id,
@@ -254,7 +258,7 @@ class ReactionItemState extends State<ReactionItem> {
                   ),
                   builder: (
                     final BuildContext context,
-                    final List<ReactorsGroupMixin$Reactors$Edges?> data,
+                    final List<GreactorsGroup_reactors_edges?> data,
                   ) =>
                       Padding(
                     padding: const EdgeInsets.symmetric(
@@ -268,8 +272,7 @@ class ReactionItemState extends State<ReactionItem> {
                           data.length,
                           // shrinkWrap: true,
                           (final int index) {
-                            final ActorMixin actor =
-                                data[index]!.node as ActorMixin;
+                            final Gactor actor = data[index]!.node as Gactor;
                             return Card(
                               margin: const EdgeInsets.symmetric(vertical: 4),
                               child: Row(

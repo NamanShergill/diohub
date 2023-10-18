@@ -1,5 +1,5 @@
-import 'package:dio_hub/common/misc/nested_scroll.dart';
-import 'package:dio_hub/common/misc/scroll_dynamic_elevation.dart';
+import 'package:diohub/common/misc/nested_scroll.dart';
+import 'package:diohub/common/misc/scroll_dynamic_elevation.dart';
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 

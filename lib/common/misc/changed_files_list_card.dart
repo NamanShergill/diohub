@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/models/commits/commit_model.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/models/commits/commit_model.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ChangedFilesListCard extends StatelessWidget {

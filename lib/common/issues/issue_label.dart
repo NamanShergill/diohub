@@ -1,7 +1,7 @@
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class IssueLabel extends StatelessWidget {
@@ -9,7 +9,7 @@ class IssueLabel extends StatelessWidget {
       : name = label.name!,
         color = label.color!;
 
-  IssueLabel.gql(final LabelMixin label, {super.key})
+  IssueLabel.gql(final Glabel label, {super.key})
       : name = label.name,
         color = label.color;
   final String name;

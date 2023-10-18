@@ -1,12 +1,12 @@
 import 'package:auto_route/annotations.dart';
-import 'package:dio_hub/common/misc/scaffold_body.dart';
-import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/providers/users/current_user_provider.dart';
-import 'package:dio_hub/providers/users/user_provider.dart';
-import 'package:dio_hub/view/profile/current_user_profile_screen.dart';
-import 'package:dio_hub/view/profile/user_profile_screen.dart';
+import 'package:diohub/common/misc/scaffold_body.dart';
+import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/providers/base_provider.dart';
+import 'package:diohub/providers/users/current_user_provider.dart';
+import 'package:diohub/providers/users/user_provider.dart';
+import 'package:diohub/view/profile/current_user_profile_screen.dart';
+import 'package:diohub/view/profile/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

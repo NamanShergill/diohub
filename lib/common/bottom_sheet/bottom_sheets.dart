@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/utils/extensions.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
+import 'package:diohub/utils/extensions.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

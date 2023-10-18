@@ -1,4 +1,4 @@
-import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:diohub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 
 enum CardLinkType {
@@ -131,7 +131,9 @@ class BasicCard extends StatelessWidget {
         CardLinkType.atTop =>
           medBorderRadius.copyWith(topLeft: Radius.zero, topRight: Radius.zero),
         CardLinkType.atBottom => medBorderRadius.copyWith(
-            bottomLeft: Radius.zero, bottomRight: Radius.zero,),
+            bottomLeft: Radius.zero,
+            bottomRight: Radius.zero,
+          ),
         CardLinkType.both => BorderRadius.zero,
         CardLinkType.none => medBorderRadius,
       };

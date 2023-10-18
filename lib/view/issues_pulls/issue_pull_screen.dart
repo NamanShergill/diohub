@@ -1,39 +1,43 @@
+import 'dart:core';
+
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
-import 'package:dio_hub/common/issues/issue_label.dart';
-import 'package:dio_hub/common/markdown_view/markdown_body.dart';
-import 'package:dio_hub/common/misc/app_bar.dart';
-import 'package:dio_hub/common/misc/deep_link_widget.dart';
-import 'package:dio_hub/common/misc/editable_text.dart';
-import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/common/misc/reaction_bar.dart';
-import 'package:dio_hub/common/misc/scroll_scaffold.dart';
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
-import 'package:dio_hub/common/wrappers/dynamic_tabs_parent.dart';
-import 'package:dio_hub/common/wrappers/editing_wrapper.dart';
-import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
-import 'package:dio_hub/providers/issue_pulls/issue_provider.dart';
-import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
-import 'package:dio_hub/routes/router.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/get_date.dart';
-import 'package:dio_hub/utils/markdown_to_html.dart';
-import 'package:dio_hub/utils/rich_text.dart';
-import 'package:dio_hub/utils/utils.dart';
-import 'package:dio_hub/view/issues_pulls/issue_screen.dart';
-import 'package:dio_hub/view/issues_pulls/pull_screen.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/discussion.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
-import 'package:dio_hub/view/repository/repository_screen.dart';
+import 'package:diohub/common/animations/scale_expanded_widget.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:diohub/common/issues/issue_label.dart';
+import 'package:diohub/common/markdown_view/markdown_body.dart';
+import 'package:diohub/common/misc/app_bar.dart';
+import 'package:diohub/common/misc/deep_link_widget.dart';
+import 'package:diohub/common/misc/editable_text.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/common/misc/reaction_bar.dart';
+import 'package:diohub/common/misc/scroll_scaffold.dart';
+import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
+import 'package:diohub/common/wrappers/dynamic_tabs_parent.dart';
+import 'package:diohub/common/wrappers/editing_wrapper.dart';
+import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
+import 'package:diohub/controller/deep_linking_handler.dart';
+import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/providers/issue_pulls/comment_provider.dart';
+import 'package:diohub/providers/issue_pulls/issue_provider.dart';
+import 'package:diohub/providers/issue_pulls/pull_provider.dart';
+import 'package:diohub/routes/router.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/services/issues/issues_service.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/get_date.dart';
+import 'package:diohub/utils/markdown_to_html.dart';
+import 'package:diohub/utils/rich_text.dart';
+import 'package:diohub/utils/utils.dart';
+import 'package:diohub/view/issues_pulls/issue_screen.dart';
+import 'package:diohub/view/issues_pulls/pull_screen.dart';
+import 'package:diohub/view/issues_pulls/widgets/discussion.dart';
+import 'package:diohub/view/issues_pulls/widgets/discussion_comment.dart';
+import 'package:diohub/view/repository/repository_screen.dart';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
@@ -79,9 +83,9 @@ class IssuePullScreen extends DeepLinkWidget {
 
 class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
   final GlobalKey<
-          APIWrapperState<IssuePullInfo$Query$Repository$IssueOrPullRequest>>
+          APIWrapperState<GissuePullInfoData_repository_issueOrPullRequest>>
       key = GlobalKey<
-          APIWrapperState<IssuePullInfo$Query$Repository$IssueOrPullRequest>>();
+          APIWrapperState<GissuePullInfoData_repository_issueOrPullRequest>>();
 
   @override
   void handleDeepLink(final PathData deepLinkData) {
@@ -90,7 +94,7 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
 
   @override
   Widget build(final BuildContext context) =>
-      APIWrapper<IssuePullInfo$Query$Repository$IssueOrPullRequest>.deferred(
+      APIWrapper<GissuePullInfoData_repository_issueOrPullRequest>.deferred(
         apiCall: ({required final bool refresh}) async =>
             IssuesService.getIssuePullInfo(
           widget.number,
@@ -107,34 +111,35 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
         ),
         builder: (
           final BuildContext context,
-          final IssuePullInfo$Query$Repository$IssueOrPullRequest data,
-        ) {
-          if (data is IssueInfoMixin) {
-            return ChangeNotifierProvider<IssueProvider>(
-              create: (final BuildContext context) =>
-                  IssueProvider(data as IssueInfoMixin),
-              lazy: false,
-              builder: (final BuildContext context, final Widget? child) =>
-                  IssueScreen(
-                data as IssueInfoMixin,
-                apiWrapperKey: key,
-              ),
-            );
-          } else if (data is PullInfoMixin) {
-            return ChangeNotifierProvider<PullProvider>(
-              create: (final BuildContext context) =>
-                  PullProvider(data as PullInfoMixin),
-              lazy: false,
-              builder: (final BuildContext context, final Widget? child) =>
-                  PullScreen(
-                data as PullInfoMixin,
-                // apiWrapperController: apiWrapperController,
-              ),
-            );
-          } else {
-            return Container();
-          }
-        },
+          final GissuePullInfoData_repository_issueOrPullRequest data,
+        ) =>
+            data.when(
+          issue:
+              (final GissuePullInfoData_repository_issueOrPullRequest__asIssue
+                      p0) =>
+                  ChangeNotifierProvider<IssueProvider>(
+            create: (final BuildContext context) => IssueProvider(p0),
+            lazy: false,
+            builder: (final BuildContext context, final Widget? child) =>
+                IssueScreen(
+              p0,
+              apiWrapperKey: key,
+            ),
+          ),
+          pullRequest:
+              (final GissuePullInfoData_repository_issueOrPullRequest__asPullRequest
+                      p0) =>
+                  ChangeNotifierProvider<PullProvider>(
+            create: (final BuildContext context) => PullProvider(p0),
+            lazy: false,
+            builder: (final BuildContext context, final Widget? child) =>
+                PullScreen(
+              data as GpullInfo,
+              // apiWrapperController: apiWrapperController,
+            ),
+          ),
+          orElse: unimplemented,
+        ),
       );
 }
 
@@ -162,24 +167,24 @@ class IssuePullInfoTemplate extends StatefulWidget {
   });
 
   final GlobalKey<
-          APIWrapperState<IssuePullInfo$Query$Repository$IssueOrPullRequest>>
+          APIWrapperState<GissuePullInfoData_repository_issueOrPullRequest>>
       apiWrapperKey;
-  final AssigneeInfoMixin assigneesInfo;
+  final GassigneeInfo assigneesInfo;
   final String body;
   final String bodyHTML;
   final int commentCount;
   final DateTime createdAt;
-  final ActorMixin? createdBy;
+  final Gactor? createdBy;
   final List<DynamicTab> dynamicTabs;
-  final List<LabelMixin?> labels;
+  final List<Glabel?> labels;
   final int number;
-  final List<ReactionGroupsMixin> reactionGroups;
-  final RepoInfoMixin repoInfo;
+  final List<GreactionGroups> reactionGroups;
+  final GrepoInfo repoInfo;
   final IssuePullState state;
   final String title;
   final Uri uri;
   final bool viewerCanReact;
-  final UnfinishedList<ActorMixin> participantsInfo;
+  final UnfinishedList<Gactor> participantsInfo;
   final bool isPinned;
 
   @override
@@ -190,7 +195,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   late EditingController<Object> assigneeEditingController;
   late EditingController<String> descEditingController;
   final DynamicTabsController dynamicTabsController = DynamicTabsController();
-  late EditingController<List<LabelMixin?>> labelsEditingController;
+  late EditingController<List<Glabel?>> labelsEditingController;
   // final ScrollController scrollController = ScrollController();
   // final ScrollController scrollController2 = ScrollController();
   late EditingController<String> titleEditingController;
@@ -198,7 +203,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   @override
   void initState() {
     titleEditingController = EditingController<String>(widget.title);
-    labelsEditingController = EditingController<List<LabelMixin?>>(
+    labelsEditingController = EditingController<List<Glabel?>>(
       widget.labels,
       onEditTap: (final BuildContext context) => null,
     );
@@ -262,59 +267,57 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
         ),
       );
 
-  List<DynamicTab> _buildTabs() {
-    return List<DynamicTab>.from(widget.dynamicTabs)
-      ..addAll(
-        <DynamicTab>[
-          DynamicTab(
-            identifier: 'About',
-            isDismissible: false,
-            tabViewBuilder: (final BuildContext context) => _AboutTab(
-              widget: widget,
-              descEditingController: descEditingController,
-              assigneeEditingController: assigneeEditingController,
-              dynamicTabsController: dynamicTabsController,
-            ),
+  List<DynamicTab> _buildTabs() => List<DynamicTab>.from(widget.dynamicTabs)
+    ..addAll(
+      <DynamicTab>[
+        DynamicTab(
+          identifier: 'About',
+          isDismissible: false,
+          tabViewBuilder: (final BuildContext context) => _AboutTab(
+            widget: widget,
+            descEditingController: descEditingController,
+            assigneeEditingController: assigneeEditingController,
+            dynamicTabsController: dynamicTabsController,
           ),
-          DynamicTab(
-            identifier: 'Conversation',
-            keepViewAlive: true,
-            tabViewBuilder: (final BuildContext context) =>
-                ChangeNotifierProvider<CommentProvider>(
-              create: (final _) => CommentProvider(),
-              builder: (final BuildContext context, final Widget? child) =>
-                  Discussion(
-                number: widget.number,
-                isLocked: false,
+        ),
+        DynamicTab(
+          identifier: 'Conversation',
+          keepViewAlive: true,
+          tabViewBuilder: (final BuildContext context) =>
+              ChangeNotifierProvider<CommentProvider>(
+            create: (final _) => CommentProvider(),
+            builder: (final BuildContext context, final Widget? child) =>
+                IssuePullTimeline(
+              number: widget.number,
+              isLocked: false,
+              createdAt: widget.createdAt,
+              owner: widget.repoInfo.owner.login,
+              repoName: widget.repoInfo.name,
+              initComment: BaseComment(
+                onQuote: () {},
+                isMinimized: false,
+                reactions: widget.reactionGroups,
+                viewerCanDelete: false,
+                viewerCanMinimize: false,
+                viewerCannotUpdateReasons: null,
+                viewerCanReact: widget.viewerCanReact,
+                viewerCanUpdate: false,
+                viewerDidAuthor: false,
                 createdAt: widget.createdAt,
-                owner: widget.repoInfo.owner.login,
-                repoName: widget.repoInfo.name,
-                initComment: BaseComment(
-                  onQuote: () {},
-                  isMinimized: false,
-                  reactions: widget.reactionGroups,
-                  viewerCanDelete: false,
-                  viewerCanMinimize: false,
-                  viewerCannotUpdateReasons: null,
-                  viewerCanReact: widget.viewerCanReact,
-                  viewerCanUpdate: false,
-                  viewerDidAuthor: false,
-                  createdAt: widget.createdAt,
-                  author: widget.createdBy,
-                  body: widget.body,
-                  lastEditedAt: null,
-                  bodyHTML: widget.bodyHTML,
-                  authorAssociation: CommentAuthorAssociation.none,
-                ),
-                issueUrl: widget.uri,
-                isPull: false,
-                // nestedScrollViewController: scrollController,
+                author: widget.createdBy,
+                body: widget.body,
+                lastEditedAt: null,
+                bodyHTML: widget.bodyHTML,
+                authorAssociation: GCommentAuthorAssociation.NONE,
               ),
+              issueUrl: widget.uri,
+              isPull: false,
+              // nestedScrollViewController: scrollController,
             ),
           ),
-        ],
-      );
-  }
+        ),
+      ],
+    );
 
   DHAppBar buildAppBar(final BuildContext context) => DHAppBar(
         hasEditableChildren: true,
@@ -590,32 +593,35 @@ class _AboutTab extends StatelessWidget {
                     final BuildContext context,
                     final EditingData<Object> data,
                   ) {
-                    final List<AssigneeInfoMixin$Edges?> assignees =
-                        widget.assigneesInfo.edges ??
-                            <AssigneeInfoMixin$Edges?>[];
+                    final List<GassigneeInfo_edges?> assignees =
+                        widget.assigneesInfo.edges?.toList() ??
+                            <GassigneeInfo_edges?>[];
                     return _AssigneeInfoCard(
                       onTap: data.editModeActive
                           ? () async =>
                               data.editingController.edit.call(context)
                           : null,
                       trailing: data.editModeActive ? data.tools : null,
-                      availableList: UnfinishedList<ActorMixin>(
+                      availableList:
+                          UnfinishedList<NodeWithPaginationInfo<Gactor>>(
                         limitedAvailableList: assignees
                             .map(
-                              (final AssigneeInfoMixin$Edges? e) => e!.node!,
+                              // ignore: unnecessary_lambdas
+                              (final GassigneeInfo_edges? e) =>
+                                  NodeWithPaginationInfo<Gactor>.fromEdge(e!),
                             )
                             .toList(),
                       ),
-                      titleBuilder: (
-                        final UnfinishedList<ActorMixin> availableList,
-                      ) =>
-                          switch (availableList.totalCount) {
+                      titleBuilder:
+                          (final UnfinishedList<NodeWithPaginationInfo<Gactor>>
+                                  availableList) =>
+                              switch (availableList.totalCount) {
                         1 => 'Assignee',
                         _ => 'Assignees',
                       },
                       fetchActorsList: (
                         final ({
-                          NodeWithPaginationInfo<ActorMixin>? lastItem,
+                          NodeWithPaginationInfo<Gactor>? lastItem,
                           int pageNumber,
                           int pageSize,
                           bool refresh
@@ -626,14 +632,9 @@ class _AboutTab extends StatelessWidget {
                                   .getAssignees(
                                     after: data.lastItem?.cursor,
                                   ))
-                              .map<NodeWithPaginationInfo<ActorMixin>>(
-                                (
-                                  final AssigneeUserListMixin$Assignees$Edges?
-                                      e,
-                                ) =>
-                                    NodeWithPaginationInfo<ActorMixin>.fromEdge(
-                                  e!,
-                                ),
+                              .map<NodeWithPaginationInfo<Gactor>>(
+                                (final NodeWithPaginationInfo<Gactor>? e) =>
+                                    NodeWithPaginationInfo<Gactor>.fromEdge(e!),
                               )
                               .toList(),
                     );
@@ -648,12 +649,11 @@ class _AboutTab extends StatelessWidget {
                   trailing: _getIcon(widget.participantsInfo.totalCount),
                   child: _buildChild(widget.participantsInfo),
                   onTap: () async {
-                    await BottomSheetPagination<
-                        NodeWithPaginationInfo<ActorMixin>>(
+                    await BottomSheetPagination<NodeWithPaginationInfo<Gactor>>(
                       paginatedListItemBuilder: _paginatedListItemBuilder,
                       paginationFuture: (
                         final ({
-                          NodeWithPaginationInfo<ActorMixin>? lastItem,
+                          NodeWithPaginationInfo<Gactor>? lastItem,
                           int pageNumber,
                           int pageSize,
                           bool refresh
@@ -683,7 +683,7 @@ class _ScreenHeader extends StatelessWidget {
   final IssuePullInfoTemplate widget;
 
   final EditingController<String> titleEditingController;
-  final EditingController<List<LabelMixin?>> labelsEditingController;
+  final EditingController<List<Glabel?>> labelsEditingController;
 
   @override
   Widget build(final BuildContext context) => Column(
@@ -745,12 +745,11 @@ class _ScreenHeader extends StatelessWidget {
         ],
       );
 
-  EditWidget<List<LabelMixin?>> buildLabelsWidget() =>
-      EditWidget<List<LabelMixin?>>(
+  EditWidget<List<Glabel?>> buildLabelsWidget() => EditWidget<List<Glabel?>>(
         editingController: labelsEditingController,
         builder: (
           final BuildContext context,
-          final EditingData<List<LabelMixin?>> data,
+          final EditingData<List<Glabel?>> data,
         ) {
           return Padding(
             padding: const EdgeInsets.only(top: 4),
@@ -763,7 +762,7 @@ class _ScreenHeader extends StatelessWidget {
                     child: Wrap(
                       children: data.editingController.currentValue
                           .map(
-                            (final LabelMixin? e) => Padding(
+                            (final Glabel? e) => Padding(
                               padding: const EdgeInsets.all(4),
                               child: IssueLabel.gql(e!),
                             ),
@@ -804,7 +803,7 @@ class _ScreenHeader extends StatelessWidget {
 class IssuePullState {
   IssuePullState(this.state, {this.isDraft = false})
       : assert(
-          state is PullRequestState || state is IssueState,
+          state is GPullRequestState || state is GIssueState,
           'Not a valid state!',
         );
 
@@ -822,14 +821,14 @@ class IssuePullState {
       );
 
   IconData get iconData {
-    if (state == IssueState.open) {
+    if (state == GIssueState.OPEN) {
       return Octicons.issue_opened;
-    } else if (state == IssueState.closed) {
+    } else if (state == GIssueState.CLOSED) {
       return Octicons.issue_closed;
-    } else if (state == PullRequestState.open ||
-        state == PullRequestState.closed) {
+    } else if (state == GPullRequestState.OPEN ||
+        state == GPullRequestState.CLOSED) {
       return Octicons.git_pull_request;
-    } else if (state == PullRequestState.merged) {
+    } else if (state == GPullRequestState.MERGED) {
       return Octicons.git_merge;
     } else {
       throw UnimplementedError();
@@ -837,13 +836,13 @@ class IssuePullState {
   }
 
   Color get color {
-    if (state == IssueState.closed || state == PullRequestState.closed) {
+    if (state == GIssueState.CLOSED || state == GPullRequestState.CLOSED) {
       return Colors.red;
     } else if (isDraft) {
       return Colors.grey;
-    } else if (state == IssueState.open || state == PullRequestState.open) {
+    } else if (state == GIssueState.OPEN || state == GPullRequestState.OPEN) {
       return Colors.green;
-    } else if (state == PullRequestState.merged) {
+    } else if (state == GPullRequestState.MERGED) {
       return Colors.deepPurple;
     } else {
       throw UnimplementedError();
@@ -851,13 +850,13 @@ class IssuePullState {
   }
 
   String get text {
-    if (state == IssueState.closed || state == PullRequestState.closed) {
+    if (state == GIssueState.CLOSED || state == GPullRequestState.CLOSED) {
       return 'Closed';
     } else if (isDraft) {
       return 'Draft';
-    } else if (state == IssueState.open || state == PullRequestState.open) {
+    } else if (state == GIssueState.OPEN || state == GPullRequestState.OPEN) {
       return 'Open';
-    } else if (state == PullRequestState.merged) {
+    } else if (state == GPullRequestState.MERGED) {
       return 'Merged';
     } else {
       throw UnimplementedError();
@@ -873,9 +872,11 @@ class _AssigneeInfoCard extends StatelessWidget {
     this.onTap,
     this.trailing,
   });
-  final UnfinishedList<ActorMixin> availableList;
-  final String Function(UnfinishedList<ActorMixin> availableList) titleBuilder;
-  final ScrollWrapperFuture<NodeWithPaginationInfo<ActorMixin>> fetchActorsList;
+  final UnfinishedList<NodeWithPaginationInfo<Gactor>> availableList;
+  final String Function(
+          UnfinishedList<NodeWithPaginationInfo<Gactor>> availableList)
+      titleBuilder;
+  final ScrollWrapperFuture<NodeWithPaginationInfo<Gactor>> fetchActorsList;
   final VoidCallback? onTap;
   final Widget? trailing;
   @override
@@ -884,15 +885,14 @@ class _AssigneeInfoCard extends StatelessWidget {
             ? null
             : () async {
                 if (availableList.totalCount > 1) {
-                  await BottomSheetPagination<
-                      NodeWithPaginationInfo<ActorMixin>>(
+                  await BottomSheetPagination<NodeWithPaginationInfo<Gactor>>(
                     paginatedListItemBuilder: _paginatedListItemBuilder,
                     paginationFuture: fetchActorsList,
                     title: titleBuilder.call(availableList),
                   ).openSheet(context);
                 } else {
                   navigateToProfile(
-                    login: availableList.limitedAvailableList.first.login,
+                    login: availableList.limitedAvailableList.first.node.login,
                     context: context,
                   );
                 }
@@ -906,9 +906,9 @@ class _AssigneeInfoCard extends StatelessWidget {
         0 => const Text('None'),
         1 => ProfileTile.login(
             padding: const EdgeInsets.all(4),
-            avatarUrl:
-                availableList.limitedAvailableList.first.avatarUrl.toString(),
-            userLogin: availableList.limitedAvailableList.first.login,
+            avatarUrl: availableList.limitedAvailableList.first.node.avatarUrl
+                .toString(),
+            userLogin: availableList.limitedAvailableList.first.node.login,
             disableTap: true,
           ),
         _ => ImageStack.widgets(
@@ -921,8 +921,9 @@ class _AssigneeInfoCard extends StatelessWidget {
             widgetRadius: 29,
             children: availableList.limitedAvailableList
                 .map(
-                  (final ActorMixin e) => ProfileTile.avatar(
-                    avatarUrl: e.avatarUrl.toString(),
+                  (final NodeWithPaginationInfo<Gactor> e) =>
+                      ProfileTile.avatar(
+                    avatarUrl: e.node.avatarUrl.toString(),
                     padding: EdgeInsets.zero,
                   ),
                 )
@@ -931,7 +932,7 @@ class _AssigneeInfoCard extends StatelessWidget {
       };
 }
 
-StatelessWidget _buildChild(final UnfinishedList<ActorMixin> availableList) =>
+StatelessWidget _buildChild(final UnfinishedList<Gactor> availableList) =>
     switch (availableList.totalCount) {
       0 => const Text('None'),
       1 => ProfileTile.login(
@@ -951,7 +952,7 @@ StatelessWidget _buildChild(final UnfinishedList<ActorMixin> availableList) =>
           widgetRadius: 29,
           children: availableList.limitedAvailableList
               .map(
-                (final ActorMixin e) => ProfileTile.avatar(
+                (final Gactor e) => ProfileTile.avatar(
                   avatarUrl: e.avatarUrl.toString(),
                   padding: EdgeInsets.zero,
                 ),
@@ -960,12 +961,12 @@ StatelessWidget _buildChild(final UnfinishedList<ActorMixin> availableList) =>
         ),
     };
 
-ScrollWrapperBuilder<NodeWithPaginationInfo<ActorMixin>>
+ScrollWrapperBuilder<NodeWithPaginationInfo<Gactor>>
     get _paginatedListItemBuilder => (
           final BuildContext context,
           final ({
             int index,
-            NodeWithPaginationInfo<ActorMixin> item,
+            NodeWithPaginationInfo<Gactor> item,
             bool refresh,
           }) data,
         ) =>
@@ -992,11 +993,7 @@ Icon? _getIcon(final int listLength) => switch (listLength) {
         ),
     };
 List<Widget> _buildListItemChildren(
-  final ({
-    int index,
-    NodeWithPaginationInfo<ActorMixin> item,
-    bool refresh
-  }) data,
+  final ({int index, NodeWithPaginationInfo<Gactor> item, bool refresh}) data,
   final BuildContext context,
   final Widget child,
 ) =>
@@ -1014,7 +1011,7 @@ List<Widget> _buildListItemChildren(
       ),
     ];
 
-// class ActorMultiListAdapter extends PaginatedInfoCardAdapter<ActorMixin> {
+// class ActorMultiListAdapter extends PaginatedInfoCardAdapter<Gactor> {
 //   ActorMultiListAdapter({
 //     required super.availableList,
 //     required this.titleBuilder,
@@ -1028,14 +1025,14 @@ List<Widget> _buildListItemChildren(
 //             icon: null,
 //           ),
 //         );
-//   final String Function(MultiItemInfoCardList<ActorMixin> availableList)
+//   final String Function(MultiItemInfoCardList<Gactor> availableList)
 //       titleBuilder;
-//   final ScrollWrapperFuture<NodeWithPaginationInfo<ActorMixin>> fetchActorsList;
+//   final ScrollWrapperFuture<NodeWithPaginationInfo<Gactor>> fetchActorsList;
 //
 //   @override
-//   BottomSheetPagination<NodeWithPaginationInfo<ActorMixin>>
+//   BottomSheetPagination<NodeWithPaginationInfo<Gactor>>
 //       get paginatedSheet =>
-//           BottomSheetPagination<NodeWithPaginationInfo<ActorMixin>>(
+//           BottomSheetPagination<NodeWithPaginationInfo<Gactor>>(
 //             paginatedListItemBuilder: paginatedListItemBuilder,
 //             paginationFuture: fetchActorsList,
 //             title: title,
@@ -1063,7 +1060,7 @@ List<Widget> _buildListItemChildren(
 //               widgetRadius: 29,
 //               children: items
 //                   .map(
-//                     (final ActorMixin e) => ProfileTile.avatar(
+//                     (final Gactor e) => ProfileTile.avatar(
 //                       avatarUrl: e.avatarUrl.toString(),
 //                       padding: EdgeInsets.zero,
 //                     ),

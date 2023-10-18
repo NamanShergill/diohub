@@ -1,9 +1,8 @@
-import 'package:dio_hub/common/markdown_view/extensions/markdown_extensions.dart';
-import 'package:dio_hub/common/misc/image_loader.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
-import 'package:dio_hub/services/markdown/markdown_service.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/markdown_view/extensions/markdown_extensions.dart';
+import 'package:diohub/common/misc/image_loader.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
+import 'package:diohub/services/markdown/markdown_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -16,11 +15,15 @@ class MarkdownRenderAPI extends StatelessWidget {
     super.key,
     this.repoContext,
     this.branch,
+    this.style,
+    this.buildAsync,
   });
 
   final String data;
   final String? repoContext;
   final String? branch;
+  final bool? buildAsync;
+  final MarkdownBodyStyle? style;
 
   List<MarkdownImgSrcModifiers> get _repoMarkdownImgSrcModifiers =>
       <MarkdownImgSrcModifiers>[
@@ -45,14 +48,15 @@ class MarkdownRenderAPI extends StatelessWidget {
           required final bool refresh,
         }) async =>
             MarkdownService.renderMarkdown(data, context: repoContext),
-        loadingBuilder: (final BuildContext context) => const Padding(
-          padding: EdgeInsets.symmetric(vertical: 48),
+        loadingBuilder: (final BuildContext context) => const Center(
           child: LoadingIndicator(),
         ),
         builder: (final BuildContext context, final String data) =>
             MarkdownBody(
           data,
+          buildAsync: buildAsync,
           imgSrcModifiers: _repoMarkdownImgSrcModifiers,
+          style: style,
         ),
       );
 }
@@ -62,9 +66,12 @@ class MarkdownBody extends StatefulWidget {
     this.content, {
     super.key,
     this.imgSrcModifiers,
+    this.style,
+    this.buildAsync,
     // this.defaultBodyStyle,
   });
-
+  final MarkdownBodyStyle? style;
+  final bool? buildAsync;
   final String content;
   final List<MarkdownImgSrcModifiers>? imgSrcModifiers;
 
@@ -119,9 +126,11 @@ class MarkdownBodyState extends State<MarkdownBody> {
   HtmlWidgetState? get currentMarkdownState => htmlWidgetKey.currentState;
   @override
   Widget build(final BuildContext context) => HtmlWidget(
-        doc.outerHtml, key: htmlWidgetKey,
-        factoryBuilder: () =>
-            MyWidgetFactory(fetchState: () => currentMarkdownState),
+        doc.outerHtml, key: htmlWidgetKey, buildAsync: widget.buildAsync,
+        factoryBuilder: () => MyWidgetFactory(
+          fetchState: () => currentMarkdownState,
+          // codeBlockStyle: widget.style?.codeBlockStyle,
+        ),
         // onTapUrl: (final String url) async {
         //   await URLActions(
         //     uri: Uri.parse(url),
@@ -133,20 +142,25 @@ class MarkdownBodyState extends State<MarkdownBody> {
             const LoadingIndicator(),
 
         customStylesBuilder: (final dom.Element element) {
-          print(element.localName);
+          // print(element.localName);
           if (element.isTag('a')) {
             return <String, String>{
               'text-decoration': 'none',
             };
-          }
-          if (element.isTag('code')) {
+          } else if (element.isTag('blockquote')) {
             return <String, String>{
-              'background-color':
-                  '#${context.colorScheme.surfaceVariant.value.toRadixString(16)}',
-              'border-radius': '50px',
-              'padding': '10px',
+              'margin': '0',
+              // 'padding': '0',
             };
           }
+          // if (element.isTag('code')) {
+          //   return <String, String>{
+          //     'background-color':
+          //         '#${context.colorScheme.surfaceVariant.value.toRadixString(16)}',
+          //     'border-radius': '50px',
+          //     'padding': '10px',
+          //   };
+          // }
           return null;
         }, // rende
         // rMode: RenderMode.sliverList,
@@ -160,44 +174,75 @@ class MarkdownBodyState extends State<MarkdownBody> {
                     ?.replaceAll('highlight highlight-source-', '')
                     .split(' ')
                     .first,
+                codeBlockStyle: widget.style?.codeBlockStyle,
               );
             }
-          } else if (element.isTag('img')) {
-            String src = element.attributes['src']!;
-            for (final MarkdownImgSrcModifiers modifier
-                in widget.imgSrcModifiers ?? <MarkdownImgSrcModifiers>[]) {
-              src = modifier.call(
-                MarkdownImgSrcData(src),
-              );
-            }
-            if (src.split('.').last.contains('svg')) {
-              return SvgPicture.network(
-                src,
-              );
-            }
-            return Padding(
-              padding: const EdgeInsets.all(4),
-              child: ImageLoader(
-                src,
-                height: double.tryParse(
-                  element.attributes['height'] ?? '',
-                ),
-                width: double.tryParse(
-                  element.attributes['width'] ?? '',
-                ),
-                // Some SVGs don't have svg in their URL so will miss the
-                // if check above. They will fail in the image loader
-                // so will build here.
-                errorBuilder: (final BuildContext context) =>
-                    SvgPicture.network(
-                  src,
-                ),
-              ),
-            );
+          }
+
+          // if (element.isTag('table')) {
+          //   return Container();
+          // }
+          if (element.isTag('img')) {
+            return buildImageTag(element,
+                imgSrcModifiers: widget.imgSrcModifiers);
           }
           return null;
         },
       );
+
+  Widget buildImageTag(
+    final dom.Element element, {
+    required final Iterable<MarkdownImgSrcModifiers>? imgSrcModifiers,
+  }) {
+    String src = element.attributes['src']!;
+    for (final MarkdownImgSrcModifiers modifier
+        in imgSrcModifiers ?? <MarkdownImgSrcModifiers>[]) {
+      src = modifier.call(
+        MarkdownImgSrcData(src),
+      );
+    }
+    if (src.split('.').last.contains('svg')) {
+      return SvgPicture.network(
+        src,
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.all(4),
+      child: ImageLoader(
+        src,
+        height: double.tryParse(
+          element.attributes['height'] ?? '',
+        ),
+        width: double.tryParse(
+          element.attributes['width'] ?? '',
+        ),
+        // Some SVGs don't have svg in their URL so will miss the
+        // if check above. They will fail in the image loader
+        // so will build here.
+        errorBuilder: (final BuildContext context) => SvgPicture.network(
+          src,
+        ),
+      ),
+    );
+  }
+}
+
+class MarkdownBodyStyle {
+  MarkdownBodyStyle({
+    this.codeBlockStyle,
+  });
+
+  final MarkdownBodyCodeBlockStyle? codeBlockStyle;
+}
+
+class MarkdownBodyCodeBlockStyle {
+  MarkdownBodyCodeBlockStyle({
+    this.headerColor,
+    this.elevation,
+  });
+
+  final Color? headerColor;
+  final double? elevation;
 }
 
 //     return Html.fromDom(

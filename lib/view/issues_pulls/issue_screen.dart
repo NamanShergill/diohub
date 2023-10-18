@@ -1,8 +1,9 @@
-import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
-import 'package:dio_hub/graphql/graphql.dart' hide IssueState;
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
+import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
@@ -14,11 +15,11 @@ class IssueScreen extends StatefulWidget {
     this.commentsSince,
     super.key,
   });
-  final IssueInfoMixin issueInfo;
+  final GissueInfo issueInfo;
   final DateTime? commentsSince;
   final int initialIndex;
   final GlobalKey<
-          APIWrapperState<IssuePullInfo$Query$Repository$IssueOrPullRequest>>
+          APIWrapperState<GissuePullInfoData_repository_issueOrPullRequest>>
       apiWrapperKey;
 
   @override
@@ -42,12 +43,12 @@ class IssueScreenState extends State<IssueScreen>
 
   @override
   Widget build(final BuildContext context) {
-    final IssueInfoMixin data = widget.issueInfo;
+    final GissueInfo data = widget.issueInfo;
     return IssuePullInfoTemplate(
       number: data.number,
       isPinned: data.isPinned ?? false,
       title: data.titleHTML,
-      reactionGroups: data.reactionGroups!,
+      reactionGroups: data.reactionGroups!.toList(),
       viewerCanReact: data.viewerCanReact,
       commentCount: data.comments.totalCount,
       repoInfo: data.repository,
@@ -55,13 +56,13 @@ class IssueScreenState extends State<IssueScreen>
       bodyHTML: data.bodyHTML,
       assigneesInfo: data.assignees,
       body: data.body,
-      labels: data.labels!.nodes!,
+      labels: data.labels!.nodes!.toList(),
       createdAt: data.createdAt,
       createdBy: data.author,
       apiWrapperKey: widget.apiWrapperKey,
-      participantsInfo: UnfinishedList<ActorMixin>(
+      participantsInfo: UnfinishedList<Gactor>(
         limitedAvailableList: data.participants.nodes!
-            .map((final IssueInfoMixin$Participants$Nodes? e) => e!)
+            .map((final GissueInfo_participants_nodes? e) => e!)
             .toList(),
         totalCount: data.participants.totalCount,
       ),
@@ -69,26 +70,21 @@ class IssueScreenState extends State<IssueScreen>
     );
   }
 
-  Widget? getIcon(final IssueState state, final double size) {
+  Widget? getIcon(final GIssueState state, final double size) {
     switch (state) {
-      case IssueState.CLOSED:
+      case GIssueState.CLOSED:
         return Icon(
           Octicons.issue_closed,
           color: Colors.red,
           size: size,
         );
-      case IssueState.OPEN:
+      case GIssueState.OPEN:
         return Icon(
           Octicons.issue_opened,
           color: Colors.green,
           size: size,
         );
-      case IssueState.REOPENED:
-        return Icon(
-          Octicons.issue_reopened,
-          color: Colors.green,
-          size: size,
-        );
     }
+    return null;
   }
 }

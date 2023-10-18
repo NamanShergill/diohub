@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/custom_expand_tile.dart';
-import 'package:dio_hub/common/misc/round_button.dart';
-import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/string_compare.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/custom_expand_tile.dart';
+import 'package:diohub/common/misc/round_button.dart';
+import 'package:diohub/common/search_overlay/search_overlay.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/string_compare.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class AppSearchBar extends StatefulWidget {

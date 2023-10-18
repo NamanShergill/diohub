@@ -1,13 +1,14 @@
+# import '../issues_pulls/timeline.query.graphql'
+
 query searchMentionUsers($query: String!, $after: String){
     search(query: $query, type: USER, first: 20, after: $after) {
         edges {
             node {
-                __typename ... on User{
-                    login
-                    avatarUrl
+                __typename
+                ... on User{
+                    ...actor
                 } ... on Organization{
-                    login
-                    avatarUrl
+                    ...actor
                 }
             }
             cursor

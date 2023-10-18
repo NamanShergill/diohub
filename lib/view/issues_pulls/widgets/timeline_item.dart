@@ -1,14 +1,17 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/issues/issue_list_card.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/common/pulls/pull_loading_card.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/utils/http_to_api.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/basic_event_card.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
-import 'package:dio_hub/view/repository/code/commit_browser_tiles.dart';
+import 'package:diohub/common/issues/issue_list_card.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/common/misc/profile_card.dart';
+import 'package:diohub/common/pulls/pull_loading_card.dart';
+import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/utils/http_to_api.dart';
+import 'package:diohub/utils/utils.dart';
+import 'package:diohub/view/issues_pulls/widgets/basic_event_card.dart';
+import 'package:diohub/view/issues_pulls/widgets/discussion_comment.dart';
+import 'package:diohub/view/repository/code/commit_browser_tiles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -38,66 +41,51 @@ class TimelineItem extends StatelessWidget {
   final String? pullNodeID;
   final VoidCallback onQuote;
 
-  String getReviewState(final PullRequestReviewState state) {
-    switch (state) {
-      case PullRequestReviewState.approved:
-        return 'Approved this.';
-      case PullRequestReviewState.changesRequested:
-        return 'Requested Changes.';
-      case PullRequestReviewState.commented:
-        return 'Reviewed this.';
-      case PullRequestReviewState.dismissed:
-        return 'Dismissed this.';
-      case PullRequestReviewState.pending:
-        return 'Review Pending.';
-      case PullRequestReviewState.artemisUnknown:
-        return 'Unknown';
-    }
-  }
+  String getReviewState(final GPullRequestReviewState state) => switch (state) {
+        GPullRequestReviewState.APPROVED => 'Approved this.',
+        GPullRequestReviewState.CHANGES_REQUESTED => 'Requested Changes.',
+        GPullRequestReviewState.COMMENTED => 'Reviewed this.',
+        GPullRequestReviewState.DISMISSED => 'Dismissed this.',
+        GPullRequestReviewState.PENDING => 'Review Pending.',
+        GPullRequestReviewState() => throw UnimplementedError(),
+      };
 
   @override
   Widget build(final BuildContext context) {
     final dynamic item = timelineItem;
     final Widget child = switch (item) {
-      final AssignedMixin item => _buildBasicEventAssignedCard(item),
-      final BaseRefChangedMixin item => _buildBaseRefChangedCard(item),
-      final BaseRefDeletedMixin item => _buildRefDeletedCard(item),
-      final BaseRefForcePushedMixin item => _buildForcePushedCard(item),
-      final ClosedMixin item => _buildClosedCard(item),
-      final ConvertedToDraftMixin item => _buildConvertedToDraftCard(item),
-      final CrossReferenceMixin item => _buildCrossReferenceCard(item),
-      final DeMileStonedMixin item => _buildDemilestonedCard(item),
-      final HeadRefDeletedMixin item => _buildHeadRefDeletedCard(item),
-      final HeadRefForcePushedMixin item => _buildHeadRefForcePushedCard(item),
-      final HeadRefRestoredMixin item => _buildHeadRefRestoredCard(item),
-      final IssueCommentMixin item => _buildBaseComment(item),
-      final LabeledMixin item => _buildLabeledMixinItem(item),
-      final LockedMixin item => _buildLockedCard(item),
-      final MarkedAsDuplicateMixin item => _buildMarkedAsDuplicateCard(item),
-      final MergedMixin item => _buildMergedCard(item),
-      final MileStonedMixin item => _buildMilestonedCard(item),
-      final PinnedMixin item => _buildPinnedMixin(item),
-      final PullRequestCommitMixin item => _buildPullRequestCommitCard(item),
-      final PullRequestReviewMixin item =>
+      final Gassigned item => _buildBasicEventAssignedCard(item),
+      final GbaseRefChanged item => _buildBaseRefChangedCard(item),
+      final GbaseRefDeleted item => _buildRefDeletedCard(item),
+      final GbaseRefForcePushed item => _buildForcePushedCard(item),
+      final Gclosed item => _buildClosedCard(item),
+      final GconvertedToDraft item => _buildConvertedToDraftCard(item),
+      final GcrossReference item => _buildCrossReferenceCard(item),
+      final GdeMileStoned item => _buildDemilestonedCard(item),
+      final GheadRefDeleted item => _buildHeadRefDeletedCard(item),
+      final GheadRefForcePushed item => _buildHeadRefForcePushedCard(item),
+      final GheadRefRestored item => _buildHeadRefRestoredCard(item),
+      final GissueComment item => _buildBaseComment(item),
+      final Glabeled item => _buildLabeledItem(item),
+      final Glocked item => _buildLockedCard(item),
+      final GmarkedAsDuplicate item => _buildMarkedAsDuplicateCard(item),
+      final Gmerged item => _buildMergedCard(item),
+      final GmileStoned item => _buildMilestonedCard(item),
+      final Gpinned item => _buildPinned(item),
+      final GpullRequestCommit item => _buildPullRequestCommitCard(item),
+      final GpullRequestReview item =>
         _buildPullRequestReviewCard(item, context),
-      final ReadyForReviewMixin item => _buildReadForReviewCard(item),
-      final RenamedTitleMixin item => _buildRenamedTitleCard(item, context),
-      final ReopenedMixin item => _buildReopenedCard(item),
-      final ReviewRequestedMixin item => _buldReviewRequestedCard(item),
-      final UnassignedMixin item => _buildUnassignedCard(item),
-      final UnlabeledMixin item => _buildUnlabeledCard(item),
-      final UnlockedMixin item => _buildUnlockedCard(item),
-      final UnmarkedAsDuplicateMixin item =>
-        _buildUnmarkedAsDuplicateCard(item),
-      final UnpinnedMixin item => _buildUnpinnedCard(item),
+      final GreadyForReview item => _buildReadForReviewCard(item),
+      final GrenamedTitle item => _buildRenamedTitleCard(item, context),
+      final Greopened item => _buildReopenedCard(item),
+      final GreviewRequested item => _buildReviewRequestedCard(item),
+      final Gunassigned item => _buildUnassignedCard(item),
+      final Gunlabeled item => _buildUnlabeledCard(item),
+      final Gunlocked item => _buildUnlockedCard(item),
+      final GunmarkedAsDuplicate item => _buildUnmarkedAsDuplicateCard(item),
+      final Gunpinned item => _buildUnpinnedCard(item),
       _ => const Text('Unimplemented.'),
     };
-    if (item is IssueCommentMixin) {
-      return PaddingWrap(
-        // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        child: child,
-      );
-    }
 
     return Column(
       children: <Widget>[
@@ -109,7 +97,7 @@ class TimelineItem extends StatelessWidget {
     );
   }
 
-  BasicEventTextCard _buildUnpinnedCard(final UnpinnedMixin item) =>
+  BasicEventTextCard _buildUnpinnedCard(final Gunpinned item) =>
       BasicEventTextCard(
         user: item.actor,
         leading: const Icon(MdiIcons.pinOff),
@@ -118,40 +106,35 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildUnmarkedAsDuplicateCard(
-    final UnmarkedAsDuplicateMixin item,
+    final GunmarkedAsDuplicate item,
   ) =>
       BasicEventTextCard(
         textContent: 'Marked this as not a duplicate of',
-        footer: Builder(
-          builder: (final BuildContext context) {
-            final UnmarkedAsDuplicateMixin$Canonical? canonical =
-                item.canonical;
-            if (canonical is IssueMixin) {
-              return IssueLoadingCard(
-                toRepoAPIResource(
-                  (canonical! as IssueMixin).url.toString(),
-                ),
-                padding: EdgeInsets.zero,
-                compact: true,
-              );
-            } else {
-              return PullLoadingCard(
-                toRepoAPIResource(
-                  (canonical! as PullRequestMixin).url.toString(),
-                  isPull: true,
-                ),
-                padding: EdgeInsets.zero,
-                compact: true,
-              );
-            }
-          },
-        ),
+        footer: switch (item) {
+          final GunmarkedAsDuplicate_canonical__asIssue item =>
+            IssueLoadingCard(
+              toRepoAPIResource(
+                item.url.toString(),
+              ),
+              padding: EdgeInsets.zero,
+              compact: true,
+            ),
+          final GunmarkedAsDuplicate_canonical__asPullRequest item =>
+            PullLoadingCard(
+              toRepoAPIResource(
+                item.url.toString(),
+                isPull: true,
+              ),
+              compact: true,
+            ),
+          GunmarkedAsDuplicate() => null,
+        },
         user: item.actor,
         leading: const Icon(Octicons.link_external),
         date: item.createdAt,
       );
 
-  BasicEventTextCard _buildUnlockedCard(final UnlockedMixin item) =>
+  BasicEventTextCard _buildUnlockedCard(final Gunlocked item) =>
       BasicEventTextCard(
         textContent: 'Unlocked this.',
         user: item.actor,
@@ -159,7 +142,7 @@ class TimelineItem extends StatelessWidget {
         leading: const Icon(MdiIcons.lockOff),
       );
 
-  BasicEventLabeledCard _buildUnlabeledCard(final UnlabeledMixin item) =>
+  BasicEventLabeledCard _buildUnlabeledCard(final Gunlabeled item) =>
       BasicEventLabeledCard(
         actor: item.actor,
         content: item.label,
@@ -167,15 +150,21 @@ class TimelineItem extends StatelessWidget {
         date: item.createdAt,
       );
 
-  BasicEventAssignedCard _buildUnassignedCard(final UnassignedMixin item) =>
+  BasicEventAssignedCard _buildUnassignedCard(final Gunassigned item) =>
       BasicEventAssignedCard(
         actor: item.actor,
-        assignee: item.assignee! as ActorMixin,
+        assignee: item.assignee?.when(
+          user: returnItself,
+          bot: returnItself,
+          mannequin: returnItself,
+          organization: returnItself,
+          orElse: unimplemented,
+        ),
         createdAt: item.createdAt,
         isAssigned: false,
       );
 
-  BasicEventCard _buldReviewRequestedCard(final ReviewRequestedMixin item) =>
+  BasicEventCard _buildReviewRequestedCard(final GreviewRequested item) =>
       BasicEventCard(
         user: item.actor,
         date: item.createdAt,
@@ -187,20 +176,30 @@ class TimelineItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8),
               child: ProfileTile.login(
-                avatarUrl:
-                    (item.requestedReviewer as dynamic)?.avatarUrl.toString(),
+                avatarUrl: item.requestedReviewer!.when<String>(
+                  user: actorAvatarStringUri,
+                  team: (final GreviewRequested_requestedReviewer__asTeam p0) =>
+                      p0.avatar.toString(),
+                  orElse: unimplementedString,
+                ),
                 size: 20,
                 padding: EdgeInsets.zero,
                 // textStyle: cont,
-                userLogin: (item.requestedReviewer as dynamic)?.login ??
-                    (item.requestedReviewer as dynamic)?.nameKey,
+                userLogin: item.requestedReviewer!.when<String>(
+                  user: actorLogin,
+                  team: (
+                    final GreviewRequested_requestedReviewer__asTeam p0,
+                  ) =>
+                      p0.name,
+                  orElse: unimplementedString,
+                ),
               ),
             ),
           ],
         ),
       );
 
-  BasicEventTextCard _buildReopenedCard(final ReopenedMixin item) =>
+  BasicEventTextCard _buildReopenedCard(final Greopened item) =>
       BasicEventTextCard(
         textContent: 'Reopened this.',
         user: item.actor,
@@ -209,7 +208,7 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventCard _buildRenamedTitleCard(
-    final RenamedTitleMixin item,
+    final GrenamedTitle item,
     final BuildContext context,
   ) =>
       BasicEventCard(
@@ -233,7 +232,7 @@ class TimelineItem extends StatelessWidget {
         ),
       );
 
-  BasicEventTextCard _buildReadForReviewCard(final ReadyForReviewMixin item) =>
+  BasicEventTextCard _buildReadForReviewCard(final GreadyForReview item) =>
       BasicEventTextCard(
         user: item.actor,
         date: item.createdAt,
@@ -242,7 +241,7 @@ class TimelineItem extends StatelessWidget {
       );
 
   BaseComment _buildPullRequestReviewCard(
-    final PullRequestReviewMixin item,
+    final GpullRequestReview item,
     final BuildContext context,
   ) =>
       BaseComment(
@@ -250,10 +249,10 @@ class TimelineItem extends StatelessWidget {
         onQuote: onQuote,
         leading: Icons.remove_red_eye_rounded,
         isMinimized: false,
-        reactions: item.reactionGroups!,
+        reactions: item.reactionGroups!.toList(),
         viewerCanDelete: item.viewerCanDelete,
         viewerCanMinimize: false,
-        viewerCannotUpdateReasons: item.viewerCannotUpdateReasons,
+        viewerCannotUpdateReasons: item.viewerCannotUpdateReasons.toList(),
         viewerCanReact: item.viewerCanReact,
         viewerCanUpdate: item.viewerCanUpdate,
         viewerDidAuthor: item.viewerDidAuthor,
@@ -283,7 +282,7 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildPullRequestCommitCard(
-    final PullRequestCommitMixin item,
+    final GpullRequestCommit item,
   ) =>
       BasicEventTextCard(
         user: item.commit.author?.user,
@@ -298,15 +297,14 @@ class TimelineItem extends StatelessWidget {
         textContent: 'Made a commit.',
       );
 
-  BasicEventTextCard _buildPinnedMixin(final PinnedMixin item) =>
-      BasicEventTextCard(
+  BasicEventTextCard _buildPinned(final Gpinned item) => BasicEventTextCard(
         user: item.actor,
         leading: const Icon(MdiIcons.pin),
         date: item.createdAt,
         textContent: 'Pinned this.',
       );
 
-  BasicEventTextCard _buildMilestonedCard(final MileStonedMixin item) =>
+  BasicEventTextCard _buildMilestonedCard(final GmileStoned item) =>
       BasicEventTextCard(
         textContent: 'Added this to milestone ${item.milestoneTitle}.',
         user: item.actor,
@@ -314,8 +312,7 @@ class TimelineItem extends StatelessWidget {
         date: item.createdAt,
       );
 
-  BasicEventTextCard _buildMergedCard(final MergedMixin item) =>
-      BasicEventTextCard(
+  BasicEventTextCard _buildMergedCard(final Gmerged item) => BasicEventTextCard(
         user: item.actor,
         date: item.createdAt,
 
@@ -325,40 +322,38 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildMarkedAsDuplicateCard(
-    final MarkedAsDuplicateMixin item,
+    final GmarkedAsDuplicate item,
   ) =>
       BasicEventTextCard(
         textContent: 'Marked this as a duplicate of',
         footer: Builder(
-          builder: (final BuildContext context) {
-            final MarkedAsDuplicateMixin$Canonical? canonical = item.canonical;
-            if (canonical is IssueMixin) {
-              return IssueLoadingCard(
-                toRepoAPIResource(
-                  (canonical! as IssueMixin).url.toString(),
-                ),
-                padding: EdgeInsets.zero,
-                compact: true,
-              );
-            } else {
-              return PullLoadingCard(
-                toRepoAPIResource(
-                  (canonical! as PullRequestMixin).url.toString(),
-                  isPull: true,
-                ),
-                padding: EdgeInsets.zero,
-                compact: true,
-              );
-            }
-          },
+          builder: (final BuildContext context) => item.canonical!.when(
+            issue: (final GmarkedAsDuplicate_canonical__asIssue p0) =>
+                IssueLoadingCard(
+              toRepoAPIResource(
+                p0.url.toString(),
+              ),
+              padding: EdgeInsets.zero,
+              compact: true,
+            ),
+            pullRequest:
+                (final GmarkedAsDuplicate_canonical__asPullRequest p0) =>
+                    PullLoadingCard(
+              toRepoAPIResource(
+                p0.url.toString(),
+                isPull: true,
+              ),
+              compact: true,
+            ),
+            orElse: unimplemented,
+          ),
         ),
         user: item.actor,
         leading: const Icon(Octicons.link_external),
         date: item.createdAt,
       );
 
-  BasicEventTextCard _buildLockedCard(final LockedMixin item) =>
-      BasicEventTextCard(
+  BasicEventTextCard _buildLockedCard(final Glocked item) => BasicEventTextCard(
         textContent:
             'Locked this ${item.lockReason != null ? 'as ${item.lockReason} ' : ''}and limited conversation to collaborators',
         user: item.actor,
@@ -366,7 +361,7 @@ class TimelineItem extends StatelessWidget {
         leading: const Icon(MdiIcons.lock),
       );
 
-  BasicEventLabeledCard _buildLabeledMixinItem(final LabeledMixin item) =>
+  BasicEventLabeledCard _buildLabeledItem(final Glabeled item) =>
       BasicEventLabeledCard(
         actor: item.actor,
         content: item.label,
@@ -375,7 +370,7 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildHeadRefRestoredCard(
-    final HeadRefRestoredMixin item,
+    final GheadRefRestored item,
   ) =>
       BasicEventTextCard(
         textContent: 'Restored head ref.',
@@ -385,7 +380,7 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildHeadRefForcePushedCard(
-    final HeadRefForcePushedMixin item,
+    final GheadRefForcePushed item,
   ) =>
       BasicEventTextCard(
         textContent:
@@ -395,7 +390,7 @@ class TimelineItem extends StatelessWidget {
         date: item.createdAt,
       );
 
-  BasicEventTextCard _buildHeadRefDeletedCard(final HeadRefDeletedMixin item) =>
+  BasicEventTextCard _buildHeadRefDeletedCard(final GheadRefDeleted item) =>
       BasicEventTextCard(
         textContent: 'Deleted head ref ${item.headRefName}.',
         user: item.actor,
@@ -403,7 +398,7 @@ class TimelineItem extends StatelessWidget {
         date: item.createdAt,
       );
 
-  BasicEventTextCard _buildDemilestonedCard(final DeMileStonedMixin item) =>
+  BasicEventTextCard _buildDemilestonedCard(final GdeMileStoned item) =>
       BasicEventTextCard(
         textContent: 'Removed this from milestone ${item.milestoneTitle}.',
         user: item.actor,
@@ -412,7 +407,7 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildConvertedToDraftCard(
-    final ConvertedToDraftMixin item,
+    final GconvertedToDraft item,
   ) =>
       BasicEventTextCard(
         textContent: 'Marked this as draft.',
@@ -421,8 +416,7 @@ class TimelineItem extends StatelessWidget {
         date: item.createdAt,
       );
 
-  BasicEventTextCard _buildClosedCard(final ClosedMixin item) =>
-      BasicEventTextCard(
+  BasicEventTextCard _buildClosedCard(final Gclosed item) => BasicEventTextCard(
         textContent: 'Closed this.',
         user: item.actor,
         leading: const Icon(
@@ -433,7 +427,7 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventTextCard _buildForcePushedCard(
-    final BaseRefForcePushedMixin item,
+    final GbaseRefForcePushed item,
   ) =>
       BasicEventTextCard(
         textContent:
@@ -443,7 +437,7 @@ class TimelineItem extends StatelessWidget {
         date: item.createdAt,
       );
 
-  BasicEventTextCard _buildRefDeletedCard(final BaseRefDeletedMixin item) =>
+  BasicEventTextCard _buildRefDeletedCard(final GbaseRefDeleted item) =>
       BasicEventTextCard(
         textContent: 'Deleted base ref ${item.baseRefName}.',
         user: item.actor,
@@ -451,7 +445,7 @@ class TimelineItem extends StatelessWidget {
         date: item.createdAt,
       );
 
-  BasicEventTextCard _buildBaseRefChangedCard(final BaseRefChangedMixin item) =>
+  BasicEventTextCard _buildBaseRefChangedCard(final GbaseRefChanged item) =>
       BasicEventTextCard(
         textContent:
             'Changed base ref from ${item.previousRefName} to ${item.currentRefName}.',
@@ -461,23 +455,29 @@ class TimelineItem extends StatelessWidget {
       );
 
   BasicEventAssignedCard _buildBasicEventAssignedCard(
-    final AssignedMixin item,
+    final Gassigned item,
   ) =>
       BasicEventAssignedCard(
         actor: item.actor,
-        assignee: item.assignee! as ActorMixin,
+        assignee: item.assignee?.when(
+          user: returnItself,
+          bot: returnItself,
+          mannequin: returnItself,
+          organization: returnItself,
+          orElse: unimplemented,
+        ),
         createdAt: item.createdAt,
         isAssigned: true,
       );
 
-  BaseComment _buildBaseComment(final IssueCommentMixin item) => BaseComment(
+  BaseComment _buildBaseComment(final GissueComment item) => BaseComment(
         isMinimized: item.isMinimized,
         onQuote: onQuote,
-        reactions: item.reactionGroups!,
+        reactions: item.reactionGroups!.toList(),
         minimizedReason: item.minimizedReason,
         viewerCanDelete: item.viewerCanDelete,
         viewerCanMinimize: item.viewerCanMinimize,
-        viewerCannotUpdateReasons: item.viewerCannotUpdateReasons,
+        viewerCannotUpdateReasons: item.viewerCannotUpdateReasons.toList(),
         viewerCanReact: item.viewerCanReact,
         viewerCanUpdate: item.viewerCanUpdate,
         viewerDidAuthor: item.viewerDidAuthor,
@@ -489,35 +489,40 @@ class TimelineItem extends StatelessWidget {
         lastEditedAt: item.lastEditedAt,
       );
 
-  BasicEventTextCard _buildCrossReferenceCard(final CrossReferenceMixin item) {
+  BasicEventTextCard _buildCrossReferenceCard(final GcrossReference item) {
     {
       String str;
+      final String repoNameWithOwner = item.source.when(
+        issue: (final GcrossReference_source__asIssue p0) =>
+            p0.repository.nameWithOwner,
+        pullRequest: (final GcrossReference_source__asPullRequest p0) =>
+            p0.repository.nameWithOwner,
+        orElse: unimplemented,
+      );
       str = item.isCrossRepository
-          ? 'Referenced this in ${(item.source as dynamic).repository.nameWithOwner}.'
+          ? 'Referenced this in $repoNameWithOwner.'
           : 'Referenced this.';
 
       return BasicEventTextCard(
         textContent: str,
         footer: Builder(
-          builder: (final BuildContext context) {
-            final CrossReferenceMixin$Source source = item.source;
-            if (source is IssueMixin) {
-              return IssueLoadingCard(
-                toRepoAPIResource((source as IssueMixin).url.toString()),
-                padding: EdgeInsets.zero,
-                compact: true,
-              );
-            } else {
-              return PullLoadingCard(
-                toRepoAPIResource(
-                  (source as PullRequestMixin).url.toString(),
-                  isPull: true,
-                ),
-                padding: EdgeInsets.zero,
-                compact: true,
-              );
-            }
-          },
+          builder: (final BuildContext context) => item.source.when(
+            issue: (final GcrossReference_source__asIssue p0) =>
+                IssueLoadingCard(
+              toRepoAPIResource(p0.url.toString()),
+              padding: EdgeInsets.zero,
+              compact: true,
+            ),
+            pullRequest: (final GcrossReference_source__asPullRequest p0) =>
+                PullLoadingCard(
+              toRepoAPIResource(
+                p0.url.toString(),
+                isPull: true,
+              ),
+              compact: true,
+            ),
+            orElse: unimplemented,
+          ),
         ),
         user: item.actor,
         leading: const Icon(Octicons.link_external),

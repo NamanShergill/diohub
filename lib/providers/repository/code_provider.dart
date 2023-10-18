@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:dio_hub/models/repositories/code_tree_model.dart';
-import 'package:dio_hub/models/repositories/commit_list_model.dart';
-import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/providers/proxy_provider.dart';
-import 'package:dio_hub/providers/repository/branch_provider.dart';
-import 'package:dio_hub/services/git_database/git_database_service.dart';
-import 'package:dio_hub/services/repositories/repo_services.dart';
+import 'package:diohub/models/repositories/code_tree_model.dart';
+import 'package:diohub/models/repositories/commit_list_model.dart';
+import 'package:diohub/providers/base_provider.dart';
+import 'package:diohub/providers/proxy_provider.dart';
+import 'package:diohub/providers/repository/branch_provider.dart';
+import 'package:diohub/services/git_database/git_database_service.dart';
+import 'package:diohub/services/repositories/repo_services.dart';
 
 class CodeProvider extends ProxyProvider<CodeTreeModel, RepoBranchProvider> {
   CodeProvider({final String? repoURL}) : _repoURL = repoURL;

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/services/repositories/repo_services.dart';
+import 'package:diohub/models/repositories/repository_model.dart';
+import 'package:diohub/providers/base_provider.dart';
+import 'package:diohub/services/repositories/repo_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 

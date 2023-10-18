@@ -1,18 +1,22 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_hub/app/api_handler/dio.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/models/search/search_issues_model.dart';
-import 'package:dio_hub/models/search/search_repos_model.dart';
-import 'package:dio_hub/models/search/search_users_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/utils/type_cast.dart';
+import 'package:diohub/app/api_handler/dio.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.query.req.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/repositories/repository_model.dart';
+import 'package:diohub/models/search/search_issues_model.dart';
+import 'package:diohub/models/search/search_repos_model.dart';
+import 'package:diohub/models/search/search_users_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/utils/type_cast.dart';
 
 class SearchService {
+  SearchService(this.temp);
+
   static final RESTHandler _restHandler = RESTHandler();
   static final GraphqlHandler _gqlHandler = GraphqlHandler();
-
+  final String temp;
   static Future<List<UserInfoModel>> searchUsers(
     final String query, {
     final String? sort,
@@ -88,7 +92,7 @@ class SearchService {
   //   return data.map((e) => TrendingReposModel.fromJson(e)).toList();
   // }
 
-  static Future<List<SearchMentionUsers$Query$Search$Edges?>>
+  static Future<BuiltList<GsearchMentionUsersData_search_edges?>>
       searchMentionUsers(
     final String query,
     final String type, {
@@ -96,12 +100,10 @@ class SearchService {
   }) async {
     final String q = '$query${' type:$type'}';
     final GQLResponse res = await _gqlHandler.query(
-      SearchMentionUsersQuery(
-        variables: SearchMentionUsersArguments(query: q, after: cursor),
-      ),
+      GsearchMentionUsersReq((b) => b..vars.query = q),
     );
-    final List<SearchMentionUsers$Query$Search$Edges?> userEdges =
-        SearchMentionUsers$Query.fromJson(res.data!).search.edges!;
+    final BuiltList<GsearchMentionUsersData_search_edges?> userEdges =
+        GsearchMentionUsersData.fromJson(res.data!)!.search.edges!;
     return userEdges;
   }
 }

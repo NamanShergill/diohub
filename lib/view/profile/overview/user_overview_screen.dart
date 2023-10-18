@@ -1,16 +1,16 @@
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/misc/repository_card.dart';
-import 'package:dio_hub/common/misc/shimmer_widget.dart';
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/services/users/user_info_service.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/to_hex_string.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/misc/repository_card.dart';
+import 'package:diohub/common/misc/shimmer_widget.dart';
+import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.query.data.gql.dart';
+import 'package:diohub/models/repositories/repository_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/services/users/user_info_service.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/to_hex_string.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -21,57 +21,66 @@ class UserOverviewScreen extends StatelessWidget {
   Widget build(final BuildContext context) => ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: <Widget>[
-          InfoCard(
-            title: 'Pinned Repos',
-            child: APIWrapper<
-                List<
-                    GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>.deferred(
-              apiCall: ({required final bool refresh}) async =>
-                  UserInfoService.getUserPinnedRepos(
-                userInfoModel!.login!,
-              ),
-              builder: (
-                final BuildContext context,
-                final List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>
-                    data,
-              ) =>
-                  data.isEmpty
-                      ? const Text('No Pinned items.')
-                      : SizeExpandedSection(
-                          child: Column(
-                            children: List<Widget>.generate(data.length,
-                                (final int index) {
-                              final GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository
-                                  node = data[index]!.node!
-                                      as GetUserPinnedRepos$Query$User$PinnedItems$Edges$Node$Repository;
-                              return RepositoryCard(
-                                // padding: const EdgeInsets.only(
-                                //   bottom: 8,
-                                // ),
-                                RepositoryModel(
-                                  stargazersCount: node.stargazerCount,
-                                  description: node.description,
-                                  language: node.languages!.edges!.isNotEmpty
-                                      ? node.languages?.edges?.first!.node
-                                              .name ??
-                                          'N/A'
-                                      : 'N/A',
-                                  owner: Owner(login: node.owner.login),
-                                  name: node.name,
-                                  private: false,
-                                  url: node.url.toString().replaceFirst(
-                                        'https://github.com',
-                                        'https://api.github.com/repos',
-                                      ),
-                                  updatedAt: node.updatedAt,
+          APIWrapper<List<GgetUserPinnedReposData_user_pinnedItems_edges?>>(
+            apiCall: ({required final bool refresh}) async =>
+                UserInfoService.getUserPinnedRepos(
+              userInfoModel!.login!,
+            ),
+            builder: (
+              final BuildContext context,
+              final APISnapshot<
+                      List<GgetUserPinnedReposData_user_pinnedItems_edges?>>
+                  snapshot,
+            ) =>
+                InfoCard.children(
+              title: 'Pinned Repos',
+              children: snapshot.on(
+                loaded: (
+                  snapshot,
+                ) =>
+                    snapshot.data.isEmpty
+                        ? <Widget>[
+                            const Text('No Pinned items.'),
+                          ]
+                        : List<Widget>.generate(
+                            snapshot.data.length,
+                            (final int index) {
+                              final GgetUserPinnedReposData_user_pinnedItems_edges_node__asRepository
+                                  node = snapshot.data[index]!.node!.when(
+                                repository: returnItself,
+                                orElse: unimplemented,
+                              );
+                              ;
+                              return SizeExpandedSection(
+                                child: RepositoryCard(
+                                  // padding: const EdgeInsets.only(
+                                  //   bottom: 8,
+                                  // ),
+                                  RepositoryModel(
+                                    stargazersCount: node.stargazerCount,
+                                    description: node.description,
+                                    language: node.languages!.edges!.isNotEmpty
+                                        ? node.languages?.edges?.first!.node
+                                                .name ??
+                                            'N/A'
+                                        : 'N/A',
+                                    owner: Owner(login: node.owner.login),
+                                    name: node.name,
+                                    private: false,
+                                    url: node.url.toString().replaceFirst(
+                                          'https://github.com',
+                                          'https://api.github.com/repos',
+                                        ),
+                                    updatedAt: node.updatedAt,
+                                  ),
                                 ),
                               );
-                            }),
+                            },
                           ),
-                        ),
-              loadingBuilder: (final BuildContext context) => const Padding(
-                padding: EdgeInsets.symmetric(vertical: 24),
-                child: LoadingIndicator(),
+                loading: (snapshot) => <Widget>[
+                  const LoadingIndicator(),
+                ],
+                error: (snapshot) => <Widget>[snapshot.defaultErrorWidget()],
               ),
             ),
           ),

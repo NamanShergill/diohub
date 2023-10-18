@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/global.dart';
-import 'package:dio_hub/common/bottom_sheet/url_actions.dart';
-import 'package:dio_hub/common/misc/app_dialog.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/utils/open_in_app_browser.dart';
-import 'package:dio_hub/utils/regex.dart';
-import 'package:dio_hub/utils/string_compare.dart';
-import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart';
+import 'package:diohub/app/global.dart';
+import 'package:diohub/common/bottom_sheet/url_actions.dart';
+import 'package:diohub/common/misc/app_dialog.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/utils/open_in_app_browser.dart';
+import 'package:diohub/utils/regex.dart';
+import 'package:diohub/utils/string_compare.dart';
+import 'package:diohub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_links/uni_links.dart';
 

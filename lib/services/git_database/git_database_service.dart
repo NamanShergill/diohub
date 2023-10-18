@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:dio_hub/app/api_handler/dio.dart';
-import 'package:dio_hub/models/repositories/blob_model.dart';
-import 'package:dio_hub/models/repositories/code_tree_model.dart';
-import 'package:dio_hub/utils/type_cast.dart';
+import 'package:diohub/app/api_handler/dio.dart';
+import 'package:diohub/models/repositories/blob_model.dart';
+import 'package:diohub/models/repositories/code_tree_model.dart';
+import 'package:diohub/utils/type_cast.dart';
 
 class GitDatabaseService {
   static final RESTHandler _restHandler = RESTHandler();

@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_hub/app/api_handler/dio.dart';
-import 'package:dio_hub/app/global.dart';
-import 'package:dio_hub/app/keys.dart';
-import 'package:dio_hub/models/authentication/access_token_model.dart';
-import 'package:dio_hub/models/authentication/device_code_model.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/utils/type_cast.dart';
+import 'package:diohub/app/api_handler/dio.dart';
+import 'package:diohub/app/global.dart';
+import 'package:diohub/app/keys.dart';
+import 'package:diohub/models/authentication/access_token_model.dart';
+import 'package:diohub/models/authentication/device_code_model.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/utils/type_cast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
@@ -16,9 +16,10 @@ class AuthRepository {
   static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
   final RESTHandler _restHandler = RESTHandler.external(
-      baseURL: 'https://github.com/login/',
-      cacheOptions: APICache.noCache(),
-      apiLogSettings: APILoggingSettings.comprehensive(),);
+    baseURL: 'https://github.com/login/',
+    cacheOptions: APICache.noCache(),
+    apiLogSettings: APILoggingSettings.comprehensive(),
+  );
 
   Future<bool> get isAuthenticated async {
     final String? token = await getAccessTokenFromDevice();

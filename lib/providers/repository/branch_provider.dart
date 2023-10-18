@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/providers/proxy_provider.dart';
-import 'package:dio_hub/providers/repository/repository_provider.dart';
+import 'package:diohub/providers/base_provider.dart';
+import 'package:diohub/providers/proxy_provider.dart';
+import 'package:diohub/providers/repository/repository_provider.dart';
 
 class RepoBranchProvider extends ProxyProvider<String, RepositoryProvider> {
   RepoBranchProvider({final String? initialBranch, final String? initCommitSHA})

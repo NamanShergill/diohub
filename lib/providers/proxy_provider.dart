@@ -1,4 +1,4 @@
-import 'package:dio_hub/providers/base_provider.dart';
+import 'package:diohub/providers/base_provider.dart';
 
 abstract class ProxyProvider<T, Parent extends BaseDataProvider<dynamic>>
     extends BaseDataProvider<T> {

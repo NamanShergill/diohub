@@ -1,3 +1,5 @@
+# import './timeline.query.graphql'
+
 query getPRReviewComments($id:ID!, $cursor:String){
     node(id: $id){
         __typename
@@ -60,6 +62,62 @@ query checkPendingViewerReviews($pullNodeID:ID!, $author: String!){
                     url
                 }
             }
+        }
+    }
+}
+
+fragment  PRReviewComments on PullRequestReview{
+    comments(first: 10,after:  $cursor){
+        edges{
+            __typename
+            cursor
+            node{
+                ...pullRequestReviewComment
+            }
+        }
+    }
+}
+
+fragment  pullRequestReviewComment on PullRequestReviewComment{
+    id
+    pullRequestReview {
+        comments{
+            totalCount
+        }
+    }
+    databaseId
+    author{
+        ...actor
+    }
+    createdAt
+    authorAssociation
+    body
+    bodyHTML
+    lastEditedAt
+    state
+    diffHunk
+    outdated
+    isMinimized
+    replyTo{
+        id
+    }
+    path
+    reactionGroups{
+        ...reactionGroups
+    }
+    viewerCanDelete
+    viewerCanUpdate
+    viewerDidAuthor
+    viewerCannotUpdateReasons
+    viewerCanReact
+    viewerCanMinimize
+    pullRequest{
+        number
+    }
+    repository{
+        name
+        owner{
+            login
         }
     }
 }

@@ -1,20 +1,22 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/common/misc/app_scroll_view.dart';
-import 'package:dio_hub/common/misc/scaffold_body.dart';
-import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/graphql/graphql.dart' hide IssueState;
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
-import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/utils.dart';
-import 'package:dio_hub/view/issues_pulls/pull_information.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/discussion.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/pull_changed_files_list.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/pulls_commits_list.dart';
+import 'package:diohub/common/misc/app_scroll_view.dart';
+import 'package:diohub/common/misc/scaffold_body.dart';
+import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/providers/base_provider.dart';
+import 'package:diohub/providers/issue_pulls/comment_provider.dart';
+import 'package:diohub/providers/issue_pulls/pull_provider.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/utils.dart';
+import 'package:diohub/view/issues_pulls/pull_information.dart';
+import 'package:diohub/view/issues_pulls/widgets/discussion.dart';
+import 'package:diohub/view/issues_pulls/widgets/discussion_comment.dart';
+import 'package:diohub/view/issues_pulls/widgets/pull_changed_files_list.dart';
+import 'package:diohub/view/issues_pulls/widgets/pulls_commits_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +30,7 @@ class PullScreen extends StatefulWidget {
     super.key,
   });
 
-  final PullInfoMixin pullInfo;
+  final GpullInfo pullInfo;
   final DateTime? commentsSince;
   final int initialIndex;
 
@@ -98,7 +100,7 @@ class PullScreenState extends State<PullScreen>
                       appBarWidget: Row(
                         children: <Widget>[
                           getIcon(
-                            IssueState.REOPENED,
+                            IssueState.OPEN,
                             15,
                             merged: true,
                           ),
@@ -106,7 +108,7 @@ class PullScreenState extends State<PullScreen>
                             width: 4,
                           ),
                           Text(
-                            value.data.state == PullRequestState.open
+                            value.data.state == GPullRequestState.OPEN
                                 ? 'Open'
                                 : value.data.merged
                                     ? 'Merged'
@@ -137,7 +139,7 @@ class PullScreenState extends State<PullScreen>
                                 width: 8,
                               ),
                               Text(
-                                value.data.state == PullRequestState.open
+                                value.data.state == GPullRequestState.OPEN
                                     ? 'Open'
                                     : value.data.merged
                                         ? 'Merged'
@@ -196,7 +198,7 @@ class PullScreenState extends State<PullScreen>
                             ),
                           ),
                           // Text(
-                          //   value.data.state == IssueState.CLOSED
+                          //   value.data.state == GIssueState.CLOSED
                           //       ? 'By ${value.data.user!.login}, closed ${getDate(value.data.closedAt.toString(), shorten: false)}.'
                           //       : 'Opened ${getDate(value.data.createdAt.toString(), shorten: false)} by ${value.data.user!.login}',
                           //   style: TextStyle(
@@ -212,7 +214,7 @@ class PullScreenState extends State<PullScreen>
                     tabViews: <Widget>[
                       const PullInformation(),
                       // Text(widget.pullInfo.reactionGroups.toString()),
-                      Discussion(
+                      IssuePullTimeline(
                         // nestedScrollViewController: scrollController,
                         pullNodeID: 'value.data.nodeId',
                         number: value.data.number,
@@ -237,8 +239,8 @@ class PullScreenState extends State<PullScreen>
                         issueUrl: Uri.parse('value.data.issueUrl!'),
                         initComment: BaseComment(
                           isMinimized: false,
-                          reactions: widget.pullInfo.reactionGroups ??
-                              <ReactionGroupsMixin>[],
+                          reactions: widget.pullInfo.reactionGroups?.toList() ??
+                              <GreactionGroups>[],
                           onQuote: () {},
                           viewerCanDelete: false,
                           viewerCanMinimize: false,
@@ -252,7 +254,7 @@ class PullScreenState extends State<PullScreen>
                           lastEditedAt: null,
                           // description: '',
                           bodyHTML: 'value.data.bodyHtml',
-                          authorAssociation: CommentAuthorAssociation.none,
+                          authorAssociation: GCommentAuthorAssociation.NONE,
                         ),
                       ),
                       const PullsCommitsList(),
@@ -286,13 +288,15 @@ class PullScreenState extends State<PullScreen>
             size: size,
           );
         }
-      case IssueState.REOPENED:
+      // case GIssueState.REOPENED:
       case IssueState.OPEN:
         return Icon(
           Octicons.git_pull_request,
           color: Colors.green,
           size: size,
         );
+      default:
+        throw UnimplementedError();
     }
   }
 }

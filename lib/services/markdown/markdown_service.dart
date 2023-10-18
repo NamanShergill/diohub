@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:dio_hub/app/api_handler/dio.dart';
+import 'package:diohub/app/api_handler/dio.dart';
 
 class MarkdownService {
   static final RESTHandler _restHandler = RESTHandler(

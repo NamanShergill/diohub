@@ -1,12 +1,12 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/annotations.dart';
-import 'package:dio_hub/common/misc/scaffold_body.dart';
-import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/view/home/home.dart';
-import 'package:dio_hub/view/notifications/notifications.dart';
-import 'package:dio_hub/view/profile/current_user_profile_screen.dart';
-import 'package:dio_hub/view/search/search.dart';
-import 'package:dio_hub/view/settings/settings.dart';
+import 'package:diohub/common/misc/scaffold_body.dart';
+import 'package:diohub/controller/deep_linking_handler.dart';
+import 'package:diohub/view/home/home.dart';
+import 'package:diohub/view/notifications/notifications.dart';
+import 'package:diohub/view/profile/current_user_profile_screen.dart';
+import 'package:diohub/view/search/search.dart';
+import 'package:diohub/view/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
@@ -49,13 +49,16 @@ class LandingScreenState extends State<LandingScreen>
         child: Scaffold(
           body: ScaffoldBody(
             child: PageTransitionSwitcher(
-              transitionBuilder: (final Widget child,
-                      final Animation<double> primaryAnimation,
-                      final Animation<double> secondaryAnimation,) =>
+              transitionBuilder: (
+                final Widget child,
+                final Animation<double> primaryAnimation,
+                final Animation<double> secondaryAnimation,
+              ) =>
                   FadeThroughTransition(
-                      animation: primaryAnimation,
-                      secondaryAnimation: secondaryAnimation,
-                      child: child,),
+                animation: primaryAnimation,
+                secondaryAnimation: secondaryAnimation,
+                child: child,
+              ),
               child: switch (currentIndex) {
                 0 => HomeScreen(
                     deepLinkData: widget.deepLinkData,

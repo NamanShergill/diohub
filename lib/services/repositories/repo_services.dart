@@ -1,13 +1,17 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_hub/app/api_handler/dio.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/commits/commit_model.dart';
-import 'package:dio_hub/models/repositories/branch_list_model.dart';
-import 'package:dio_hub/models/repositories/branch_model.dart';
-import 'package:dio_hub/models/repositories/commit_list_model.dart';
-import 'package:dio_hub/models/repositories/readme_model.dart';
-import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/utils/type_cast.dart';
+import 'package:diohub/app/api_handler/dio.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.req.gql.dart';
+import 'package:diohub/graphql/queries/repositories/__generated__/repo_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/repositories/__generated__/repo_info.query.req.gql.dart';
+import 'package:diohub/models/commits/commit_model.dart';
+import 'package:diohub/models/repositories/branch_list_model.dart';
+import 'package:diohub/models/repositories/branch_model.dart';
+import 'package:diohub/models/repositories/commit_list_model.dart';
+import 'package:diohub/models/repositories/readme_model.dart';
+import 'package:diohub/models/repositories/repository_model.dart';
+import 'package:diohub/utils/type_cast.dart';
 
 class RepositoryServices {
   RepositoryServices({
@@ -23,17 +27,16 @@ class RepositoryServices {
       // apiLogSettings: APILoggingSettings.comprehensive(),
       );
 
-  Future<PinnedIssues$Query$Repository$PinnedIssues> getPinnedIssues() async {
+  Future<GpinnedIssuesData_repository_pinnedIssues> getPinnedIssues() async {
     final GQLResponse response = await _gqlHandler.query(
-      PinnedIssuesQuery(
-        variables: PinnedIssuesArguments(
-          name: name,
-          owner: owner,
-        ),
+      GpinnedIssuesReq(
+        (b) => b
+          ..vars.name = name
+          ..vars.owner = owner,
       ),
     );
 
-    return PinnedIssues$Query.fromJson(response.data!)
+    return GpinnedIssuesData.fromJson(response.data!)!
         .repository!
         .pinnedIssues!;
   }
@@ -161,26 +164,33 @@ class RepositoryServices {
   //   }
   // }
 
-  static Future<List<IssueTemplates$Query$Repository$IssueTemplates>>
+  static Future<BuiltList<GissueTemplatesData_repository_issueTemplates>>
       getIssueTemplates(final String name, final String owner) async {
     final GQLResponse res = await _gqlHandler.query(
-      IssueTemplatesQuery(
-        variables: IssueTemplatesArguments(name: name, owner: owner),
+      GissueTemplatesReq(
+        (final GissueTemplatesReqBuilder b) => b
+          ..vars.owner = owner
+          ..vars.name = name,
       ),
     );
-    return IssueTemplates$Query.fromJson(res.data!).repository!.issueTemplates!;
+    return GissueTemplatesData.fromJson(res.data!)!.repository!.issueTemplates!;
   }
 
   // Ref: https://docs.github.com/en/rest/reference/activity#check-if-a-repository-is-starred-by-the-authenticated-user
-  static Future<HasStarred$Query$Repository> isStarred(
+  static Future<GhasStarredData_repository> isStarred(
     final String owner,
     final String name,
   ) async {
     final GQLResponse res = await _gqlHandler.query(
-      HasStarredQuery(variables: HasStarredArguments(name: name, owner: owner)),
+      GhasStarredReq((
+        final GhasStarredReqBuilder b,
+      ) =>
+          b
+            ..vars.name = name
+            ..vars.owner = name),
       refreshCache: true,
     );
-    return HasStarred$Query.fromJson(res.data!).repository!;
+    return GhasStarredData.fromJson(res.data!)!.repository!;
   }
 
   // Ref: https://docs.github.com/en/rest/reference/activity#star-a-repository-for-the-authenticated-user
@@ -200,18 +210,21 @@ class RepositoryServices {
     }
   }
 
-  static Future<HasWatched$Query$Repository> isSubscribed(
+  static Future<GhasWatchedData_repository> isSubscribed(
     final String owner,
     final String name,
   ) async =>
-      HasWatched$Query.fromJson(
+      GhasWatchedData.fromJson(
         (await _gqlHandler.query(
-          HasWatchedQuery(
-            variables: HasWatchedArguments(owner: owner, name: name),
+          GhasWatchedReq(
+            (final GhasWatchedReqBuilder b) => b
+              ..vars.owner = owner
+              ..vars.name = name,
           ),
         ))
             .data!,
-      ).repository!;
+      )!
+          .repository!;
 
   static Future<bool> subscribeToRepo(
     final String owner,

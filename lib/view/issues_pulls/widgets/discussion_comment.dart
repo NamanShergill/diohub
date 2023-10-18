@@ -1,17 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio_hub/common/markdown_view/markdown_body.dart';
-import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:dio_hub/common/misc/menu_button.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/common/misc/reaction_bar.dart';
-import 'package:dio_hub/common/misc/tappable_card.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/utils/copy_to_clipboard.dart';
-import 'package:dio_hub/utils/get_date.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/markdown_view/markdown_body.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/common/misc/menu_button.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/common/misc/reaction_bar.dart';
+import 'package:diohub/common/misc/tappable_card.dart';
+import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/providers/issue_pulls/comment_provider.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/utils/copy_to_clipboard.dart';
+import 'package:diohub/utils/get_date.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:provider/provider.dart';
@@ -43,13 +44,13 @@ class BaseComment extends StatefulWidget {
     this.footer,
     this.footerPadding = const EdgeInsets.only(top: 8, left: 8, right: 8),
   });
-  final ActorMixin? author;
-  final CommentAuthorAssociation authorAssociation;
+  final Gactor? author;
+  final GCommentAuthorAssociation authorAssociation;
   final String body;
   final IconData? leading;
   final String? bodyHTML;
   // TODO(namanshergill): Temp nullable
-  final List<ReactionGroupsMixin> reactions;
+  final List<GreactionGroups> reactions;
   final DateTime? lastEditedAt;
   final DateTime createdAt;
   final bool isMinimized;
@@ -59,7 +60,7 @@ class BaseComment extends StatefulWidget {
   final bool viewerCanUpdate;
   final bool viewerDidAuthor;
   // TODO(namanshergill): Temp nullable
-  final List<CommentCannotUpdateReason>? viewerCannotUpdateReasons;
+  final List<GCommentCannotUpdateReason>? viewerCannotUpdateReasons;
   final bool viewerCanReact;
   final Widget? footer;
   final String? description;
@@ -206,27 +207,16 @@ class BaseCommentState extends State<BaseComment> {
                         // ),
                       ),
                     if (widget.bodyHTML?.isNotEmpty ?? false)
-                      Row(
-                        children: <Widget>[
-                          Flexible(
-                            child: Theme(
-                              data: context.themeData.copyWith(
-                                cardTheme: context.themeData.cardTheme
-                                    .copyWith(elevation: 3),
-                                colorScheme: context.colorScheme.copyWith(
-                                  surfaceVariant: context
-                                      .colorScheme.surfaceVariant
-                                      .asHint(),
-                                  background:
-                                      context.colorScheme.background.asHint(),
-                                ),
-                              ),
-                              child: MarkdownBody(
-                                widget.bodyHTML!,
-                              ),
-                            ),
+                      MarkdownBody(
+                        widget.bodyHTML!,
+                        buildAsync: false,
+                        style: MarkdownBodyStyle(
+                          codeBlockStyle: MarkdownBodyCodeBlockStyle(
+                            elevation: 3,
+                            headerColor:
+                                context.colorScheme.surfaceVariant.asHint(),
                           ),
-                        ],
+                        ),
                       ),
                     if (widget.footer != null)
                       Padding(
@@ -262,7 +252,7 @@ class BaseCommentState extends State<BaseComment> {
 
   bool _reactionsNotEmpty() => widget.reactions
       .where(
-        (final ReactionGroupsMixin element) => element.reactors.totalCount > 0,
+        (final GreactionGroups element) => element.reactors.totalCount > 0,
       )
       .isNotEmpty;
 
@@ -308,20 +298,20 @@ class BaseCommentState extends State<BaseComment> {
                       style: context.textTheme.bodyMedium,
                     ),
                     if (widget.authorAssociation !=
-                            CommentAuthorAssociation.member &&
+                            GCommentAuthorAssociation.MEMBER &&
                         widget.authorAssociation !=
-                            CommentAuthorAssociation.none)
+                            GCommentAuthorAssociation.NONE)
                       Builder(
                         builder: (final BuildContext context) {
                           String? str;
                           if (widget.authorAssociation ==
-                              CommentAuthorAssociation.collaborator) {
+                              GCommentAuthorAssociation.COLLABORATOR) {
                             str = 'Collaborator';
                           } else if (widget.authorAssociation ==
-                              CommentAuthorAssociation.contributor) {
+                              GCommentAuthorAssociation.CONTRIBUTOR) {
                             str = 'Contributor';
                           } else if (widget.authorAssociation ==
-                              CommentAuthorAssociation.owner) {
+                              GCommentAuthorAssociation.OWNER) {
                             str = 'Owner';
                           }
                           return Text(

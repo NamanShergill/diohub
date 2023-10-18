@@ -1,6 +1,6 @@
-import 'package:dio_hub/app/api_handler/response_handler.dart';
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
-import 'package:dio_hub/models/popup/popup_type.dart';
+import 'package:diohub/app/api_handler/response_handler.dart';
+import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
+import 'package:diohub/models/popup/popup_type.dart';
 import 'package:flutter/material.dart';
 
 class ActionButton<T> extends StatefulWidget {

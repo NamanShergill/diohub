@@ -1,10 +1,10 @@
-import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
-import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/users/current_user_info_model.dart';
-import 'package:dio_hub/providers/users/current_user_provider.dart';
+import 'package:diohub/common/search_overlay/filters.dart';
+import 'package:diohub/common/search_overlay/search_overlay.dart';
+import 'package:diohub/common/wrappers/search_scroll_wrapper.dart';
+import 'package:diohub/controller/deep_linking_handler.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/users/current_user_info_model.dart';
+import 'package:diohub/providers/users/current_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

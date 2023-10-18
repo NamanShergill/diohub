@@ -1,4 +1,4 @@
-import 'package:dio_hub/app/settings/base.dart';
+import 'package:diohub/app/settings/base.dart';
 
 class FontSettings extends Settings<String> {
   FontSettings()

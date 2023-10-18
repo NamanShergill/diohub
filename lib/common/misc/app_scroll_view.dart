@@ -1,7 +1,7 @@
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/app_bar.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/misc/nested_scroll.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/app_bar.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/misc/nested_scroll.dart';
 import 'package:flutter/material.dart';
 
 class AppScrollView extends StatefulWidget {
@@ -31,7 +31,8 @@ class AppScrollViewState extends State<AppScrollView> {
   @override
   Widget build(final BuildContext context) => NestedScroll(
         // controller: widget.nestedScrollViewController,
-        header: (final (BuildContext, {bool isInnerBoxScrolled}) data) => <Widget>[
+        header: (final (BuildContext, {bool isInnerBoxScrolled}) data) =>
+            <Widget>[
           widget.scrollViewAppBar,
         ],
         body: AnimatedSwitcher(

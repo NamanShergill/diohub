@@ -1,5 +1,5 @@
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/utils/utils.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 

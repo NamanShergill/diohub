@@ -1,18 +1,18 @@
 import 'package:auto_route/annotations.dart';
-import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/common/misc/link_text.dart';
-import 'package:dio_hub/common/misc/patch_viewer.dart';
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
-import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
-import 'package:dio_hub/providers/users/current_user_provider.dart';
-import 'package:dio_hub/services/pulls/pulls_service.dart';
-import 'package:dio_hub/utils/utils.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/comment_box.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/discussion_comment.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/timeline_item.dart';
+import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/misc/link_text.dart';
+import 'package:diohub/common/misc/patch_viewer.dart';
+import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
+import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/pr_review_comment.query.data.gql.dart';
+import 'package:diohub/providers/issue_pulls/comment_provider.dart';
+import 'package:diohub/providers/users/current_user_provider.dart';
+import 'package:diohub/services/pulls/pulls_service.dart';
+import 'package:diohub/utils/utils.dart';
+import 'package:diohub/view/issues_pulls/widgets/comment_box.dart';
+import 'package:diohub/view/issues_pulls/widgets/discussion_comment.dart';
+import 'package:diohub/view/issues_pulls/widgets/timeline_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,10 +39,10 @@ class PRReviewScreen extends StatelessWidget {
               final BuildContext context,
               final bool repliesEnabled,
             ) =>
-                InfiniteScrollWrapper<PRReviewCommentsMixin$Comments$Edges?>(
+                InfiniteScrollWrapper<GPRReviewComments_comments_edges?>(
               future: (
                 final ({
-                  PRReviewCommentsMixin$Comments$Edges? lastItem,
+                  GPRReviewComments_comments_edges? lastItem,
                   int pageNumber,
                   int pageSize,
                   bool refresh
@@ -61,11 +61,11 @@ class PRReviewScreen extends StatelessWidget {
                 final BuildContext context,
                 final ({
                   int index,
-                  PRReviewCommentsMixin$Comments$Edges? item,
+                  GPRReviewComments_comments_edges? item,
                   bool refresh
                 }) data,
               ) {
-                final PRReviewCommentsMixin$Comments$Edges$Node comment =
+                final GPRReviewComments_comments_edges_node comment =
                     data.item!.node!;
                 return ChangeNotifierProvider<CommentProvider>(
                   create: (final _) => CommentProvider(),
@@ -201,12 +201,12 @@ class PRReviewScreen extends StatelessWidget {
                         PaddingWrap(
                           child: BaseComment(
                             isMinimized: comment.isMinimized,
-                            reactions: comment.reactionGroups!,
+                            reactions: comment.reactionGroups!.toList(),
                             viewerCanDelete: comment.viewerCanDelete,
                             viewerCanMinimize: comment.viewerCanMinimize,
                             onQuote: openCommentSheet,
                             viewerCannotUpdateReasons:
-                                comment.viewerCannotUpdateReasons,
+                                comment.viewerCannotUpdateReasons.toList(),
                             viewerCanReact: comment.viewerCanReact,
                             viewerCanUpdate: comment.viewerCanUpdate,
                             viewerDidAuthor: comment.viewerDidAuthor,
@@ -219,7 +219,7 @@ class PRReviewScreen extends StatelessWidget {
                             footerPadding:
                                 const EdgeInsets.only(left: 8, right: 8),
                             footer: APIWrapper<
-                                ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?>.deferred(
+                                GreviewThreadFirstCommentQueryData_repository_pullRequest_reviewThreads_edges?>.deferred(
                               apiCall: ({required final bool refresh}) async =>
                                   PullsService.getPRReviewThreadID(
                                 comment.id,
@@ -250,7 +250,7 @@ class PRReviewScreen extends StatelessWidget {
                               ),
                               builder: (
                                 final BuildContext context,
-                                final ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges?
+                                final GreviewThreadFirstCommentQueryData_repository_pullRequest_reviewThreads_edges?
                                     data,
                               ) {
                                 if (data != null) {
@@ -286,9 +286,9 @@ class PRReviewScreen extends StatelessWidget {
 
   Expanded _buildRepliesButton(
     final BuildContext context,
-    final ReviewThreadFirstCommentQuery$Query$Repository$PullRequest$ReviewThreads$Edges
+    final GreviewThreadFirstCommentQueryData_repository_pullRequest_reviewThreads_edges
         edgeData,
-    final PRReviewCommentsMixin$Comments$Edges$Node comment,
+    final GPRReviewComments_comments_edges_node comment,
     final void Function() openCommentSheet,
   ) =>
       Expanded(
@@ -311,7 +311,7 @@ class PRReviewScreen extends StatelessWidget {
                 value: Provider.of<CommentProvider>(context),
                 builder: (final BuildContext context, final Widget? child) =>
                     InfiniteScrollWrapper<
-                        ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>(
+                        GreviewThreadCommentsQueryData_node__asPullRequestReviewThread_comments_edges?>(
                   scrollController: scrollController,
                   separatorBuilder:
                       (final BuildContext context, final int index) =>
@@ -320,7 +320,7 @@ class PRReviewScreen extends StatelessWidget {
                   ),
                   future: (
                     final ({
-                      ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges? lastItem,
+                      GreviewThreadCommentsQueryData_node__asPullRequestReviewThread_comments_edges? lastItem,
                       int pageNumber,
                       int pageSize,
                       bool refresh
@@ -333,14 +333,14 @@ class PRReviewScreen extends StatelessWidget {
                   ),
                   filterFn: (
                     final List<
-                            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>
+                            GreviewThreadCommentsQueryData_node__asPullRequestReviewThread_comments_edges?>
                         items,
                   ) {
                     final List<
-                            ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>
+                            GreviewThreadCommentsQueryData_node__asPullRequestReviewThread_comments_edges?>
                         temp =
-                        <ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges?>[];
-                    for (final ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges? item
+                        <GreviewThreadCommentsQueryData_node__asPullRequestReviewThread_comments_edges?>[];
+                    for (final GreviewThreadCommentsQueryData_node__asPullRequestReviewThread_comments_edges? item
                         in items) {
                       if (item!.node!.id != comment.id) {
                         temp.add(item);
@@ -352,11 +352,11 @@ class PRReviewScreen extends StatelessWidget {
                     final BuildContext context,
                     final ({
                       int index,
-                      ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges? item,
+                      GreviewThreadCommentsQueryData_node__asPullRequestReviewThread_comments_edges? item,
                       bool refresh
                     }) data,
                   ) {
-                    final ReviewThreadCommentsQuery$Query$Node$PullRequestReviewThread$Comments$Edges$Node
+                    final GreviewThreadCommentsQueryData_node__asPullRequestReviewThread_comments_edges_node
                         reply = data.item!.node!;
                     return PaddingWrap(
                       child: BaseComment(
@@ -365,11 +365,11 @@ class PRReviewScreen extends StatelessWidget {
                           Navigator.pop(context);
                           openCommentSheet();
                         },
-                        reactions: reply.reactionGroups!,
+                        reactions: reply.reactionGroups!.toList(),
                         viewerCanDelete: reply.viewerCanDelete,
                         viewerCanMinimize: reply.viewerCanMinimize,
                         viewerCannotUpdateReasons:
-                            reply.viewerCannotUpdateReasons,
+                            reply.viewerCannotUpdateReasons.toList(),
                         viewerCanReact: reply.viewerCanReact,
                         viewerCanUpdate: reply.viewerCanUpdate,
                         viewerDidAuthor: reply.viewerDidAuthor,
