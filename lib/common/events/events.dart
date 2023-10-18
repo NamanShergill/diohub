@@ -25,10 +25,10 @@ class Events extends StatelessWidget {
           const SizedBox(
         height: 16,
       ),
-      header: (context) => Padding(
+      header: (final BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
-          children: [
+          children: <Widget>[
             // SizedBox(
             //   height: 8,
             // ),
@@ -47,14 +47,14 @@ class Events extends StatelessWidget {
                 // child: const Text('1'),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Card(
               margin: EdgeInsets.zero,
               child: ListTile(
-                subtitle: Text('2 open'),
-                title: Text('Pull Requests'),
+                subtitle: const Text('2 open'),
+                title: const Text('Pull Requests'),
                 leading: const Icon(
                   Octicons.git_pull_request,
                   color: Colors.deepPurple,
@@ -66,7 +66,7 @@ class Events extends StatelessWidget {
                 // child: const Text('7 Open'),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Card(
@@ -76,12 +76,12 @@ class Events extends StatelessWidget {
                   Octicons.issue_opened,
                   color: Colors.green,
                 ),
-                title: Text('Issues'),
+                title: const Text('Issues'),
                 trailing: InfoCard.leadingIcon(
                   icon: Icons.arrow_right_rounded,
                   context: context,
                 ),
-                subtitle: Text('27 Open'),
+                subtitle: const Text('27 Open'),
                 // child: const Text('27 Open'),
               ),
             ),

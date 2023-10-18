@@ -43,14 +43,14 @@ class InfoCard extends StatelessWidget {
           InkWell(
             onTap: onTap,
             child: Padding(
-              padding: childPadding ?? const EdgeInsets.all(8.0),
+              padding: childPadding ?? const EdgeInsets.all(8),
               child: Row(
                 children: <Widget>[
                   Flexible(child: child),
                 ],
               ),
             ),
-          )
+          ),
         ],
         assert(
           title != null || leading != null,
@@ -244,7 +244,6 @@ class MenuInfoCard extends StatelessWidget {
 }
 
 class CardHeader extends StatelessWidget {
-  final Color? color;
 
   const CardHeader({
     required this.child,
@@ -256,6 +255,7 @@ class CardHeader extends StatelessWidget {
     this.elevation,
     // this.padding = const EdgeInsets.all(8),
   });
+  final Color? color;
   final double? elevation;
   // final EdgeInsets padding;
   final CardLinkType cardLinkType;

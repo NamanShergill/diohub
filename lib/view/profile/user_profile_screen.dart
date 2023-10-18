@@ -61,7 +61,7 @@ class UserProfileScreenState<T extends UserInfoModel>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(data.name ?? data.login!,
-                          style: Theme.of(context).textTheme.bodyLarge),
+                          style: Theme.of(context).textTheme.bodyLarge,),
                       if (data.name != null)
                         Text(
                           data.login!,

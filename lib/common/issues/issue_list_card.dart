@@ -50,7 +50,6 @@ class IssueListCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 getIcon(item.state!),
                 const SizedBox(

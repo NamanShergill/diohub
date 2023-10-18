@@ -1,12 +1,11 @@
 import 'package:diohub/common/issues/issue_label.dart';
 import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/models/pull_requests/pull_request_model.dart';
 import 'package:diohub/utils/get_date.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-
-import '../../models/issues/issue_model.dart';
 
 class PullListCard extends StatelessWidget {
   const PullListCard(

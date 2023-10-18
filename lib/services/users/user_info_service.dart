@@ -87,7 +87,7 @@ class UserInfoService {
   static Future<List<GgetUserPinnedReposData_user_pinnedItems_edges?>>
       getUserPinnedRepos(final String user) async {
     final GQLResponse res = await _gqlHandler.query(
-      GgetUserPinnedReposReq((b) => b..vars.user = user),
+      GgetUserPinnedReposReq((final GgetUserPinnedReposReqBuilder b) => b..vars.user = user),
     );
     return GgetUserPinnedReposData.fromJson(res.data!)!
         .user!
@@ -99,7 +99,7 @@ class UserInfoService {
   static Future<List<GgetViewerOrgsData_viewer_organizations_edges?>>
       getViewerOrgs({required final bool refresh, final String? after}) async {
     final GQLResponse res = await _gqlHandler.query(
-      GgetViewerOrgsReq((b) => b..vars.cursor = after),
+      GgetViewerOrgsReq((final GgetViewerOrgsReqBuilder b) => b..vars.cursor = after),
       refreshCache: refresh,
     );
     return GgetViewerOrgsData.fromJson(res.data!)!
@@ -115,7 +115,7 @@ class UserInfoService {
       GfollowStatusInfoData.fromJson(
         (await _gqlHandler.query(
           GfollowStatusInfoReq(
-            (b) => b..vars.user = login,
+            (final GfollowStatusInfoReqBuilder b) => b..vars.user = login,
           ),
         ))
             .data!,
@@ -129,13 +129,13 @@ class UserInfoService {
     if (follow) {
       return _gqlHandler.mutation(
         GfollowUserReq(
-          (b) => b..vars.user = id,
+          (final GfollowUserReqBuilder b) => b..vars.user = id,
         ),
       );
     } else {
       return _gqlHandler.mutation(
         GunfollowUserReq(
-          (b) => b..vars.user = id,
+          (final GunfollowUserReqBuilder b) => b..vars.user = id,
         ),
       );
     }

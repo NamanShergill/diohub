@@ -228,9 +228,9 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                               children: <Widget>[
                                 Center(
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 8),
+                                    padding: const EdgeInsets.only(top: 8),
                                     child: Padding(
-                                      padding: EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
                                       child: Text(
                                         'How to format your filters',
                                         style: context.textTheme.bodyLarge
@@ -239,8 +239,8 @@ class SearchOverlayScreenState extends State<SearchOverlayScreen> {
                                     ),
                                   ),
                                 ),
-                                Divider(),
-                                Padding(
+                                const Divider(),
+                                const Padding(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 16,
                                     vertical: 8,

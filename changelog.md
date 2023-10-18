@@ -11,7 +11,7 @@
     - App Store - High Priority 
     - (Where else? lol)
     - (Ok fine, TestFlight - High Priority)
-    - (And for the EU folks if mr Tim Apple allows us non EU peasants access to iOS sideloading, for me to be able to test it)
+    - (And IPA releases if Mr Tim Apple allows us non-EU peasants access to iOS sideloading, for me to be able to test it)
     - (PS, If you are an EU dev and would like to help with the above point, I am open to relocation job offers/referrals :>)
   - Broken:
     - Sharing sheet (iPadOS)
@@ -26,7 +26,7 @@
     - Microsoft Store - N/A
 - Linux - Might build with some debugging, haven't tested
   - Release:
-    ~~- Steam Deck - Maximum Priority~~
+  ~~- Steam Deck - Maximum Priority~~
     - Snap - N/A
     - Bundle - N/A
 - Web -
@@ -65,6 +65,8 @@ _Please don't open new issues for this build, instead post the issues as comment
 
 **Context Menus**
 - URL menus- open in browser, copy link, share link, open in app if deeplink
+
+**Failed UI components due to loss of Internet now refresh themselves when back online**
 
 **UI Redesign**
 

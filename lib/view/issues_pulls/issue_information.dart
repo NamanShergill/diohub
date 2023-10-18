@@ -1,7 +1,6 @@
 import 'package:diohub/common/misc/app_dialog.dart';
 import 'package:diohub/common/misc/button.dart';
 import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
-import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
 import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/providers/issue_pulls/issue_provider.dart';
 import 'package:diohub/services/issues/issues_service.dart';
@@ -238,7 +237,7 @@ class __IssueButtonState extends State<_IssueButton> {
           await showDialog(
             context: context,
             builder: (final _) => AppDialog(
-              title: widget.issue.state != GIssueState.CLOSED
+              title: widget.issue.state != IssueState.CLOSED
                   ? 'Close Issue?'
                   : 'Reopen Issue?',
               actions: <Widget>[
@@ -255,7 +254,7 @@ class __IssueButtonState extends State<_IssueButton> {
                     });
                     // ignore: omit_local_variable_types
                     final Map<String, dynamic> data = <String, dynamic>{};
-                    if (widget.issue.state != GIssueState.CLOSED) {
+                    if (widget.issue.state != IssueState.CLOSED) {
                       data['state'] = 'closed';
                     } else {
                       data['state'] = 'open';
@@ -277,10 +276,9 @@ class __IssueButtonState extends State<_IssueButton> {
             ),
           );
         },
-        color: widget.issue.state != GIssueState.CLOSED
-            ? Colors.red
-            : Colors.green,
-        child: widget.issue.state != GIssueState.CLOSED
+        color:
+            widget.issue.state != IssueState.CLOSED ? Colors.red : Colors.green,
+        child: widget.issue.state != IssueState.CLOSED
             ? const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

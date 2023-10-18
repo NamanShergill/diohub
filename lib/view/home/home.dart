@@ -54,7 +54,7 @@ class HomeScreenState extends State<HomeScreen>
         title: switch (context.providerStatus<CurrentUserProvider>()) {
           Status.loaded => Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 ClipOval(
                   child: InkWell(
                     onTap: () {

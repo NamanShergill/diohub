@@ -138,7 +138,7 @@ class MarkdownBodyState extends State<MarkdownBody> {
         //   return true;
         // },
         onLoadingBuilder: (final BuildContext context,
-                final dom.Element element, final double? loadingProgress) =>
+                final dom.Element element, final double? loadingProgress,) =>
             const LoadingIndicator(),
 
         customStylesBuilder: (final dom.Element element) {
@@ -184,7 +184,7 @@ class MarkdownBodyState extends State<MarkdownBody> {
           // }
           if (element.isTag('img')) {
             return buildImageTag(element,
-                imgSrcModifiers: widget.imgSrcModifiers);
+                imgSrcModifiers: widget.imgSrcModifiers,);
           }
           return null;
         },

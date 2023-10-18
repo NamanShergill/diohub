@@ -90,8 +90,10 @@ class IssuesService {
           ) =>
               data.assignees.edges!
                   .map<NodeWithPaginationInfo<Gactor>>(
-                    (final GissuePullAssigneesData_repository_issueOrPullRequest__asIssue_assignees_edges?
-                            p0) =>
+                    (
+                      final GissuePullAssigneesData_repository_issueOrPullRequest__asIssue_assignees_edges?
+                          p0,
+                    ) =>
                         NodeWithPaginationInfo<Gactor>.fromEdge(p0!),
                   )
                   .toList(),
@@ -101,8 +103,10 @@ class IssuesService {
           ) =>
               data.assignees.edges!
                   .map<NodeWithPaginationInfo<Gactor>>(
-                    (final GissuePullAssigneesData_repository_issueOrPullRequest__asPullRequest_assignees_edges?
-                            p0) =>
+                    (
+                      final GissuePullAssigneesData_repository_issueOrPullRequest__asPullRequest_assignees_edges?
+                          p0,
+                    ) =>
                         NodeWithPaginationInfo<Gactor>.fromEdge(p0!),
                   )
                   .toList(),
@@ -136,8 +140,10 @@ class IssuesService {
           ) =>
               p0.participants.edges!
                   .map<NodeWithPaginationInfo<Gactor>>(
-                    (final GissuePullParticipantsData_repository_issueOrPullRequest__asIssue_participants_edges?
-                            p0) =>
+                    (
+                      final GissuePullParticipantsData_repository_issueOrPullRequest__asIssue_participants_edges?
+                          p0,
+                    ) =>
                         NodeWithPaginationInfo<Gactor>.fromEdge(p0!),
                   )
                   .toList(),
@@ -147,8 +153,10 @@ class IssuesService {
           ) =>
               p0.participants.edges!
                   .map<NodeWithPaginationInfo<Gactor>>(
-                    (final GissuePullParticipantsData_repository_issueOrPullRequest__asPullRequest_participants_edges?
-                            p0) =>
+                    (
+                      final GissuePullParticipantsData_repository_issueOrPullRequest__asPullRequest_participants_edges?
+                          p0,
+                    ) =>
                         NodeWithPaginationInfo<Gactor>.fromEdge(p0!),
                   )
                   .toList(),
@@ -212,8 +220,10 @@ class IssuesService {
           pullRequest: (final GgetReactorsData_node__asPullRequest p0) =>
               p0.reactionGroups!
                   .firstWhere(
-                    (final GgetReactorsData_node__asPullRequest_reactionGroups
-                            element) =>
+                    (
+                      final GgetReactorsData_node__asPullRequest_reactionGroups
+                          element,
+                    ) =>
                         element.content == content,
                   )
                   .reactors
@@ -351,18 +361,19 @@ class IssuesService {
       requestHeaders: _gqlHandler
           .acceptHeader('application/vnd.github.starfox-preview+json'),
     );
-    print(response.errors);
     return GgetTimelineData.fromJson(response.data!)!
         .repository!
         .issueOrPullRequest!
         .when<BuiltList<dynamic>>(
-          issue: (final GgetTimelineData_repository_issueOrPullRequest__asIssue
-                  p0) =>
+          issue: (
+            final GgetTimelineData_repository_issueOrPullRequest__asIssue p0,
+          ) =>
               p0.timelineItems.edges!,
-          pullRequest:
-              (final GgetTimelineData_repository_issueOrPullRequest__asPullRequest
-                      p0) =>
-                  p0.timelineItems.edges!,
+          pullRequest: (
+            final GgetTimelineData_repository_issueOrPullRequest__asPullRequest
+                p0,
+          ) =>
+              p0.timelineItems.edges!,
           orElse: unimplemented,
         );
   }

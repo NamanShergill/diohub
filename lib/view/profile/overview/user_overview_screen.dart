@@ -36,7 +36,7 @@ class UserOverviewScreen extends StatelessWidget {
               title: 'Pinned Repos',
               children: snapshot.on(
                 loaded: (
-                  snapshot,
+                  final APISnapshotLoaded<List<GgetUserPinnedReposData_user_pinnedItems_edges?>> snapshot,
                 ) =>
                     snapshot.data.isEmpty
                         ? <Widget>[
@@ -50,7 +50,6 @@ class UserOverviewScreen extends StatelessWidget {
                                 repository: returnItself,
                                 orElse: unimplemented,
                               );
-                              ;
                               return SizeExpandedSection(
                                 child: RepositoryCard(
                                   // padding: const EdgeInsets.only(
@@ -77,10 +76,10 @@ class UserOverviewScreen extends StatelessWidget {
                               );
                             },
                           ),
-                loading: (snapshot) => <Widget>[
+                loading: (final APISnapshotLoading<List<GgetUserPinnedReposData_user_pinnedItems_edges?>> snapshot) => <Widget>[
                   const LoadingIndicator(),
                 ],
-                error: (snapshot) => <Widget>[snapshot.defaultErrorWidget()],
+                error: (final APISnapshotError<List<GgetUserPinnedReposData_user_pinnedItems_edges?>> snapshot) => <Widget>[snapshot.defaultErrorWidget()],
               ),
             ),
           ),

@@ -481,7 +481,6 @@ class _FirstPageErrorIndicator extends StatelessWidget {
   const _FirstPageErrorIndicator({
     required this.error,
     this.onTryAgain,
-    super.key,
   });
   final Object? error;
   final VoidCallback? onTryAgain;
@@ -501,8 +500,8 @@ class _FirstPageExceptionIndicator extends StatelessWidget {
     required this.title,
     this.message,
     this.onTryAgain,
-    final Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String title;
   final String? message;

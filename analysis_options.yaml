@@ -7,6 +7,9 @@ analyzer:
       lib/models/**,
      dependencies/**/example/**
     ]
+  errors:
+    # Workaround for Ferry also adding ignore all lint rules.
+    duplicate_ignore: ignore
 
 
 linter:

@@ -261,7 +261,7 @@ class BlankIssueTemplate extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => IssueTemplateCard(
         GissueTemplatesData_repository_issueTemplates(
-          (b) => b
+          (final GissueTemplatesData_repository_issueTemplatesBuilder b) => b
             ..name = 'Don’t see your issue here?'
             ..about = 'Open a blank issue.',
         ),

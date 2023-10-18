@@ -5,6 +5,7 @@ import 'package:animations/animations.dart';
 import 'package:dio/dio.dart';
 import 'package:diohub/common/misc/button.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/controller/internet_connectivity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -57,9 +58,11 @@ class APIWrapper<T> extends StatefulWidget {
   }) =>
       (final BuildContext context, final APISnapshot<T> snapshot) =>
           PageTransitionSwitcher(
-            transitionBuilder: (final Widget child,
-                    final Animation<double> primaryAnimation,
-                    final Animation<double> secondaryAnimation) =>
+            transitionBuilder: (
+              final Widget child,
+              final Animation<double> primaryAnimation,
+              final Animation<double> secondaryAnimation,
+            ) =>
                 FadeThroughTransition(
               animation: primaryAnimation,
               secondaryAnimation: secondaryAnimation,
@@ -107,10 +110,12 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
 
   Future<void> refreshData({final bool forceRefresh = true}) async {
     try {
-      updateSnapshot(APISnapshotLoading<T>(
-        // widget.initialData as T,
-        onRefresh: refreshData,
-      ));
+      updateSnapshot(
+        APISnapshotLoading<T>(
+          // widget.initialData as T,
+          onRefresh: refreshData,
+        ),
+      );
       final T data = await widget.apiCall(refresh: forceRefresh);
 
       if (mounted) {
@@ -136,10 +141,12 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
   }
 
   void changeData(final T data) {
-    updateSnapshot(APISnapshotLoaded<T>(
-      data,
-      onRefresh: refreshData,
-    ));
+    updateSnapshot(
+      APISnapshotLoaded<T>(
+        data,
+        onRefresh: refreshData,
+      ),
+    );
   }
 
   @override
@@ -147,6 +154,13 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
     // widget.apiWrapperController?.refresh = fetchData;
     // widget.apiWrapperController?.overrideData = changeData;
     unawaited(setupWidget());
+    InternetConnectivity.networkStream.listen((NetworkStatus event) async {
+      if (event == NetworkStatus.online) {
+        if (_snapshot is APISnapshotError) {
+          await refreshData();
+        }
+      }
+    });
     super.initState();
   }
 

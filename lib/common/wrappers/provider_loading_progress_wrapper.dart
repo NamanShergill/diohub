@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:diohub/common/misc/api_error.dart';
+import 'package:diohub/common/misc/button.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/controller/internet_connectivity.dart';
 import 'package:diohub/providers/base_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +10,7 @@ import 'package:provider/provider.dart';
 typedef ErrorBuilder = Widget Function(BuildContext context, Object error);
 typedef ChildBuilder<T> = Widget Function(BuildContext context, T value);
 
-class ProviderLoadingProgressWrapper<T extends BaseProvider>
+class ProviderLoadingProgressWrapper<T extends BaseDataProvider<dynamic>>
     extends StatefulWidget {
   const ProviderLoadingProgressWrapper({
     required this.childBuilder,
@@ -27,7 +29,7 @@ class ProviderLoadingProgressWrapper<T extends BaseProvider>
       ProviderLoadingProgressWrapperState<T>();
 }
 
-class ProviderLoadingProgressWrapperState<T extends BaseProvider>
+class ProviderLoadingProgressWrapperState<T extends BaseDataProvider<dynamic>>
     extends State<ProviderLoadingProgressWrapper<T>> {
   @override
   void initState() {
@@ -36,6 +38,14 @@ class ProviderLoadingProgressWrapperState<T extends BaseProvider>
         widget.listener?.call(event);
       });
     }
+    InternetConnectivity.networkStream.listen((NetworkStatus event) async {
+      if (event == NetworkStatus.online) {
+        final T provider = context.read<T>();
+        if (provider.status == Status.error) {
+          await provider.loadData();
+        }
+      }
+    });
     super.initState();
   }
 
@@ -61,26 +71,42 @@ class ProviderLoadingProgressWrapperState<T extends BaseProvider>
                   context,
                   value.errorInfo ?? 'Something went wrong.',
                 )
-              : Builder(
-                  builder: (final BuildContext context) {
-                    if (value.errorInfo is DioException) {
-                      final DioException err = value.errorInfo! as DioException;
-                      if (err.response != null) {
-                        return Center(
-                          child: APIError(
-                            err.response!.statusCode!,
-                            err.response!.statusMessage!,
-                          ),
-                        );
-                      }
-                    }
-                    return Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(value.errorInfo.toString()),
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Builder(
+                        builder: (final BuildContext context) {
+                          if (value.errorInfo is DioException) {
+                            final DioException err =
+                                value.errorInfo! as DioException;
+                            if (err.response != null) {
+                              return Center(
+                                child: APIError(
+                                  err.response!.statusCode!,
+                                  err.response!.statusMessage!,
+                                ),
+                              );
+                            }
+                          }
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(value.errorInfo.toString()),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
+                      Button(
+                        onTap: () async {
+                          final T provider = context.provider<T>(listen: false);
+                          return provider.loadData();
+                        },
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
                 );
         }
         return widget.loadingBuilder != null

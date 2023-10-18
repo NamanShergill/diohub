@@ -1,19 +1,7 @@
 part of 'dio.dart';
 
-class CacheManager {
-  static APICache defaultGQLCache({
-    final bool refresh = false,
-    final Duration maxAge = _maxAge,
-  }) =>
-      APICache(
-        allowPostMethod: true,
-        maxAge: maxAge,
-        cachePolicy: CachePolicy.refreshForceCache,
-        keyBuilder: generateUUIDFromRequest,
-      );
-}
-
 const Duration _maxAge = Duration(minutes: 2);
+const Duration _gqlMaxAge = Duration(minutes: 2);
 
 class APICache {
   APICache({
@@ -32,6 +20,17 @@ class APICache {
           maxStale: maxStale,
           allowPostMethod: allowPostMethod,
           priority: priority,
+        );
+
+  APICache.gql(
+      // final bool refresh = false,
+      // final Duration maxAge = _maxAge,
+      )
+      : this(
+          allowPostMethod: true,
+          maxAge: _gqlMaxAge,
+          cachePolicy: CachePolicy.refreshForceCache,
+          keyBuilder: generateUUIDFromRequest,
         );
 
   APICache._copyWith({

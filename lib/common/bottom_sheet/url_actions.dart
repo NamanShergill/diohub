@@ -125,7 +125,7 @@ class URLActions {
 }
 
 Future<void> showActionsMenu(
-    final List<PullDownMenuEntry> menuItems, final BuildContext context) async {
+    final List<PullDownMenuEntry> menuItems, final BuildContext context,) async {
   await HapticFeedback.lightImpact();
   if (context.mounted) {
     await showPullDownMenu(

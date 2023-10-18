@@ -1,6 +1,7 @@
 import 'package:diohub/common/bottom_sheet/url_actions.dart';
 import 'package:diohub/common/markdown_view/markdown_body.dart';
 import 'package:diohub/common/misc/code_block_view.dart';
+import 'package:diohub/common/misc/image_loader.dart';
 import 'package:diohub/common/misc/info_card.dart';
 import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/copy_to_clipboard.dart';
@@ -13,8 +14,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:pull_down_button/pull_down_button.dart';
-
-import '../../misc/image_loader.dart';
 
 part 'a_extension.dart';
 part 'code_extension.dart';
@@ -153,8 +152,11 @@ class MyWidgetFactory extends WidgetFactory {
       )
       ..wrapTaggedWidget(
         tag: 'a',
-        newWidgetBuilder: (final BuildContext context, final Widget child,
-            final BuildTree tree) {
+        newWidgetBuilder: (
+          final BuildContext context,
+          final Widget child,
+          final BuildTree tree,
+        ) {
           final String link = tree.element.attributes['href'] ?? '';
           print(link);
           if (link.startsWith('#')) {
@@ -178,7 +180,9 @@ class MyWidgetFactory extends WidgetFactory {
       )
       ..wrapTaggedWidget(
         tag: 'blockquote',
-        newWidgetBuilder: (context, child, tree) => DecoratedBox(
+        newWidgetBuilder: (final BuildContext context, final Widget child,
+                final BuildTree tree) =>
+            DecoratedBox(
           decoration: BoxDecoration(
             // color: context.colorScheme.surface.,
             border: Border(

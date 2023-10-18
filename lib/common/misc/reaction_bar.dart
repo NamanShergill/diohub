@@ -120,7 +120,7 @@ class _ReactionBarState extends State<ReactionBar> {
                               boxColor: context.colorScheme.primary,
                               onReactionChanged:
                                   (final Reaction<GreactionGroups>?
-                                      value) async {
+                                      value,) async {
                                 await updateReaction(value!.value!);
                               },
                               selectedReaction: Reaction<GreactionGroups>(

@@ -135,7 +135,7 @@ class PullsService {
     return GgetPRReviewCommentsData.fromJson(res.data!)!.node!.when(
           pullRequestReview:
               (final GgetPRReviewCommentsData_node__asPullRequestReview p0) =>
-                  p0.comments!.edges!.toList(),
+                  p0.comments.edges!.toList(),
           orElse: unimplemented,
         );
   }
@@ -150,7 +150,7 @@ class PullsService {
   }) async {
     final GQLResponse res = await _gqlHandler.query(
       GreviewThreadCommentsQueryReq(
-        (b) => b
+        (final GreviewThreadCommentsQueryReqBuilder b) => b
           ..vars.cursor = cursor
           ..vars.nodeID = nodeID,
       ),
@@ -175,7 +175,7 @@ class PullsService {
   }) async {
     final GQLResponse res = await _gqlHandler.query(
       GreviewThreadFirstCommentQueryReq(
-        (b) => b
+        (final GreviewThreadFirstCommentQueryReqBuilder b) => b
           ..vars.cursor = cursor
           ..vars.name = name
           ..vars.number = number
@@ -212,13 +212,13 @@ class PullsService {
   ) async {
     final GQLResponse res = await _gqlHandler.query(
       GcheckPendingViewerReviewsReq(
-        (b) => b
+        (final GcheckPendingViewerReviewsReqBuilder b) => b
           ..vars.author = user
           ..vars.pullNodeID = pullNode,
       ),
     );
     return GcheckPendingViewerReviewsData.fromJson(res.data!)!.node!.when(
-          pullRequest: (p0) {
+          pullRequest: (final GcheckPendingViewerReviewsData_node__asPullRequest p0) {
             if ((p0.reviews?.totalCount ?? 0) > 0) {
               return true;
             } else {

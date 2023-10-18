@@ -100,7 +100,7 @@ class SearchService {
   }) async {
     final String q = '$query${' type:$type'}';
     final GQLResponse res = await _gqlHandler.query(
-      GsearchMentionUsersReq((b) => b..vars.query = q),
+      GsearchMentionUsersReq((final GsearchMentionUsersReqBuilder b) => b..vars.query = q),
     );
     final BuiltList<GsearchMentionUsersData_search_edges?> userEdges =
         GsearchMentionUsersData.fromJson(res.data!)!.search.edges!;

@@ -10,14 +10,14 @@ class BranchLabel extends StatelessWidget {
     // final DioHubPalette color =
     //     Provider.of<PaletteSettings>(context).currentSetting;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: context.colorScheme.primary,
           borderRadius: smallBorderRadius,
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Text(
             name,
             style: TextStyle(color: context.colorScheme.onPrimary)

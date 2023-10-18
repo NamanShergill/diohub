@@ -30,7 +30,7 @@ class RepositoryServices {
   Future<GpinnedIssuesData_repository_pinnedIssues> getPinnedIssues() async {
     final GQLResponse response = await _gqlHandler.query(
       GpinnedIssuesReq(
-        (b) => b
+        (final GpinnedIssuesReqBuilder b) => b
           ..vars.name = name
           ..vars.owner = owner,
       ),
@@ -187,7 +187,7 @@ class RepositoryServices {
       ) =>
           b
             ..vars.name = name
-            ..vars.owner = name),
+            ..vars.owner = name,),
       refreshCache: true,
     );
     return GhasStarredData.fromJson(res.data!)!.repository!;

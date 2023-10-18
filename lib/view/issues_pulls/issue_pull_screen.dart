@@ -116,7 +116,7 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
             data.when(
           issue:
               (final GissuePullInfoData_repository_issueOrPullRequest__asIssue
-                      p0) =>
+                      p0,) =>
                   ChangeNotifierProvider<IssueProvider>(
             create: (final BuildContext context) => IssueProvider(p0),
             lazy: false,
@@ -128,7 +128,7 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
           ),
           pullRequest:
               (final GissuePullInfoData_repository_issueOrPullRequest__asPullRequest
-                      p0) =>
+                      p0,) =>
                   ChangeNotifierProvider<PullProvider>(
             create: (final BuildContext context) => PullProvider(p0),
             lazy: false,
@@ -614,7 +614,7 @@ class _AboutTab extends StatelessWidget {
                       ),
                       titleBuilder:
                           (final UnfinishedList<NodeWithPaginationInfo<Gactor>>
-                                  availableList) =>
+                                  availableList,) =>
                               switch (availableList.totalCount) {
                         1 => 'Assignee',
                         _ => 'Assignees',
@@ -874,7 +874,7 @@ class _AssigneeInfoCard extends StatelessWidget {
   });
   final UnfinishedList<NodeWithPaginationInfo<Gactor>> availableList;
   final String Function(
-          UnfinishedList<NodeWithPaginationInfo<Gactor>> availableList)
+          UnfinishedList<NodeWithPaginationInfo<Gactor>> availableList,)
       titleBuilder;
   final ScrollWrapperFuture<NodeWithPaginationInfo<Gactor>> fetchActorsList;
   final VoidCallback? onTap;

@@ -170,27 +170,6 @@ class RESTHandler extends BaseAPIHandler {
       rethrow;
     }
   }
-
-  @override
-  Future<void> onError(
-      final DioException error, final ErrorInterceptorHandler handler) async {
-    // TODO: implement onError
-    // throw UnimplementedError();
-  }
-
-  @override
-  Future<void> onRequest(final RequestOptions options,
-      final RequestInterceptorHandler handler) async {
-    // TODO: implement onRequest
-    // throw UnimplementedError();
-  }
-
-  @override
-  Future<void> onResponse(final Response<Object?> response,
-      final ResponseInterceptorHandler handler) async {
-    // TODO: implement onResponse
-    // throw UnimplementedError();
-  }
 }
 
 class GraphqlHandler extends BaseAPIHandler {
@@ -223,13 +202,7 @@ class GraphqlHandler extends BaseAPIHandler {
       );
 
   @override
-  APICache get _defaultCacheOptions => CacheManager.defaultGQLCache();
-
-  @override
-  APILoggingSettings get defaultAPILogSettings =>
-      APILoggingSettings.comprehensive(
-        cURL: false,
-      );
+  APICache get _defaultCacheOptions => APICache.gql();
 
   Future<GQLResponse> _query(
     final OperationRequest<dynamic, dynamic> operationRequest, {
@@ -246,6 +219,7 @@ class GraphqlHandler extends BaseAPIHandler {
           .request(
             GQLRequest(
               operation: operationRequest.operation,
+              // ignore: avoid_dynamic_calls
               variables: operationRequest.vars.toJson(),
             ),
           )
@@ -269,26 +243,15 @@ class GraphqlHandler extends BaseAPIHandler {
       );
 
   @override
-  Future<void> onError(
-      final DioException error, final ErrorInterceptorHandler handler) async {
-    // TODO: implement onError
-  }
-
-  @override
-  Future<void> onRequest(final RequestOptions options,
-      final RequestInterceptorHandler handler) async {
-    // TODO: implement onRequest
-  }
-
-  @override
-  Future<void> onResponse(final Response<Object?> response,
-      final ResponseInterceptorHandler handler) async {
+  Future<void> onResponse(
+    final Response<Object?> response,
+    final ResponseInterceptorHandler handler,
+  ) async {
     final gql_exec.Response gqlResponse = const ResponseParser()
         .parseResponse(response.data! as Map<String, dynamic>);
-    print(gqlResponse);
     if (gqlResponse.errors != null) {
       handler.reject(
-        DioError(
+        DioException(
           requestOptions: response.requestOptions,
           error: gqlResponse.errors,
         ),
@@ -322,15 +285,15 @@ abstract class BaseAPIHandler {
   Future<void> onError(
     final DioException error,
     final ErrorInterceptorHandler handler,
-  );
+  ) async {}
   Future<void> onRequest(
     final RequestOptions options,
     final RequestInterceptorHandler handler,
-  );
+  ) async {}
   Future<void> onResponse(
     final Response<Object?> response,
     final ResponseInterceptorHandler handler,
-  );
+  ) async {}
 
   Dio _request({
     final Map<String, dynamic>? requestHeaders,
@@ -413,16 +376,6 @@ abstract class BaseAPIHandler {
           final ResponseInterceptorHandler handler,
         ) async {
           await onResponse(response, handler);
-          final Object? data = response.data;
-          // If response contains a ['message'] key, show success popup to the
-          // user with the message.
-          if (data is Map &&
-              data.containsKey('message') &&
-              propagateMessagesToUI) {
-            ResponseHandler.setSuccessMessage(
-              AppPopupData(title: data['message']),
-            );
-          }
           handler.next(response);
         },
         onError: (
@@ -453,9 +406,6 @@ abstract class BaseAPIHandler {
           final RequestOptions options,
           final RequestInterceptorHandler handler,
         ) async {
-          if (requestHeaders != null) {
-            options.headers.addAll(requestHeaders);
-          }
           final bool checkCache =
               cache.cacheOptions.policy != CachePolicy.noCache &&
                   cache.cacheOptions.policy != CachePolicy.refresh &&
@@ -463,9 +413,13 @@ abstract class BaseAPIHandler {
           if (checkCache) {
             final String key = cache.cacheOptions.keyBuilder(options);
             final CacheResponse? cacheData = await _cacheStore.get(key);
-            if (cacheData != null &&
-                DateTime.now()
-                    .isBefore(cacheData.responseDate.add(cache.maxAge!))) {
+            final bool cacheIsBeforeExpiry = cacheData != null &&
+                DateTime.now().isBefore(
+                  cacheData.responseDate.add(
+                    cache.maxAge!,
+                  ),
+                );
+            if (cacheIsBeforeExpiry) {
               // Resolve the request and pass cached data as response.
               return handler.resolve(cacheData.toResponse(options));
             }
