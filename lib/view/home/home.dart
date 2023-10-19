@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:diohub/common/events/events.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/common/misc/scroll_scaffold.dart';
 import 'package:diohub/common/misc/shimmer_widget.dart';
 import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
-import 'package:diohub/controller/deep_linking_handler.dart';
 import 'package:diohub/graphql/queries/viewer/__generated__/viewer.query.data.gql.dart';
 import 'package:diohub/providers/base_provider.dart';
 import 'package:diohub/providers/users/current_user_provider.dart';
@@ -15,6 +14,8 @@ import 'package:diohub/view/home/widgets/issues_tab.dart';
 import 'package:diohub/view/home/widgets/pulls_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
+
+import '../../common/events/events.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({

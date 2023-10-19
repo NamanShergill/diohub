@@ -1,4 +1,4 @@
-import 'package:diohub/controller/deep_linking_handler.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:flutter/material.dart';
 
 abstract class DeepLinkWidget extends StatefulWidget {

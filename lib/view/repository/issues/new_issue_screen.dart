@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/common/markdown_view/markdown_body.dart';
 import 'package:diohub/common/misc/custom_expand_tile.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
 import 'package:diohub/common/wrappers/loading_wrapper.dart';
-import 'package:diohub/controller/deep_linking_handler.dart';
 import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.data.gql.dart';
 import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/routes/router.dart';

@@ -1,7 +1,7 @@
+import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/common/search_overlay/filters.dart';
 import 'package:diohub/common/search_overlay/search_overlay.dart';
 import 'package:diohub/common/wrappers/search_scroll_wrapper.dart';
-import 'package:diohub/controller/deep_linking_handler.dart';
 import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/models/users/current_user_info_model.dart';
 import 'package:diohub/providers/users/current_user_provider.dart';

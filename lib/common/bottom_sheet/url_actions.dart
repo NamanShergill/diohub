@@ -1,5 +1,5 @@
+import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/common/const/app_info.dart';
-import 'package:diohub/controller/deep_linking_handler.dart';
 import 'package:diohub/utils/copy_to_clipboard.dart';
 import 'package:diohub/utils/open_in_app_browser.dart';
 import 'package:flutter/cupertino.dart';
@@ -125,7 +125,9 @@ class URLActions {
 }
 
 Future<void> showActionsMenu(
-    final List<PullDownMenuEntry> menuItems, final BuildContext context,) async {
+  final List<PullDownMenuEntry> menuItems,
+  final BuildContext context,
+) async {
   await HapticFeedback.lightImpact();
   if (context.mounted) {
     await showPullDownMenu(

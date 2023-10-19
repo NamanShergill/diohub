@@ -9,8 +9,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i15;
+import 'package:diohub/adapters/deep_linking_handler.dart' as _i17;
 import 'package:diohub/common/search_overlay/search_overlay.dart' as _i13;
-import 'package:diohub/controller/deep_linking_handler.dart' as _i17;
 import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.data.gql.dart'
     as _i18;
 import 'package:diohub/view/authentication/auth_screen.dart' as _i1;

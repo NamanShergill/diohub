@@ -14,18 +14,18 @@ class BaseEventCard extends StatelessWidget {
     this.userLogin,
     this.date,
     super.key,
-  }) : onTap = null;
+  });
   BaseEventCard.singular({
     required this.headerText,
     required final Widget child,
     this.actor,
     this.avatarUrl,
-    this.onTap,
+    VoidCallback? onTap,
     this.userLogin,
     this.date,
     super.key,
   }) : children = <Widget>[
-          child,
+          InkWell(onTap: onTap, child: child),
         ];
 
   final List<Widget> children;
@@ -33,7 +33,6 @@ class BaseEventCard extends StatelessWidget {
   final String? actor;
   final String? userLogin;
   final List<TextSpan> headerText;
-  final VoidCallback? onTap;
   final DateTime? date;
 
   @override
@@ -96,29 +95,23 @@ class BaseEventCard extends StatelessWidget {
           // const SizedBox(
           //   height: 4,
           // ),
-          InkWell(
-            // borderRadius: medBorderRadius,
-            onTap: onTap,
-            child: Column(
-              children:
-                  List<Widget>.generate(children.length, (final int index) {
-                final bool isLast = index == children.length - 1;
-                return Column(
-                  children: <Widget>[
-                    if (index > 0)
-                      const Divider(
-                        height: 0,
-                      ),
-                    BasicCard.linked(
-                      cardLinkType:
-                          isLast ? CardLinkType.atTop : CardLinkType.both,
-                      child: children[index],
-                    ),
-                  ],
-                );
-              }),
-            ),
-          ),
+          ...List<Widget>.generate(children.length, (final int index) {
+            final bool isLast = index == children.length - 1;
+            return Column(
+              children: <Widget>[
+                if (index > 0)
+                  const Divider(
+                    height: 0,
+                  ),
+                BasicCard.linked(
+                  // elevation: 5,
+                  cardLinkType: isLast ? CardLinkType.atTop : CardLinkType.both,
+                  child: children[index],
+                  // surfaceTintColor: Colors.red,
+                ),
+              ],
+            );
+          }),
         ],
       );
 }

@@ -3,9 +3,9 @@ import 'dart:developer';
 
 import 'package:animations/animations.dart';
 import 'package:dio/dio.dart';
+import 'package:diohub/adapters/internet_connectivity.dart';
 import 'package:diohub/common/misc/button.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
-import 'package:diohub/controller/internet_connectivity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -66,6 +66,7 @@ class APIWrapper<T> extends StatefulWidget {
                 FadeThroughTransition(
               animation: primaryAnimation,
               secondaryAnimation: secondaryAnimation,
+              fillColor: Colors.transparent,
               child: child,
             ),
             child: snapshot.on(
@@ -154,11 +155,15 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
     // widget.apiWrapperController?.refresh = fetchData;
     // widget.apiWrapperController?.overrideData = changeData;
     unawaited(setupWidget());
-    InternetConnectivity.networkStream.listen((NetworkStatus event) async {
-      if (event == NetworkStatus.online) {
-        if (_snapshot is APISnapshotError) {
-          await refreshData();
-        }
+    InternetConnectivity.networkStream
+        .listen((final NetworkStatus event) async {
+      switch (event) {
+        case NetworkStatus.online:
+        case NetworkStatus.restored:
+          if (_snapshot is APISnapshotError) {
+            await refreshData();
+          }
+        case NetworkStatus.offline:
       }
     });
     super.initState();

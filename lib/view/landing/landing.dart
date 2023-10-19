@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/annotations.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/common/misc/scaffold_body.dart';
-import 'package:diohub/controller/deep_linking_handler.dart';
 import 'package:diohub/view/home/home.dart';
 import 'package:diohub/view/notifications/notifications.dart';
 import 'package:diohub/view/profile/current_user_profile_screen.dart';

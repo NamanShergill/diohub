@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:diohub/adapters/internet_connectivity.dart';
 import 'package:diohub/common/misc/api_error.dart';
 import 'package:diohub/common/misc/button.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
-import 'package:diohub/controller/internet_connectivity.dart';
 import 'package:diohub/providers/base_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

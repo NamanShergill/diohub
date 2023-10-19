@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
+import 'package:diohub/adapters/internet_connectivity.dart';
 import 'package:diohub/app/api_handler/dio.dart';
 import 'package:diohub/app/api_handler/response_handler.dart';
 import 'package:diohub/app/global.dart';
 import 'package:diohub/app/settings/font.dart';
 import 'package:diohub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:diohub/controller/deep_linking_handler.dart';
-import 'package:diohub/controller/internet_connectivity.dart';
 import 'package:diohub/providers/search_data_provider.dart';
 import 'package:diohub/providers/users/current_user_provider.dart';
 import 'package:diohub/routes/router.gr.dart';

@@ -15,7 +15,7 @@ class FontSettingCard extends StatefulWidget {
 class FontSettingCardState extends State<FontSettingCard> {
   final Map<String, String?> settings = <String, String?>{
     'System Default': null,
-    'Montserrat': null,
+    // 'Montserrat': null,
     'Manrope': null,
     'Monospace': null,
     'OpenDyslexic3': 'Increased readability for readers with dyslexia',

@@ -1,8 +1,8 @@
 import 'package:auto_route/annotations.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/common/const/app_info.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
 import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
-import 'package:diohub/controller/deep_linking_handler.dart';
 import 'package:diohub/providers/base_provider.dart';
 import 'package:diohub/providers/users/current_user_provider.dart';
 import 'package:diohub/view/landing/landing.dart';

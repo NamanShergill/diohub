@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/common/misc/shimmer_widget.dart';
-import 'package:diohub/controller/deep_linking_handler.dart';
 import 'package:diohub/models/events/notifications_model.dart';
 import 'package:diohub/models/issues/issue_comments_model.dart';
 import 'package:diohub/models/issues/issue_event_model.dart';

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/app/api_handler/response_handler.dart';
 import 'package:diohub/common/misc/app_scroll_view.dart';
 import 'package:diohub/common/misc/button.dart';
@@ -8,7 +9,6 @@ import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/common/misc/scaffold_body.dart';
 import 'package:diohub/common/wrappers/dynamic_tabs_parent.dart';
 import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
-import 'package:diohub/controller/deep_linking_handler.dart';
 import 'package:diohub/models/popup/popup_type.dart';
 import 'package:diohub/models/repositories/repository_model.dart';
 import 'package:diohub/providers/base_provider.dart';

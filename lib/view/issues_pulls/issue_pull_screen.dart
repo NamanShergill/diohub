@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/common/animations/scale_expanded_widget.dart';
 import 'package:diohub/common/animations/size_expanded_widget.dart';
 import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
@@ -18,7 +19,6 @@ import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
 import 'package:diohub/common/wrappers/dynamic_tabs_parent.dart';
 import 'package:diohub/common/wrappers/editing_wrapper.dart';
 import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:diohub/controller/deep_linking_handler.dart';
 import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
 import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
 import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
@@ -114,10 +114,10 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
           final GissuePullInfoData_repository_issueOrPullRequest data,
         ) =>
             data.when(
-          issue:
-              (final GissuePullInfoData_repository_issueOrPullRequest__asIssue
-                      p0,) =>
-                  ChangeNotifierProvider<IssueProvider>(
+          issue: (
+            final GissuePullInfoData_repository_issueOrPullRequest__asIssue p0,
+          ) =>
+              ChangeNotifierProvider<IssueProvider>(
             create: (final BuildContext context) => IssueProvider(p0),
             lazy: false,
             builder: (final BuildContext context, final Widget? child) =>
@@ -126,10 +126,11 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
               apiWrapperKey: key,
             ),
           ),
-          pullRequest:
-              (final GissuePullInfoData_repository_issueOrPullRequest__asPullRequest
-                      p0,) =>
-                  ChangeNotifierProvider<PullProvider>(
+          pullRequest: (
+            final GissuePullInfoData_repository_issueOrPullRequest__asPullRequest
+                p0,
+          ) =>
+              ChangeNotifierProvider<PullProvider>(
             create: (final BuildContext context) => PullProvider(p0),
             lazy: false,
             builder: (final BuildContext context, final Widget? child) =>
@@ -612,10 +613,11 @@ class _AboutTab extends StatelessWidget {
                             )
                             .toList(),
                       ),
-                      titleBuilder:
-                          (final UnfinishedList<NodeWithPaginationInfo<Gactor>>
-                                  availableList,) =>
-                              switch (availableList.totalCount) {
+                      titleBuilder: (
+                        final UnfinishedList<NodeWithPaginationInfo<Gactor>>
+                            availableList,
+                      ) =>
+                          switch (availableList.totalCount) {
                         1 => 'Assignee',
                         _ => 'Assignees',
                       },
@@ -874,8 +876,8 @@ class _AssigneeInfoCard extends StatelessWidget {
   });
   final UnfinishedList<NodeWithPaginationInfo<Gactor>> availableList;
   final String Function(
-          UnfinishedList<NodeWithPaginationInfo<Gactor>> availableList,)
-      titleBuilder;
+    UnfinishedList<NodeWithPaginationInfo<Gactor>> availableList,
+  ) titleBuilder;
   final ScrollWrapperFuture<NodeWithPaginationInfo<Gactor>> fetchActorsList;
   final VoidCallback? onTap;
   final Widget? trailing;

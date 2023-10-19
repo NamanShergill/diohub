@@ -244,7 +244,6 @@ class MenuInfoCard extends StatelessWidget {
 }
 
 class CardHeader extends StatelessWidget {
-
   const CardHeader({
     required this.child,
     super.key,

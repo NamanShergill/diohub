@@ -1,41 +1,5 @@
 ## [1.0.0] - Draft
 
-**Platforms build support/releases roadmap**
-- Android - Feature Complete
-  - Release:
-    - apk/appBundle - Next Update
-    - Play Store - Next Update
-    - FDroid - Medium Priority
-- iOS || iPadOS - Feature Complete
-  - Release: 
-    - App Store - High Priority 
-    - (Where else? lol)
-    - (Ok fine, TestFlight - High Priority)
-    - (And IPA releases if Mr Tim Apple allows us non-EU peasants access to iOS sideloading, for me to be able to test it)
-    - (PS, If you are an EU dev and would like to help with the above point, I am open to relocation job offers/referrals :>)
-  - Broken:
-    - Sharing sheet (iPadOS)
-- macOS - Builds with some features broken
-  - Release: 
-    - DMG - High Priority
-    - App Store - Low Priority
-- Windows - Might build with some debugging, haven't tested
-  - Release:
-    - Windows Installer - N/A
-    - Hotel - Trivago
-    - Microsoft Store - N/A
-- Linux - Might build with some debugging, haven't tested
-  - Release:
-  ~~- Steam Deck - Maximum Priority~~
-    - Snap - N/A
-    - Bundle - N/A
-- Web -
-  - Release:
-    - www.github.com (Idk what else you expected)
-    - Why would you even want this project as a web app? (I mean, I am not stopping you from compiling it, but why?)
-    - Flutter web is a prank
-    - Never happening
-
 _Please don't open new issues for this build, instead post the issues as comments on the PR for it._
 **UNDER DEV STUFF FOR NEXT RELEASE(A LOT OF STUFF WILL BE BROKEN)**
 - Repo Screens
