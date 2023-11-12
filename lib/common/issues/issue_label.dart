@@ -1,43 +1,44 @@
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class IssueLabel extends StatelessWidget {
-  IssueLabel(Label label, {Key? key})
+  IssueLabel(final Label label, {super.key})
       : name = label.name!,
-        color = label.color!,
-        super(key: key);
+        color = label.color!;
 
-  IssueLabel.gql(LabelMixin label, {Key? key})
+  IssueLabel.gql(final Glabel label, {super.key})
       : name = label.name,
-        color = label.color,
-        super(key: key);
+        color = label.color;
   final String name;
   final String color;
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
+  Widget build(final BuildContext context) => Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: smallBorderRadius,
               border: Border.all(
-                  color: Color(int.tryParse('0xFF$color') ?? 0xFFFFFFFF)),
-              color: Color(int.tryParse('0x60$color') ?? 0xFFFFFFFF),
+                color: Color(int.tryParse('0xFF$color') ?? 0xFFFFFFFF),
+              ),
+              color: Color(int.tryParse('0x70$color') ?? 0xFFFFFFFF),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Center(
                 child: Text(
                   name,
-                  style: TextStyle(color: Colors.grey.shade300, fontSize: 11),
+                  style: TextStyle(
+                    color: context.colorScheme.onSurface,
+                  ).merge(context.textTheme.bodySmall),
                 ),
               ),
-            )),
-      ],
-    );
-  }
+            ),
+          ),
+        ],
+      );
 }

@@ -9,25 +9,25 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i15;
-import 'package:dio_hub/common/search_overlay/search_overlay.dart' as _i13;
-import 'package:dio_hub/controller/deep_linking_handler.dart' as _i17;
-import 'package:dio_hub/graphql/graphql.dart' as _i18;
-import 'package:dio_hub/view/authentication/auth_screen.dart' as _i1;
-import 'package:dio_hub/view/issues_pulls/issue_pull_screen.dart' as _i5;
-import 'package:dio_hub/view/issues_pulls/widgets/p_r_review_screen.dart'
+import 'package:diohub/adapters/deep_linking_handler.dart' as _i17;
+import 'package:diohub/common/search_overlay/search_overlay.dart' as _i13;
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.data.gql.dart'
+    as _i18;
+import 'package:diohub/view/authentication/auth_screen.dart' as _i1;
+import 'package:diohub/view/issues_pulls/issue_pull_screen.dart' as _i5;
+import 'package:diohub/view/issues_pulls/widgets/p_r_review_screen.dart'
     as _i10;
-import 'package:dio_hub/view/landing/landing.dart' as _i7;
-import 'package:dio_hub/view/landing/widgets/landing_loading_screen.dart'
-    as _i6;
-import 'package:dio_hub/view/landing/widgets/place_holder_screen.dart' as _i11;
-import 'package:dio_hub/view/profile/other_user_profile_screen.dart' as _i9;
-import 'package:dio_hub/view/repository/code/file_viewer.dart' as _i4;
-import 'package:dio_hub/view/repository/commits/commit_info_screen.dart' as _i3;
-import 'package:dio_hub/view/repository/commits/widgets/changes_viewer.dart'
+import 'package:diohub/view/landing/landing.dart' as _i7;
+import 'package:diohub/view/landing/widgets/landing_loading_screen.dart' as _i6;
+import 'package:diohub/view/landing/widgets/place_holder_screen.dart' as _i11;
+import 'package:diohub/view/profile/other_user_profile_screen.dart' as _i9;
+import 'package:diohub/view/repository/code/file_viewer.dart' as _i4;
+import 'package:diohub/view/repository/commits/commit_info_screen.dart' as _i3;
+import 'package:diohub/view/repository/commits/widgets/changes_viewer.dart'
     as _i2;
-import 'package:dio_hub/view/repository/issues/new_issue_screen.dart' as _i8;
-import 'package:dio_hub/view/repository/repository_screen.dart' as _i12;
-import 'package:dio_hub/view/repository/wiki/wiki_viewer.dart' as _i14;
+import 'package:diohub/view/repository/issues/new_issue_screen.dart' as _i8;
+import 'package:diohub/view/repository/repository_screen.dart' as _i12;
+import 'package:diohub/view/repository/wiki/wiki_viewer.dart' as _i14;
 import 'package:flutter/material.dart' as _i16;
 
 abstract class $AppRouter extends _i15.RootStackRouter {
@@ -63,8 +63,8 @@ abstract class $AppRouter extends _i15.RootStackRouter {
       return _i15.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i3.CommitInfoScreen(
-          key: args.key,
           commitURL: args.commitURL,
+          key: args.key,
         ),
       );
     },
@@ -123,10 +123,10 @@ abstract class $AppRouter extends _i15.RootStackRouter {
       return _i15.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i8.NewIssueScreen(
-          key: args.key,
-          template: args.template,
           repo: args.repo,
           owner: args.owner,
+          key: args.key,
+          template: args.template,
         ),
       );
     },
@@ -146,8 +146,8 @@ abstract class $AppRouter extends _i15.RootStackRouter {
         routeData: routeData,
         child: _i10.PRReviewScreen(
           args.nodeID,
-          key: args.key,
           pullNodeID: args.pullNodeID,
+          key: args.key,
         ),
       );
     },
@@ -177,10 +177,10 @@ abstract class $AppRouter extends _i15.RootStackRouter {
         routeData: routeData,
         child: _i13.SearchOverlayScreen(
           args.searchData,
-          message: args.message,
-          heroTag: args.heroTag,
           multiHero: args.multiHero,
           onSubmit: args.onSubmit,
+          message: args.message,
+          heroTag: args.heroTag,
           key: args.key,
         ),
       );
@@ -289,14 +289,14 @@ class ChangesViewerArgs {
 /// [_i3.CommitInfoScreen]
 class CommitInfoRoute extends _i15.PageRouteInfo<CommitInfoRouteArgs> {
   CommitInfoRoute({
-    _i16.Key? key,
     required String commitURL,
+    _i16.Key? key,
     List<_i15.PageRouteInfo>? children,
   }) : super(
           CommitInfoRoute.name,
           args: CommitInfoRouteArgs(
-            key: key,
             commitURL: commitURL,
+            key: key,
           ),
           initialChildren: children,
         );
@@ -309,17 +309,17 @@ class CommitInfoRoute extends _i15.PageRouteInfo<CommitInfoRouteArgs> {
 
 class CommitInfoRouteArgs {
   const CommitInfoRouteArgs({
-    this.key,
     required this.commitURL,
+    this.key,
   });
-
-  final _i16.Key? key;
 
   final String commitURL;
 
+  final _i16.Key? key;
+
   @override
   String toString() {
-    return 'CommitInfoRouteArgs{key: $key, commitURL: $commitURL}';
+    return 'CommitInfoRouteArgs{commitURL: $commitURL, key: $key}';
   }
 }
 
@@ -519,18 +519,18 @@ class LandingRouteArgs {
 /// [_i8.NewIssueScreen]
 class NewIssueRoute extends _i15.PageRouteInfo<NewIssueRouteArgs> {
   NewIssueRoute({
-    _i16.Key? key,
-    _i18.IssueTemplates$Query$Repository$IssueTemplates? template,
     required String repo,
     required String owner,
+    _i16.Key? key,
+    _i18.GissueTemplatesData_repository_issueTemplates? template,
     List<_i15.PageRouteInfo>? children,
   }) : super(
           NewIssueRoute.name,
           args: NewIssueRouteArgs(
-            key: key,
-            template: template,
             repo: repo,
             owner: owner,
+            key: key,
+            template: template,
           ),
           initialChildren: children,
         );
@@ -543,23 +543,23 @@ class NewIssueRoute extends _i15.PageRouteInfo<NewIssueRouteArgs> {
 
 class NewIssueRouteArgs {
   const NewIssueRouteArgs({
-    this.key,
-    this.template,
     required this.repo,
     required this.owner,
+    this.key,
+    this.template,
   });
-
-  final _i16.Key? key;
-
-  final _i18.IssueTemplates$Query$Repository$IssueTemplates? template;
 
   final String repo;
 
   final String owner;
 
+  final _i16.Key? key;
+
+  final _i18.GissueTemplatesData_repository_issueTemplates? template;
+
   @override
   String toString() {
-    return 'NewIssueRouteArgs{key: $key, template: $template, repo: $repo, owner: $owner}';
+    return 'NewIssueRouteArgs{repo: $repo, owner: $owner, key: $key, template: $template}';
   }
 }
 
@@ -607,15 +607,15 @@ class OtherUserProfileRouteArgs {
 class PRReviewRoute extends _i15.PageRouteInfo<PRReviewRouteArgs> {
   PRReviewRoute({
     required String nodeID,
-    _i16.Key? key,
     required String pullNodeID,
+    _i16.Key? key,
     List<_i15.PageRouteInfo>? children,
   }) : super(
           PRReviewRoute.name,
           args: PRReviewRouteArgs(
             nodeID: nodeID,
-            key: key,
             pullNodeID: pullNodeID,
+            key: key,
           ),
           initialChildren: children,
         );
@@ -629,19 +629,19 @@ class PRReviewRoute extends _i15.PageRouteInfo<PRReviewRouteArgs> {
 class PRReviewRouteArgs {
   const PRReviewRouteArgs({
     required this.nodeID,
-    this.key,
     required this.pullNodeID,
+    this.key,
   });
 
   final String nodeID;
 
-  final _i16.Key? key;
-
   final String pullNodeID;
+
+  final _i16.Key? key;
 
   @override
   String toString() {
-    return 'PRReviewRouteArgs{nodeID: $nodeID, key: $key, pullNodeID: $pullNodeID}';
+    return 'PRReviewRouteArgs{nodeID: $nodeID, pullNodeID: $pullNodeID, key: $key}';
   }
 }
 
@@ -722,20 +722,20 @@ class RepositoryRouteArgs {
 class SearchOverlayRoute extends _i15.PageRouteInfo<SearchOverlayRouteArgs> {
   SearchOverlayRoute({
     required _i13.SearchData searchData,
-    String? message,
-    String heroTag = 'search_bar',
     required bool multiHero,
     required void Function(_i13.SearchData) onSubmit,
+    String? message,
+    String heroTag = 'search_bar',
     _i16.Key? key,
     List<_i15.PageRouteInfo>? children,
   }) : super(
           SearchOverlayRoute.name,
           args: SearchOverlayRouteArgs(
             searchData: searchData,
-            message: message,
-            heroTag: heroTag,
             multiHero: multiHero,
             onSubmit: onSubmit,
+            message: message,
+            heroTag: heroTag,
             key: key,
           ),
           initialChildren: children,
@@ -750,28 +750,28 @@ class SearchOverlayRoute extends _i15.PageRouteInfo<SearchOverlayRouteArgs> {
 class SearchOverlayRouteArgs {
   const SearchOverlayRouteArgs({
     required this.searchData,
-    this.message,
-    this.heroTag = 'search_bar',
     required this.multiHero,
     required this.onSubmit,
+    this.message,
+    this.heroTag = 'search_bar',
     this.key,
   });
 
   final _i13.SearchData searchData;
 
-  final String? message;
-
-  final String heroTag;
-
   final bool multiHero;
 
   final void Function(_i13.SearchData) onSubmit;
+
+  final String? message;
+
+  final String heroTag;
 
   final _i16.Key? key;
 
   @override
   String toString() {
-    return 'SearchOverlayRouteArgs{searchData: $searchData, message: $message, heroTag: $heroTag, multiHero: $multiHero, onSubmit: $onSubmit, key: $key}';
+    return 'SearchOverlayRouteArgs{searchData: $searchData, multiHero: $multiHero, onSubmit: $onSubmit, message: $message, heroTag: $heroTag, key: $key}';
   }
 }
 

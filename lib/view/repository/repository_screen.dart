@@ -1,47 +1,48 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/Dio/response_handler.dart';
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/misc/app_scroll_view.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/common/misc/deep_link_widget.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/common/misc/repo_star.dart';
-import 'package:dio_hub/common/misc/scaffold_body.dart';
-import 'package:dio_hub/common/wrappers/dynamic_tabs_parent.dart';
-import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/models/popup/popup_type.dart';
-import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/providers/repository/branch_provider.dart';
-import 'package:dio_hub/providers/repository/code_provider.dart';
-import 'package:dio_hub/providers/repository/issue_templates_provider.dart';
-import 'package:dio_hub/providers/repository/pinned_issues_provider.dart';
-import 'package:dio_hub/providers/repository/readme_provider.dart';
-import 'package:dio_hub/providers/repository/repository_provider.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/view/repository/code/code_browser.dart';
-import 'package:dio_hub/view/repository/issues/issues_list.dart';
-import 'package:dio_hub/view/repository/pulls/pulls_list.dart';
-import 'package:dio_hub/view/repository/readme/repository_readme.dart';
-import 'package:dio_hub/view/repository/widgets/about_repository.dart';
-import 'package:dio_hub/view/repository/widgets/action_button.dart';
-import 'package:dio_hub/view/repository/widgets/branch_button.dart';
-import 'package:dio_hub/view/repository/widgets/watch_repo_wrapper.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
+import 'package:diohub/app/api_handler/response_handler.dart';
+import 'package:diohub/common/misc/app_scroll_view.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/misc/deep_link_widget.dart';
+import 'package:diohub/common/misc/menu_button.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/common/misc/scaffold_body.dart';
+import 'package:diohub/common/wrappers/dynamic_tabs_parent.dart';
+import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:diohub/models/popup/popup_type.dart';
+import 'package:diohub/models/repositories/repository_model.dart';
+import 'package:diohub/providers/base_provider.dart';
+import 'package:diohub/providers/repository/branch_provider.dart';
+import 'package:diohub/providers/repository/code_provider.dart';
+import 'package:diohub/providers/repository/issue_templates_provider.dart';
+import 'package:diohub/providers/repository/pinned_issues_provider.dart';
+import 'package:diohub/providers/repository/readme_provider.dart';
+import 'package:diohub/providers/repository/repository_provider.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/utils/utils.dart';
+import 'package:diohub/view/repository/code/code_browser.dart';
+import 'package:diohub/view/repository/issues/issues_list.dart';
+import 'package:diohub/view/repository/pulls/pulls_list.dart';
+import 'package:diohub/view/repository/readme/repository_readme.dart';
+import 'package:diohub/view/repository/widgets/about_repository.dart';
+import 'package:diohub/view/repository/widgets/branch_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
+import 'package:pull_down_button/pull_down_button.dart';
 
 @RoutePage()
 class RepositoryScreen extends DeepLinkWidget {
-  const RepositoryScreen(this.repositoryURL,
-      {this.branch,
-      this.index = 0,
-      PathData? deepLinkData,
-      Key? key,
-      this.initSHA})
-      : super(key: key, pathData: deepLinkData);
+  const RepositoryScreen(
+    this.repositoryURL, {
+    this.branch,
+    this.index = 0,
+    final PathData? deepLinkData,
+    super.key,
+    this.initSHA,
+  }) : super(pathData: deepLinkData);
   final String repositoryURL;
   final String? branch;
   final int index;
@@ -65,25 +66,25 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
   late String? initBranch;
 
   @override
-  void handleDeepLink(PathData deepLinkData) {
-    final data = deepLinkData;
+  void handleDeepLink(final PathData deepLinkData) {
+    final PathData data = deepLinkData;
     if (_isDeepLinkCode(data)) {
       initBranch = data.component(3);
     } else if (data.componentIs(2, 'wiki')) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        AutoRouter.of(context).push(WikiViewer(repoURL: widget.repositoryURL));
+      WidgetsBinding.instance
+          .addPostFrameCallback((final Duration timeStamp) async {
+        await AutoRouter.of(context)
+            .push(WikiViewer(repoURL: widget.repositoryURL));
       });
     }
   }
 
-  bool _isDeepLinkCode(PathData? data) {
-    return data?.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) ==
-        true;
-  }
+  bool _isDeepLinkCode(final PathData? data) =>
+      data?.component(2)?.startsWith(RegExp('(tree)|(blob)|(commits)')) ??
+      false;
 
-  bool _isDeepLinkComp(String data) {
-    return widget.pathData?.componentIs(2, data) ?? false;
-  }
+  bool _isDeepLinkComp(final String data) =>
+      widget.pathData?.componentIs(2, data) ?? false;
 
   @override
   void initState() {
@@ -99,7 +100,9 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
   void _setupProviders() {
     repositoryProvider = RepositoryProvider(widget.repositoryURL);
     repoBranchProvider = RepoBranchProvider(
-        initialBranch: initBranch, initCommitSHA: widget.initSHA);
+      initialBranch: initBranch,
+      initCommitSHA: widget.initSHA,
+    );
     codeProvider = CodeProvider(repoURL: widget.repositoryURL);
     readmeProvider = RepoReadmeProvider(widget.repositoryURL);
     issueTemplateProvider = IssueTemplateProvider();
@@ -107,11 +110,11 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
   }
 
   void _setupTabs() {
-    tabs = [
+    tabs = <DynamicTab>[
       DynamicTab(
         identifier: 'About',
         isDismissible: false,
-        tabViewBuilder: (context) => AboutRepository(
+        tabViewBuilder: (final BuildContext context) => AboutRepository(
           context.repoProvider().data,
           onTabOpened: tabController.openTab,
         ),
@@ -119,13 +122,13 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
       DynamicTab(
         identifier: 'Readme',
         isDismissible: false,
-        tabViewBuilder: (context) =>
+        tabViewBuilder: (final BuildContext context) =>
             RepositoryReadme(context.repoProvider(listen: false).url),
       ),
       DynamicTab(
         identifier: 'Code',
         isFocusedOnInit: _isDeepLinkCode(widget.pathData),
-        tabViewBuilder: (context) => CodeBrowser(
+        tabViewBuilder: (final BuildContext context) => CodeBrowser(
           showCommitHistory: widget.pathData?.component(2) == 'commits',
         ),
       ),
@@ -133,26 +136,26 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
         identifier: 'Issues',
         isFocusedOnInit: _isDeepLinkComp('issues'),
         keepViewAlive: true,
-        tabViewBuilder: (context) => const IssuesList(),
+        tabViewBuilder: (final BuildContext context) => const IssuesList(),
       ),
       DynamicTab(
         identifier: 'Pull Requests',
         isFocusedOnInit: _isDeepLinkComp('pulls'),
         keepViewAlive: true,
-        tabViewBuilder: (context) => const PullsList(),
+        tabViewBuilder: (final BuildContext context) => const PullsList(),
       ),
       DynamicTab(
         identifier: 'More',
-        tabViewBuilder: (context) => Column(
-          children: [
+        tabViewBuilder: (final BuildContext context) => Column(
+          children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Button(
-                onTap: () {
+                onTap: () async {
                   if (Provider.of<RepositoryProvider>(context, listen: false)
                       .data
                       .hasWiki!) {
-                    AutoRouter.of(context).push(
+                    await AutoRouter.of(context).push(
                       WikiViewer(
                         repoURL: widget.repositoryURL,
                       ),
@@ -170,48 +173,55 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
             ),
           ],
         ),
-      )
+      ),
     ];
   }
 
   late List<DynamicTab> tabs;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = Provider.of<PaletteSettings>(context).currentSetting;
-
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(
-          value: repositoryProvider,
-        ),
-        ChangeNotifierProxyProvider<RepositoryProvider, RepoBranchProvider>(
-          create: (_) => repoBranchProvider,
-          update: (_, repo, __) => repoBranchProvider..updateProvider(repo),
-        ),
-        ChangeNotifierProxyProvider<RepositoryProvider, IssueTemplateProvider>(
-          create: (_) => issueTemplateProvider,
-          update: (_, repo, __) => issueTemplateProvider..updateProvider(repo),
-          lazy: false,
-        ),
-        ChangeNotifierProxyProvider<RepositoryProvider, PinnedIssuesProvider>(
-          create: (_) => pinnedIssuesProvider,
-          update: (_, repo, __) => pinnedIssuesProvider..updateProvider(repo),
-          lazy: false,
-        ),
-        ChangeNotifierProxyProvider<RepoBranchProvider, RepoReadmeProvider>(
-            create: (_) => readmeProvider,
-            update: (_, branch, __) => readmeProvider..updateProvider(branch)),
-        ChangeNotifierProxyProvider<RepoBranchProvider, CodeProvider>(
-          create: (_) => codeProvider,
-          update: (_, branch, __) => codeProvider..updateProvider(branch),
-        ),
-      ],
-      builder: (context, _) {
-        return SafeArea(
+  Widget build(final BuildContext context) => MultiProvider(
+        providers: <SingleChildWidget>[
+          ChangeNotifierProvider<RepositoryProvider>.value(
+            value: repositoryProvider,
+          ),
+          ChangeNotifierProxyProvider<RepositoryProvider, RepoBranchProvider>(
+            create: (final _) => repoBranchProvider,
+            update: (
+              final BuildContext context,
+              final RepositoryProvider value,
+              final RepoBranchProvider? previous,
+            ) =>
+                repoBranchProvider..updateProvider(value),
+          ),
+          ChangeNotifierProxyProvider<RepositoryProvider,
+              IssueTemplateProvider>(
+            create: (final _) => issueTemplateProvider,
+            update: (final _, final RepositoryProvider repo, final __) =>
+                issueTemplateProvider..updateProvider(repo),
+            lazy: false,
+          ),
+          ChangeNotifierProxyProvider<RepositoryProvider, PinnedIssuesProvider>(
+            create: (final _) => pinnedIssuesProvider,
+            update: (final _, final RepositoryProvider repo, final __) =>
+                pinnedIssuesProvider..updateProvider(repo),
+            lazy: false,
+          ),
+          ChangeNotifierProxyProvider<RepoBranchProvider, RepoReadmeProvider>(
+            create: (final _) => readmeProvider,
+            update: (final _, final RepoBranchProvider branch, final __) =>
+                readmeProvider..updateProvider(branch),
+          ),
+          ChangeNotifierProxyProvider<RepoBranchProvider, CodeProvider>(
+            create: (final _) => codeProvider,
+            update: (final _, final RepoBranchProvider branch, final __) =>
+                codeProvider..updateProvider(branch),
+          ),
+        ],
+        builder: (final BuildContext context, final _) => SafeArea(
           child: Scaffold(
-            backgroundColor:
-                Provider.of<PaletteSettings>(context).currentSetting.primary,
+            // backgroundColor:
+            // Provider.of<PaletteSettings>(context).currentSetting.primary,
             // Show a temporary app bar until the provider loads.
             appBar:
                 Provider.of<RepositoryProvider>(context).status != Status.loaded
@@ -219,7 +229,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                         elevation: 0,
                       )
                     : PreferredSize(
-                        preferredSize: const Size(0, 0),
+                        preferredSize: Size.zero,
                         child: Container(),
                       ),
             body: WillPopScope(
@@ -230,11 +240,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                             .length >
                         1 &&
                     tabController.activeIdentifier == 'Code') {
-                  if (Provider.of<CodeProvider>(context, listen: false)
-                          .status !=
-                      Status.loading) {
-                    Provider.of<CodeProvider>(context, listen: false).popTree();
-                  }
+                  Provider.of<CodeProvider>(context, listen: false).popTree();
                   return false;
                 } else {
                   return true;
@@ -242,12 +248,26 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
               },
               child: ScaffoldBody(
                 child: ProviderLoadingProgressWrapper<RepositoryProvider>(
-                  childBuilder: (context, value) {
-                    final repo = value.data;
+                  childBuilder: (
+                    final BuildContext context,
+                    final RepositoryProvider value,
+                  ) {
+                    final RepositoryModel repo = value.data;
                     return DynamicTabsParent(
                       controller: tabController,
+                      tabBuilder:
+                          (final BuildContext context, final DynamicTab tab) =>
+                              buildDynamicTabMenuButton(
+                        tab: tab,
+                        tabController: tabController,
+                      ),
                       tabs: tabs,
-                      builder: (context, tabs, tabView) => AppScrollView(
+                      builder: (
+                        final BuildContext context,
+                        final PreferredSizeWidget tabs,
+                        final Widget tabView,
+                      ) =>
+                          AppScrollView(
                         // nestedScrollViewController: scrollController,
                         scrollViewAppBar: ScrollViewAppBar(
                           expandedHeight: 340,
@@ -255,7 +275,7 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                           tabBar: tabs,
                           url: repo.htmlUrl,
                           appBarWidget: Row(
-                            children: [
+                            children: <Widget>[
                               ProfileTile.avatar(
                                 avatarUrl: repo.owner?.avatarUrl,
                                 userLogin: repo.owner?.login,
@@ -264,20 +284,19 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                 width: 8,
                               ),
                               Flexible(
-                                child: RichText(
-                                  overflow: TextOverflow.ellipsis,
-                                  text: TextSpan(
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall!
-                                          .copyWith(fontSize: 18),
-                                      children: [
-                                        TextSpan(text: '${repo.owner!.login}/'),
-                                        TextSpan(
-                                            text: repo.name,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                      ]),
+                                child: Text.rich(
+                                  TextSpan(
+                                    style: context.textTheme.bodyLarge,
+                                    children: <InlineSpan>[
+                                      TextSpan(text: '${repo.owner!.login}/'),
+                                      TextSpan(
+                                        text: repo.name,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -285,10 +304,10 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                           flexibleBackgroundWidget: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                                children: <Widget>[
                                   ProfileTile.login(
                                     avatarUrl: repo.owner!.avatarUrl,
                                     userLogin: repo.owner!.login,
@@ -311,52 +330,59 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                 height: 16,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  RepoStar(
-                                    repo.owner!.login!,
-                                    repo.name!,
-                                    fadeIntoView: false,
-                                    inkWellRadius: medBorderRadius,
-                                    child: (context, data, onPress) {
-                                      return ActionButton(
-                                        count: data?.stargazerCount,
-                                        icon: Octicons.star_fill,
-                                        onTap: onPress,
-                                        doneColor: Colors.amber,
-                                        isDone: data?.viewerHasStarred,
-                                      );
-                                    },
-                                  ),
+                                children: <Widget>[
+                                  // RepoStar(
+                                  //   repo.owner!.login!,
+                                  //   repo.name!,
+                                  //   fadeIntoView: false,
+                                  //   inkWellRadius: medBorderRadius,
+                                  //   child: (
+                                  //     final BuildContext context,
+                                  //     final HasStarred$Query$Repository? data,
+                                  //     final VoidCallback? onPress,
+                                  //   ) =>
+                                  //       ActionButton(
+                                  //     count: data?.stargazerCount,
+                                  //     icon: Octicons.star_fill,
+                                  //     onTap: onPress,
+                                  //     doneColor: amber,
+                                  //     isDone: data?.viewerHasStarred,
+                                  //   ),
+                                  // ),
                                   const SizedBox(
                                     width: 16,
                                   ),
-                                  WatchRepoWrapper(
-                                    repo.owner!.login!,
-                                    repo.name!,
-                                    builder: (context, watchData, onPress) =>
-                                        ActionButton(
-                                      count: watchData?.watchers.totalCount,
-                                      onTap: onPress,
-                                      doneColor: Colors.greenAccent,
-                                      icon: Octicons.eye,
-                                      isDone: isSubscribedToRepo(
-                                          watchData?.viewerSubscription),
-                                    ),
-                                  ),
+                                  // WatchRepoWrapper(
+                                  //   repo.owner!.login!,
+                                  //   repo.name!,
+                                  //   builder: (
+                                  //     final BuildContext context,
+                                  //     final HasWatched$Query$Repository?
+                                  //         watchData,
+                                  //     final VoidCallback? onPress,
+                                  //   ) =>
+                                  //       ActionButton(
+                                  //     count: watchData?.watchers.totalCount,
+                                  //     onTap: onPress,
+                                  //     doneColor: greenAccent,
+                                  //     icon: Octicons.eye,
+                                  //     isDone: isSubscribedToRepo(
+                                  //       watchData?.viewerSubscription,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                   const SizedBox(
                                     width: 16,
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8),
                                     child: Row(
-                                      children: [
-                                        Icon(
+                                      children: <Widget>[
+                                        const Icon(
                                           Octicons.repo_forked,
-                                          color: Provider.of<PaletteSettings>(
-                                                  context)
-                                              .currentSetting
-                                              .faded3,
+                                          // color: Provider.of<PaletteSettings>(
+                                          //   context,
+                                          // ).currentSetting.faded3,
                                           size: 15,
                                         ),
                                         const SizedBox(
@@ -364,10 +390,6 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
                                         ),
                                         Text(
                                           repo.forksCount.toString(),
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: theme.faded3,
-                                          ),
                                         ),
                                       ],
                                     ),
@@ -398,8 +420,49 @@ class RepositoryScreenState extends DeepLinkWidgetState<RepositoryScreen>
               ),
             ),
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
 }
+
+Tab buildDynamicTabMenuButton({
+  required final DynamicTab tab,
+  required final DynamicTabsController tabController,
+}) =>
+    Tab(
+      // text: tab.tab?.label ?? tab.identifier,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: tab.isDismissible ? 0.0 : 16),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: tab.isDismissible ? 24.0 : 0),
+              child: Text(tab.identifier),
+            ),
+            if (tab.isDismissible)
+              MenuButton(
+                buttonBuilder: (final BuildContext context, final showMenu) =>
+                    IconButton(
+                  icon: Icon(
+                    Icons.adaptive.more_rounded,
+                  ),
+                  // padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+
+                  onPressed: showMenu,
+                ),
+                itemBuilder: (final BuildContext context) =>
+                    <PullDownMenuEntry>[
+                  PullDownMenuItem(
+                    onTap: () {
+                      tabController.closeTab(tab.identifier);
+                    },
+                    title: 'Close Tab',
+                    icon: Icons.close_rounded,
+                  ),
+                ],
+              ),
+          ],
+        ),
+      ),
+    );

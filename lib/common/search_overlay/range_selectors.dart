@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DateSelector extends StatefulWidget {
-  const DateSelector({Key? key}) : super(key: key);
+  const DateSelector({super.key});
 
   @override
   DateSelectorState createState() => DateSelectorState();
@@ -9,7 +9,5 @@ class DateSelector extends StatefulWidget {
 
 class DateSelectorState extends State<DateSelector> {
   @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+  Widget build(final BuildContext context) => Container();
 }

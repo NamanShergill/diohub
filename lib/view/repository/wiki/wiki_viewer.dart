@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 @RoutePage()
 class WikiViewer extends StatefulWidget {
-  const WikiViewer({Key? key, this.repoURL}) : super(key: key);
+  const WikiViewer({super.key, this.repoURL});
   final String? repoURL;
 
   @override
@@ -27,13 +27,13 @@ class WikiViewerState extends State<WikiViewer> {
     super.initState();
   }
 
-  void setupHeaders() async {
+  Future<void> setupHeaders() async {
     // final token = (await AuthService.getAccessTokenFromDevice())!;
     // headers = {'Authorization': 'Bearer $token'};
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Container();
     // return SafeArea(
     //   child: WillPopScope(
@@ -65,14 +65,14 @@ class WikiViewerState extends State<WikiViewer> {
     //           children: const [
     //             Text(
     //               'Wiki',
-    //               style: TextStyle(fontSize: 14),
+    //               style: TextStyle( 14),
     //             ),
     //             // SizedBox(
     //             //   width: 8,
     //             // ),
     //             // Text(
     //             //   repoLink.replaceAll('https://github.com/', ''),
-    //             //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+    //             //   style: TextStyle(fontWeight: FontWeight.bold,  14),
     //             // ),
     //           ],
     //         ),
@@ -147,7 +147,7 @@ class WikiViewerState extends State<WikiViewer> {
     //                       child: Visibility(
     //                         visible: loading,
     //                         child: Container(
-    //                           color: Colors.white,
+    //                           color: white,
     //                           child: LoadingIndicator(
     //                             color: Provider.of<PaletteSettings>(context)
     //                                 .currentSetting

@@ -1,4 +1,4 @@
-// import 'package:dio_hub/app/settings/palette.dart';
+// import 'package:diohub/app/settings/palette.dart';
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 //
@@ -9,7 +9,7 @@
 //     return Dialog(
 //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
 //       elevation: 0,
-//       backgroundColor: Colors.transparent,
+//       backgroundColor: transparent,
 //       child: _buildChild(context),
 //     );
 //   }
@@ -49,14 +49,14 @@
 //               alignment: Alignment.bottomCenter,
 //               heightFactor: 0.54,
 //               child: Container(
-//                 color: Colors.redAccent,
+//                 color: redAccent,
 //                 child: Column(
 //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 //                   children: <Widget>[
 //                     const Text(
 //                       'Do you want to exit?',
 //                       style:
-//                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+//                           TextStyle( 20, fontWeight: FontWeight.bold),
 //                     ),
 //                     Padding(
 //                       padding: const EdgeInsets.only(right: 16, left: 16),
@@ -77,7 +77,7 @@
 //                         //     Navigator.of(context).pop();
 //                         //   },
 //                         //   child: Text('No'),
-//                         //   textColor: Colors.white,
+//                         //   textColor: white,
 //                         // ),
 //                         SizedBox(
 //                           width: 16,
@@ -87,8 +87,8 @@
 //                         //     return Navigator.of(context).pop(true);
 //                         //   },
 //                         //   child: Text('Yes'),
-//                         //   color: Colors.white,
-//                         //   textColor: Colors.redAccent,
+//                         //   color: white,
+//                         //   textColor: redAccent,
 //                         // ),
 //                       ],
 //                     )

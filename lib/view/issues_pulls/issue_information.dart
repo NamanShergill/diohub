@@ -1,20 +1,18 @@
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/misc/app_dialog.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/common/wrappers/api_wrapper_widget.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/providers/issue_pulls/issue_provider.dart';
-import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:diohub/common/misc/app_dialog.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/providers/issue_pulls/issue_provider.dart';
+import 'package:diohub/services/issues/issues_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:provider/provider.dart';
 
 class IssueInformation extends StatelessWidget {
-  IssueInformation({Key? key}) : super(key: key);
-  final APIWrapperController labelController = APIWrapperController();
+  IssueInformation({super.key});
+  final GlobalKey<APIWrapperState<dynamic>> labelController =
+      GlobalKey<APIWrapperState<dynamic>>();
   @override
-  Widget build(BuildContext context) {
-    // final _issue = Provider.of<IssueProvider>(context).data;
+  Widget build(final BuildContext context) {
     // final _editingEnabled = Provider.of<IssueProvider>(context).editingEnabled;
     return Container();
     // SingleChildScrollView(
@@ -26,7 +24,7 @@ class IssueInformation extends StatelessWidget {
     //       if (_editingEnabled ||
     //           (Provider.of<CurrentUserProvider>(context).data.login ==
     //                   _issue.user!.login &&
-    //               (!(_issue.state == IssueState.CLOSED) ||
+    //               (!(_issue.state == GIssueState.CLOSED) ||
     //                   _issue.closedBy!.login ==
     //                       Provider.of<CurrentUserProvider>(context)
     //                           .data
@@ -46,7 +44,7 @@ class IssueInformation extends StatelessWidget {
     //           ],
     //         ),
     //       ),
-    //       if (_issue.state == IssueState.CLOSED)
+    //       if (_issue.state == GIssueState.CLOSED)
     //         InfoCard(
     //           'Closed By',
     //           child: Row(
@@ -71,7 +69,7 @@ class IssueInformation extends StatelessWidget {
     //                     color: Provider.of<PaletteSettings>(context)
     //                         .currentSetting
     //                         .faded3,
-    //                     fontSize: 12),
+    //                      12),
     //               )
     //             : null,
     //         onTap: _editingEnabled
@@ -127,7 +125,7 @@ class IssueInformation extends StatelessWidget {
     //                     color: Provider.of<PaletteSettings>(context)
     //                         .currentSetting
     //                         .faded3,
-    //                     fontSize: 12),
+    //                      12),
     //               )
     //             : null,
     //         onTap: _editingEnabled
@@ -223,7 +221,7 @@ class IssueInformation extends StatelessWidget {
 }
 
 class _IssueButton extends StatefulWidget {
-  const _IssueButton(this.issue, {Key? key}) : super(key: key);
+  const _IssueButton(this.issue);
   final IssueModel issue;
 
   @override
@@ -233,17 +231,16 @@ class _IssueButton extends StatefulWidget {
 class __IssueButtonState extends State<_IssueButton> {
   bool loading = false;
   @override
-  Widget build(BuildContext context) {
-    return Button(
-      loading: loading,
-      onTap: () async {
-        showDialog(
-          context: context,
-          builder: (_) => AppDialog(
+  Widget build(final BuildContext context) => Button(
+        loading: loading,
+        onTap: () async {
+          await showDialog(
+            context: context,
+            builder: (final _) => AppDialog(
               title: widget.issue.state != IssueState.CLOSED
                   ? 'Close Issue?'
                   : 'Reopen Issue?',
-              actions: [
+              actions: <Widget>[
                 MaterialButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Cancel'),
@@ -256,48 +253,51 @@ class __IssueButtonState extends State<_IssueButton> {
                       loading = true;
                     });
                     // ignore: omit_local_variable_types
-                    final Map data = {};
+                    final Map<String, dynamic> data = <String, dynamic>{};
                     if (widget.issue.state != IssueState.CLOSED) {
                       data['state'] = 'closed';
                     } else {
                       data['state'] = 'open';
                     }
-                    final issue = await IssuesService.updateIssue(
-                        widget.issue.url!, data);
-                    context.issueProvider(listen: false).updateIssue(issue);
+                    final IssueModel issue = await IssuesService.updateIssue(
+                      widget.issue.url!,
+                      data,
+                    );
+                    if (context.mounted) {
+                      context.issueProvider(listen: false).updateIssue(issue);
+                    }
                     setState(() {
                       loading = false;
                     });
                   },
                   child: const Text('Confirm'),
-                )
-              ]),
-        );
-      },
-      color: widget.issue.state != IssueState.CLOSED
-          ? Provider.of<PaletteSettings>(context).currentSetting.red
-          : Provider.of<PaletteSettings>(context).currentSetting.green,
-      child: widget.issue.state != IssueState.CLOSED
-          ? const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Close issue'),
-                SizedBox(
-                  width: 8,
                 ),
-                Icon(Octicons.issue_closed),
-              ],
-            )
-          : const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Reopen issue'),
-                SizedBox(
-                  width: 8,
-                ),
-                Icon(Octicons.issue_reopened),
               ],
             ),
-    );
-  }
+          );
+        },
+        color:
+            widget.issue.state != IssueState.CLOSED ? Colors.red : Colors.green,
+        child: widget.issue.state != IssueState.CLOSED
+            ? const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Close issue'),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Icon(Octicons.issue_closed),
+                ],
+              )
+            : const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Reopen issue'),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Icon(Octicons.issue_reopened),
+                ],
+              ),
+      );
 }

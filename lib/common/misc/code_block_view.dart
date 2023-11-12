@@ -1,18 +1,36 @@
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:flutter_highlight/themes/monokai-sublime.dart';
+import 'package:flutter_highlighting/flutter_highlighting.dart';
+import 'package:flutter_highlighting/themes/atom-one-light.dart';
+import 'package:flutter_highlighting/themes/monokai-sublime.dart';
 
 class CodeBlockView extends StatelessWidget {
-  const CodeBlockView(this.data, {this.language, Key? key}) : super(key: key);
+  const CodeBlockView(
+    this.data, {
+    this.language,
+    super.key,
+  });
   final String data;
   final String? language;
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
+    final String currentLanguage =
+        switch (allLanguages.containsKey(language ?? '')) {
+      true => language!,
+      false => 'plaintext',
+    };
     return HighlightView(
       data,
       backgroundColor: Colors.transparent,
-      theme: monokaiSublimeTheme,
-      language: language ?? 'txt',
+      theme: _getTheme(context),
+      languageId: currentLanguage,
+      selectable: true,
     );
   }
+
+  Map<String, TextStyle> _getTheme(final BuildContext context) =>
+      switch (context.colorScheme.brightness) {
+        Brightness.dark => monokaiSublimeTheme,
+        Brightness.light => atomOneLightTheme,
+      };
 }

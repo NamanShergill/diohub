@@ -1,59 +1,61 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/animations/slide_expanded_widget.dart';
-import 'package:dio_hub/common/bottom_sheet/bottom_sheets.dart';
-import 'package:dio_hub/common/issues/issue_list_card.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/providers/repository/issue_templates_provider.dart';
-import 'package:dio_hub/providers/repository/pinned_issues_provider.dart';
-import 'package:dio_hub/providers/repository/repository_provider.dart';
-import 'package:dio_hub/providers/users/current_user_provider.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/style/text_styles.dart';
-import 'package:dio_hub/utils/http_to_api.dart';
+import 'package:diohub/common/animations/slide_expanded_widget.dart';
+import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:diohub/common/issues/issue_list_card.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/search_overlay/filters.dart';
+import 'package:diohub/common/search_overlay/search_overlay.dart';
+import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:diohub/common/wrappers/search_scroll_wrapper.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.data.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/repositories/repository_model.dart';
+import 'package:diohub/models/users/current_user_info_model.dart';
+import 'package:diohub/providers/repository/issue_templates_provider.dart';
+import 'package:diohub/providers/repository/pinned_issues_provider.dart';
+import 'package:diohub/providers/repository/repository_provider.dart';
+import 'package:diohub/providers/users/current_user_provider.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/utils/http_to_api.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:provider/provider.dart';
 
 class IssuesList extends StatelessWidget {
-  const IssuesList({Key? key}) : super(key: key);
+  const IssuesList({super.key});
   @override
-  Widget build(BuildContext context) {
-    final repo = Provider.of<RepositoryProvider>(context);
-    final user = Provider.of<CurrentUserProvider>(context).data;
+  Widget build(final BuildContext context) {
+    final RepositoryProvider repo = Provider.of<RepositoryProvider>(context);
+    final CurrentUserInfoModel user =
+        Provider.of<CurrentUserProvider>(context).data;
     return Stack(
-      children: [
+      children: <Widget>[
         SearchScrollWrapper(
           SearchData(
-              searchFilters: SearchFilters.issuesPulls(
-                  blacklist: [SearchQueryStrings.type]),
-              defaultHiddenFilters: [
-                SearchQueries().type.toQueryString('issue'),
-                SearchQueries().repo.toQueryString(repo.data.fullName!),
-              ]),
-          quickFilters: {
+            searchFilters: SearchFilters.issuesPulls(
+              blacklist: <String>[SearchQueryStrings.type],
+            ),
+            defaultHiddenFilters: <String>[
+              SearchQueries().type.toQueryString('issue'),
+              SearchQueries().repo.toQueryString(repo.data.fullName!),
+            ],
+          ),
+          quickFilters: <String, String>{
             SearchQueries().assignee.toQueryString(user.login!):
                 'Assigned to you',
             SearchQueries().author.toQueryString(user.login!): 'Your issues',
             SearchQueries().mentions.toQueryString(user.login!): 'Mentions you',
           },
-          quickOptions: {
+          quickOptions: <String, String>{
             SearchQueries().iS.toQueryString('open'): 'Open issues only',
           },
           showRepoNameOnIssues: false,
-          searchBarMessage: 'Search in ${repo.data.name}\'s issues',
+          searchBarMessage: "Search in ${repo.data.name}'s issues",
           searchHeroTag: 'repoIssueSearch',
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          filterFn: (data) {
-            final filteredData = <IssueModel>[];
-            for (final item in data) {
+          filterFn: (final List<dynamic> data) {
+            final List<IssueModel> filteredData = <IssueModel>[];
+            for (final IssueModel item in data) {
               if (item.pullRequest == null) {
                 filteredData.add(item);
               }
@@ -66,48 +68,62 @@ class IssuesList extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
+            children: <Widget>[
               ProviderLoadingProgressWrapper<PinnedIssuesProvider>(
-                loadingBuilder: (context) => Container(),
-                childBuilder: (context, value) {
+                loadingBuilder: (final BuildContext context) => Container(),
+                childBuilder: (
+                  final BuildContext context,
+                  final PinnedIssuesProvider value,
+                ) {
                   if (value.data.totalCount > 0) {
                     return SlideExpandedSection(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
+                        children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 20),
                             child: FloatingActionButton.extended(
-                              onPressed: () {
-                                showScrollableBottomSheet(
+                              onPressed: () async {
+                                await showScrollableBottomSheet(
                                   context,
-                                  headerBuilder: (context, setState) =>
+                                  headerBuilder: (
+                                    final BuildContext context,
+                                    final StateSetter setState,
+                                  ) =>
                                       const BottomSheetHeaderText(
                                     headerText: 'Pinned Issues',
                                   ),
-                                  scrollableBodyBuilder:
-                                      (context, setState, scrollController) =>
-                                          ListView.separated(
+                                  scrollableBodyBuilder: (
+                                    final BuildContext context,
+                                    final StateSetter setState,
+                                    final ScrollController scrollController,
+                                  ) =>
+                                      ListView.separated(
                                     controller: scrollController,
                                     padding: const EdgeInsets.only(bottom: 8),
-                                    itemBuilder: (context, index) {
-                                      return IssueLoadingCard(
-                                        toRepoAPIResource(
-                                          value.data.nodes![index]!.issue.url
-                                              .toString(),
-                                        ),
-                                        backgroundColor:
-                                            context.palette.secondary,
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) =>
+                                    itemBuilder: (
+                                      final BuildContext context,
+                                      final int index,
+                                    ) =>
+                                        IssueLoadingCard(
+                                      toRepoAPIResource(
+                                        value.data.nodes![index]!.issue.url
+                                            .toString(),
+                                      ),
+                                      // backgroundColor:
+                                      //     context.palette.secondary,
+                                    ),
+                                    separatorBuilder: (
+                                      final BuildContext context,
+                                      final int index,
+                                    ) =>
                                         const Divider(),
                                     itemCount: value.data.nodes!.length,
                                   ),
                                 );
                               },
                               label: Text('${value.data.totalCount} Pinned'),
-                              icon: const Icon(LineIcons.thumbtack),
+                              icon: const Icon(MdiIcons.pin),
                             ),
                           ),
                         ],
@@ -118,45 +134,70 @@ class IssuesList extends StatelessWidget {
                 },
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16),
                 child: ProviderLoadingProgressWrapper<IssueTemplateProvider>(
-                  loadingBuilder: (context) => const FloatingActionButton(
+                  loadingBuilder: (final BuildContext context) =>
+                      const FloatingActionButton(
                     onPressed: null,
                     child: LoadingIndicator(),
                   ),
-                  childBuilder: (context, value) => FloatingActionButton(
-                    onPressed: () {
+                  childBuilder: (
+                    final BuildContext context,
+                    final IssueTemplateProvider value,
+                  ) =>
+                      FloatingActionButton(
+                    onPressed: () async {
                       if (value.data.isNotEmpty) {
-                        showScrollableBottomSheet(
+                        await showScrollableBottomSheet(
                           context,
-                          headerBuilder: (context, setState) =>
+                          headerBuilder: (
+                            final BuildContext context,
+                            final StateSetter setState,
+                          ) =>
                               const BottomSheetHeaderText(
                             headerText: 'New Issue',
                           ),
-                          scrollableBodyBuilder:
-                              (context, setState, scrollController) =>
-                                  ListenableProvider.value(
-                            value: Provider.of<RepositoryProvider>(context,
-                                listen: false),
+                          scrollableBodyBuilder: (
+                            final BuildContext context,
+                            final StateSetter setState,
+                            final ScrollController scrollController,
+                          ) =>
+                              ListenableProvider<RepositoryProvider>.value(
+                            value: Provider.of<RepositoryProvider>(
+                              context,
+                              listen: false,
+                            ),
                             child: ListView.separated(
-                                controller: scrollController,
-                                padding: const EdgeInsets.only(bottom: 8),
-                                itemBuilder: (context, index) {
-                                  if (value.data.length == index) {
-                                    return const BlankIssueTemplate();
-                                  } else {
-                                    return IssueTemplateCard(value.data[index]);
-                                  }
-                                },
-                                separatorBuilder: (context, index) =>
-                                    const Divider(),
-                                itemCount: value.data.length + 1),
+                              controller: scrollController,
+                              padding: const EdgeInsets.only(bottom: 8),
+                              itemBuilder: (
+                                final BuildContext context,
+                                final int index,
+                              ) {
+                                if (value.data.length == index) {
+                                  return const BlankIssueTemplate();
+                                } else {
+                                  return IssueTemplateCard(value.data[index]);
+                                }
+                              },
+                              separatorBuilder: (
+                                final BuildContext context,
+                                final int index,
+                              ) =>
+                                  const Divider(),
+                              itemCount: value.data.length + 1,
+                            ),
                           ),
                         );
                       } else {
-                        final repo = context.read<RepositoryProvider>().data;
-                        AutoRouter.of(context).push(NewIssueRoute(
-                            owner: repo.owner!.login!, repo: repo.name!));
+                        final RepositoryModel repo =
+                            context.read<RepositoryProvider>().data;
+                        await AutoRouter.of(context).push(
+                          NewIssueRoute(
+                            owner: repo.owner!.login!,
+                            repo: repo.name!,
+                          ),
+                        );
                       }
                     },
                     child: const Icon(Icons.add),
@@ -172,59 +213,58 @@ class IssuesList extends StatelessWidget {
 }
 
 class IssueTemplateCard extends StatelessWidget {
-  const IssueTemplateCard(this.template, {Key? key, this.isBlank = false})
-      : super(key: key);
+  const IssueTemplateCard(this.template, {super.key, this.isBlank = false});
   final bool isBlank;
-  final IssueTemplates$Query$Repository$IssueTemplates template;
+  final GissueTemplatesData_repository_issueTemplates template;
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Card(
-        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-        shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
-        child: InkWell(
-          onTap: () {
-            final repo = context.read<RepositoryProvider>().data;
-            AutoRouter.of(context).push(NewIssueRoute(
-                owner: repo.owner!.login!,
-                repo: repo.name!,
-                template: isBlank ? null : template));
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  template.name,
-                  style: AppThemeTextStyles.eventCardChildTitle(context),
+  Widget build(final BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Card(
+          child: InkWell(
+            onTap: () async {
+              final RepositoryModel repo =
+                  context.read<RepositoryProvider>().data;
+              await AutoRouter.of(context).push(
+                NewIssueRoute(
+                  owner: repo.owner!.login!,
+                  repo: repo.name!,
+                  template: isBlank ? null : template,
                 ),
-                if (template.about != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(template.about!),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    template.name,
+                    // style: AppThemeTextStyles.eventCardChildTitle(context),
                   ),
-              ],
+                  if (template.about != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(template.about!),
+                    ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class BlankIssueTemplate extends StatelessWidget {
-  const BlankIssueTemplate({Key? key}) : super(key: key);
+  const BlankIssueTemplate({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return IssueTemplateCard(
-      IssueTemplates$Query$Repository$IssueTemplates()
-        ..name = 'Don’t see your issue here?'
-        ..about = 'Open a blank issue.',
-      isBlank: true,
-    );
-  }
+  Widget build(final BuildContext context) => IssueTemplateCard(
+        GissueTemplatesData_repository_issueTemplates(
+          (final GissueTemplatesData_repository_issueTemplatesBuilder b) => b
+            ..name = 'Don’t see your issue here?'
+            ..about = 'Open a blank issue.',
+        ),
+        isBlank: true,
+      );
 }

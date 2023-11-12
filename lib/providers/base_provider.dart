@@ -1,22 +1,23 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 abstract class BaseDataProvider<T> extends BaseProvider {
-  BaseDataProvider({Status? status, bool loadDataOnInit = true})
+  BaseDataProvider({final Status? status, final bool loadDataOnInit = true})
       : super(status) {
     if (loadDataOnInit) {
-      loadData();
+      unawaited(loadData());
     }
   }
 
   late T data;
 
-  Future<T> setInitData({bool isInitialisation = false});
+  Future<T> setInitData({final bool isInitialisation = false});
 
-  void onError(Object error) {}
+  void onError(final Object error) {}
 
-  void loadData() async {
+  Future<void> loadData() async {
     loading();
     try {
       data = await setInitData(isInitialisation: true);
@@ -29,9 +30,10 @@ abstract class BaseDataProvider<T> extends BaseProvider {
 }
 
 abstract class BaseProvider extends ChangeNotifier {
-  BaseProvider([Status? status]) : _status = status ?? Status.initialized {
+  BaseProvider([final Status? status])
+      : _status = status ?? Status.initialized {
     // Update provider status based on the data sent to the stream.
-    statusStream.listen((event) {
+    statusStream.listen((final Status event) {
       _status = event;
       notifyListeners();
     });
@@ -49,12 +51,12 @@ abstract class BaseProvider extends ChangeNotifier {
   Stream<Status> get statusStream => _statusController.stream;
 
   /// Dispose the stream.
-  void disposeStreams() {
-    _statusController.close();
+  Future<void> disposeStreams() async {
+    await _statusController.close();
   }
 
   // Set provider status to [Status.error] with a custom message.
-  void error({Object? error}) {
+  void error({final Object? error}) {
     errorInfo = error;
     _statusController.add(Status.error);
   }
@@ -80,3 +82,16 @@ abstract class BaseProvider extends ChangeNotifier {
 }
 
 enum Status { initialized, loading, loaded, error }
+
+extension BaseProviderExtension on BuildContext {
+  T provider<T extends BaseProvider>({final bool listen = true}) =>
+      Provider.of<T>(
+        this,
+        listen: listen,
+      );
+  Status providerStatus<T extends BaseProvider>({final bool listen = true}) =>
+      Provider.of<T>(
+        this,
+        listen: listen,
+      ).status;
+}

@@ -1,114 +1,145 @@
-import 'package:dio_hub/app/Dio/dio.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/commits/commit_model.dart';
-import 'package:dio_hub/models/repositories/branch_list_model.dart';
-import 'package:dio_hub/models/repositories/branch_model.dart';
-import 'package:dio_hub/models/repositories/commit_list_model.dart';
-import 'package:dio_hub/models/repositories/readme_model.dart';
-import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/utils/type_cast.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:dio/dio.dart';
+import 'package:diohub/app/api_handler/dio.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.req.gql.dart';
+import 'package:diohub/graphql/queries/repositories/__generated__/repo_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/repositories/__generated__/repo_info.query.req.gql.dart';
+import 'package:diohub/models/commits/commit_model.dart';
+import 'package:diohub/models/repositories/branch_list_model.dart';
+import 'package:diohub/models/repositories/branch_model.dart';
+import 'package:diohub/models/repositories/commit_list_model.dart';
+import 'package:diohub/models/repositories/readme_model.dart';
+import 'package:diohub/models/repositories/repository_model.dart';
+import 'package:diohub/utils/type_cast.dart';
 
 class RepositoryServices {
   RepositoryServices({
     required this.name,
     required this.owner,
   });
+
   final String owner;
   final String name;
 
-  static final GraphqlHandler _gqlHandler =
-      GraphqlHandler(apiLogSettings: APILoggingSettings.comprehensive());
-  static final RESTHandler _restHandler = RESTHandler();
+  static final GraphqlHandler _gqlHandler = GraphqlHandler();
+  static final RESTHandler _restHandler = RESTHandler(
+      // apiLogSettings: APILoggingSettings.comprehensive(),
+      );
 
-  Future<PinnedIssues$Query$Repository$PinnedIssues> getPinnedIssues() async {
-    final response = await _gqlHandler.query(
-      PinnedIssuesQuery(
-        variables: PinnedIssuesArguments(
-          name: name,
-          owner: owner,
-        ),
+  Future<GpinnedIssuesData_repository_pinnedIssues> getPinnedIssues() async {
+    final GQLResponse response = await _gqlHandler.query(
+      GpinnedIssuesReq(
+        (final GpinnedIssuesReqBuilder b) => b
+          ..vars.name = name
+          ..vars.owner = owner,
       ),
     );
 
-    return PinnedIssues$Query.fromJson(response.data!)
+    return GpinnedIssuesData.fromJson(response.data!)!
         .repository!
         .pinnedIssues!;
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository
-  static Future<RepositoryModel> fetchRepository(String url,
-      {bool refresh = false}) async {
-    final response = await _restHandler.get(
+  static Future<RepositoryModel> fetchRepository(
+    final String url, {
+    final bool refresh = false,
+  }) async {
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
       url,
       refreshCache: refresh,
     );
-    return RepositoryModel.fromJson(response.data);
+    return RepositoryModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-repository-readme
-  static Future<RepositoryReadmeModel> fetchReadme(String repoUrl,
-      {String? branch}) async {
-    final response =
-        await _restHandler.get('$repoUrl/readme', queryParameters: {
-      'ref': branch,
-    });
-    return RepositoryReadmeModel.fromJson(response.data);
+  static Future<RepositoryReadmeModel> fetchReadme(
+    final String repoUrl, {
+    final String? branch,
+  }) async {
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
+      '$repoUrl/readme',
+      queryParameters: <String, dynamic>{
+        'ref': branch,
+      },
+    );
+    return RepositoryReadmeModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-branch
-  static Future<BranchModel> fetchBranch(String branchUrl) async {
-    final response = await _restHandler.get(branchUrl);
-    return BranchModel.fromJson(response.data);
+  static Future<BranchModel> fetchBranch(final String branchUrl) async {
+    final Response<TypeMap> response =
+        await _restHandler.get<TypeMap>(branchUrl);
+    return BranchModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#list-branches
   static Future<List<RepoBranchListItemModel>> fetchBranchList(
-      String repoURL, int pageNumber, int perPage,
-      {bool refresh = false}) async {
-    final response = await _restHandler.get(
+    final String repoURL,
+    final int pageNumber,
+    final int perPage, {
+    final bool refresh = false,
+  }) async {
+    final Response<List<dynamic>> response =
+        await _restHandler.get<List<dynamic>>(
       '$repoURL/branches',
-      queryParameters: {'per_page': perPage, 'page': pageNumber},
+      queryParameters: <String, dynamic>{
+        'per_page': perPage,
+        'page': pageNumber,
+      },
       refreshCache: refresh,
     );
-    return listTypeCast<JsonMap>(response.data)
-        .map(RepoBranchListItemModel.fromJson)
+    return response.data!
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => RepoBranchListItemModel.fromJson(e),
+        )
         .toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#list-commits
-  static Future<List<CommitListModel>> getCommitsList(
-      {required String repoURL,
-      String? path,
-      String? sha,
-      int? pageNumber,
-      int? pageSize,
-      String? author,
-      bool refresh = false}) async {
-    final queryParams = <String, dynamic>{
+  static Future<List<CommitListModel>> getCommitsList({
+    required final String repoURL,
+    final String? path,
+    final String? sha,
+    final int? pageNumber,
+    final int? pageSize,
+    final String? author,
+    final bool refresh = false,
+  }) async {
+    final Map<String, dynamic> queryParams = <String, dynamic>{
       'path': path,
       'per_page': pageSize,
       'page': pageNumber,
-      'sha': sha
+      'sha': sha,
     };
     if (author != null) {
       queryParams['author'] = author;
     }
-    final response = await _restHandler.get<List>(
+    final Response<DynamicList> response = await _restHandler.get<DynamicList>(
       '$repoURL/commits',
       queryParameters: queryParams,
       refreshCache: refresh,
     );
-    return response.data!.map((e) => CommitListModel.fromJson(e)).toList();
+    return response.data!
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => CommitListModel.fromJson(e),
+        )
+        .toList();
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-a-commit
-  static Future<CommitModel> getCommit(String commitURL,
-      {bool refresh = false}) async {
-    final response = await _restHandler.get(
+  static Future<CommitModel> getCommit(
+    final String commitURL, {
+    final bool refresh = false,
+  }) async {
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
       commitURL,
       refreshCache: refresh,
     );
-    return CommitModel.fromJson(response.data);
+    return CommitModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#get-repository-permissions-for-a-user
@@ -133,28 +164,43 @@ class RepositoryServices {
   //   }
   // }
 
-  static Future<List<IssueTemplates$Query$Repository$IssueTemplates>>
-      getIssueTemplates(String name, String owner) async {
-    final res = await _gqlHandler.query(IssueTemplatesQuery(
-        variables: IssueTemplatesArguments(name: name, owner: owner)));
-    return IssueTemplates$Query.fromJson(res.data!).repository!.issueTemplates!;
+  static Future<BuiltList<GissueTemplatesData_repository_issueTemplates>>
+      getIssueTemplates(final String name, final String owner) async {
+    final GQLResponse res = await _gqlHandler.query(
+      GissueTemplatesReq(
+        (final GissueTemplatesReqBuilder b) => b
+          ..vars.owner = owner
+          ..vars.name = name,
+      ),
+    );
+    return GissueTemplatesData.fromJson(res.data!)!.repository!.issueTemplates!;
   }
 
   // Ref: https://docs.github.com/en/rest/reference/activity#check-if-a-repository-is-starred-by-the-authenticated-user
-  static Future<HasStarred$Query$Repository> isStarred(
-      String owner, String name) async {
-    final res = await _gqlHandler.query(
-      HasStarredQuery(variables: HasStarredArguments(name: name, owner: owner)),
+  static Future<GhasStarredData_repository> isStarred(
+    final String owner,
+    final String name,
+  ) async {
+    final GQLResponse res = await _gqlHandler.query(
+      GhasStarredReq((
+        final GhasStarredReqBuilder b,
+      ) =>
+          b
+            ..vars.name = name
+            ..vars.owner = name,),
       refreshCache: true,
     );
-    return HasStarred$Query.fromJson(res.data!).repository!;
+    return GhasStarredData.fromJson(res.data!)!.repository!;
   }
 
   // Ref: https://docs.github.com/en/rest/reference/activity#star-a-repository-for-the-authenticated-user
-  static Future<bool> changeStar(String owner, String name,
-      {required bool isStarred}) async {
-    final endpoint = '/user/starred/$owner/$name';
-    final res = isStarred
+  static Future<bool> changeStar(
+    final String owner,
+    final String name, {
+    required final bool isStarred,
+  }) async {
+    final String endpoint = '/user/starred/$owner/$name';
+    final Response<dynamic> res = isStarred
         ? await _restHandler.delete(endpoint)
         : await _restHandler.put(endpoint);
     if (res.statusCode == 204) {
@@ -164,25 +210,36 @@ class RepositoryServices {
     }
   }
 
-  static Future<HasWatched$Query$Repository> isSubscribed(
-      String owner, String name) async {
-    return HasWatched$Query.fromJson(
-      (await _gqlHandler.query(
-        HasWatchedQuery(
-          variables: HasWatchedArguments(owner: owner, name: name),
-        ),
-      ))
-          .data!,
-    ).repository!;
-  }
+  static Future<GhasWatchedData_repository> isSubscribed(
+    final String owner,
+    final String name,
+  ) async =>
+      GhasWatchedData.fromJson(
+        (await _gqlHandler.query(
+          GhasWatchedReq(
+            (final GhasWatchedReqBuilder b) => b
+              ..vars.owner = owner
+              ..vars.name = name,
+          ),
+        ))
+            .data!,
+      )!
+          .repository!;
 
-  static Future<bool> subscribeToRepo(String owner, String name,
-      {required bool isSubscribing, bool ignored = false}) async {
-    final res = isSubscribing
-        ? await _restHandler.put('/repos/$owner/$name/subscription', data: {
-            if (ignored) 'ignored': true,
-            if (!ignored) 'subscribed': true
-          })
+  static Future<bool> subscribeToRepo(
+    final String owner,
+    final String name, {
+    required final bool isSubscribing,
+    final bool ignored = false,
+  }) async {
+    final Response<dynamic> res = isSubscribing
+        ? await _restHandler.put(
+            '/repos/$owner/$name/subscription',
+            data: <String, bool>{
+              if (ignored) 'ignored': true,
+              if (!ignored) 'subscribed': true,
+            },
+          )
         : await _restHandler.delete(
             '/repos/$owner/$name/subscription',
           );

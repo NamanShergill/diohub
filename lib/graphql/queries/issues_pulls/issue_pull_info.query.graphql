@@ -1,0 +1,327 @@
+# import './timeline.query.graphql'
+
+query issuePullInfo($user: String!, $repo: String!, $number: Int!){
+    repository(name: $repo, owner: $user){
+        issueOrPullRequest(number: $number){
+            __typename
+            ... on Issue{
+                ...issueInfo
+            }
+            ... on PullRequest{
+                ...pullInfo
+            }
+        }
+    }
+}
+
+query getReactors($id:ID!){
+    node(id: $id){
+        __typename
+        ... on Issue{
+           reactionGroups{
+               ...reactorsGroup
+           }
+        }
+        ... on PullRequest{
+            reactionGroups{
+                ...reactorsGroup
+            }
+        }
+    }
+}
+
+
+mutation addReaction($id:ID!, $content:ReactionContent!){
+    addReaction(input: {subjectId: $id, content: $content}){
+        reactionGroups {
+            ...reactorsGroup
+        }
+    }
+}
+
+mutation removeReaction($id:ID!, $content:ReactionContent!){
+    removeReaction(input: {subjectId: $id, content: $content}){
+        reaction{
+            createdAt
+        }
+    }
+}
+
+query issuePullAssignees($user: String!, $repo: String!, $number: Int!, $after:String){
+    repository(name: $repo, owner: $user){
+        issueOrPullRequest(number: $number){
+            __typename
+            ... on Issue{
+                ...assigneeUserList
+            }... on PullRequest{
+                ...assigneeUserList
+            }
+        }
+    }
+}
+
+query issuePullParticipants($user: String!, $repo: String!, $number: Int!, $after:String){
+    repository(name: $repo, owner: $user){
+        issueOrPullRequest(number: $number){
+            __typename
+            ... on Issue{
+                ...issueParticipantUserList
+            }... on PullRequest{
+                ...pullParticipantUserList
+            }
+        }
+    }
+}
+
+fragment assigneeUserList on Assignable{
+    assignees(after: $after, first: 10){
+        edges {
+            cursor
+            node {
+                ...actor
+            }
+        }
+    }
+}
+
+fragment issueParticipantUserList on Issue{
+
+    participants(after: $after, first: 10){
+        edges {
+            cursor
+            node {
+                ...actor
+            }
+        }
+    }
+}
+
+fragment pullParticipantUserList on PullRequest{
+
+    participants(after: $after, first: 10){
+        edges {
+            cursor
+            node {
+                ...actor
+            }
+        }
+    }
+}
+
+fragment issueInfo on Issue{
+    id
+    activeLockReason
+    assignees(first: 5){
+        ...assigneeInfo
+    }
+    author{
+        ...actor
+    }
+    participants(first: 5){
+        totalCount
+        nodes {
+            ...actor
+        }
+    }
+    authorAssociation
+    bodyHTML
+    body
+    closed
+    closedAt
+    milestone {
+        number
+        description
+        dueOn
+    }
+    createdAt
+    comments{
+        totalCount
+    }
+    includesCreatedEdit
+    isPinned
+    labels(first: 100){
+        nodes{
+            ...label
+        }
+    }
+    locked
+    trackedIssuesCount
+
+    trackedInIssues(first: 10){
+        totalCount
+        edges {
+            node {
+                title
+            }
+        }
+    }    trackedIssues(first: 10){
+        totalCount
+        edges {
+            node {
+                title
+            }
+        }
+    }
+    linkedBranches(first: 10){
+        totalCount
+        edges {
+            cursor
+            node {
+                id
+                __typename
+                ref {
+                    id
+                    prefix
+                    name
+                    associatedPullRequests(first: 1){
+                        totalCount
+                        edges {
+                            cursor
+                            node {
+                                number
+                                titleHTML
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    number
+    projectCards{
+        totalCount
+    }
+    projectsV2{
+        totalCount
+    }
+    reactionGroups{
+        ...reactionGroups
+    }
+    repository{
+        ...repoInfo
+    }
+    state
+    titleHTML
+    timelineItems{
+        totalCount
+    }
+
+    url
+    userContentEdits{
+        totalCount
+    }
+    viewerCanReact
+    viewerCanUpdate
+    viewerCanSubscribe
+    viewerSubscription
+}
+
+fragment pullInfo on PullRequest{
+    activeLockReason
+    assignees(first: 5){
+        ...assigneeInfo
+    }
+    author{
+        ...actor
+    }
+    authorAssociation
+    bodyHTML
+    body
+    closed
+    closedAt
+    createdAt
+    comments{
+        totalCount
+    }
+    labels(first: 100){
+        nodes{
+            ...label
+
+        }
+    }
+    locked
+    number
+    projectCards{
+        totalCount
+    }
+    projectsV2{
+        totalCount
+    }
+    reactionGroups{
+        ...reactionGroups
+    }
+    repository{
+        ...repoInfo
+    }
+    state
+    timelineItems{
+        totalCount
+    }
+
+    titleHTML
+    url
+    userContentEdits{
+        totalCount
+    }
+    includesCreatedEdit
+    viewerCanReact
+    additions
+    deletions
+    baseRef{
+        name
+        repository{
+            url
+        }
+    }
+    headRef{
+        name
+        repository{
+            url
+        }
+    }
+    changedFiles
+    closingIssuesReferences{
+        totalCount
+    }
+    commits{
+        totalCount
+    }
+    isCrossRepository
+    merged
+    reviewDecision
+    viewerCanUpdate
+}
+
+fragment repoInfo on Repository{
+    name
+    owner{
+        login
+        avatarUrl
+    }
+}
+
+
+fragment assigneeInfo on UserConnection{
+    totalCount
+    edges{
+        cursor
+        node{
+            ...actor
+        }
+    }
+}
+
+fragment reactorsGroup on ReactionGroup{
+    content
+    reactors(first: 11){
+        edges{
+            cursor
+            node{
+                __typename
+                ... on User{
+                    ...actor
+                }
+            }
+        }
+    }
+}

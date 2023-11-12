@@ -1,12 +1,13 @@
-import 'package:dio_hub/providers/issue_pulls/pull_provider.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
+import 'package:diohub/providers/issue_pulls/pull_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullInformation extends StatelessWidget {
-  const PullInformation({Key? key}) : super(key: key);
+  const PullInformation({super.key});
   @override
-  Widget build(BuildContext context) {
-    final pull = Provider.of<PullProvider>(context).data;
+  Widget build(final BuildContext context) {
+    final GpullInfo pull = Provider.of<PullProvider>(context).data;
     // final _editingEnabled = Provider.of<PullProvider>(context).editingEnabled;
     return Container();
     // SingleChildScrollView(
@@ -34,7 +35,7 @@ class PullInformation extends StatelessWidget {
     //                 Text(
     //                   '${_pull.commits} commits',
     //                   style: const TextStyle(
-    //                       fontWeight: FontWeight.w300, fontSize: 12),
+    //                       fontWeight: FontWeight.w300,  12),
     //                 ),
     //               ],
     //             ),
@@ -52,7 +53,7 @@ class PullInformation extends StatelessWidget {
     //                     color: Provider.of<PaletteSettings>(context)
     //                         .currentSetting
     //                         .faded3,
-    //                     fontSize: 12),
+    //                      12),
     //               )
     //             : null,
     //         onTap: _editingEnabled
@@ -111,7 +112,7 @@ class PullInformation extends StatelessWidget {
     //                     color: Provider.of<PaletteSettings>(context)
     //                         .currentSetting
     //                         .faded3,
-    //                     fontSize: 12),
+    //                      12),
     //               )
     //             : null,
     //         onTap: _editingEnabled
@@ -169,7 +170,7 @@ class PullInformation extends StatelessWidget {
     //                     color: Provider.of<PaletteSettings>(context)
     //                         .currentSetting
     //                         .faded3,
-    //                     fontSize: 12),
+    //                      12),
     //               )
     //             : null,
     //         onTap: _editingEnabled

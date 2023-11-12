@@ -1,4 +1,4 @@
-import 'package:dio_hub/routes/router.dart';
+import 'package:diohub/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 late AppRouter _customRouter;
 AppRouter get customRouter => _customRouter;
 
-void setUpRouter(BuildContext context) {
+void setUpRouter(final BuildContext context) {
   _customRouter = AppRouter(context);
 }
 
@@ -20,7 +20,7 @@ Logger get log => _log;
 late SharedPreferences _sharedPrefs;
 SharedPreferences get sharedPrefs => _sharedPrefs;
 
-Future setUpSharedPrefs() async {
+Future<void> setUpSharedPrefs() async {
   _sharedPrefs = await SharedPreferences.getInstance();
   // // Workaround for https://github.com/mogol/flutter_secure_storage/issues/210
   // if (sharedPrefs.getBool('first_run') ?? true) {

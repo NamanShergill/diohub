@@ -1,102 +1,108 @@
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/common/misc/shimmer_widget.dart';
+import 'package:diohub/app/api_handler/response_handler.dart';
+import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
+import 'package:diohub/models/popup/popup_type.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class ActionButton extends StatefulWidget {
-  const ActionButton(
-      {Key? key,
-      this.count,
-      this.action,
-      this.doneColor,
-      this.onTap,
-      this.icon,
-      this.isDone = false})
-      : super(key: key);
-  final int? count;
-  final IconData? icon;
-  final VoidCallback? onTap;
-  final String? action;
-  final bool? isDone;
-  final Color? doneColor;
+class ActionButton<T> extends StatefulWidget {
+  const ActionButton({
+    required this.currentData,
+    required this.builder,
+    required this.updateData,
+    required this.temporaryDataWhileUpdating,
+    super.key,
+    this.successPopupBuilder,
+    this.errorBuilder,
+  });
+  final Future<T> Function() currentData;
+  final Future<T?> Function(T currentData) updateData;
+  final T Function(T currentData) temporaryDataWhileUpdating;
+  final AppPopupData? Function(T currentData)? successPopupBuilder;
+  final Widget Function(
+    BuildContext context,
+    ({
+      bool loading,
+      bool updating,
+      T? item,
+      VoidCallback? updater,
+    }) data,
+  ) builder;
+  final Widget Function(BuildContext context, Object? error)? errorBuilder;
 
   @override
-  ActionButtonState createState() => ActionButtonState();
+  State<ActionButton<T>> createState() => _ActionButtonState<T>();
 }
 
-class ActionButtonState extends State<ActionButton> {
-  bool loading = false;
+class _ActionButtonState<T> extends State<ActionButton<T>> {
+  final GlobalKey<APIWrapperState<T>> _apiWrapperKey =
+      GlobalKey<APIWrapperState<T>>();
 
+  bool changing = false;
   @override
-  Widget build(BuildContext context) {
-    return Button(
-      stretch: false,
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-      onTap: widget.onTap,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          widget.isDone != null
-              ? Icon(
-                  widget.icon,
-                  color: widget.isDone!
-                      ? widget.doneColor
-                      : Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .faded3,
-                  size: 15,
-                )
-              : ShimmerWidget(
-                  child: Icon(
-                    widget.icon,
-                    size: 15,
-                  ),
-                ),
-          if (widget.count != null)
-            SizeExpandedSection(
-              axis: Axis.horizontal,
-              child: Row(
-                children: [
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  //   child: Container(
-                  //     width: 1,
-                  //     height: 15,
-                  //     color: Provider.of<PaletteSettings>(context)
-                  //         .currentSetting
-                  //         .faded3,
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   width: 4,
-                  // ),
-                  Text(
-                    widget.count! > 999
-                        ? '${(widget.count! / 1000).toStringAsFixed(1)}k'
-                        : widget.count.toString(),
-                    style: const TextStyle(
-                      fontSize: 13,
-                    ),
-                  ),
-                  if (widget.action != null)
-                    Text(
-                      ' ${widget.action!}',
-                      style: const TextStyle(
-                        fontSize: 13,
-                      ),
-                    ),
-                ],
-              ),
+  Widget build(final BuildContext context) => APIWrapper<T>.deferred(
+        key: _apiWrapperKey,
+        loadingBuilder: (final BuildContext context) => widget.builder.call(
+          context,
+          (
+            loading: true,
+            updating: changing,
+            item: null,
+            updater: null,
+          ),
+        ),
+        errorBuilder: (
+          final BuildContext context,
+          final Object? error,
+        ) =>
+            widget.errorBuilder?.call(
+              context,
+              error,
+            ) ??
+            const Icon(
+              Icons.error_outline_rounded,
             ),
-        ],
-      ),
-    );
-  }
+        apiCall: ({required final bool refresh}) async =>
+            widget.currentData.call(),
+        builder: (
+          final BuildContext context,
+          final T data,
+        ) =>
+            widget.builder.call(
+          context,
+          (
+            item: data,
+            updating: changing,
+            loading: false,
+            updater: _onTap(data),
+          ),
+        ),
+      );
+
+  VoidCallback? _onTap(final T data) => changing
+      ? null
+      : () async {
+          setState(() {
+            changing = true;
+          });
+          final AppPopupData? popupData =
+              widget.successPopupBuilder?.call(data);
+          if (popupData != null) {
+            ResponseHandler.setSuccessMessage(
+              popupData,
+            );
+          }
+          _apiWrapperKey.currentState?.changeData(
+            widget.temporaryDataWhileUpdating.call(data),
+          );
+
+          try {
+            final T? newData = await widget.updateData.call(data);
+            if (newData != null) {
+              _apiWrapperKey.currentState?.changeData.call(newData);
+            }
+          } finally {
+            setState(() {
+              changing = false;
+            });
+          }
+        };
 }

@@ -46,7 +46,7 @@ post_install do |installer|
   installer.generated_projects.each do |project|
     project.targets.each do |target|
       target.build_configurations.each do |config|
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
       end
     end
   end
@@ -56,5 +56,5 @@ post_install do |installer|
   end
 end
 
-# Modifed AppAuth SDK with accept JSON header.
+# Modified AppAuth SDK with content-accept JSON header for GitHub OAuth.
 pod 'AppAuth', :git => 'https://github.com/NamanShergill/AppAuth-iOS.git', :tag => '1.6.2'

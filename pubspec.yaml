@@ -1,4 +1,4 @@
-name: dio_hub
+name: diohub
 description: A Github mobile client
 
 publish_to: 'none'
@@ -11,18 +11,22 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  animations: ^2.0.7
-  another_flushbar: ^1.12.30
-  artemis: '>=7.13.0-beta.2 <8.0.0'
-  auto_route: ^7.8.0
-  cached_network_image: ^3.2.3
-  collection: ^1.18.0
-  connectivity_plus: ^4.0.2
-  dio: ^5.3.2
-  dio_cache_interceptor: ^3.4.2
+  animations: ^2.0.8
+  another_flushbar: ^1.12.31-dev.1
+#  artemis: '>=7.13.0-beta.2 <8.0.0'
+  auto_route: ^7.8.4
+  built_value: ^8.6.3
+  cached_network_image: ^3.3.0
+  chucker_flutter: ^1.5.1
+#  collection: ^1.18.0
+  connectivity_plus: ^5.0.1
+  curl_logger_dio_interceptor: ^1.0.0
+  dio: ^5.3.3
+  dio_cache_interceptor: ^3.4.4
   # https://github.com/tekartik/sqflite/issues/1008
   # When fixed, remove the change in ios/Podfile
   dio_cache_interceptor_db_store: ^5.1.0
+  dynamic_color: ^1.6.7
   equatable: ^2.0.5
   expand_widget: ^3.1.1
 
@@ -30,7 +34,8 @@ dependencies:
   extended_text_field:
     path:
       dependencies/extended_text_field
-
+  ferry_flutter: ^0.8.1
+  flex_list: ^1.0.0
   flutter:
     sdk: flutter
 
@@ -38,7 +43,7 @@ dependencies:
   flutter_bloc: ^8.1.3
   flutter_colorpicker: ^1.0.3
   flutter_countdown_timer: ^4.1.0
-  flutter_datetime_picker_plus: ^2.0.1
+  flutter_datetime_picker_plus: ^2.1.0
   flutter_displaymode: ^0.6.0
 
   flutter_dynamic_tabs:
@@ -47,36 +52,45 @@ dependencies:
   flutter_emoji: ^2.5.1
 
   # Modified to add background color option.
-  flutter_highlight:
+  flutter_highlighting:
     path:
-      dependencies/highlight.dart/flutter_highlight
+      dependencies/dart-highlighting/flutter_highlighting
 
-  flutter_html: ^2.1.2
-  flutter_inappwebview: ^6.0.0-beta.24+1
+  # Temporary dependency until the following is fixed: https://github.com/pichillilorenzo/flutter_inappwebview/issues/1735#issuecomment-1725248033
+  flutter_inappwebview:
+    git:
+      url: https://github.com/Estrelio/flutter_inappwebview.git
+      ref: fix-xcode-17
+
   flutter_keyboard_visibility: ^5.4.1
+  flutter_material_design_icons: ^1.1.7296
   flutter_portal: ^1.1.4
-  flutter_reaction_button: ^2.0.1+2
-  flutter_scroll_to_top: ^2.3.0
-  flutter_secure_storage: ^8.0.0
+  flutter_reaction_button: ^3.0.0+2
+  flutter_riverpod: ^2.4.3
+  flutter_scroll_to_top:
+    path: dependencies/flutter_scroll_to_top
+
+  flutter_secure_storage: ^9.0.0
   flutter_slidable: ^3.0.0
   flutter_svg: ^2.0.7
   flutter_vector_icons: ^2.0.0
-  google_nav_bar: ^5.0.6
+  flutter_widget_from_html: ^0.14.2
+#  google_nav_bar: ^5.0.6
   gql: ^1.0.0
   gql_dio_link: ^1.0.1
   gql_exec: ^1.0.0
-  gql_link: ^1.0.0
+#  gql_link: ^1.0.0
 
-  highlight:
-    path: dependencies/highlight.dart/highlight
+#  highlighting:
+#    path: dependencies/dart-highlighting/highlighting
 
   html: ^0.15.4
   image_stack: ^2.1.1
   infinite_scroll_pagination: ^4.0.0
   intl: ^0.18.1
-  json_annotation: ^4.8.1
-  line_icons: ^2.0.3
-  logger: ^2.0.1
+#  json_annotation: ^4.8.1
+#  line_icons: ^2.0.3
+  logger: ^2.0.2+1
   markdown: ^7.1.1
 
   # Modified for additional markdown options.
@@ -84,44 +98,48 @@ dependencies:
     path: dependencies/markdown-editable-textinput
 
   mime: ^1.0.4
-  package_info_plus: ^4.1.0
-  path_provider: ^2.1.0
+  package_info_plus: ^4.2.0
+  path_provider: ^2.1.1
   pretty_dio_logger: ^1.3.1
-  provider: ^6.0.5
-  share_plus: ^7.1.0
-  shared_preferences: ^2.2.0
+  provider: ^6.1.0-dev.1
+  pull_down_button:
+    path: dependencies/pull_down_button
+  share_plus: ^7.2.0
+  shared_preferences: ^2.2.2
   shimmer: ^3.0.0
   sliver_tools: ^0.2.12
-  sqlite3_flutter_libs: ^0.5.15
+  sqlite3_flutter_libs: ^0.5.17
+#  tabbed_view: ^1.18.0
   uni_links: ^0.5.1
-  url_launcher: ^6.1.12
-  uuid: ^3.0.4
+  url_launcher: ^6.1.14
+  uuid: ^4.1.0
 
 dev_dependencies:
-  auto_route_generator: ^7.3.1
+  auto_route_generator: ^7.3.2
   build_runner: ^2.4.6
-#  change_app_package_name: ^1.0.0
-  dependency_validator: ^3.2.2
-  flutter_lints: ^2.0.2
-  flutter_native_splash: ^2.3.2
+  # pub run dependency_validator
+  dependency_validator: ^3.2.3
+  ferry_generator: ^0.8.1
+  flutter_launcher_icons:
+    git: https://github.com/fluttercommunity/flutter_launcher_icons.git
+  flutter_lints: ^2.0.3
+  flutter_native_splash: ^2.3.3
   flutter_test:
     sdk: flutter
   json_serializable: ^6.7.1
+  melos: ^3.1.1
 
 dependency_overrides:
-  # flutter_html 2.1.2 uses a version not compatible with flutter >3.
-  chewie_audio: ^1.5.0
   # Override for conflict between artemis and flutter_test.
-  collection: ^1.18.0
+#  collection: ^1.18.0
   # flutter_html 2.1.2 uses a version not compatible with flutter >3.
-  flutter_layout_grid: ^2.0.4
-  flutter_math_fork: ^0.7.1
-  flutter_svg: ^1.1.4
+#  flutter_layout_grid: ^2.0.4
+#  flutter_math_fork: ^0.7.1
+#  flutter_svg: ^2.0.7
   # Override until https://github.com/comigor/artemis/pull/415 is merged.
-  gql: 1.0.0
-  gql_dio_link: 1.0.1
-  gql_exec: 1.0.0
-  gql_link: 1.0.0
+#  gql_link: 1.0.0
+  # chucker_flutter incompatibility.
+#  share_plus: ^7.2.0
 
 flutter_native_splash:
   color: '#17181c'
@@ -132,53 +150,6 @@ flutter:
   assets:
     - assets/
   fonts:
-    - family: Montserrat
-      fonts:
-        - asset: fonts/Montserrat/Montserrat-Thin.ttf
-          weight: 100
-        - asset: fonts/Montserrat/Montserrat-ThinItalic.ttf
-          style: italic
-          weight: 100
-        - asset: fonts/Montserrat/Montserrat-ExtraLight.ttf
-          weight: 200
-        - asset: fonts/Montserrat/Montserrat-ExtraLightItalic.ttf
-          style: italic
-          weight: 200
-        - asset: fonts/Montserrat/Montserrat-Light.ttf
-          weight: 300
-        - asset: fonts/Montserrat/Montserrat-LightItalic.ttf
-          style: italic
-          weight: 300
-        - asset: fonts/Montserrat/Montserrat-Regular.ttf
-          weight: 400
-        - asset: fonts/Montserrat/Montserrat-Italic.ttf
-          style: italic
-          weight: 400
-        - asset: fonts/Montserrat/Montserrat-Medium.ttf
-          weight: 500
-        - asset: fonts/Montserrat/Montserrat-MediumItalic.ttf
-          style: italic
-          weight: 500
-        - asset: fonts/Montserrat/Montserrat-SemiBold.ttf
-          weight: 600
-        - asset: fonts/Montserrat/Montserrat-SemiBoldItalic.ttf
-          style: italic
-          weight: 600
-        - asset: fonts/Montserrat/Montserrat-Bold.ttf
-          weight: 700
-        - asset: fonts/Montserrat/Montserrat-BoldItalic.ttf
-          style: italic
-          weight: 700
-        - asset: fonts/Montserrat/Montserrat-ExtraBold.ttf
-          weight: 800
-        - asset: fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf
-          style: italic
-          weight: 800
-        - asset: fonts/Montserrat/Montserrat-Black.ttf
-          weight: 900
-        - asset: fonts/Montserrat/Montserrat-BlackItalic.ttf
-          style: italic
-          weight: 900
     - family: Manrope
       fonts:
         - asset: fonts/Manrope/Manrope-ExtraLight.ttf
@@ -225,12 +196,33 @@ flutter:
 #          weight: 400
 #        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Bold.ttf
 #          weight: 700
-#        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-BoldItalic.ttf
-#          style: italic
-#          weight: 700
+    #        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-BoldItalic.ttf
+    #          style: italic
+    #          weight: 700
     - family: OpenDyslexic3
       fonts:
         - asset: fonts/OpenDyslexic3/OpenDyslexic3-Regular.ttf
           weight: 400
         - asset: fonts/OpenDyslexic3/OpenDyslexic3-Bold.ttf
           weight: 700
+
+flutter_launcher_icons:
+#  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.png"
+  remove_alpha_ios: true
+  background_color_ios: "#17181c"
+
+#  min_sdk_android: 21
+#  web:
+#    generate: true
+#    image_path: "assets/logo.png"
+#    background_color: "#17181c"
+#    theme_color: "#17181c"
+#  windows:
+#    generate: true
+#    image_path: "assets/logo.png"
+#    icon_size: 48 # min:48, max:256, default: 48
+#  macos:
+#    generate: true
+#    image_path: "assets/logo.png"

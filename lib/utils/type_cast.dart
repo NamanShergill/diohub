@@ -1,4 +1,10 @@
-T typeCast<T>(Object? object) => object as T;
-List<T> listTypeCast<T>(Object? object) => object as List<T>;
+import 'package:flutter/cupertino.dart';
 
-typedef JsonMap = Map<String, dynamic>;
+T typeCast<T>(final Object? object) => object as T;
+List<T> listTypeCast<T>(final Object? object) => object! as List<T>;
+
+@optionalTypeArgs
+typedef TypeMap<T> = Map<String, T>;
+
+typedef DynamicList = List<dynamic>;
+typedef APIMap = Map<dynamic, dynamic>;

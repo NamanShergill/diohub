@@ -1,6 +1,6 @@
 // Todo: Redo Model. Ref: https://app.quicktype.io/
 
-import 'package:dio_hub/models/events/events_model.dart';
+ import 'package:diohub/models/events/events_model.dart';
 
 class PushEventPayloadModel {
   int? pushId;

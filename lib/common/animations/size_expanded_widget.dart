@@ -1,16 +1,16 @@
-import 'package:dio_hub/style/anim_durations.dart';
+import 'package:diohub/style/anim_durations.dart';
 import 'package:flutter/material.dart';
 
 class SizeExpandedSection extends StatefulWidget {
-  const SizeExpandedSection(
-      {this.expand = true,
-      required this.child,
-      this.axisAlignment = 1.0,
-      this.axis = Axis.vertical,
-      this.duration,
-      this.animationCurve,
-      Key? key})
-      : super(key: key);
+  const SizeExpandedSection({
+    required this.child,
+    this.expand = true,
+    this.axisAlignment = 1.0,
+    this.axis = Axis.vertical,
+    this.duration,
+    this.animationCurve,
+    super.key,
+  });
   final Widget? child;
   final bool? expand;
   final Axis axis;
@@ -35,7 +35,9 @@ class SizeExpandedSectionState extends State<SizeExpandedSection>
 
   void prepareAnimations() {
     expandController = AnimationController(
-        vsync: this, duration: widget.duration ?? transitionAnimDuration);
+      vsync: this,
+      duration: widget.duration ?? transitionAnimDuration,
+    );
     animation = CurvedAnimation(
       parent: expandController,
       curve: widget.animationCurve ?? Curves.fastOutSlowIn,
@@ -54,7 +56,7 @@ class SizeExpandedSectionState extends State<SizeExpandedSection>
   }
 
   @override
-  void didUpdateWidget(SizeExpandedSection oldWidget) {
+  void didUpdateWidget(final SizeExpandedSection oldWidget) {
     super.didUpdateWidget(oldWidget);
     _runExpandCheck();
   }
@@ -66,37 +68,35 @@ class SizeExpandedSectionState extends State<SizeExpandedSection>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SizeTransition(
-      axisAlignment: widget.axisAlignment,
-      sizeFactor: animation,
-      axis: widget.axis,
-      child: widget.child,
-    );
-  }
+  Widget build(final BuildContext context) => SizeTransition(
+        axisAlignment: widget.axisAlignment,
+        sizeFactor: animation,
+        axis: widget.axis,
+        child: widget.child,
+      );
 }
 
 class SizeSwitch extends StatelessWidget {
-  const SizeSwitch(
-      {Key? key,
-      this.child,
-      this.duration,
-      this.visible = true,
-      this.replacement})
-      : super(key: key);
+  const SizeSwitch({
+    super.key,
+    this.child,
+    this.duration,
+    this.visible = true,
+    this.replacement,
+  });
   final Widget? child;
   final Duration? duration;
   final Widget? replacement;
   final bool visible;
   @override
-  Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: duration ?? defaultAnimDuration,
-      child: visible ? child : replacement ?? Container(),
-      transitionBuilder: (child, animation) => SizeTransition(
-        sizeFactor: animation,
-        child: child,
-      ),
-    );
-  }
+  Widget build(final BuildContext context) => AnimatedSwitcher(
+        duration: duration ?? defaultAnimDuration,
+        child: visible ? child : replacement ?? Container(),
+        transitionBuilder:
+            (final Widget child, final Animation<double> animation) =>
+                SizeTransition(
+          sizeFactor: animation,
+          child: child,
+        ),
+      );
 }

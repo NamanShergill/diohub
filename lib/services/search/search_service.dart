@@ -1,25 +1,33 @@
-import 'package:dio_hub/app/Dio/dio.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/models/search/search_issues_model.dart';
-import 'package:dio_hub/models/search/search_repos_model.dart';
-import 'package:dio_hub/models/search/search_users_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:dio/dio.dart';
+import 'package:diohub/app/api_handler/dio.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.query.req.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/repositories/repository_model.dart';
+import 'package:diohub/models/search/search_issues_model.dart';
+import 'package:diohub/models/search/search_repos_model.dart';
+import 'package:diohub/models/search/search_users_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/utils/type_cast.dart';
 
 class SearchService {
+  SearchService(this.temp);
+
   static final RESTHandler _restHandler = RESTHandler();
   static final GraphqlHandler _gqlHandler = GraphqlHandler();
-
-  static Future<List<UserInfoModel>> searchUsers(String query,
-      {String? sort,
-      bool? ascending = false,
-      int? perPage,
-      int? page,
-      bool refresh = false}) async {
-    final response = await _restHandler.get(
+  final String temp;
+  static Future<List<UserInfoModel>> searchUsers(
+    final String query, {
+    final String? sort,
+    final bool? ascending = false,
+    final int? perPage,
+    final int? page,
+    final bool refresh = false,
+  }) async {
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
       '/search/users',
-      queryParameters: {
+      queryParameters: <String, dynamic>{
         'q': query,
         if (sort != null) 'sort': sort,
         if (ascending != null) 'order': ascending ? 'asc' : 'desc',
@@ -28,18 +36,20 @@ class SearchService {
       },
       refreshCache: refresh,
     );
-    return SearchUsersModel.fromJson(response.data).items!;
+    return SearchUsersModel.fromJson(response.data!).items!;
   }
 
-  static Future<List<RepositoryModel>> searchRepos(String query,
-      {String? sort,
-      bool? ascending,
-      int? perPage,
-      int? page,
-      bool refresh = false}) async {
-    final response = await _restHandler.get(
+  static Future<List<RepositoryModel>> searchRepos(
+    final String query, {
+    final String? sort,
+    final bool? ascending,
+    final int? perPage,
+    final int? page,
+    final bool refresh = false,
+  }) async {
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
       '/search/repositories',
-      queryParameters: {
+      queryParameters: <String, dynamic>{
         'q': query,
         if (sort != null) 'sort': sort,
         if (ascending != null) 'order': ascending ? 'asc' : 'desc',
@@ -48,18 +58,20 @@ class SearchService {
       },
       refreshCache: refresh,
     );
-    return SearchReposModel.fromJson(response.data).items!;
+    return SearchReposModel.fromJson(response.data!).items!;
   }
 
-  static Future<List<IssueModel>> searchIssues(String query,
-      {String? sort,
-      bool? ascending = false,
-      int? perPage,
-      int? page,
-      bool refresh = false}) async {
-    final response = await _restHandler.get(
+  static Future<List<IssueModel>> searchIssues(
+    final String query, {
+    final String? sort,
+    final bool? ascending = false,
+    final int? perPage,
+    final int? page,
+    final bool refresh = false,
+  }) async {
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
       '/search/issues',
-      queryParameters: {
+      queryParameters: <String, dynamic>{
         'q': query,
         if (sort != null) 'sort': sort,
         if (ascending != null) 'order': ascending ? 'asc' : 'desc',
@@ -68,7 +80,7 @@ class SearchService {
       },
       refreshCache: refresh,
     );
-    return SearchIssuesModel.fromJson(response.data).items!;
+    return SearchIssuesModel.fromJson(response.data!).items!;
   }
 
   // static Future<List<TrendingReposModel>> trendingRepos() async {
@@ -80,15 +92,18 @@ class SearchService {
   //   return data.map((e) => TrendingReposModel.fromJson(e)).toList();
   // }
 
-  static Future<List<SearchMentionUsers$Query$Search$Edges?>>
-      searchMentionUsers(String query, String type, {String? cursor}) async {
-    final q = '$query${' type:$type'}';
-    final res = await _gqlHandler.query(
-      SearchMentionUsersQuery(
-          variables: SearchMentionUsersArguments(query: q, after: cursor)),
+  static Future<BuiltList<GsearchMentionUsersData_search_edges?>>
+      searchMentionUsers(
+    final String query,
+    final String type, {
+    final String? cursor,
+  }) async {
+    final String q = '$query${' type:$type'}';
+    final GQLResponse res = await _gqlHandler.query(
+      GsearchMentionUsersReq((final GsearchMentionUsersReqBuilder b) => b..vars.query = q),
     );
-    final userEdges =
-        SearchMentionUsers$Query.fromJson(res.data!).search.edges!;
+    final BuiltList<GsearchMentionUsersData_search_edges?> userEdges =
+        GsearchMentionUsersData.fromJson(res.data!)!.search.edges!;
     return userEdges;
   }
 }

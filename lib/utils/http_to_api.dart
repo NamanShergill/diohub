@@ -1,9 +1,11 @@
-String toRepoAPIResource(String url, {int? endIndex, bool isPull = false}) {
-  final isApiURL = url.startsWith('https://api.github.com/repos/');
-  final str = url
+String toRepoAPIResource(final String url,
+    {final int? endIndex, final bool isPull = false,}) {
+  final bool isApiURL = url.startsWith('https://api.github.com/repos/');
+  final List<String> str = url
       .replaceAll(
-          isApiURL ? 'https://api.github.com/repos/' : 'https://github.com/',
-          '')
+        isApiURL ? 'https://api.github.com/repos/' : 'https://github.com/',
+        '',
+      )
       .split('/');
   if (isPull) {
     str[2] = 'pulls';

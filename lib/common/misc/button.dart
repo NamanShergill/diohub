@@ -1,24 +1,22 @@
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Button extends StatefulWidget {
-  const Button(
-      {required this.onTap,
-      required this.child,
-      this.enabled = true,
-      this.trailingIcon,
-      this.stretch = true,
-      this.color,
-      this.loading = false,
-      this.padding = const EdgeInsets.all(16),
-      this.elevation = 2,
-      this.borderRadius = 10,
-      this.leadingIcon,
-      this.loadingWidget,
-      Key? key})
-      : super(key: key);
+  const Button({
+    required this.onTap,
+    required this.child,
+    this.enabled = true,
+    this.trailingIcon,
+    this.stretch = true,
+    this.color,
+    this.loading = false,
+    this.padding = const EdgeInsets.all(16),
+    this.elevation = 2,
+    this.borderRadius = 10,
+    this.leadingIcon,
+    // this.loadingWidget,
+    super.key,
+  });
   final VoidCallback? onTap;
   final Color? color;
   final bool enabled;
@@ -26,7 +24,7 @@ class Button extends StatefulWidget {
   final Icon? leadingIcon;
   final Icon? trailingIcon;
   final double borderRadius;
-  final Widget? loadingWidget;
+  // final Widget? loadingWidget;
   final bool stretch;
   final bool loading;
   final double elevation;
@@ -38,61 +36,52 @@ class Button extends StatefulWidget {
 
 class ButtonState extends State<Button> {
   @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      disabledColor: (widget.color ??
-              Provider.of<PaletteSettings>(context).currentSetting.accent)
-          .withOpacity(0.7),
-      elevation: widget.elevation,
-      padding: widget.padding,
-      disabledTextColor:
-          Provider.of<PaletteSettings>(context).currentSetting.baseElements,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius)),
-      onPressed: widget.enabled && !widget.loading ? widget.onTap : null,
-      color: widget.color ??
-          Provider.of<PaletteSettings>(context).currentSetting.accent,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          !widget.loading
-              ? Row(
+  Widget build(final BuildContext context) => ElevatedButton(
+        // disabledColor:
+        //     (widget.color ?? context.colorScheme.primary).withOpacity(0.7),
+        // elevation: widget.elevation,
+        // padding: widget.padding,
+        // // disabledTextColor:
+        // //     Provider.of<PaletteSettings>(context).currentSetting.baseElements,
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(widget.borderRadius),
+        // ),
+        onPressed: widget.enabled && !widget.loading ? widget.onTap : null,
+        // color: widget.color,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              if (!widget.loading)
+                Row(
                   mainAxisSize:
                       widget.stretch ? MainAxisSize.max : MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Visibility(
-                        visible: widget.leadingIcon != null,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: widget.leadingIcon ?? Container(),
-                        )),
+                      visible: widget.leadingIcon != null,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: widget.leadingIcon ?? Container(),
+                      ),
+                    ),
                     Flexible(child: widget.child),
                     Visibility(
-                        visible: widget.trailingIcon != null,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: widget.trailingIcon ?? Container(),
-                        )),
+                      visible: widget.trailingIcon != null,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: widget.trailingIcon ?? Container(),
+                      ),
+                    ),
                   ],
                 )
-              : Row(
-                  mainAxisSize:
-                      widget.stretch ? MainAxisSize.max : MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Visibility(
-                        visible: widget.loadingWidget != null,
-                        child: widget.loadingWidget ?? Container()),
-                    const LoadingIndicator(),
-                  ],
-                ),
-        ],
-      ),
-    );
-  }
+              else
+                const LoadingIndicator(),
+            ],
+          ),
+        ),
+      );
 }
 
 class StringButton extends StatelessWidget {
@@ -110,9 +99,9 @@ class StringButton extends StatelessWidget {
     this.textSize,
     this.leadingIcon,
     this.padding = const EdgeInsets.all(16),
-    this.loadingText,
-    Key? key,
-  }) : super(key: key);
+    // this.loadingText,
+    super.key,
+  });
   final VoidCallback? onTap;
   final Color? color;
   final bool enabled;
@@ -121,7 +110,7 @@ class StringButton extends StatelessWidget {
   final String? subtitle;
   final Icon? leadingIcon;
   final double borderRadius;
-  final String? loadingText;
+  // final String? loadingText;
   final Icon? trailingIcon;
   final bool loading;
   final bool stretch;
@@ -129,39 +118,34 @@ class StringButton extends StatelessWidget {
   final EdgeInsets padding;
 
   @override
-  Widget build(BuildContext context) {
-    return Button(
-      onTap: onTap,
-      trailingIcon: trailingIcon,
-      loadingWidget: Text(loadingText ?? '',
-          style: Theme.of(context)
-              .textTheme
-              .labelLarge!
-              .copyWith(fontSize: textSize)),
-      color: color,
-      borderRadius: borderRadius,
-      leadingIcon: leadingIcon,
-      enabled: enabled,
-      elevation: elevation,
-      loading: loading,
-      stretch: stretch,
-      child: Column(
-        children: [
-          Text(
-            title!,
-            style: Theme.of(context)
-                .textTheme
-                .labelLarge!
-                .copyWith(fontSize: textSize),
-          ),
-          Visibility(
+  Widget build(final BuildContext context) => Button(
+        onTap: onTap,
+        trailingIcon: trailingIcon,
+        // loadingWidget: Text(
+        //   loadingText ?? '',
+        //   style: Theme.of(context).textTheme.labelLarge!.copyWith(textSize),
+        // ),
+        color: color,
+        borderRadius: borderRadius,
+        leadingIcon: leadingIcon,
+        enabled: enabled,
+        elevation: elevation,
+        loading: loading,
+        stretch: stretch,
+        child: Column(
+          children: <Widget>[
+            Text(
+              title!,
+              // style: Theme.of(context).textTheme.labelLarge!.copyWith(textSize),
+            ),
+            Visibility(
               visible: subtitle != null,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: Text(subtitle ?? ''),
-              )),
-        ],
-      ),
-    );
-  }
+              ),
+            ),
+          ],
+        ),
+      );
 }

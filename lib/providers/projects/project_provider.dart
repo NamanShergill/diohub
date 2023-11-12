@@ -1,12 +1,11 @@
-import 'package:dio_hub/graphql/graphql.graphql.dart';
-import 'package:dio_hub/providers/base_provider.dart';
+import 'package:diohub/providers/base_provider.dart';
 
 class ProjectProvider extends BaseProvider {
   ProjectProvider(this.id) {
     // fetchProject();
   }
   final String id;
-  late ProjectMixin project;
+  // late ProjectMixin project;
 
   // void fetchProject() async {
   //   loading();

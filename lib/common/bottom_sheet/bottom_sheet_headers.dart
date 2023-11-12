@@ -2,20 +2,16 @@ part of 'bottom_sheets.dart';
 
 class BottomSheetHeaderText extends StatelessWidget {
   const BottomSheetHeaderText({
-    Key? key,
     required this.headerText,
-    this.headerTextStyle,
-  }) : super(key: key);
+    super.key,
+  });
   final String headerText;
-  final TextStyle? headerTextStyle;
+  // final TextStyle? headerTextStyle;
   @override
-  Widget build(BuildContext context) {
-    return Text(
-      headerText,
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-      ).merge(headerTextStyle),
-    );
-  }
+  Widget build(final BuildContext context) => Text(
+        headerText,
+        style: context.textTheme.titleSmall?.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+      );
 }

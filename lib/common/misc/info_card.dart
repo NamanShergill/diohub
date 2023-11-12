@@ -1,153 +1,385 @@
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/misc/tappable_card.dart';
-import 'package:dio_hub/main.dart';
+import 'package:diohub/common/misc/menu_button.dart';
+import 'package:diohub/common/misc/tappable_card.dart';
+import 'package:diohub/utils/utils.dart';
+import 'package:flex_list/flex_list.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_down_button/pull_down_button.dart';
 
 class WrappedCollection extends StatelessWidget {
   const WrappedCollection({
-    Key? key,
     required this.children,
+    super.key,
     this.spacing = 8,
-  }) : super(key: key);
+  });
   final List<Widget> children;
   final double spacing;
   @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.start,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: spacing,
-      runSpacing: spacing,
-      // runAlignment: WrapAlignment.center,
-      children: children,
-    );
-  }
+  Widget build(final BuildContext context) => FlexList(
+        // crossAxisAlignment: WrapCrossAlignment.center,
+        verticalSpacing: spacing,
+        horizontalSpacing: spacing,
+        // runAlignment: WrapAlignment.center,
+        children: children,
+      );
 }
 
 class InfoCard extends StatelessWidget {
-  const InfoCard({
-    required this.child,
-    this.onTap,
-    this.trailingIcon,
-    Key? key,
-    this.mode = InfoCardMode.basic,
+  InfoCard({
+    required final Widget child,
+    final VoidCallback? onTap,
+    this.trailing,
+    super.key,
     this.title,
-    this.icon,
-    this.childPadding,
-    this.titleTextStyle,
-  })  : assert(
-          title != null || icon != null,
+    this.leading,
+    this.headerPadding =
+        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+    this.onHeaderTap,
+    this.headerColor,
+    this.elevation,
+    final EdgeInsets? childPadding,
+    // this.titleTextStyle,
+    // this.leadingIconColor,
+  })  : children = <Widget>[
+          InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: childPadding ?? const EdgeInsets.all(8),
+              child: Row(
+                children: <Widget>[
+                  Flexible(child: child),
+                ],
+              ),
+            ),
+          ),
+        ],
+        assert(
+          title != null || leading != null,
           'Provide at least one descriptor.',
-        ),
-        super(key: key);
-  final Widget child;
-  final GestureTapCallback? onTap;
-  final Icon? trailingIcon;
-  final InfoCardMode mode;
-  final EdgeInsets? childPadding;
-  final String? title;
-  final IconData? icon;
-  final TextStyle? titleTextStyle;
+        );
+  const InfoCard.children({
+    required this.children,
+    this.trailing,
+    super.key,
+    this.title,
+    this.leading,
+    this.headerPadding =
+        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+    this.onHeaderTap,
+    this.headerColor,
+    this.elevation,
+    // this.titleTextStyle,
+    // this.leadingIconColor,
+  }) : assert(
+          title != null || leading != null,
+          'Provide at least one descriptor.',
+        );
 
-  Widget _buildUI(BuildContext context) {
-    switch (mode) {
-      case InfoCardMode.basic:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  final List<Widget> children;
+  final VoidCallback? onHeaderTap;
+  final Widget? trailing;
+  final String? title;
+  final Widget? leading;
+  final EdgeInsets headerPadding;
+  final Color? headerColor;
+  final double? elevation;
+  static Icon get dropdownTrailingIcon => const Icon(
+        Icons.arrow_drop_down_rounded,
+      );
+
+  static Icon leadingIcon({
+    required final IconData icon,
+    required final BuildContext context,
+    final Color? color,
+  }) =>
+      Icon(
+        icon,
+        // size: 18,
+        color: color,
+      );
+  Widget _buildUI(final BuildContext context) => IntrinsicWidth(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              child: IntrinsicHeight(
+          children: <Widget>[
+            CardHeader(
+              onTap: onHeaderTap,
+              elevation: elevation,
+              color: headerColor,
+              child: Padding(
+                padding: headerPadding,
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
+                  // mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
                     _buildDescriptors(context),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    const VerticalDivider(),
-                    Flexible(
-                      child: Padding(
-                        padding: childPadding ??
-                            const EdgeInsets.symmetric(horizontal: 4),
-                        child: child,
-                      ),
-                    ),
+                    if (trailing != null) trailing!,
                   ],
                 ),
               ),
             ),
-            _buildTrailingWidget(),
-          ],
-        );
-      case InfoCardMode.expanded:
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildDescriptors(context),
-                  _buildTrailingWidget(),
+            ...List<Widget>.generate(children.length, (final int index) {
+              final bool isLast = index == children.length - 1;
+              return Column(
+                children: <Widget>[
+                  if (index > 0)
+                    const Divider(
+                      height: 0,
+                    ),
+                  BasicCard.linked(
+                    elevation: elevation,
+                    cardLinkType:
+                        isLast ? CardLinkType.atTop : CardLinkType.both,
+                    child: children[index],
+                  ),
                 ],
-              ),
-            ),
-            const Divider(),
-            Flexible(
-              child: Padding(
-                padding: childPadding ?? EdgeInsets.zero,
-                child: child,
-              ),
-            ),
+              );
+            }),
           ],
-        );
-    }
-  }
+        ),
+      );
 
-  Row _buildDescriptors(BuildContext context) {
-    return Row(
-      children: [
-        if (icon != null)
-          Icon(
-            icon,
-            size: 20,
-            color: context.palette.faded3,
-          ),
-        if (title != null && icon != null)
-          const SizedBox(
-            width: 8,
-          ),
-        if (title != null)
-          Text(
-            title!,
-            style: context.textTheme.bodyLarge
-                ?.merge(titleTextStyle)
-                .copyWith(color: context.palette.faded3),
-          ),
-      ],
-    );
-  }
-
-  Widget _buildTrailingWidget() => onTap != null
-      ? Padding(
-          padding: const EdgeInsets.only(left: 4),
-          child: trailingIcon ??
-              Icon(
-                Icons.adaptive.arrow_forward_rounded,
-                size: 15,
+  Row _buildDescriptors(final BuildContext context) => Row(
+        children: <Widget>[
+          if (leading != null)
+            Theme(
+              data: context.themeData.copyWith(
+                iconTheme: context.themeData.iconTheme.copyWith(
+                  size: 16,
+                  color: context.colorScheme.onSurface.asHint(),
+                ),
               ),
-        )
-      : Container();
+              child: DefaultTextStyle(
+                style: context.textTheme.bodyMedium!.asHint().copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                child: leading!,
+              ),
+            ),
+          if (title != null && leading != null)
+            const SizedBox(
+              width: 8,
+            ),
+          if (title != null)
+            Text(
+              title!, style: context.textTheme.bodyMedium?.asHint(),
+              // .copyWith(fontWeight: FontWeight.bold),
+            ),
+        ],
+      );
 
   @override
-  Widget build(BuildContext context) {
-    return InkWellCard(
+  Widget build(final BuildContext context) => _buildUI(context);
+}
+
+class MenuInfoCard extends StatelessWidget {
+  const MenuInfoCard({
+    required this.title,
+    required this.child,
+    required this.menuBuilder,
+    this.onTap,
+    super.key,
+    this.leading,
+    this.headerColor,
+    this.elevation,
+    // this.titleTextStyle,
+    // this.onTap,
+  });
+  final VoidCallback? onTap;
+  final Widget? leading;
+  final Color? headerColor;
+  final double? elevation;
+  // final TextStyle? titleTextStyle;
+  // final VoidCallback? onTap;
+  final String title;
+  final List<PullDownMenuEntry> Function(BuildContext context) menuBuilder;
+  final Widget child;
+
+  @override
+  Widget build(final BuildContext context) {
+    final List<PullDownMenuEntry> menuItems = menuBuilder.call(context);
+    if (menuItems.isNotEmpty) {
+      return MenuButton(
+        itemBuilder: menuBuilder,
+        buttonBuilder: (final BuildContext context, final showMenu) => SizedBox(
+          height: 32,
+          width: 32,
+          child: IconButton(
+            onPressed: showMenu,
+            icon: Icon(
+              Icons.adaptive.more_rounded,
+            ),
+            // padding: const EdgeInsets.all(4),
+            // constraints: const BoxConstraints(),
+          ),
+        ),
+        builder:
+            (final BuildContext context, final Widget button, final showMenu) =>
+                GestureDetector(
+          onLongPress: showMenu,
+          child: InfoCard(
+            trailing: button, headerColor: headerColor,
+            headerPadding: const EdgeInsets.only(
+              left: 12,
+              bottom: 2,
+              top: 2,
+            ),
+            elevation: elevation,
+            onTap: onTap, onHeaderTap: showMenu,
+            title: title,
+            leading: leading,
+            // titleTextStyle: titleTextStyle,
+            child: child,
+          ),
+        ),
+      );
+    }
+    return InfoCard(
       onTap: onTap,
-      child: _buildUI(context),
+      title: title,
+      elevation: elevation,
+      headerColor: headerColor,
+      leading: leading,
+      child: child,
     );
   }
 }
 
-enum InfoCardMode { basic, expanded }
+class CardHeader extends StatelessWidget {
+  const CardHeader({
+    required this.child,
+    super.key,
+    this.cardLinkType = CardLinkType.atBottom,
+    this.menuItems = const <PullDownMenuItem>[],
+    this.onTap,
+    this.color,
+    this.elevation,
+    // this.padding = const EdgeInsets.all(8),
+  });
+  final Color? color;
+  final double? elevation;
+  // final EdgeInsets padding;
+  final CardLinkType cardLinkType;
+  final Widget child;
+  final List<PullDownMenuItem> menuItems;
+  final VoidCallback? onTap;
+  @override
+  Widget build(final BuildContext context) => BasicCard.linked(
+        cardLinkType: cardLinkType, elevation: elevation,
+        color: color ?? context.colorScheme.surfaceVariant,
+        // elevation: 0,
+        onTap: onTap,
+        child: DefaultTextStyle(
+          style: context.textTheme.bodySmall!.copyWith(
+            color: context.colorScheme.onSurfaceVariant,
+          ),
+          child: IconTheme.merge(
+            data: IconThemeData(
+              color: context.colorScheme.onSurfaceVariant,
+              size: 16,
+            ),
+            child: child,
+          ),
+        ),
+      );
+}
+
+// abstract class InfoCardAdapter {
+//   String get title;
+//
+//   bool get isExpanded;
+//
+//   WidgetBuilder get viewBuilder;
+//
+//   VoidCallback? onTap(final BuildContext context);
+// }
+
+// abstract class PaginatedInfoCardAdapter<T> extends InfoCardAdapter {
+//   PaginatedInfoCardAdapter({
+//     required this.availableList,
+//     required this.singleItemBehavior,
+//     this.iconOnLengthOverrides = const <int, Icon?>{},
+//     this.onTapOnLengthOverrides = const <int, VoidCallback?>{},
+//   });
+//
+//   Icon? get trailingIcon {
+//     if (onTapOnLengthOverrides.containsKey(listLength)) {
+//       return iconOnLengthOverrides[listLength];
+//     } else if (singleItemBehavior != null && listLength == 1) {
+//       return singleItemBehavior!.icon;
+//     }
+//     return switch (listLength) {
+//       0 => null,
+//       _ => const Icon(
+//           Icons.arrow_drop_down_rounded,
+//         ),
+//     };
+//   }
+//
+//   BottomSheetPagination<NodeWithPaginationInfo<T>> get paginatedSheet;
+//
+//   @override
+//   VoidCallback? onTap(final BuildContext context) {
+//     if (onTapOnLengthOverrides.containsKey(listLength)) {
+//       return onTapOnLengthOverrides[listLength];
+//     } else if (singleItemBehavior != null && listLength == 1) {
+//       return singleItemBehavior!.onTap?.call(context);
+//     }
+//     return switch (listLength) {
+//       0 => null,
+//       _ => () async => paginatedSheet.openSheet(context),
+//     };
+//   }
+//
+//   final SingleItemConfigForMultiListAdapter? singleItemBehavior;
+//
+//   /// Overrides the cards onTap behaviour for specific list lengths.
+//   final Map<int, VoidCallback?> onTapOnLengthOverrides;
+//
+//   /// Overrides the cards onTap behaviour for specific list lengths.
+//   final Map<int, Icon?> iconOnLengthOverrides;
+//
+//   final MultiItemInfoCardList<T> availableList;
+//
+//   List<T> get items => availableList.limitedAvailableList;
+//
+//   int get listLength => availableList.totalCount;
+// }
+
+class UnfinishedList<T> {
+  UnfinishedList({
+    required this.limitedAvailableList,
+    final int? totalCount,
+  }) : totalCount = totalCount ?? limitedAvailableList.length;
+  final int totalCount;
+  final List<T> limitedAvailableList;
+
+  bool get isComplete => totalCount == limitedAvailableList.length;
+}
+
+class NodeWithPaginationInfo<T> {
+  NodeWithPaginationInfo({
+    required this.node,
+    required this.cursor,
+    // this.totalCount,
+  });
+  NodeWithPaginationInfo.pageKey({
+    required this.node,
+    required final int pageKey,
+    // this.totalCount,
+  }) : cursor = pageKey.toString();
+  factory NodeWithPaginationInfo.fromEdge(final Object edge) =>
+      NodeWithPaginationInfo<T>(
+        // ignore: avoid_dynamic_calls
+        node: (edge as dynamic).node!,
+        // ignore: avoid_dynamic_calls
+        cursor: (edge as dynamic).cursor,
+      );
+
+  final T node;
+  // final int? totalCount;
+  final String cursor;
+
+  @Deprecated(
+    'This is for backwards compatibility with the REST API pagination ONLY!',
+  )
+  int? get cursorAsPageKey => int.tryParse(cursor);
+}

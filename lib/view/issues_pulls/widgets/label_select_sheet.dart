@@ -1,21 +1,19 @@
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/issues/issue_label.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:diohub/common/issues/issue_label.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/services/issues/issues_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LabelSelectSheet extends StatefulWidget {
-  const LabelSelectSheet(
-      {Key? key,
-      this.labels,
-      this.issueUrl,
-      this.repoURL,
-      this.controller,
-      this.newLabels})
-      : super(key: key);
+  const LabelSelectSheet({
+    super.key,
+    this.labels,
+    this.issueUrl,
+    this.repoURL,
+    this.controller,
+    this.newLabels,
+  });
   final String? repoURL;
   final String? issueUrl;
   final List<Label>? labels;
@@ -31,55 +29,67 @@ class LabelSelectSheetState extends State<LabelSelectSheet> {
 
   @override
   void initState() {
-    labels = widget.labels!.map((e) => e.name).toList();
+    labels = widget.labels!.map((final Label e) => e.name).toList();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Button(
-            color:
-                Provider.of<PaletteSettings>(context).currentSetting.secondary,
-            onTap: () async {
-              try {
-                final newLabels =
-                    await IssuesService.setLabels(widget.issueUrl, labels);
-                Navigator.pop(context);
-                widget.newLabels!(newLabels);
-              } catch (e) {
-                rethrow;
-              }
-            },
-            child: const Text('Apply'),
+  Widget build(final BuildContext context) => Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Button(
+              // color: Provider.of<PaletteSettings>(context)
+              //     .currentSetting
+              //     .secondary,
+              onTap: () async {
+                try {
+                  final List<Label> newLabels =
+                      await IssuesService.setLabels(widget.issueUrl, labels);
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
+                  widget.newLabels!(newLabels);
+                } catch (e) {
+                  rethrow;
+                }
+              },
+              child: const Text('Apply'),
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Expanded(
-          child: InfiniteScrollWrapper<Label>(
-            future: (data) {
-              return IssuesService.listAvailableLabels(
+          const SizedBox(
+            height: 8,
+          ),
+          Expanded(
+            child: InfiniteScrollWrapper<Label>(
+              future: (
+                final ({
+                  Label? lastItem,
+                  int pageNumber,
+                  int pageSize,
+                  bool refresh
+                }) data,
+              ) async =>
+                  IssuesService.listAvailableLabels(
                 widget.repoURL,
                 data.pageNumber,
                 data.pageSize,
-              );
-            },
-            separatorBuilder: (context, index) => const Divider(
-              height: 8,
-            ),
-            scrollController: widget.controller,
-            listEndIndicator: false,
-            builder: (data) {
-              return CheckboxListTile(
-                activeColor:
-                    Provider.of<PaletteSettings>(context).currentSetting.accent,
+              ),
+              separatorBuilder: (final BuildContext context, final int index) =>
+                  const Divider(
+                height: 8,
+              ),
+              scrollController: widget.controller,
+              listEndIndicator: false,
+              builder: (
+                final BuildContext context,
+                final ({int index, Label item, bool refresh}) data,
+              ) =>
+                  CheckboxListTile(
+                // activeColor:
+                // Provider.of<PaletteSettings>(context).currentSetting.accent,
                 value: labels!.contains(data.item.name),
-                onChanged: (value) {
+                onChanged: (final bool? value) {
                   setState(() {
                     if (labels!.contains(data.item.name)) {
                       labels!.remove(data.item.name);
@@ -89,11 +99,9 @@ class LabelSelectSheetState extends State<LabelSelectSheet> {
                   });
                 },
                 title: IssueLabel(data.item),
-              );
-            },
+              ),
+            ),
           ),
-        ),
-      ],
-    );
-  }
+        ],
+      );
 }

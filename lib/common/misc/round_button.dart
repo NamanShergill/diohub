@@ -1,36 +1,40 @@
-import 'package:dio_hub/app/settings/palette.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class RoundButton extends StatelessWidget {
-  const RoundButton(
-      {Key? key,
-      required this.icon,
-      this.color,
-      this.onPressed,
-      this.padding,
-      this.onLongPress})
-      : super(key: key);
+  const RoundButton({
+    required this.icon,
+    super.key,
+    this.color,
+    this.onPressed,
+    this.padding = const EdgeInsets.all(8),
+    this.onLongPress,
+    this.margin = const EdgeInsets.all(8),
+  });
   final Icon icon;
   final VoidCallback? onPressed;
   final VoidCallback? onLongPress;
   final Color? color;
-  final EdgeInsets? padding;
+  final EdgeInsets padding;
+  final EdgeInsets margin;
   @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      onLongPress: onLongPress,
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all(const CircleBorder()),
-        minimumSize: MaterialStateProperty.all(const Size(6, 6)),
-        padding: MaterialStateProperty.all(padding ?? const EdgeInsets.all(10)),
-        backgroundColor:
-            MaterialStateProperty.all(color ?? context.palette.accent),
-      ),
-      child: IconTheme(
-        data: IconThemeData(size: 18, color: context.palette.baseElements),
-        child: icon,
-      ),
-    );
-  }
+  Widget build(final BuildContext context) => Padding(
+        padding: margin,
+        child: RawMaterialButton(
+          onPressed: onPressed,
+          onLongPress: onLongPress,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: const CircleBorder(),
+          constraints: const BoxConstraints(),
+          padding: padding,
+          fillColor: color ?? context.themeData.iconTheme.color,
+          child: IconTheme(
+            data: IconThemeData(
+              size: 18,
+              color: context.colorScheme.onPrimary,
+            ),
+            child: icon,
+          ),
+        ),
+      );
 }

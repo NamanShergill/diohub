@@ -1,30 +1,31 @@
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/providers/base_provider.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/pull_requests/pull_request_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/providers/base_provider.dart';
 
-class PullProvider extends BaseDataProvider<PullInfoMixin> {
+class PullProvider extends BaseDataProvider<GpullInfo> {
   PullProvider(this.pullInfo);
-  final PullInfoMixin pullInfo;
+  final GpullInfo pullInfo;
 
-  void updateLabels(List<Label> labels) {
+  void updateLabels(final List<Label> labels) {
     // data.labels = labels;
     notifyListeners();
   }
 
-  void updateAssignees(List<UserInfoModel> users) {
+  void updateAssignees(final List<UserInfoModel> users) {
     // data.assignees = users;
     notifyListeners();
   }
 
-  void updateIssue(PullRequestModel pull) {
+  void updateIssue(final PullRequestModel pull) {
     // data = pull;
     notifyListeners();
   }
 
   @override
-  Future<PullInfoMixin> setInitData({bool isInitialisation = false}) async {
-    return pullInfo;
-  }
+  Future<GpullInfo> setInitData({
+    final bool isInitialisation = false,
+  }) async =>
+      pullInfo;
 }

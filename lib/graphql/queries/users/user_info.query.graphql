@@ -1,0 +1,74 @@
+# import '../issues_pulls/timeline.query.graphql'
+
+query searchMentionUsers($query: String!, $after: String){
+    search(query: $query, type: USER, first: 20, after: $after) {
+        edges {
+            node {
+                __typename
+                ... on User{
+                    ...actor
+                } ... on Organization{
+                    ...actor
+                }
+            }
+            cursor
+        }
+    }
+}
+
+query getUserPinnedRepos($user: String!){
+    user(login: $user) {
+        pinnedItems(first: 6, types:[REPOSITORY]){
+            edges {
+                node {
+                   __typename ... on Repository {
+                        name
+                        description
+                        stargazerCount
+                        updatedAt
+                        url
+                        owner{
+                            login
+                        }
+                        languages(orderBy: {direction:DESC, field: SIZE}, first:1) {
+                            edges {
+                                node {
+                                    name
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+query followStatusInfo($user:String!){
+    user(login: $user) {
+        id
+        viewerIsFollowing
+        viewerCanFollow
+        followers {
+            totalCount
+        }
+    }
+}
+
+mutation  followUser($user:ID!){
+    followUser(input: {userId: $user}){
+        user{
+            login
+        }
+    }
+
+}
+
+mutation  unfollowUser($user:ID!){
+    unfollowUser(input: {userId: $user}){
+        user{
+            login
+        }
+    }
+}
