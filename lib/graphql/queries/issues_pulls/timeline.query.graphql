@@ -1,0 +1,662 @@
+query getTimeline($repoName: String!, $owner : String!, $number : Int!, $after: String, $since: DateTime){
+
+    repository(name: $repoName, owner: $owner){
+        issueOrPullRequest(number: $number){
+            __typename
+            ... on Issue{
+                timelineItems(first: 20, after: $after, since: $since, itemTypes:
+                # Excludes: COMMENT_DELETED_EVENT, CONNECTED_EVENT, DISCONNECTED_EVENT, MENTIONED_EVENT,
+                # SUBSCRIBED_EVENT, TRANSFERRED_EVENT, UNSUBSCRIBED_EVENT, USER_BLOCKED_EVENT, REFERENCED_EVENT
+                # Todo: Add CONVERTED_NOTE_TO_ISSUE_EVENT
+                [ADDED_TO_PROJECT_EVENT, ASSIGNED_EVENT, CLOSED_EVENT,
+                    CROSS_REFERENCED_EVENT, DEMILESTONED_EVENT, ISSUE_COMMENT, LABELED_EVENT,
+                    LOCKED_EVENT, MARKED_AS_DUPLICATE_EVENT, MILESTONED_EVENT,
+                    MOVED_COLUMNS_IN_PROJECT_EVENT, PINNED_EVENT,
+                    REMOVED_FROM_PROJECT_EVENT, RENAMED_TITLE_EVENT, REOPENED_EVENT, UNASSIGNED_EVENT,
+                    UNLABELED_EVENT, UNLOCKED_EVENT, UNMARKED_AS_DUPLICATE_EVENT, UNPINNED_EVENT
+                ]){
+                    edges{
+                        node{
+                            __typename
+                            ... on AddedToProjectEvent{
+                                ...addedToProject
+                            }
+                            ... on AssignedEvent{
+                                ...assigned
+                            } ... on ClosedEvent{
+                                ...closed
+                            }... on CrossReferencedEvent{
+                                ...crossReference
+                            } ... on DemilestonedEvent{
+                                ...deMileStoned
+                            }... on IssueComment {
+                                ...issueComment
+                            } ... on LabeledEvent{
+                                ...labeled
+                            } ... on LockedEvent{
+                                ...locked
+                            } ... on MarkedAsDuplicateEvent{
+                                ...markedAsDuplicate
+                            }... on MilestonedEvent{
+                                ...mileStoned
+                            } ... on MovedColumnsInProjectEvent{
+                                ...movedColumnsInProject
+                            } ... on PinnedEvent{
+                                ...pinned
+                            } ... on RemovedFromProjectEvent{
+                                ...removedFromProject
+                            } ... on RenamedTitleEvent{
+                                ...renamedTitle
+                            } ... on ReopenedEvent{
+                                ...reopened
+                            }... on UnassignedEvent{
+                                ...unassigned
+                            } ... on UnlabeledEvent{
+                                ...unlabeled
+                            } ... on UnlockedEvent{
+                                ...unlocked
+                            } ... on UnmarkedAsDuplicateEvent{
+                                ...unmarkedAsDuplicate
+                            } ... on UnpinnedEvent{
+                                ...unpinned
+                            }
+                        }
+                        cursor
+                    }
+                }
+
+            }
+            ... on PullRequest{
+                timelineItems(first: 20, after: $after, since: $since, itemTypes:
+                # Excludes: AUTOMATIC_BASE_CHANGE_FAILED_EVENT, AUTOMATIC_BASE_CHANGE_SUCCEEDED_EVENT,
+                # AUTO_MERGE_DISABLED_EVENT, AUTO_MERGE_ENABLED_EVENT, AUTO_REBASE_ENABLED_EVENT,
+                # AUTO_SQUASH_ENABLED_EVENT, COMMENT_DELETED_EVENT, CONNECTED_EVENT, DEPLOYED_EVENT,
+                # DEPLOYED_EVENT, DISCONNECTED_EVENT, PULL_REQUEST_REVISION_MARKER, PULL_REQUEST_REVIEW_THREAD,
+                # SUBSCRIBED_EVENT, TRANSFERRED_EVENT, UNSUBSCRIBED_EVENT, USER_BLOCKED_EVENT, REFERENCED_EVENT
+                # Todo: Add CONVERTED_NOTE_TO_ISSUE_EVENT
+                [ADDED_TO_PROJECT_EVENT, ASSIGNED_EVENT, BASE_REF_CHANGED_EVENT,BASE_REF_DELETED_EVENT,
+                    BASE_REF_FORCE_PUSHED_EVENT, CLOSED_EVENT,CONVERT_TO_DRAFT_EVENT,
+                    CROSS_REFERENCED_EVENT, DEMILESTONED_EVENT, HEAD_REF_DELETED_EVENT,
+                    HEAD_REF_FORCE_PUSHED_EVENT, HEAD_REF_RESTORED_EVENT, ISSUE_COMMENT,LABELED_EVENT,
+                    LOCKED_EVENT, MARKED_AS_DUPLICATE_EVENT, MERGED_EVENT, MILESTONED_EVENT,
+                    MOVED_COLUMNS_IN_PROJECT_EVENT, PINNED_EVENT, PULL_REQUEST_COMMIT,
+                    PULL_REQUEST_COMMIT_COMMENT_THREAD, PULL_REQUEST_REVIEW,
+                    READY_FOR_REVIEW_EVENT, REMOVED_FROM_PROJECT_EVENT,
+                    RENAMED_TITLE_EVENT, REOPENED_EVENT, REVIEW_DISMISSED_EVENT, REVIEW_REQUESTED_EVENT,
+                    REVIEW_REQUEST_REMOVED_EVENT, UNASSIGNED_EVENT,UNLABELED_EVENT, UNLOCKED_EVENT,
+                    UNMARKED_AS_DUPLICATE_EVENT, UNPINNED_EVENT
+                ]){
+                    edges{
+                        node{
+                            __typename
+                            ... on AddedToProjectEvent{
+                                ...addedToProject
+                            } ... on AssignedEvent{
+                                ...assigned
+                            } ... on BaseRefChangedEvent{
+                                ...baseRefChanged
+                            } ... on BaseRefDeletedEvent{
+                                ...baseRefDeleted
+                            } ... on BaseRefForcePushedEvent{
+                                ...baseRefForcePushed
+                            } ... on ClosedEvent{
+                                ...closed
+                            } ... on ConvertToDraftEvent{
+                                ...convertedToDraft
+                            } ... on CrossReferencedEvent{
+                                ...crossReference
+                            } ... on DemilestonedEvent{
+                                ...deMileStoned
+                            }  ... on HeadRefDeletedEvent{
+                                ...headRefDeleted
+                            } ... on HeadRefForcePushedEvent{
+                                ...headRefForcePushed
+                            } ... on HeadRefRestoredEvent{
+                                ...headRefRestored
+                            } ... on IssueComment {
+                                ...issueComment
+                            }  ... on LabeledEvent{
+                                ...labeled
+                            } ... on LockedEvent{
+                                ...locked
+                            } ... on MarkedAsDuplicateEvent{
+                                ...markedAsDuplicate
+                            }  ... on MergedEvent{
+                                ...merged
+                            } ... on MilestonedEvent{
+                                ...mileStoned
+                            } ... on MovedColumnsInProjectEvent{
+                                ...movedColumnsInProject
+                            }  ... on PinnedEvent{
+                                ...pinned
+                            } ... on PullRequestCommit{
+                                ...pullRequestCommit
+                            } ... on PullRequestCommitCommentThread{
+                                id
+                            } ... on PullRequestReview{
+                                ...pullRequestReview
+                            } ... on PullRequestReviewThread{
+                                id
+                            } ... on ReadyForReviewEvent{
+                                ...readyForReview
+                            } ... on RemovedFromProjectEvent{
+                                ...removedFromProject
+                            } ... on RenamedTitleEvent{
+                                ...renamedTitle
+                            } ... on ReopenedEvent{
+                                ...reopened
+                            } ... on ReviewDismissedEvent{
+                                ...reviewDismissed
+                            } ... on ReviewRequestedEvent{
+                                ...reviewRequested
+                            }... on UnassignedEvent{
+                                ...unassigned
+                            } ... on UnlabeledEvent{
+                                ...unlabeled
+                            } ... on UnlockedEvent{
+                                ...unlocked
+                            } ... on UnmarkedAsDuplicateEvent{
+                                ...unmarkedAsDuplicate
+                            } ... on UnpinnedEvent{
+                                ...unpinned
+                            }
+                        }
+                        cursor
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+fragment addedToProject on AddedToProjectEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+
+}
+
+fragment assigned on AssignedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    assignee{
+        __typename  ... on User {
+            ...actor
+        } ... on Bot {
+            ...actor
+        } ... on Mannequin {
+            ...actor
+        } ... on Organization {
+            ...actor
+        }
+    }
+}
+
+fragment baseRefChanged on BaseRefChangedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    currentRefName
+    previousRefName
+}
+
+fragment  baseRefDeleted on BaseRefDeletedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    baseRefName
+}
+
+fragment  baseRefForcePushed on BaseRefForcePushedEvent{
+    id
+    createdAt
+    beforeCommit{
+        abbreviatedOid
+        url
+    }
+    afterCommit{
+        url
+        abbreviatedOid
+    }
+    ref{
+        name
+    }
+    actor{
+        ...actor
+    }
+}
+
+fragment closed on ClosedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+}
+
+fragment  convertedToDraft on ConvertToDraftEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+}
+
+fragment crossReference on CrossReferencedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    source{
+        __typename  ... on Issue {
+            ... issue
+        } ... on PullRequest {
+            ... pullRequest
+        }
+    }
+    isCrossRepository
+}
+
+fragment deMileStoned on DemilestonedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    milestoneTitle
+}
+
+fragment  headRefDeleted on HeadRefDeletedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    headRefName
+}
+
+fragment  headRefForcePushed on HeadRefForcePushedEvent{
+    id
+    createdAt
+    beforeCommit{
+        abbreviatedOid
+        url
+    }
+    afterCommit{
+        url
+        abbreviatedOid
+    }
+    ref{
+        name
+    }
+    actor{
+        ...actor
+    }
+}
+
+fragment  headRefRestored on HeadRefRestoredEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+}
+
+fragment issueComment on IssueComment{
+    id
+    author{
+        ...actor
+    }
+    createdAt
+    authorAssociation
+    body
+    bodyHTML
+    lastEditedAt
+    isMinimized
+    minimizedReason
+    reactionGroups{
+        ...reactionGroups
+    }
+    viewerCanMinimize
+    viewerCanDelete
+    viewerCanUpdate
+    viewerDidAuthor
+    viewerCannotUpdateReasons
+    viewerCanReact
+}
+
+fragment labeled on LabeledEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    label{
+        ...label
+    }
+}
+
+fragment locked on LockedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    lockReason
+}
+
+fragment  markedAsDuplicate  on MarkedAsDuplicateEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    isCrossRepository
+    canonical{
+        __typename
+        ... on Issue{
+            ...issue
+        } ... on PullRequest{
+            ...pullRequest
+        }
+    }
+}
+
+fragment  merged on MergedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    mergeRefName
+}
+
+fragment mileStoned on MilestonedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    milestoneTitle
+}
+
+fragment movedColumnsInProject on MovedColumnsInProjectEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    #    previousProjectColumnName
+    #    projectColumnName
+    #    project{
+    #        name
+    #    }
+}
+
+fragment pinned on PinnedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+}
+
+fragment pullRequestCommit on PullRequestCommit{
+    id
+    commit{
+        ...commit
+    }
+}
+
+fragment  pullRequestReview on PullRequestReview{
+    id
+    resourcePath
+    comments(first: 1){
+        totalCount
+        edges {
+            node {
+                id
+
+            }
+            cursor
+        }
+    }
+    author{
+        ...actor
+    }
+    createdAt
+    authorAssociation
+    body
+    bodyHTML
+    lastEditedAt
+    state
+    reactionGroups{
+        ...reactionGroups
+    }
+    viewerCanDelete
+    viewerCanUpdate
+    viewerDidAuthor
+    viewerCannotUpdateReasons
+    viewerCanReact
+}
+
+fragment  readyForReview on ReadyForReviewEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+}
+
+fragment removedFromProject on RemovedFromProjectEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    #    project{
+    #        name
+    #    }
+    #    projectColumnName
+}
+
+fragment  renamedTitle on RenamedTitleEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    previousTitle
+    currentTitle
+}
+
+fragment reopened on ReopenedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+}
+
+fragment reviewDismissed on ReviewDismissedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    dismissalMessage
+    dismissalMessageHTML
+    previousReviewState
+}
+
+fragment reviewRequested on ReviewRequestedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    requestedReviewer{
+        __typename
+        ... on User{
+            ...actor
+        } ... on Team{
+            avatar: avatarUrl
+            name
+        }
+    }
+}
+
+fragment unassigned on UnassignedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    assignee{
+        __typename  ... on User {
+            ...actor
+        } ... on Bot {
+            ...actor
+        } ... on Mannequin {
+            ...actor
+        } ... on Organization {
+            ...actor
+        }
+    }
+}
+
+fragment unlabeled on UnlabeledEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    label{
+        ...label
+    }
+}
+
+fragment unlocked on UnlockedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+}
+
+fragment unmarkedAsDuplicate on UnmarkedAsDuplicateEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+    isCrossRepository
+    canonical{
+        __typename
+        ... on Issue{
+            ...issue
+        } ... on PullRequest{
+            ...pullRequest
+        }
+    }
+}
+
+fragment unpinned on UnpinnedEvent{
+    id
+    createdAt
+    actor{
+        ...actor
+    }
+}
+
+
+fragment actor on Actor{
+    avatarUrl
+    login
+}
+
+fragment pullRequest on PullRequest{
+    url
+    title
+    number
+    pullState: state
+    repository{
+        name
+        nameWithOwner
+    }
+}
+
+fragment issue on Issue{
+    url
+    title
+    number
+    issueState: state
+    repository{
+        name
+        nameWithOwner
+    }
+}
+
+
+#fragment repo on Repository{
+#    url
+#    nameWithOwner
+#}
+
+fragment  label on Label{
+    color
+    name
+}
+
+fragment commit on Commit{
+    additions
+    authoredDate
+    oid
+    message
+    commitUrl
+
+    messageHeadline
+    author{
+        avatarUrl
+        name
+        user{
+            ...actor
+        }
+    }
+}
+
+
+
+fragment reactionGroups on ReactionGroup{
+    content
+    viewerHasReacted
+    reactors{
+        totalCount
+    }
+    subject{
+        id
+    }
+}
+
+#fragment reactors on Reactor{
+#    ...on User{
+#        ...actor
+#    }... on Organization{
+#        ...actor
+#    }... on Mannequin{
+#        ...actor
+#    }... on Bot{
+#        ...actor
+#    }
+#}

@@ -4,8 +4,8 @@
 
 import 'dart:convert';
 
-import 'package:dio_hub/models/issues/issue_timeline_event_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:diohub/models/issues/issue_timeline_event_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
 
 class IssueCommentsModel {
   IssueCommentsModel({

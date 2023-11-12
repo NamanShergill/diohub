@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:dio_hub/models/issues/issue_model.dart';
+import 'package:diohub/models/issues/issue_model.dart';
 
 class IssueEventModel {
   IssueEventModel({

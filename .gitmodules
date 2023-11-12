@@ -1,0 +1,18 @@
+[submodule "dependencies/markdown-editable-textinput"]
+	path = dependencies/markdown-editable-textinput
+	url = git@github.com:NamanShergill/markdown-editable-textinput.git
+[submodule "dependencies/extended_text_field"]
+	path = dependencies/extended_text_field
+	url = git@github.com:NamanShergill/extended_text_field.git
+[submodule "dependencies/flutter_dynamic_tabs"]
+	path = dependencies/flutter_dynamic_tabs
+	url = git@github.com:NamanShergill/flutter_dynamic_tabs.git
+[submodule "dependencies/flutter_scroll_to_top"]
+	path = dependencies/flutter_scroll_to_top
+	url = git@github.com:NamanShergill/flutter_scroll_to_top.git
+[submodule "dependencies/pull_down_button"]
+	path = dependencies/pull_down_button
+	url = git@github.com:NamanShergill/pull_down_button.git
+[submodule "dependencies/dart-highlighting"]
+	path = dependencies/dart-highlighting
+	url = git@github.com:NamanShergill/dart-highlighting.git

@@ -1,61 +1,61 @@
-import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
-import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/providers/users/current_user_provider.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
+import 'package:diohub/common/search_overlay/filters.dart';
+import 'package:diohub/common/search_overlay/search_overlay.dart';
+import 'package:diohub/common/wrappers/search_scroll_wrapper.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/users/current_user_info_model.dart';
+import 'package:diohub/providers/users/current_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class IssuesTab extends StatefulWidget {
-  const IssuesTab(
-      {required this.nestedScrollViewController, this.deepLinkData, Key? key})
-      : super(key: key);
-  final ScrollController nestedScrollViewController;
-  final DeepLinkData? deepLinkData;
+  const IssuesTab({this.deepLinkData, super.key});
+  final PathData? deepLinkData;
 
   @override
-  _IssuesTabState createState() => _IssuesTabState();
+  IssuesTabState createState() => IssuesTabState();
 }
 
-class _IssuesTabState extends State<IssuesTab>
+class IssuesTabState extends State<IssuesTab>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     super.build(context);
-    final _user = Provider.of<CurrentUserProvider>(context).data;
+    final CurrentUserInfoModel user =
+        Provider.of<CurrentUserProvider>(context).data;
     return SearchScrollWrapper(
       SearchData(
-          searchFilters:
-              SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
-          defaultHiddenFilters: [
-            SearchQueries().involves.toQueryString(_user.login!),
-            SearchQueries().type.toQueryString('issue'),
-          ],
-          filterStrings: [
-            if (widget.deepLinkData?.component(1) == 'assigned')
-              SearchQueries().assignee.toQueryString(_user.login!),
-            if (widget.deepLinkData?.component(1) == 'mentioned')
-              SearchQueries().mentions.toQueryString(_user.login!),
-          ]),
-      quickFilters: {
-        SearchQueries().assignee.toQueryString(_user.login!): 'Assigned',
-        SearchQueries().author.toQueryString(_user.login!): 'Created',
-        SearchQueries().mentions.toQueryString(_user.login!): 'Mentioned',
+        searchFilters: SearchFilters.issuesPulls(
+          blacklist: <String>[SearchQueryStrings.type],
+        ),
+        defaultHiddenFilters: <String>[
+          SearchQueries().involves.toQueryString(user.login!),
+          SearchQueries().type.toQueryString('issue'),
+        ],
+        filterStrings: <String>[
+          if (widget.deepLinkData?.component(1) == 'assigned')
+            SearchQueries().assignee.toQueryString(user.login!),
+          if (widget.deepLinkData?.component(1) == 'mentioned')
+            SearchQueries().mentions.toQueryString(user.login!),
+        ],
+      ),
+      quickFilters: <String, String>{
+        SearchQueries().assignee.toQueryString(user.login!): 'Assigned',
+        SearchQueries().author.toQueryString(user.login!): 'Created',
+        SearchQueries().mentions.toQueryString(user.login!): 'Mentioned',
       },
-      quickOptions: {
+      quickOptions: <String, String>{
         SearchQueries().iS.toQueryString('open'): 'Open issues only',
       },
-      nestedScrollViewController: widget.nestedScrollViewController,
       searchBarMessage: 'Search in your issues',
-      searchHeroTag: '${_user.login}issueSearch',
+      searchHeroTag: '${user.login}issueSearch',
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      filterFn: (data) {
-        final filteredData = <IssueModel>[];
-        for (final item in data) {
+      filterFn: (final List<dynamic> data) {
+        final List<IssueModel> filteredData = <IssueModel>[];
+        for (final IssueModel item in data) {
           if (item.pullRequest == null) {
             filteredData.add(item);
           }

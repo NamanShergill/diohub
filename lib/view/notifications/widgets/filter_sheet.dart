@@ -1,43 +1,43 @@
 import 'package:collection/collection.dart';
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/type_cast.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
 
-typedef FilterChange = Function(Map, Map);
+typedef FilterChange = Function(TypeMap, TypeMap);
 
 class FilterSheet extends StatefulWidget {
-  const FilterSheet(
-      {Key? key,
-      required this.onFiltersChanged,
-      this.apiFilters,
-      this.clientFilters,
-      this.controller})
-      : super(key: key);
+  const FilterSheet({
+    required this.onFiltersChanged,
+    super.key,
+    this.apiFilters,
+    this.clientFilters,
+    this.controller,
+  });
 
   ///  Provides the selected filters, if any.
   final FilterChange onFiltersChanged;
 
   ///  Current API Filters.
-  final Map? apiFilters;
+  final TypeMap? apiFilters;
 
   /// Current client filters.
-  final Map? clientFilters;
+  final TypeMap? clientFilters;
 
   /// Controller to scroll the bottom sheet along with the [ListView].
   final ScrollController? controller;
 
   @override
-  _FilterSheetState createState() => _FilterSheetState();
+  FilterSheetState createState() => FilterSheetState();
 }
 
-class _FilterSheetState extends State<FilterSheet> {
-  Map<String, dynamic> apiFilters = {};
-  Map<String, dynamic> clientFilters = {};
+class FilterSheetState extends State<FilterSheet> {
+  Map<String, dynamic> apiFilters = <String, dynamic>{};
+  Map<String, dynamic> clientFilters = <String, dynamic>{};
 
   @override
   void initState() {
@@ -52,11 +52,11 @@ class _FilterSheetState extends State<FilterSheet> {
   void deepCopy() {
     apiFilters['all'] = widget.apiFilters!['all'];
     clientFilters['show_only'] =
-        widget.clientFilters!['show_only'].map((e) => e).toList();
+        widget.clientFilters!['show_only'].map((final dynamic e) => e).toList();
   }
 
-  // Todo: Add remove filters button.
-  void removeFilters(String key) {
+  // TODO(namanshergill): Add remove filters button.
+  void removeFilters(final String key) {
     apiFilters.remove(key);
     sendFilters();
   }
@@ -74,295 +74,304 @@ class _FilterSheetState extends State<FilterSheet> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ListView(
-          controller: widget.controller,
-          shrinkWrap: true,
-          children: [
-            section(contents: [
-              tileWrapper(
-                function: () {
-                  apiFilters['all'] = !apiFilters['all'];
-                },
-                child: SwitchListTile(
-                    value: !apiFilters['all'],
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
-                    title: Text(
-                      'Only unread notifications',
-                      style: Theme.of(context).textTheme.bodyText1,
+  Widget build(final BuildContext context) => Stack(
+        children: <Widget>[
+          ListView(
+            controller: widget.controller,
+            shrinkWrap: true,
+            children: <Widget>[
+              section(
+                contents: <Widget>[
+                  tileWrapper(
+                    function: () {
+                      apiFilters['all'] = !apiFilters['all'];
+                    },
+                    child: SwitchListTile.adaptive(
+                      value: !apiFilters['all'],
+                      activeColor: context.colorScheme.primary,
+                      title: Text(
+                        'Only unread notifications',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      onChanged: (final bool value) {},
                     ),
-                    onChanged: (value) {}),
+                  ),
+                ],
               ),
-            ]),
-            section(title: 'Show only', contents: [
-              tileWrapper(
-                function: () {
-                  if (clientFilters['show_only'].contains('assign')) {
-                    clientFilters['show_only'].remove('assign');
-                  } else {
-                    clientFilters['show_only'].add('assign');
-                  }
-                },
-                child: CheckboxListTile(
-                    secondary: const Icon(
-                      LineIcons.bullseye,
+              section(
+                title: 'Show only',
+                contents: <Widget>[
+                  tileWrapper(
+                    function: () {
+                      if (clientFilters['show_only'].contains('assign')) {
+                        clientFilters['show_only'].remove('assign');
+                      } else {
+                        clientFilters['show_only'].add('assign');
+                      }
+                    },
+                    child: CheckboxListTile(
+                      secondary: const Icon(
+                        MdiIcons.bullseye,
+                      ),
+                      value: clientFilters['show_only'].contains('assign'),
+                      // activeColor: context.colorScheme
+                      //     .primary,
+                      title: Text(
+                        'Assigned',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      onChanged: (final bool? value) {},
                     ),
-                    value: clientFilters['show_only'].contains('assign'),
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
-                    title: Text(
-                      'Assigned',
-                      style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  tileWrapper(
+                    function: () {
+                      if (clientFilters['show_only'].contains('author')) {
+                        clientFilters['show_only'].remove('author');
+                      } else {
+                        clientFilters['show_only'].add('author');
+                      }
+                    },
+                    child: CheckboxListTile(
+                      secondary: const Icon(
+                        MdiIcons.pen,
+                      ),
+                      value: clientFilters['show_only'].contains('author'),
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
+                      title: Text(
+                        'Author',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      onChanged: (final bool? value) {},
                     ),
-                    onChanged: (value) {}),
+                  ),
+                  tileWrapper(
+                    function: () {
+                      if (clientFilters['show_only'].contains('comment')) {
+                        clientFilters['show_only'].remove('comment');
+                      } else {
+                        clientFilters['show_only'].add('comment');
+                      }
+                    },
+                    child: CheckboxListTile(
+                      secondary: const Icon(
+                        MdiIcons.comment,
+                      ),
+                      value: clientFilters['show_only'].contains('comment'),
+                      activeColor: context.colorScheme.primary,
+                      title: Text(
+                        'Comment',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      onChanged: (final bool? value) {},
+                    ),
+                  ),
+                  tileWrapper(
+                    function: () {
+                      if (clientFilters['show_only'].contains('invitation')) {
+                        clientFilters['show_only'].remove('invitation');
+                      } else {
+                        clientFilters['show_only'].add('invitation');
+                      }
+                    },
+                    child: CheckboxListTile(
+                      secondary: const Icon(
+                        Octicons.mail,
+                      ),
+                      value: clientFilters['show_only'].contains('invitation'),
+                      // activeColor:context.colorScheme.primary,
+                      title: Text(
+                        'Invitation',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      onChanged: (final bool? value) {},
+                    ),
+                  ),
+                  tileWrapper(
+                    function: () {
+                      if (clientFilters['show_only'].contains('manual')) {
+                        clientFilters['show_only'].remove('manual');
+                      } else {
+                        clientFilters['show_only'].add('manual');
+                      }
+                    },
+                    child: CheckboxListTile(
+                      secondary: const Icon(
+                        MdiIcons.information,
+                      ),
+                      value: clientFilters['show_only'].contains('manual'),
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
+                      title: Text(
+                        'Following',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      onChanged: (final bool? value) {},
+                    ),
+                  ),
+                  tileWrapper(
+                    function: () {
+                      if (clientFilters['show_only'].contains('mention')) {
+                        clientFilters['show_only'].remove('mention');
+                      } else {
+                        clientFilters['show_only'].add('mention');
+                      }
+                    },
+                    child: CheckboxListTile(
+                      secondary: const Icon(
+                        MdiIcons.at,
+                      ),
+                      value: clientFilters['show_only'].contains('mention'),
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
+                      title: Text(
+                        'Mentioned',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      onChanged: (final bool? value) {},
+                    ),
+                  ),
+                  tileWrapper(
+                    function: () {
+                      if (clientFilters['show_only']
+                          .contains('review_requested')) {
+                        clientFilters['show_only'].remove('review_requested');
+                      } else {
+                        clientFilters['show_only'].add('review_requested');
+                      }
+                    },
+                    child: CheckboxListTile(
+                      secondary: const Icon(
+                        Icons.search_rounded,
+                      ),
+                      value: clientFilters['show_only']
+                          .contains('review_requested'),
+                      activeColor: context.colorScheme.primary,
+                      title: Text(
+                        'Review Requested',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      onChanged: (final bool? value) {},
+                    ),
+                  ),
+                  tileWrapper(
+                    function: () {
+                      if (clientFilters['show_only']
+                          .contains('security_alert')) {
+                        clientFilters['show_only'].remove('security_alert');
+                      } else {
+                        clientFilters['show_only'].add('security_alert');
+                      }
+                    },
+                    child: CheckboxListTile(
+                      secondary: const Icon(
+                        MdiIcons.security,
+                      ),
+                      value:
+                          clientFilters['show_only'].contains('security_alert'),
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
+                      title: Text(
+                        'Security Alert',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      onChanged: (final bool? value) {},
+                    ),
+                  ),
+                  tileWrapper(
+                    function: () {
+                      if (clientFilters['show_only'].contains('state_change')) {
+                        clientFilters['show_only'].remove('state_change');
+                      } else {
+                        clientFilters['show_only'].add('state_change');
+                      }
+                    },
+                    child: CheckboxListTile(
+                      secondary: const Icon(
+                        Octicons.git_pull_request,
+                      ),
+                      value:
+                          clientFilters['show_only'].contains('state_change'),
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
+                      title: Text(
+                        'Actions',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      onChanged: (final bool? value) {},
+                    ),
+                  ),
+                  tileWrapper(
+                    function: () {
+                      if (clientFilters['show_only'].contains('subscribed')) {
+                        clientFilters['show_only'].remove('subscribed');
+                      } else {
+                        clientFilters['show_only'].add('subscribed');
+                      }
+                    },
+                    child: CheckboxListTile(
+                      secondary: const Icon(
+                        MdiIcons.information,
+                      ),
+                      value: clientFilters['show_only'].contains('subscribed'),
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
+                      title: Text(
+                        'Subscribed',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      onChanged: (final bool? value) {},
+                    ),
+                  ),
+                  tileWrapper(
+                    function: () {
+                      if (clientFilters['show_only'].contains('team_mention')) {
+                        clientFilters['show_only'].remove('team_mention');
+                      } else {
+                        clientFilters['show_only'].add('team_mention');
+                      }
+                    },
+                    child: CheckboxListTile(
+                      secondary: const Icon(
+                        MdiIcons.message,
+                      ),
+                      value:
+                          clientFilters['show_only'].contains('team_mention'),
+                      // activeColor: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .accent,
+                      title: Text(
+                        'Team Mention',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      onChanged: (final bool? value) {},
+                    ),
+                  ),
+                ],
               ),
-              tileWrapper(
-                function: () {
-                  if (clientFilters['show_only'].contains('author')) {
-                    clientFilters['show_only'].remove('author');
-                  } else {
-                    clientFilters['show_only'].add('author');
-                  }
-                },
-                child: CheckboxListTile(
-                    secondary: const Icon(
-                      LineIcons.pen,
-                    ),
-                    value: clientFilters['show_only'].contains('author'),
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
-                    title: Text(
-                      'Author',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    onChanged: (value) {}),
-              ),
-              tileWrapper(
-                function: () {
-                  if (clientFilters['show_only'].contains('comment')) {
-                    clientFilters['show_only'].remove('comment');
-                  } else {
-                    clientFilters['show_only'].add('comment');
-                  }
-                },
-                child: CheckboxListTile(
-                    secondary: const Icon(
-                      LineIcons.comment,
-                    ),
-                    value: clientFilters['show_only'].contains('comment'),
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
-                    title: Text(
-                      'Comment',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    onChanged: (value) {}),
-              ),
-              tileWrapper(
-                function: () {
-                  if (clientFilters['show_only'].contains('invitation')) {
-                    clientFilters['show_only'].remove('invitation');
-                  } else {
-                    clientFilters['show_only'].add('invitation');
-                  }
-                },
-                child: CheckboxListTile(
-                    secondary: const Icon(
-                      LineIcons.envelopeOpen,
-                    ),
-                    value: clientFilters['show_only'].contains('invitation'),
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
-                    title: Text(
-                      'Invitation',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    onChanged: (value) {}),
-              ),
-              tileWrapper(
-                function: () {
-                  if (clientFilters['show_only'].contains('manual')) {
-                    clientFilters['show_only'].remove('manual');
-                  } else {
-                    clientFilters['show_only'].add('manual');
-                  }
-                },
-                child: CheckboxListTile(
-                    secondary: const Icon(
-                      LineIcons.exclamationCircle,
-                    ),
-                    value: clientFilters['show_only'].contains('manual'),
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
-                    title: Text(
-                      'Following',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    onChanged: (value) {}),
-              ),
-              tileWrapper(
-                function: () {
-                  if (clientFilters['show_only'].contains('mention')) {
-                    clientFilters['show_only'].remove('mention');
-                  } else {
-                    clientFilters['show_only'].add('mention');
-                  }
-                },
-                child: CheckboxListTile(
-                    secondary: const Icon(
-                      LineIcons.at,
-                    ),
-                    value: clientFilters['show_only'].contains('mention'),
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
-                    title: Text(
-                      'Mentioned',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    onChanged: (value) {}),
-              ),
-              tileWrapper(
-                function: () {
-                  if (clientFilters['show_only'].contains('review_requested')) {
-                    clientFilters['show_only'].remove('review_requested');
-                  } else {
-                    clientFilters['show_only'].add('review_requested');
-                  }
-                },
-                child: CheckboxListTile(
-                    secondary: const Icon(
-                      LineIcons.search,
-                    ),
-                    value:
-                        clientFilters['show_only'].contains('review_requested'),
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
-                    title: Text(
-                      'Review Requested',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    onChanged: (value) {}),
-              ),
-              tileWrapper(
-                function: () {
-                  if (clientFilters['show_only'].contains('security_alert')) {
-                    clientFilters['show_only'].remove('security_alert');
-                  } else {
-                    clientFilters['show_only'].add('security_alert');
-                  }
-                },
-                child: CheckboxListTile(
-                    secondary: const Icon(
-                      LineIcons.userSecret,
-                    ),
-                    value:
-                        clientFilters['show_only'].contains('security_alert'),
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
-                    title: Text(
-                      'Security Alert',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    onChanged: (value) {}),
-              ),
-              tileWrapper(
-                function: () {
-                  if (clientFilters['show_only'].contains('state_change')) {
-                    clientFilters['show_only'].remove('state_change');
-                  } else {
-                    clientFilters['show_only'].add('state_change');
-                  }
-                },
-                child: CheckboxListTile(
-                    secondary: const Icon(
-                      Octicons.git_pull_request,
-                    ),
-                    value: clientFilters['show_only'].contains('state_change'),
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
-                    title: Text(
-                      'Actions',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    onChanged: (value) {}),
-              ),
-              tileWrapper(
-                function: () {
-                  if (clientFilters['show_only'].contains('subscribed')) {
-                    clientFilters['show_only'].remove('subscribed');
-                  } else {
-                    clientFilters['show_only'].add('subscribed');
-                  }
-                },
-                child: CheckboxListTile(
-                    secondary: const Icon(
-                      LineIcons.envelope,
-                    ),
-                    value: clientFilters['show_only'].contains('subscribed'),
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
-                    title: Text(
-                      'Subscribed',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    onChanged: (value) {}),
-              ),
-              tileWrapper(
-                function: () {
-                  if (clientFilters['show_only'].contains('team_mention')) {
-                    clientFilters['show_only'].remove('team_mention');
-                  } else {
-                    clientFilters['show_only'].add('team_mention');
-                  }
-                },
-                child: CheckboxListTile(
-                    secondary: const Icon(
-                      LineIcons.teamspeak,
-                    ),
-                    value: clientFilters['show_only'].contains('team_mention'),
-                    activeColor: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .accent,
-                    title: Text(
-                      'Team Mention',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    onChanged: (value) {}),
-              ),
-            ]),
-          ],
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizeExpandedSection(
-                expand: isModified(),
-                child: Container(
-                  color: Provider.of<PaletteSettings>(context)
-                      .currentSetting
-                      .primary,
+            ],
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                SizeExpandedSection(
+                  expand: isModified(),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 16.0, horizontal: 8),
+                          vertical: 16,
+                          horizontal: 8,
+                        ),
                         child: Button(
                           onTap: () {
                             sendFilters();
@@ -370,75 +379,69 @@ class _FilterSheetState extends State<FilterSheet> {
                               Navigator.pop(context);
                             }
                           },
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .secondary,
+                          // color: Provider.of<PaletteSettings>(context)
+                          //     .currentSetting
+                          //     .secondary,
                           child: Text(
                             'Apply Filters',
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget section({String? title, required List<Widget> contents}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Visibility(
-            visible: title != null,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Text(
-                title ?? '',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
+              ],
             ),
           ),
-          Column(
-            children: contents,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
         ],
-      ),
-    );
-  }
+      );
 
-  Widget tileWrapper({Widget? child, Function? function}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Material(
-        elevation: 2,
-        borderRadius: medBorderRadius,
-        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-        child: InkWell(
-          borderRadius: medBorderRadius,
-          onTap: () {
-            setState(() {
-              function!();
-            });
-          },
-          child: IgnorePointer(
-            child: child ?? Container(),
+  Widget section({required final List<Widget> contents, final String? title}) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Visibility(
+              visible: title != null,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Text(
+                  title ?? '',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            Column(
+              children: contents,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+          ],
+        ),
+      );
+
+  Widget tileWrapper({final Widget? child, final Function()? function}) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Card(
+          // color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+          child: InkWell(
+            borderRadius: medBorderRadius,
+            onTap: () {
+              setState(() {
+                function?.call();
+              });
+            },
+            child: IgnorePointer(
+              child: child ?? Container(),
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

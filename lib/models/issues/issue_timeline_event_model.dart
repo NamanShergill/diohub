@@ -4,9 +4,9 @@
 
 import 'dart:convert';
 
-import 'package:dio_hub/models/commits/commit_model.dart';
-import 'package:dio_hub/models/events/events_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:diohub/models/commits/commit_model.dart';
+import 'package:diohub/models/events/events_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
 
 import 'issue_model.dart';
 

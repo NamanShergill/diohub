@@ -21,7 +21,7 @@ It is under active development and aims to implement all the available features 
 
 ---
 
-## Features:
+## Features
 
 - Comprehensive Issues/Pulls timelines and discussion, with ability to view and reply to review comments
 
@@ -65,13 +65,14 @@ It is under active development and aims to implement all the available features 
 - [Install Flutter on your system.](https://flutter.dev/docs/get-started/install)
 - [Create a GitHub OAuth application.](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app)
   - Set the `Authorization callback URL` to `auth.felix.diohub://login-callback`.
-- Create a file under `lib\app` named `keys.dart` with the following content:
+- Run `git submodule update --init` in the project directory. 
+- Create a file under `lib/app` named `keys.dart` with the following content:
     ```dart
   class PrivateKeys {
   static const clientID = '<ClientID of the app from the previous step>';
   static const clientSecret = '<ClientSecret of the app from the previous step>';
   }
   ```
-- Run `flutter pub get` and build the project.
+- Run `flutter pub get` and [build](https://docs.flutter.dev/get-started/test-drive) the project.
 
 This readme is just an initial draft so apologies for it not being as comprehensive.

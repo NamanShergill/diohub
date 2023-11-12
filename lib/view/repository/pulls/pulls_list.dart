@@ -1,40 +1,40 @@
-import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
-import 'package:dio_hub/providers/repository/repository_provider.dart';
-import 'package:dio_hub/providers/users/current_user_provider.dart';
+import 'package:diohub/common/search_overlay/filters.dart';
+import 'package:diohub/common/search_overlay/search_overlay.dart';
+import 'package:diohub/common/wrappers/search_scroll_wrapper.dart';
+import 'package:diohub/models/users/current_user_info_model.dart';
+import 'package:diohub/providers/repository/repository_provider.dart';
+import 'package:diohub/providers/users/current_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PullsList extends StatelessWidget {
-  const PullsList({required this.nestedScrollViewController, Key? key})
-      : super(key: key);
-  final ScrollController nestedScrollViewController;
+  const PullsList({super.key});
   @override
-  Widget build(BuildContext context) {
-    final _repo = Provider.of<RepositoryProvider>(context);
-    final _user = Provider.of<CurrentUserProvider>(context).data;
+  Widget build(final BuildContext context) {
+    final RepositoryProvider repo = Provider.of<RepositoryProvider>(context);
+    final CurrentUserInfoModel user =
+        Provider.of<CurrentUserProvider>(context).data;
 
     return SearchScrollWrapper(
       SearchData(
-          searchFilters:
-              SearchFilters.issuesPulls(blacklist: [SearchQueryStrings.type]),
-          defaultHiddenFilters: [
-            SearchQueries().type.toQueryString('pr'),
-            SearchQueries().repo.toQueryString(_repo.data.fullName!),
-          ]),
-      quickFilters: {
-        SearchQueries().assignee.toQueryString(_user.login!): 'Assigned to you',
-        SearchQueries().author.toQueryString(_user.login!):
-            'Your pull requests',
-        SearchQueries().mentions.toQueryString(_user.login!): 'Mentions you',
+        searchFilters: SearchFilters.issuesPulls(
+          blacklist: <String>[SearchQueryStrings.type],
+        ),
+        defaultHiddenFilters: <String>[
+          SearchQueries().type.toQueryString('pr'),
+          SearchQueries().repo.toQueryString(repo.data.fullName!),
+        ],
+      ),
+      quickFilters: <String, String>{
+        SearchQueries().assignee.toQueryString(user.login!): 'Assigned to you',
+        SearchQueries().author.toQueryString(user.login!): 'Your pull requests',
+        SearchQueries().mentions.toQueryString(user.login!): 'Mentions you',
       },
-      quickOptions: {
+      quickOptions: <String, String>{
         SearchQueries().iS.toQueryString('open'): 'Open pull requests only',
       },
-      nestedScrollViewController: nestedScrollViewController,
       searchBarPadding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-      searchBarMessage: 'Search in ${_repo.data.name}\'s pull requests',
+      searchBarMessage: "Search in ${repo.data.name}'s pull requests",
       searchHeroTag: 'repoPRSearch',
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       // replacementBuilder: (SearchData data, header, child) {

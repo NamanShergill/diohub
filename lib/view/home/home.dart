@@ -1,44 +1,44 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/events/events.dart';
-import 'package:dio_hub/common/misc/app_tab_bar.dart';
-import 'package:dio_hub/common/misc/collapsible_app_bar.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/common/misc/shimmer_widget.dart';
-import 'package:dio_hub/common/search_overlay/search_bar.dart';
-import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/controller/deep_linking_handler.dart';
-import 'package:dio_hub/graphql/graphql.graphql.dart';
-import 'package:dio_hub/providers/search_data_provider.dart';
-import 'package:dio_hub/providers/users/current_user_provider.dart';
-import 'package:dio_hub/services/users/user_info_service.dart';
-import 'package:dio_hub/view/home/widgets/issues_tab.dart';
-import 'package:dio_hub/view/home/widgets/pulls_tab.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/common/misc/scroll_scaffold.dart';
+import 'package:diohub/common/misc/shimmer_widget.dart';
+import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
+import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:diohub/graphql/queries/viewer/__generated__/viewer.query.data.gql.dart';
+import 'package:diohub/providers/base_provider.dart';
+import 'package:diohub/providers/users/current_user_provider.dart';
+import 'package:diohub/services/users/user_info_service.dart';
+import 'package:diohub/utils/utils.dart';
+import 'package:diohub/view/home/widgets/issues_tab.dart';
+import 'package:diohub/view/home/widgets/pulls_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
+
+import '../../common/events/events.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen(
-      {Key? key, this.deepLinkData, required this.parentTabController})
-      : super(key: key);
-  final DeepLinkData? deepLinkData;
-  final TabController parentTabController;
+  const HomeScreen({
+    required this.tabNavigators, // required this.parentTabController,
+    super.key,
+    this.deepLinkData,
+  });
+  final PathData? deepLinkData;
+  final ({VoidCallback toSearch, VoidCallback toProfile}) tabNavigators;
+  // final TabController parentTabController;
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
+class HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   @override
   bool get wantKeepAlive => true;
   late TabController _tabController;
-  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, initialIndex: 0, length: 5);
+    _tabController = TabController(vsync: this, length: 5);
     if (widget.deepLinkData?.components.first == 'issues') {
       _tabController.index = 1;
     } else if (widget.deepLinkData?.components.first == 'pulls') {
@@ -48,163 +48,289 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   @override
-  Widget build(BuildContext context) {
-    final _search = Provider.of<SearchDataProvider>(context);
-
+  Widget build(final BuildContext context) {
     super.build(context);
-    return NestedScrollView(
-      controller: scrollController,
-      headerSliverBuilder: (context, _) {
-        return [
-          SliverOverlapAbsorber(
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-            sliver: SliverSafeArea(
-              sliver: SliverAppBar(
-                expandedHeight: 300,
-                collapsedHeight: 155,
-                pinned: true,
-                elevation: 2,
-                backgroundColor: Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .primary,
-                flexibleSpace: Padding(
-                  padding: const EdgeInsets.only(bottom: 30.0),
-                  child: CollapsibleAppBar(
-                    minHeight: 155,
-                    maxHeight: 300,
-                    title: 'Home',
-                    trailing: ClipOval(
-                      child: InkWell(
-                        onTap: () {
-                          widget.parentTabController.animateTo(3);
-                        },
-                        child:
-                            ProviderLoadingProgressWrapper<CurrentUserProvider>(
-                          childBuilder: (context, value) => CachedNetworkImage(
-                            imageUrl: value.data.avatarUrl!,
-                            placeholder: (context, _) {
-                              return ShimmerWidget(
-                                child: Container(
-                                  color: Colors.grey,
-                                ),
-                              );
-                            },
+    return ScrollScaffold(
+      appBar: AppBar(
+        title: switch (context.providerStatus<CurrentUserProvider>()) {
+          Status.loaded => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ClipOval(
+                  child: InkWell(
+                    onTap: () {
+                      widget.tabNavigators.toProfile();
+                    },
+                    child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
+                      childBuilder: (
+                        final BuildContext context,
+                        final CurrentUserProvider value,
+                      ) =>
+                          CachedNetworkImage(
+                        height: 32,
+                        imageUrl: value.data.avatarUrl!,
+                        placeholder: (final BuildContext context, final _) =>
+                            ShimmerWidget(
+                          child: Container(
+                            color: context.colorScheme.surface,
                           ),
-                          errorBuilder: (context, error) {
-                            return const Icon(
-                              LineIcons.exclamationCircle,
-                              size: 40,
-                            );
-                          },
-                          loadingBuilder: (context) {
-                            return ShimmerWidget(
-                              child: Container(
-                                color: Colors.grey,
-                              ),
-                            );
-                          },
                         ),
                       ),
-                    ),
-                    child: SearchBar(
-                      updateBarOnChange: false,
-                      onSubmit: (data) {
-                        _search.updateSearchData(data);
-                        widget.parentTabController.animateTo(1);
-                      },
-                      heroTag: 'homeSearchBar',
-                    ),
-                  ),
-                ),
-                bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(0),
-                  child: Container(
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .primary,
-                    child: AppTabBar(
-                      controller: _tabController,
-                      tabs: const [
-                        'Activity',
-                        'Issues',
-                        'Pull Requests',
-                        'Organizations',
-                        'Public Activity',
-                      ],
+                      errorBuilder:
+                          (final BuildContext context, final Object error) =>
+                              const Icon(
+                        MdiIcons.exclamation,
+                        size: 25,
+                      ),
+                      loadingBuilder: (final BuildContext context) =>
+                          const ShimmerWidget(),
                     ),
                   ),
                 ),
-              ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  context.provider<CurrentUserProvider>().data.login!,
+                  style: context.textTheme.bodyLarge?.asBold(),
+                ),
+              ],
+            ),
+          _ => null,
+        },
+      ),
+      // subHeader: Padding(
+      //   padding: const EdgeInsets.only(bottom: 8),
+      //   child: TabBar(
+      //     isScrollable: true,
+      //     controller: _tabController,
+      //     tabs: const <String>[
+      //       'Feed',
+      //       'Issues',
+      //       'Pull Requests',
+      //       'Organizations',
+      //       'Public Activity',
+      //     ]
+      //         .map(
+      //           (final String e) => Tab(
+      //             child: Padding(
+      //               padding: const EdgeInsets.all(8.0),
+      //               child: Text(e),
+      //             ),
+      //           ),
+      //         )
+      //         .toList(),
+      //   ),
+      // ),
+      // header: Padding(
+      //   padding: const EdgeInsets.all(8.0),
+      //   child: const SearchBar(),
+      // ),
+      body: TabBarView(
+        controller: _tabController,
+        physics: const BouncingScrollPhysics(),
+        children: <Widget>[
+          const Events(),
+          IssuesTab(
+            deepLinkData: widget.deepLinkData?.components.first == 'issues'
+                ? widget.deepLinkData
+                : null,
+          ),
+          PullsTab(
+            deepLinkData: widget.deepLinkData?.components.first == 'pulls'
+                ? widget.deepLinkData
+                : null,
+          ),
+          InfiniteScrollWrapper<GgetViewerOrgsData_viewer_organizations_edges?>(
+            future: (
+              final ({
+                GgetViewerOrgsData_viewer_organizations_edges? lastItem,
+                int pageNumber,
+                int pageSize,
+                bool refresh
+              }) data,
+            ) async =>
+                UserInfoService.getViewerOrgs(
+              refresh: data.refresh,
+              after: data.lastItem?.cursor,
+            ),
+            separatorBuilder: (final BuildContext context, final int index) =>
+                const Divider(
+              height: 8,
+            ),
+            listEndIndicator: false,
+            // divider: false,
+            builder: (
+              final BuildContext context,
+              final ({
+                int index,
+                GgetViewerOrgsData_viewer_organizations_edges? item,
+                bool refresh
+              }) data,
+            ) =>
+                Row(
+              children: <Widget>[
+                Expanded(
+                  child: ProfileTile.login(
+                    avatarUrl: data.item?.node?.avatarUrl.toString(),
+                    userLogin: data.item?.node?.login,
+                    padding: const EdgeInsets.all(16),
+                    size: 30,
+                  ),
+                ),
+              ],
             ),
           ),
-        ];
-      },
-      body: Container(
-        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-        child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
-          childBuilder: (context, value) {
-            return Builder(
-              builder: (context) {
-                NestedScrollView.sliverOverlapAbsorberHandleFor(context);
-                return TabBarView(
-                  controller: _tabController,
-                  physics: const BouncingScrollPhysics(),
-                  children: [
-                    Events(
-                      nestedScrollViewController: scrollController,
-                    ),
-                    IssuesTab(
-                      nestedScrollViewController: scrollController,
-                      deepLinkData:
-                          widget.deepLinkData?.components.first == 'issues'
-                              ? widget.deepLinkData
-                              : null,
-                    ),
-                    PullsTab(
-                      nestedScrollViewController: scrollController,
-                      deepLinkData:
-                          widget.deepLinkData?.components.first == 'pulls'
-                              ? widget.deepLinkData
-                              : null,
-                    ),
-                    InfiniteScrollWrapper<
-                        GetViewerOrgs$Query$Viewer$Organizations$Edges?>(
-                      future: (pageNumber, pageSize, refresh, lastItem) {
-                        return UserInfoService.getViewerOrgs(
-                            refresh: refresh, after: lastItem?.cursor);
-                      },
-                      firstDivider: false,
-                      topSpacing: 8,
-                      listEndIndicator: false,
-                      // divider: false,
-                      builder: (context, item, index, refresh) {
-                        return Row(
-                          children: [
-                            Expanded(
-                              child: ProfileTile(
-                                item!.node?.avatarUrl.toString(),
-                                userLogin: item.node?.login,
-                                showName: true,
-                                padding: const EdgeInsets.all(16),
-                                size: 30,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    Events(
-                      privateEvents: false,
-                      nestedScrollViewController: scrollController,
-                    ),
-                  ],
-                );
-              },
-            );
-          },
-        ),
+          const Events(
+            privateEvents: false,
+          ),
+        ],
       ),
     );
+    // return NestedScroll(
+    //   header: (
+    //     final BuildContext context, {
+    //     required final bool isInnerBoxScrolled,
+    //   }) =>
+    //       <Widget>[
+    //     SliverAppBar(
+    //       expandedHeight: 300,
+    //       collapsedHeight: 100,
+    //       pinned: true,
+    //       // backgroundColor:
+    //       //     c,
+    //       flexibleSpace: Padding(
+    //         padding: const EdgeInsets.only(bottom: 30),
+    //         child: CollapsibleAppBar(
+    //           minHeight: 100,
+    //           maxHeight: 300,
+    //           title: 'Home',
+    //           trailing: ClipOval(
+    //             child: InkWell(
+    //               onTap: () {
+    //                 widget.tabNavigators.toProfile();
+    //               },
+    //               child: ProviderLoadingProgressWrapper<CurrentUserProvider>(
+    //                 childBuilder: (
+    //                   final BuildContext context,
+    //                   final CurrentUserProvider value,
+    //                 ) =>
+    //                     CachedNetworkImage(
+    //                   imageUrl: value.data.avatarUrl!,
+    //                   placeholder: (final BuildContext context, final _) =>
+    //                       ShimmerWidget(
+    //                     child: Container(
+    //                       color: grey,
+    //                     ),
+    //                   ),
+    //                 ),
+    //                 errorBuilder:
+    //                     (final BuildContext context, final Object error) =>
+    //                         const Icon(
+    //                   LineIcons.exclamationCircle,
+    //                   size: 40,
+    //                 ),
+    //                 loadingBuilder: (final BuildContext context) =>
+    //                     ShimmerWidget(
+    //                   child: Container(
+    //                     color: grey,
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //           child: AppSearchBar(
+    //             updateBarOnChange: false,
+    //             onSubmit: (final SearchData data) {
+    //               search.updateSearchData(data);
+    //               widget.tabNavigators.toSearch();
+    //             },
+    //             heroTag: 'homeSearchBar',
+    //           ),
+    //         ),
+    //       ),
+    //       bottom: TabBar(
+    //         isScrollable: true,
+    //         controller: _tabController,
+    //         tabs: const <String>[
+    //           'Activity',
+    //           'Issues',
+    //           'Pull Requests',
+    //           'Organizations',
+    //           'Public Activity',
+    //         ]
+    //             .map(
+    //               (e) => Tab(
+    //                 text: e,
+    //               ),
+    //             )
+    //             .toList(),
+    //       ),
+    //     ),
+    //   ],
+    //   body: TabBarView(
+    //     controller: _tabController,
+    //     physics: const BouncingScrollPhysics(),
+    //     children: <Widget>[
+    //       const Events(),
+    //       IssuesTab(
+    //         deepLinkData: widget.deepLinkData?.components.first == 'issues'
+    //             ? widget.deepLinkData
+    //             : null,
+    //       ),
+    //       PullsTab(
+    //         deepLinkData: widget.deepLinkData?.components.first == 'pulls'
+    //             ? widget.deepLinkData
+    //             : null,
+    //       ),
+    //       InfiniteScrollWrapper<
+    //           GetViewerOrgs$Query$Viewer$Organizations$Edges?>(
+    //         future: (
+    //           final ({
+    //             GetViewerOrgs$Query$Viewer$Organizations$Edges? lastItem,
+    //             int pageNumber,
+    //             int pageSize,
+    //             bool refresh
+    //           }) data,
+    //         ) async =>
+    //             UserInfoService.getViewerOrgs(
+    //           refresh: data.refresh,
+    //           after: data.lastItem?.cursor,
+    //         ),
+    //         separatorBuilder: (final BuildContext context, final int index) =>
+    //             const Divider(
+    //           height: 8,
+    //         ),
+    //         topSpacing: 8,
+    //         listEndIndicator: false,
+    //         // divider: false,
+    //         builder: (
+    //           final BuildContext context,
+    //           final ({
+    //             int index,
+    //             GetViewerOrgs$Query$Viewer$Organizations$Edges? item,
+    //             bool refresh
+    //           }) data,
+    //         ) =>
+    //             Row(
+    //           children: <Widget>[
+    //             Expanded(
+    //               child: ProfileTile.login(
+    //                 avatarUrl: data.item?.node?.avatarUrl.toString(),
+    //                 userLogin: data.item?.node?.login,
+    //                 padding: const EdgeInsets.all(16),
+    //                 size: 30,
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //       const Events(
+    //         privateEvents: false,
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }
 //
@@ -230,8 +356,8 @@ class _HomeScreenState extends State<HomeScreen>
 //                   children: [
 //                     Text(
 //                       'Home',
-//                       style: Theme.of(context).textTheme.headline4!.copyWith(
-//                           color: Colors.white, fontWeight: FontWeight.bold),
+//                       style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+//                           color: white, fontWeight: FontWeight.bold),
 //                     ),
 //                     const SizedBox(
 //                       height: 60,

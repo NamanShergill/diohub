@@ -1,80 +1,153 @@
-import 'package:animations/animations.dart';
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/view/authentication/auth_screen.dart';
-import 'package:dio_hub/view/issues_pulls/issue_screen.dart';
-import 'package:dio_hub/view/issues_pulls/pull_screen.dart';
-import 'package:dio_hub/view/issues_pulls/widgets/p_r_review_screen.dart';
-import 'package:dio_hub/view/landing/landing.dart';
-import 'package:dio_hub/view/landing/widgets/landing_loading_screen.dart';
-import 'package:dio_hub/view/landing/widgets/place_holder_screen.dart';
-import 'package:dio_hub/view/profile/other_user_profile_screen.dart';
-import 'package:dio_hub/view/repository/code/file_viewer.dart';
-import 'package:dio_hub/view/repository/commits/commit_info_screen.dart';
-import 'package:dio_hub/view/repository/commits/widgets/changes_viewer.dart';
-import 'package:dio_hub/view/repository/issues/new_issue_screen.dart';
-import 'package:dio_hub/view/repository/repository_screen.dart';
-import 'package:dio_hub/view/repository/wiki/wiki_viewer.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
+import 'package:diohub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:diohub/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // flutter packages pub run build_runner watch --delete-conflicting-outputs
 
-@CustomAutoRouter(
-  transitionsBuilder: fadeThroughTransition,
-  // durationInMilliseconds: 250,
-  routes: <AutoRoute>[
-    AutoRoute(page: AuthScreen),
-    AutoRoute(page: LandingLoadingScreen, guards: [AuthGuard], initial: true),
-    AutoRoute(page: LandingScreen, guards: [AuthGuard]),
-    AutoRoute(page: PlaceHolderScreen, guards: [AuthGuard]),
-    CustomRoute(
-        page: SearchOverlayScreen,
-        transitionsBuilder: TransitionsBuilders.fadeIn,
-        guards: [AuthGuard]),
-    AutoRoute(page: IssueScreen, guards: [AuthGuard]),
-    AutoRoute(page: PullScreen, guards: [AuthGuard]),
-    AutoRoute(page: RepositoryScreen, guards: [AuthGuard]),
-    AutoRoute(page: FileViewerAPI, guards: [AuthGuard]),
-    AutoRoute(page: CommitInfoScreen, guards: [AuthGuard]),
-    AutoRoute(page: WikiViewer, guards: [AuthGuard]),
-    AutoRoute(page: ChangesViewer, guards: [AuthGuard]),
-    AutoRoute(page: OtherUserProfileScreen, guards: [AuthGuard]),
-    AutoRoute(page: NewIssueScreen, guards: [AuthGuard]),
-    AutoRoute(page: PRReviewScreen, guards: [AuthGuard]),
-    // AutoRoute(page: DependenciesScreen, guards: [AuthGuard]),
-    // AutoRoute(page: OssLicenseScreen, guards: [AuthGuard]),
-  ],
-)
-class $AppRouter {}
+StackRouter autoRoute(final BuildContext context) => AutoRouter.of(context);
+
+@AutoRouterConfig()
+class AppRouter extends $AppRouter {
+  AppRouter(final BuildContext context) : authGuard = AuthGuard(context);
+  final AuthGuard authGuard;
+  @override
+  RouteType get defaultRouteType => const RouteType.adaptive();
+
+  @override
+  List<AutoRoute> get routes => <AutoRoute>[
+        AutoRoute(page: AuthRoute.page),
+        AutoRoute(
+          page: LandingLoadingRoute.page,
+          guards: <AutoRouteGuard>[
+            authGuard,
+          ],
+          initial: true,
+        ),
+        AutoRoute(
+          page: LandingRoute.page,
+          guards: <AutoRouteGuard>[
+            authGuard,
+          ],
+        ),
+        AutoRoute(
+          page: PlaceHolderRoute.page,
+          guards: <AutoRouteGuard>[
+            authGuard,
+          ],
+        ),
+        CustomRoute(
+          page: SearchOverlayRoute.page,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          guards: <AutoRouteGuard>[authGuard],
+        ),
+        AutoRoute(
+          page: IssuePullRoute.page,
+          guards: <AutoRouteGuard>[
+            authGuard,
+          ],
+        ),
+        AutoRoute(
+          page: RepositoryRoute.page,
+          guards: <AutoRouteGuard>[
+            authGuard,
+          ],
+        ),
+        AutoRoute(
+          page: FileViewerAPI.page,
+          guards: <AutoRouteGuard>[
+            authGuard,
+          ],
+        ),
+        AutoRoute(
+          page: CommitInfoRoute.page,
+          guards: <AutoRouteGuard>[
+            authGuard,
+          ],
+        ),
+        AutoRoute(
+          page: WikiViewer.page,
+          guards: <AutoRouteGuard>[
+            authGuard,
+          ],
+        ),
+        AutoRoute(
+          page: ChangesViewer.page,
+          guards: <AutoRouteGuard>[
+            authGuard,
+          ],
+        ),
+        AutoRoute(
+          page: OtherUserProfileRoute.page,
+          guards: <AutoRouteGuard>[
+            authGuard,
+          ],
+        ),
+        AutoRoute(
+          page: NewIssueRoute.page,
+          guards: <AutoRouteGuard>[
+            authGuard,
+          ],
+        ),
+        AutoRoute(
+          page: PRReviewRoute.page,
+          guards: <AutoRouteGuard>[
+            authGuard,
+          ],
+        ),
+      ];
+}
+
+// class $AppRouter {}
 
 class AuthGuard extends AutoRouteGuard {
   AuthGuard(this.context);
   final BuildContext context;
   @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
+  void onNavigation(
+    final NavigationResolver resolver,
+    final StackRouter router,
+  ) {
     if (!BlocProvider.of<AuthenticationBloc>(context).state.authenticated) {
-      router.replaceAll([
-        AuthScreenRoute(onAuthenticated: () {
-          router.removeLast();
-          resolver.next(true);
-        }),
-      ]);
+      unawaited(
+        router.replaceAll(
+          <PageRouteInfo>[
+            AuthRoute(
+              onAuthenticated: () {
+                router.removeLast();
+                resolver.next();
+              },
+            ),
+          ],
+        ),
+      );
     } else {
-      resolver.next(true);
+      resolver.next();
     }
   }
 }
 
-Widget fadeThroughTransition(BuildContext context, Animation<double> animation,
-    Animation<double> secondaryAnimation, Widget child) {
-  return FadeThroughTransition(
-    animation: animation,
-    secondaryAnimation: secondaryAnimation,
-    fillColor: secondary(context),
-    child: child,
-  );
+// Widget fadeThroughTransition(BuildContext context, Animation<double> animation,
+//     Animation<double> secondaryAnimation, Widget child) {
+//   return FadeThroughTransition(
+//     animation: animation,
+//     secondaryAnimation: secondaryAnimation,
+//     fillColor: secondary(context),
+//     child: child,
+//   );
+// }
+
+T getRoute<T extends PageRouteInfo>(
+  final PathData path, {
+  required final T Function(PathData path) onDeepLink,
+  final T Function(PathData path)? onAPILink,
+}) {
+  if (path.isAPIPath && onAPILink != null) {
+    return onAPILink(path);
+  }
+  return onDeepLink(path);
 }

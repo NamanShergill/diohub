@@ -1,28 +1,34 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/misc/shimmer_widget.dart';
-import 'package:dio_hub/models/events/notifications_model.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/pull_requests/pull_request_model.dart';
-import 'package:dio_hub/models/pull_requests/review_model.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/services/pulls/pulls_service.dart';
-import 'package:dio_hub/view/notifications/widgets/notification_cards/basic_notification_card.dart';
-import 'package:dio_hub/view/notifications/widgets/notification_cards/card_footer.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
+import 'package:diohub/common/misc/shimmer_widget.dart';
+import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
+import 'package:diohub/models/events/notifications_model.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/pull_requests/pull_request_model.dart';
+import 'package:diohub/models/pull_requests/review_model.dart';
+import 'package:diohub/services/pulls/pulls_service.dart';
+import 'package:diohub/view/issues_pulls/issue_pull_screen.dart';
+import 'package:diohub/view/notifications/widgets/notification_cards/basic_notification_card.dart';
+import 'package:diohub/view/notifications/widgets/notification_cards/card_footer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:provider/provider.dart';
 
 class PullRequestNotificationCard extends StatefulWidget {
-  const PullRequestNotificationCard(this.notification, {Key? key})
-      : super(key: key);
+  const PullRequestNotificationCard(
+    this.notification, {
+    required this.refresh,
+    super.key,
+  });
   final NotificationModel notification;
+  final bool refresh;
   @override
-  _PullRequestNotificationCardState createState() =>
-      _PullRequestNotificationCardState();
+  PullRequestNotificationCardState createState() =>
+      PullRequestNotificationCardState();
 }
 
-class _PullRequestNotificationCardState
+class PullRequestNotificationCardState
     extends State<PullRequestNotificationCard>
     with AutomaticKeepAliveClientMixin {
   late PullRequestModel pullRequest;
@@ -35,19 +41,21 @@ class _PullRequestNotificationCardState
 
   @override
   void initState() {
-    getInfo();
+    unawaited(getInfo());
     super.initState();
   }
 
-  void getInfo() async {
+  Future<void> getInfo() async {
     // Get more information on the pull request to display
-    // Todo: Update pull notification cards when I figure out how Github does it.
-    final futures = <Future>[
+    // TODO(namanshergill): Update pull notification cards when I figure out how Github does it.
+    final List<Future<dynamic>> futures = <Future<dynamic>>[
       PullsService.getPullInformation(
-          fullUrl: widget.notification.subject!.url!),
+        fullUrl: widget.notification.subject!.url!,
+        refresh: widget.refresh,
+      ),
       // PullsService.getPullReviews(fullUrl: widget.notification.subject.url),
     ];
-    final data = await Future.wait(futures);
+    final List<dynamic> data = await Future.wait(futures);
     pullRequest = data[0];
     // reviews = data[1];
     if (mounted) {
@@ -58,19 +66,18 @@ class _PullRequestNotificationCardState
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     super.build(context);
     return BasicNotificationCard(
       notification: widget.notification,
-      iconBuilder: (context) {
-        return getIcon();
-      },
-      onTap: () {
-        return AutoRouter.of(context)
-            .push(PullScreenRoute(pullURL: widget.notification.subject!.url!));
-      },
+      iconBuilder: (final BuildContext context) => getIcon(),
+      onTap: () async => AutoRouter.of(context).push(
+        issuePullScreenRoute(
+          PathData.fromURL(widget.notification.subject!.url!),
+        ),
+      ),
       loading: loading,
-      footerBuilder: (context) {
+      footerBuilder: (final BuildContext context) {
         if (!loading) {
           return getPullFooter();
         }
@@ -79,15 +86,15 @@ class _PullRequestNotificationCardState
     );
   }
 
-  Widget getPullFooter() {
-    return CardFooter(pullRequest.user!.avatarUrl,
+  Widget getPullFooter() => CardFooter(
+        pullRequest.user!.avatarUrl,
         'Status: ${pullRequest.merged! ? 'Merged' : stateValues.reverse![pullRequest.state!]!.substring(0, 1).toUpperCase() + stateValues.reverse![pullRequest.state!]!.substring(1)}',
-        unread: widget.notification.unread);
-  }
+        unread: widget.notification.unread,
+      );
 
   Widget getIcon() {
     if (!loading) {
-      if (pullRequest.state == IssueState.CLOSED) {
+      if (pullRequest.state == GIssueState.CLOSED) {
         if (pullRequest.merged!) {
           return Icon(
             Octicons.git_merge,
@@ -97,14 +104,14 @@ class _PullRequestNotificationCardState
         } else {
           return Icon(
             Octicons.git_pull_request,
-            color: Provider.of<PaletteSettings>(context).currentSetting.red,
+            color: Colors.red,
             size: iconSize,
           );
         }
-      } else if (pullRequest.state == IssueState.OPEN) {
+      } else if (pullRequest.state == GIssueState.OPEN) {
         return Icon(
           Octicons.git_pull_request,
-          color: Provider.of<PaletteSettings>(context).currentSetting.green,
+          color: Colors.green,
           size: iconSize,
         );
       } else {

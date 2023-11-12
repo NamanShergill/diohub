@@ -1,15 +1,87 @@
-## [0.4.0] - In Development
-**Project Boards | WIP** 
+## [1.0.0] - Draft
+
+_Please don't open new issues for this build, instead post the issues as comments on the PR for it._
+**UNDER DEV STUFF FOR NEXT RELEASE(A LOT OF STUFF WILL BE BROKEN)**
+- Repo Screens
+- Issue/Pull Screens
+- Home Screen
+- User Profile Screen
+*Currently disabled*
+- Editing Themes (Need to implement a new setup to handle 2 possible theme brightnesses)
+*Planned Additions (Not in any particular order)*
+- View followers, starred repos of users (with filtering options), watchers, people who starred a repo etc
+- New settings screen
+- Chucker integration
+
+**Upcoming DLCs (free I promise)**
+- Edit comments
+- More issue editing options
+- More pull editing options
+- Share github link into app to open as deeplink (for iOS and Android>=13)
+- Releases
+- Gists
+- Multi account support
+
+**Font/UI scaling**
 
 **Dynamic Tabs**
 - Browser like openable/closeable tabs to prevent clutter on Repo, Issue, Pull screens.
 
+**Context Menus**
+- URL menus- open in browser, copy link, share link, open in app if deeplink
+
+**Failed UI components due to loss of Internet now refresh themselves when back online**
+
+**UI Redesign**
+
+**Retry buttons**
+
+**Dark/Light Themes, Material You support**
+
+**Build Flavors for Android**
+
+**Code Blocks**
+
+**Readme Updates**
+- Copy on code block
+- Anchor links now work
+
+
+**Info Cards**
+
+**Scroll to top**
+
+**Issue/Pull Screen Redesign**
+- Redesigned issue/pull screen.
+- Comment reactions are here!
+- Dynamic tabs added to these screens.
+- Issues and pulls are editable now.
+
+**Comment Reactions**
+
+**Editing System**
+- Editing system that integrates with the UI redesigns mentioned in this changelog.
+
 **Enhancements**
 - Anchor links now work in markdown.
 - Improved transition animations.
+- Added scroll to top prompt on readme tab of a repository.
+- Link actions sheet now shows options based on context.
 
 **Bug Fixes**
 - Fixed case where multiple API calls might happen on widget rebuilds.
+- Fixed an issue with graphQL requests not caching.
+- `.markdown` files now render in markdown mode in the file viewer.
+- "-" filter fix in search.
+- Rewrote API Handler.
+- Rewrote Bottom Sheet utilities.
+
+
+Dev Changelog:
+- Migrated Readme Parser - 
+- Added lint rules to project
+- Submodule setup to manage forked or personal dependencies.
+- Migrated GraphQL codegen - Apollo to Ferry
 
 ---
 ## [0.3.2] - 07 August 2021

@@ -1,35 +1,33 @@
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/utils/copy_to_clipboard.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/copy_to_clipboard.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CopyButton extends StatefulWidget {
-  const CopyButton(this.data, {Key? key, this.size = 24}) : super(key: key);
+  const CopyButton(this.data, {super.key, this.size = 24});
   final String data;
   final double size;
 
   @override
-  _CopyButtonState createState() => _CopyButtonState();
+  CopyButtonState createState() => CopyButtonState();
 }
 
-class _CopyButtonState extends State<CopyButton> {
+class CopyButtonState extends State<CopyButton> {
   bool copied = false;
 
-  void copy() async {
+  Future<void> copy() async {
     setState(() {
       copied = true;
     });
-    copyToClipboard(widget.data);
-    await Future.delayed(const Duration(seconds: 4));
+    await copyToClipboard(widget.data);
+    await Future<void>.delayed(const Duration(seconds: 4));
     setState(() {
       copied = false;
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    return InkWell(
+  Widget build(final BuildContext context) => InkWell(
         borderRadius: smallBorderRadius,
         onTap: copied ? null : copy,
         child: Padding(
@@ -37,12 +35,8 @@ class _CopyButtonState extends State<CopyButton> {
           child: Icon(
             copied ? Icons.check_rounded : Icons.copy_rounded,
             size: widget.size,
-            color: copied
-                ? Provider.of<PaletteSettings>(context)
-                    .currentSetting
-                    .baseElements
-                : Provider.of<PaletteSettings>(context).currentSetting.faded3,
+            color: context.colorScheme.onSurface.withOpacity(copied ? 1 : 0.5),
           ),
-        ));
-  }
+        ),
+      );
 }

@@ -1,54 +1,61 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:dio_hub/app/global.dart';
-import 'package:dio_hub/models/issues/issue_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/routes/router.gr.dart';
-import 'package:dio_hub/services/issues/issues_service.dart';
-import 'package:dio_hub/services/repositories/repo_services.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/providers/base_provider.dart';
+import 'package:diohub/services/issues/issues_service.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
-class IssueProvider extends BaseDataProvider<IssueModel> {
-  IssueProvider(this.issueURL, this.userLogin);
-  final String issueURL;
-  final String userLogin;
-  bool _editingEnabled = false;
-  bool get editingEnabled => _editingEnabled;
+extension IssueProviderExtension on BuildContext {
+  IssueProvider issueProvider({final bool listen = true}) =>
+      Provider.of<IssueProvider>(this, listen: listen);
+}
 
-  void updateLabels(List<Label> labels) {
-    data.labels = labels;
+class IssueProvider extends BaseDataProvider<GissueInfo> {
+  IssueProvider(this.issueInfo);
+  final GissueInfo issueInfo;
+
+  late final IssuesService _issueRepo = IssuesService(
+    repo: issueInfo.repository.name,
+    user: issueInfo.repository.owner.login,
+    number: issueInfo.number,
+  );
+
+  void updateLabels(final List<Label> labels) {
+    // data.labels = labels;
     notifyListeners();
   }
 
-  void updateAssignees(List<UserInfoModel>? users) {
-    data.assignees = users;
+  void updateAssignees(final List<UserInfoModel>? users) {
+    // data.assignees = users;
     notifyListeners();
   }
 
-  void updateIssue(IssueModel issue) {
-    data = issue;
+  void updateIssue(final IssueModel issue) {
+    // data = issue;
     notifyListeners();
   }
+
+  Future<List<NodeWithPaginationInfo<Gactor>?>> getAssignees({
+    required final String? after,
+  }) =>
+      _issueRepo.getAssignees(after: after);
+
+  Future<List<NodeWithPaginationInfo<Gactor>>> getParticipants({
+    required final String? after,
+  }) =>
+      _issueRepo.getParticipants(after: after);
 
   @override
-  Future<IssueModel> setInitData({bool isInitialisation = false}) async {
-    final futures = <Future>[
-      IssuesService.getIssueInfo(fullUrl: issueURL),
-      RepositoryServices.checkUserRepoPerms(
-          userLogin, _repoURLFromIssueURL(issueURL))
-    ];
-
-    final data = await Future.wait(futures);
-    final IssueModel _issueModel = data[0];
-    if (_issueModel.pullRequest != null) {
-      AutoRouter.of(currentContext)
-          .replace(PullScreenRoute(pullURL: _issueModel.pullRequest!.url!));
-    }
-    _editingEnabled = data[1];
-    return _issueModel;
-  }
+  Future<GissueInfo> setInitData({
+    final bool isInitialisation = false,
+  }) async =>
+      issueInfo;
 }
 
-String _repoURLFromIssueURL(String link) {
-  final url = link.split('/');
-  return url.sublist(0, url.length - 2).join('/');
-}
+// String _repoURLFromIssueURL(String link) {
+//   final url = link.split('/');
+//   return url.sublist(0, url.length - 2).join('/');
+// }

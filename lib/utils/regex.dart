@@ -1,23 +1,24 @@
-String regexORCases(List<String> cases) =>
-    '(${cases.map((e) => '($e)').toList().join('|')})';
+String regexORCases(final List<String> cases) =>
+    '(${cases.map((final String e) => '($e)').toList().join('|')})';
 
-String regexPattern(List<String> cases, [String joinWith = '']) =>
+String regexPattern(final List<String> cases, [final String joinWith = '']) =>
     '(${cases.join(joinWith)})';
 
-String optionalRegex(String pattern) => '($pattern)?';
+String optionalRegex(final String pattern) => '($pattern)?';
 
-String negativeLookAhead(String pattern) => '(?!$pattern)';
-String lookAhead(String pattern) => '(?=$pattern)';
-String nonCapturingGroup(String pattern) => '(?:$pattern)';
+String negativeLookAhead(final String pattern) => '(?!$pattern)';
+String lookAhead(final String pattern) => '(?=$pattern)';
+String nonCapturingGroup(final String pattern) => '(?:$pattern)';
 
 extension RegExpExtension on RegExp {
-  List<String?> allMatchesWithSep(String input, [int start = 0]) {
-    var startVal = start;
-    final result = <String?>[];
+  List<String?> allMatchesWithSep(final String input, [final int start = 0]) {
+    int startVal = start;
+    final List<String?> result = <String?>[];
 
-    for (final match in allMatches(input, startVal)) {
-      result.add(input.substring(startVal, match.start));
-      result.add(match[0]);
+    for (final RegExpMatch match in allMatches(input, startVal)) {
+      result
+        ..add(input.substring(startVal, match.start))
+        ..add(match[0]);
       startVal = match.end;
     }
     result.add(input.substring(startVal));
@@ -26,6 +27,6 @@ extension RegExpExtension on RegExp {
 }
 
 extension StringExtension on String {
-  List<String?> splitWithDelimiter(RegExp pattern) =>
+  List<String?> splitWithDelimiter(final RegExp pattern) =>
       pattern.allMatchesWithSep(this);
 }

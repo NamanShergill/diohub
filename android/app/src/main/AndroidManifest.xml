@@ -26,13 +26,14 @@
     </queries>
 
     <application
-        android:name="io.flutter.app.FlutterApplication"
-        android:label="DioHub"
+        android:name="${applicationName}"
+        android:label="@string/app_name"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round">
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -55,13 +56,21 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <intent-filter android:autoVerify="true">
+            <intent-filter android:autoVerify="false">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="https"
-                    android:host="github.com" />
+                    android:host="www.github.com"
+                    />
+                <data
+                    android:scheme="http"
+                    android:host="www.github.com" />
+                <data
+                    android:scheme="https"
+                    android:host="github.com"
+                    />
                 <data
                     android:scheme="http"
                     android:host="github.com" />

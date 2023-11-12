@@ -1,59 +1,59 @@
-import 'package:dio_hub/app/Dio/cache.dart';
-import 'package:dio_hub/app/Dio/dio.dart';
-import 'package:dio_hub/models/events/notifications_model.dart';
+import 'package:dio/dio.dart';
+import 'package:diohub/app/api_handler/dio.dart';
+import 'package:diohub/models/events/notifications_model.dart';
 
 class NotificationsService {
   static const String _url = '/notifications';
+  static final RESTHandler _restHandler = RESTHandler();
 
   // Fetch notifications. API Endpoint: '/notifications'.
   // Add notification filters in the [filters] parameter as a [Map].
   // Ref: https://docs.github.com/en/rest/reference/activity#list-notifications-for-the-authenticated-user
-  static Future<List<NotificationModel>> getNotifications(
-      {bool refresh = false,
-      int? perPage,
-      int? page,
-      Map<String, dynamic>? filters}) async {
+  static Future<List<NotificationModel>> getNotifications({
+    final int? perPage,
+    final int? page,
+    final Map<String, dynamic>? filters,
+  }) async {
     // Map the request parameters.
-    final queryParameters = <String, dynamic>{
+    final Map<String, dynamic> queryParameters = <String, dynamic>{
       'per_page': perPage,
       'page': page,
-      'all': true
+      'all': true,
     };
     // Add filters, if any, to the parameters.
     if (filters != null) {
       queryParameters.addAll(filters);
     }
     // Make API request to get a list of notifications;
-    final notifications = await request(
-      cacheOptions: CacheManager.notifications(refresh: refresh),
-    )
-        .get(
+    final Response<List<dynamic>> notifications =
+        await _restHandler.get<List<dynamic>>(
       _url,
       queryParameters: queryParameters,
-    )
-        .then((value) {
-      final parsedNotifications = <NotificationModel>[];
-      final List unParsedNotifications = value.data;
-      // Parse data in the list into notification models.
-      for (final notification in unParsedNotifications) {
-        parsedNotifications.add(NotificationModel.fromJson(notification));
-      }
-      return parsedNotifications;
-    });
-    return notifications;
+      // This has to be true otherwise we will always receive 304 on this endpoint.
+      refreshCache: true,
+    );
+    return notifications.data!
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => NotificationModel.fromJson(e),
+        )
+        .toList();
   }
 
   // Mark a thread as read.
   // Ref: https://docs.github.com/en/rest/reference/activity#mark-a-thread-as-read
-  static Future markThreadAsRead(String? id) async {
-    await request().patch('/notifications/threads/$id');
+  static Future<void> markThreadAsRead(final String? id) async {
+    await _restHandler.patch('/notifications/threads/$id');
   }
 
   // Mark all notifications as read.
   // Ref: https://docs.github.com/en/rest/reference/activity#mark-notifications-as-read
-  static Future markAllAsRead() async {
-    await request().put('/notifications', queryParameters: {
-      'last_read_at': DateTime.now().toIso8601String(),
-    });
+  static Future<void> markAllAsRead() async {
+    await _restHandler.put(
+      '/notifications',
+      queryParameters: <String, dynamic>{
+        'last_read_at': DateTime.now().toIso8601String(),
+      },
+    );
   }
 }

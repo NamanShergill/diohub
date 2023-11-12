@@ -1,30 +1,31 @@
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/bottom_sheet.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/common/misc/loading_indicator.dart';
-import 'package:dio_hub/common/wrappers/provider_loading_progress_wrapper.dart';
-import 'package:dio_hub/providers/base_provider.dart';
-import 'package:dio_hub/providers/repository/branch_provider.dart';
-import 'package:dio_hub/providers/repository/code_provider.dart';
-import 'package:dio_hub/providers/repository/repository_provider.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
-import 'package:dio_hub/view/repository/code/browser_list_tiles.dart';
-import 'package:dio_hub/view/repository/code/commit_browser.dart';
-import 'package:dio_hub/view/repository/code/commit_info_button.dart';
+import 'dart:async';
+
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
+import 'package:diohub/providers/base_provider.dart';
+import 'package:diohub/providers/repository/branch_provider.dart';
+import 'package:diohub/providers/repository/code_provider.dart';
+import 'package:diohub/providers/repository/repository_provider.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/utils.dart';
+import 'package:diohub/view/repository/code/browser_list_tiles.dart';
+import 'package:diohub/view/repository/code/commit_browser.dart';
+import 'package:diohub/view/repository/code/commit_info_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 
 class CodeBrowser extends StatefulWidget {
-  const CodeBrowser({this.showCommitHistory = false, Key? key})
-      : super(key: key);
+  const CodeBrowser({this.showCommitHistory = false, super.key});
   final bool showCommitHistory;
   @override
-  _CodeBrowserState createState() => _CodeBrowserState();
+  CodeBrowserState createState() => CodeBrowserState();
 }
 
-class _CodeBrowserState extends State<CodeBrowser>
+class CodeBrowserState extends State<CodeBrowser>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -32,83 +33,52 @@ class _CodeBrowserState extends State<CodeBrowser>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((final Duration timeStamp) {
       if (widget.showCommitHistory) {
         showCommitHistory(
-            context, context.read<RepoBranchProvider>().currentSHA);
+          context,
+          context.read<RepoBranchProvider>().currentSHA,
+        );
       }
     });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     super.build(context);
-    return ListView(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      children: [
-        const SizedBox(
-          height: 16,
-        ),
-        Consumer<CodeProvider>(
-          builder: (context, value, _) {
-            return Column(
-              children: [
-                context.read<RepoBranchProvider>().isCommit == true &&
-                        value.tree.isNotEmpty
-                    ? SizeExpandedSection(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Column(
-                            children: [
-                              Button(
-                                listenToLoadingController: false,
-                                padding: const EdgeInsets.all(8),
-                                onTap: value.status == Status.loaded
-                                    ? () {
-                                        context
-                                            .read<RepoBranchProvider>()
-                                            .reloadBranch();
-                                      }
-                                    : null,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      'Currently browsing commit ${Provider.of<RepoBranchProvider>(context).currentSHA.substring(0, 6)}.',
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const Text(
-                                      'Load the latest code?',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    : Container(),
+    return SingleChildScrollView(
+      child: Column(
+        // physics: const NeverScrollableScrollPhysics(),
+        // shrinkWrap: true,
+        children: <Widget>[
+          const SizedBox(
+            height: 16,
+          ),
+          Consumer<CodeProvider>(
+            builder: (
+              final BuildContext context,
+              final CodeProvider value,
+              final _,
+            ) =>
+                Column(
+              children: <Widget>[
+                if (context.read<RepoBranchProvider>().isCommit &&
+                    value.tree.isNotEmpty)
+                  _buildPathWidget(value, context),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Button(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .primary,
-                    listenToLoadingController: false,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 8,
+                    ),
+                    color: context.colorScheme.primary,
                     onTap: value.status == Status.loaded
                         ? () {
                             showCommitHistory(
-                                context, value.tree.last.commit!.sha);
+                              context,
+                              value.tree.last.commit!.sha,
+                            );
                           }
                         : null,
                     child: value.status == Status.loaded
@@ -117,69 +87,64 @@ class _CodeBrowserState extends State<CodeBrowser>
                   ),
                 ),
               ],
-            );
-          },
-        ),
-        ProviderLoadingProgressWrapper<CodeProvider>(
-          childBuilder: (context, value) {
-            return Column(
+            ),
+          ),
+          ProviderLoadingProgressWrapper<CodeProvider>(
+            childBuilder:
+                (final BuildContext context, final CodeProvider value) =>
+                    Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Visibility(
                   visible: value.tree.length > 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       const SizedBox(
                         height: 16,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: SizedBox(
                           height: 30,
                           child: ListView.separated(
-                              physics: const BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: value.tree.length,
-                              separatorBuilder: (context, index) {
-                                return const Center(child: Text(' /'));
-                              },
-                              itemBuilder: (context, index) {
-                                return Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    borderRadius: smallBorderRadius,
-                                    onTap: () {
-                                      if (index != value.tree.length - 1) {
-                                        Provider.of<CodeProvider>(context,
-                                                listen: false)
-                                            .popTreeUntil(value.tree[index]);
-                                      }
-                                    },
-                                    child: Center(
-                                      child: Text(
-                                        ' ${index == 0 ? Provider.of<RepositoryProvider>(context).data.name! : value.tree[index - 1].tree![value.pathIndex[index - 1]].path!}',
-                                        style: TextStyle(
-                                            color: index ==
-                                                    value.tree.length - 1
-                                                ? Provider.of<PaletteSettings>(
-                                                        context)
-                                                    .currentSetting
-                                                    .accent
-                                                : Provider.of<PaletteSettings>(
-                                                        context)
-                                                    .currentSetting
-                                                    .baseElements,
-                                            fontWeight:
-                                                index == value.tree.length - 1
-                                                    ? FontWeight.bold
-                                                    : FontWeight.w500),
-                                      ),
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: value.tree.length,
+                            separatorBuilder:
+                                (final BuildContext context, final int index) =>
+                                    const Center(child: Text(' /')),
+                            itemBuilder:
+                                (final BuildContext context, final int index) =>
+                                    Material(
+                              // color: transparent,
+                              child: InkWell(
+                                // borderRadius: smallBorderRadius,
+                                onTap: () {
+                                  if (index != value.tree.length - 1) {
+                                    Provider.of<CodeProvider>(
+                                      context,
+                                      listen: false,
+                                    ).popTreeUntil(value.tree[index]);
+                                  }
+                                },
+                                child: Center(
+                                  child: Text(
+                                    ' ${index == 0 ? Provider.of<RepositoryProvider>(context).data.name! : value.tree[index - 1].tree![value.pathIndex[index - 1]].path!}',
+                                    style: TextStyle(
+                                      color: index == value.tree.length - 1
+                                          ? context.colorScheme.primary
+                                          : null,
+                                      fontWeight: index == value.tree.length - 1
+                                          ? FontWeight.bold
+                                          : FontWeight.w500,
                                     ),
                                   ),
-                                );
-                              }),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -187,106 +152,148 @@ class _CodeBrowserState extends State<CodeBrowser>
                 ),
                 SizeExpandedSection(
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16),
                     child: ClipRRect(
                       borderRadius: medBorderRadius,
-                      child: Container(
+                      child: DecoratedBox(
                         decoration: BoxDecoration(
-                            borderRadius: medBorderRadius,
-                            color: Provider.of<PaletteSettings>(context)
-                                .currentSetting
-                                .secondary,
-                            border: Border.all(
-                                color: Provider.of<PaletteSettings>(context)
-                                    .currentSetting
-                                    .faded1,
-                                width: 0.5)),
+                          borderRadius: medBorderRadius,
+                          // color: Provider.of<PaletteSettings>(context)
+                          //     .currentSetting
+                          //     .secondary,
+                          border: Border.all(
+                            // color: Provider.of<PaletteSettings>(context)
+                            //     .currentSetting
+                            //     .faded1,
+                            width: 0.5,
+                          ),
+                        ),
                         child: ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return BrowserListTile(
-                                  value.tree.last.tree![index],
-                                  Provider.of<RepositoryProvider>(context,
-                                          listen: false)
-                                      .data
-                                      .url,
-                                  index);
-                            },
-                            separatorBuilder: (context, index) {
-                              return const Divider(
-                                height: 0,
-                              );
-                            },
-                            itemCount: value.tree.last.tree!.length),
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder:
+                              (final BuildContext context, final int index) =>
+                                  BrowserListTile(
+                            value.tree.last.tree![index],
+                            Provider.of<RepositoryProvider>(
+                              context,
+                              listen: false,
+                            ).data.url,
+                            index,
+                          ),
+                          separatorBuilder:
+                              (final BuildContext context, final int index) =>
+                                  const Divider(
+                            height: 0,
+                          ),
+                          itemCount: value.tree.last.tree!.length,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ],
-            );
-          },
-          loadingBuilder: (context) {
-            return Container();
-          },
-        )
-      ],
+            ),
+            loadingBuilder: (final BuildContext context) => Container(),
+          ),
+        ],
+      ),
     );
   }
-}
 
-void showCommitHistory(BuildContext context, String? currentSHA) {
-  final repoUrl = context.read<RepositoryProvider>().data.url;
-
-  final branchName = context.read<RepoBranchProvider>().currentSHA;
-
-  final path = context.read<CodeProvider>().getPath();
-
-  final isLocked = context.read<RepoBranchProvider>().isCommit;
-  showScrollableBottomActionsMenu(
-    context,
-    titleWidget: (context, setState) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            const Text(
-              'Commit History',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Octicons.git_branch,
-                  size: 14,
+  SizeExpandedSection _buildPathWidget(
+    final CodeProvider value,
+    final BuildContext context,
+  ) =>
+      SizeExpandedSection(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: <Widget>[
+              Button(
+                padding: const EdgeInsets.all(8),
+                onTap: value.status == Status.loaded
+                    ? () {
+                        context.read<RepoBranchProvider>().reloadBranch();
+                      }
+                    : null,
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      'Currently browsing commit ${Provider.of<RepoBranchProvider>(context).currentSHA.substring(0, 6)}.',
+                      textAlign: TextAlign.center,
+                      style: context.textTheme.labelSmall?.asBold(),
+                    ),
+                    Text(
+                      'Load the latest code?',
+                      textAlign: TextAlign.center,
+                      style: context.textTheme.labelMedium?.asBold(),
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  width: 4,
-                ),
-                Text(branchName),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+            ],
+          ),
         ),
       );
-    },
-    child: (sheetContext, controller, setState) {
-      return CommitBrowser(
-        controller: controller,
+}
+
+void showCommitHistory(final BuildContext context, final String? currentSHA) {
+  final String? repoUrl = context.read<RepositoryProvider>().data.url;
+
+  final String branchName = context.read<RepoBranchProvider>().currentSHA;
+
+  final String path = context.read<CodeProvider>().getPath();
+
+  final bool isLocked = context.read<RepoBranchProvider>().isCommit;
+  unawaited(
+    showScrollableBottomSheet(
+      context,
+      headerBuilder: (final BuildContext context, final StateSetter setState) =>
+          Column(
+        children: <Widget>[
+          Text(
+            'Commit History',
+            style: context.textTheme.titleSmall,
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Icon(
+                Octicons.git_branch,
+                size: 14,
+              ),
+              const SizedBox(
+                width: 4,
+              ),
+              Text(branchName),
+            ],
+          ),
+        ],
+      ),
+      scrollableBodyBuilder: (
+        final BuildContext context,
+        final StateSetter setState,
+        final ScrollController scrollController,
+      ) =>
+          CommitBrowser(
+        controller: scrollController,
         currentSHA: currentSHA,
         isLocked: isLocked,
         repoURL: repoUrl,
         path: path,
         branchName: branchName,
-        onSelected: (sha) {
+        onSelected: (final String sha) {
           Provider.of<RepoBranchProvider>(context, listen: false)
               .setBranch(sha, isCommitSha: true);
         },
-      );
-    },
+      ),
+    ),
   );
 }

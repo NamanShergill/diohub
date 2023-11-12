@@ -1,21 +1,20 @@
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/services/issues/issues_service.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
+import 'package:diohub/models/issues/issue_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/services/issues/issues_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AssigneeSelectSheet extends StatefulWidget {
-  const AssigneeSelectSheet(
-      {Key? key,
-      this.assignees,
-      this.issueUrl,
-      this.repoURL,
-      this.controller,
-      this.newAssignees})
-      : super(key: key);
+  const AssigneeSelectSheet({
+    super.key,
+    this.assignees,
+    this.issueUrl,
+    this.repoURL,
+    this.controller,
+    this.newAssignees,
+  });
   final String? repoURL;
   final String? issueUrl;
   final List<UserInfoModel>? assignees;
@@ -23,24 +22,26 @@ class AssigneeSelectSheet extends StatefulWidget {
   final ValueChanged<List<UserInfoModel>?>? newAssignees;
 
   @override
-  _AssigneeSelectSheetState createState() => _AssigneeSelectSheetState();
+  AssigneeSelectSheetState createState() => AssigneeSelectSheetState();
 }
 
-class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
+class AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
   late List<String?> assignees;
 
   @override
   void initState() {
-    assignees = widget.assignees!.map((e) => e.login).toList();
+    assignees =
+        widget.assignees!.map((final UserInfoModel e) => e.login).toList();
     super.initState();
   }
 
   Future<List<UserInfoModel>?> updateAssignees() async {
-    final assigneesToRemove = <String?>[];
-    final assigneesToAdd = assignees;
-    final originalAssignees = widget.assignees!.map((e) => e.login).toList();
-    final futures = <Future>[];
-    for (final login in originalAssignees) {
+    final List<String?> assigneesToRemove = <String?>[];
+    final List<String?> assigneesToAdd = assignees;
+    final List<String?> originalAssignees =
+        widget.assignees!.map((final UserInfoModel e) => e.login).toList();
+    final List<Future<IssueModel>> futures = <Future<IssueModel>>[];
+    for (final String? login in originalAssignees) {
       if (!assignees.contains(login)) {
         assigneesToRemove.add(login);
         assigneesToAdd.remove(login);
@@ -48,96 +49,112 @@ class _AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
     }
     if (assigneesToRemove.isNotEmpty) {
       futures.add(
-          IssuesService.removeAssignees(widget.issueUrl, assigneesToRemove));
+        IssuesService.removeAssignees(widget.issueUrl, assigneesToRemove),
+      );
     }
     if (assigneesToAdd.isNotEmpty) {
       futures.add(IssuesService.addAssignees(widget.issueUrl, assigneesToAdd));
     }
     if (futures.isNotEmpty) {
-      final results = await Future.wait(futures);
+      final List<IssueModel> results = await Future.wait(futures);
       return results.last.assignees;
     }
     return widget.assignees;
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Button(
-            listenToLoadingController: true,
-            color:
-                Provider.of<PaletteSettings>(context).currentSetting.secondary,
-            onTap: () async {
-              try {
-                final newAssignees = await updateAssignees();
-                Navigator.pop(context);
-                widget.newAssignees!(newAssignees);
-              } catch (e) {}
-            },
-            child: const Text('Apply'),
+  Widget build(final BuildContext context) => Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Button(
+              // color: Provider.of<PaletteSettings>(context)
+              //     .currentSetting
+              //     .secondary,
+              onTap: () async {
+                try {
+                  final List<UserInfoModel>? newAssignees =
+                      await updateAssignees();
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
+                  widget.newAssignees!(newAssignees);
+                } catch (e) {
+                  rethrow;
+                }
+              },
+              child: const Text('Apply'),
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Theme(
-          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-          child: ExpansionTile(
-            title: const Text('Note'),
-            children: [
+          const SizedBox(
+            height: 8,
+          ),
+          const ExpansionTile(
+            title: Text('Note'),
+            children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   'Organizations on the free plan can only have one active assignee on an issue at a time.',
                   style: TextStyle(
-                      color: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .faded3),
+                      // color: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .faded3,
+                      ),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 8,
               ),
             ],
           ),
-        ),
-        const Divider(),
-        Expanded(
-          child: InfiniteScrollWrapper<UserInfoModel>(
-            firstDivider: false,
-            future: (pageNumber, pageSize, refresh, _) {
-              return IssuesService.listAssignees(
-                  widget.repoURL, pageNumber, pageSize);
-            },
-            scrollController: widget.controller,
-            listEndIndicator: false,
-            builder: (context, item, index, refresh) {
-              return CheckboxListTile(
-                activeColor:
-                    Provider.of<PaletteSettings>(context).currentSetting.accent,
-                value: assignees.contains(item.login),
-                onChanged: (value) {
+          const Divider(),
+          Expanded(
+            child: InfiniteScrollWrapper<UserInfoModel>(
+              future: (
+                final ({
+                  UserInfoModel? lastItem,
+                  int pageNumber,
+                  int pageSize,
+                  bool refresh
+                }) data,
+              ) async =>
+                  IssuesService.listAssignees(
+                widget.repoURL,
+                data.pageNumber,
+                data.pageSize,
+              ),
+              separatorBuilder: (final BuildContext context, final int index) =>
+                  const Divider(
+                height: 8,
+              ),
+              scrollController: widget.controller,
+              listEndIndicator: false,
+              builder: (
+                final BuildContext context,
+                final ({int index, UserInfoModel item, bool refresh}) data,
+              ) =>
+                  CheckboxListTile(
+                // activeColor:
+                //     Provider.of<PaletteSettings>(context).currentSetting.accent,
+                value: assignees.contains(data.item.login),
+                onChanged: (final bool? value) {
                   setState(() {
-                    if (assignees.contains(item.login)) {
-                      assignees.remove(item.login);
+                    if (assignees.contains(data.item.login)) {
+                      assignees.remove(data.item.login);
                     } else {
-                      assignees.add(item.login);
+                      assignees.add(data.item.login);
                     }
                   });
                 },
-                title: ProfileTile(
-                  item.avatarUrl,
-                  userLogin: item.login,
-                  showName: true,
+                title: ProfileTile.login(
+                  avatarUrl: data.item.avatarUrl,
+                  userLogin: data.item.login,
+                  padding: EdgeInsets.zero,
                 ),
-              );
-            },
+              ),
+            ),
           ),
-        ),
-      ],
-    );
-  }
+        ],
+      );
 }

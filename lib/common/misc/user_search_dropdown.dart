@@ -1,69 +1,101 @@
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/services/search/search_service.dart';
-import 'package:dio_hub/style/border_radiuses.dart';
+import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/common/misc/profile_card.dart';
+import 'package:diohub/common/search_overlay/filters.dart';
+import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.query.data.gql.dart';
+import 'package:diohub/services/search/search_service.dart';
+import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class UserSearchDropdown extends StatelessWidget {
-  const UserSearchDropdown(this.query,
-      {Key? key, this.onSelected, QueryType type = QueryType.user})
-      : _type = type != QueryType.org ? 'user' : 'org',
-        super(key: key);
+  const UserSearchDropdown(
+    this.query, {
+    super.key,
+    this.onSelected,
+    final QueryType type = QueryType.user,
+  }) : _type = type != QueryType.org ? 'user' : 'org';
   final String query;
   final ValueChanged<String>? onSelected;
   final String _type;
 
   @override
-  Widget build(BuildContext context) {
-    final _media = MediaQuery.of(context).size;
+  Widget build(final BuildContext context) {
+    final Size media = MediaQuery.of(context).size;
     return Container(
       constraints: BoxConstraints(
-        maxHeight: _media.height * 0.4,
+        maxHeight: media.height * 0.4,
       ),
       child: Material(
-        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        // color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         borderRadius: medBorderRadius,
         elevation: 8,
         child: query.isNotEmpty
             ? SizeExpandedSection(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: InfiniteScrollWrapper<
-                      SearchMentionUsers$Query$Search$Edges?>(
+                      GsearchMentionUsersData_search_edges?>(
                     shrinkWrap: true,
                     showScrollToTopButton: false,
-                    paginationKey: ValueKey(query),
+                    paginationKey: ValueKey<String>(query),
+                    separatorBuilder:
+                        (final BuildContext context, final int index) =>
+                            const Divider(
+                      height: 8,
+                    ),
                     disableRefresh: true,
-                    firstDivider: false,
-                    topSpacing: 8,
-                    bottomSpacing: 8,
+                    padding: const EdgeInsets.all(8),
                     listEndIndicator: false,
-                    future: (pageNumber, pageSize, refresh, _) {
-                      return SearchService.searchMentionUsers(query, _type,
-                          cursor: _?.cursor);
-                    },
-                    builder: (context, item, index, refresh) {
-                      final dynamic data = item!.node;
+                    future: (
+                      final ({
+                        GsearchMentionUsersData_search_edges? lastItem,
+                        int pageNumber,
+                        int pageSize,
+                        bool refresh
+                      }) data,
+                    ) async =>
+                        SearchService.searchMentionUsers(
+                      query,
+                      _type,
+                      cursor: data.lastItem?.cursor,
+                    ).toAsyncList(),
+                    builder: (
+                      final BuildContext context,
+                      final ({
+                        int index,
+                        GsearchMentionUsersData_search_edges? item,
+                        bool refresh
+                      }) data,
+                    ) {
+                      final GsearchMentionUsersData_search_edges_node item =
+                          data.item!.node!;
                       return InkWell(
                         borderRadius: medBorderRadius,
                         onTap: () {
-                          if (onSelected != null) {
-                            onSelected!(data.login);
-                          }
+                          onSelected?.call(
+                            item.when(
+                              user: actorLogin,
+                              organization: actorLogin,
+                              orElse: unimplemented,
+                            ),
+                          );
                         },
                         child: Row(
-                          children: [
-                            ProfileTile(
-                              data!.avatarUrl.toString(),
+                          children: <Widget>[
+                            ProfileTile.login(
+                              avatarUrl: item.when(
+                                user: actorAvatarStringUri,
+                                organization: actorAvatarStringUri,
+                                orElse: unimplemented,
+                              ),
                               disableTap: true,
-                              padding: const EdgeInsets.all(8),
-                              showName: true,
-                              userLogin: data.login,
+                              userLogin: item.when(
+                                user: actorLogin,
+                                organization: actorLogin,
+                                orElse: unimplemented,
+                              ),
                             ),
                           ],
                         ),
@@ -73,9 +105,10 @@ class UserSearchDropdown extends StatelessWidget {
                 ),
               )
             : Padding(
-                padding: const EdgeInsets.all(24.0),
+                padding: const EdgeInsets.all(24),
                 child: Text(
-                    'Start typing to search ${_type == 'org' ? 'organizations' : 'users'}.'),
+                  'Start typing to search ${_type == 'org' ? 'organizations' : 'users'}.',
+                ),
               ),
       ),
     );

@@ -1,11 +1,11 @@
 // import 'package:auto_route/auto_route.dart';
-// import 'package:dio_hub/app/settings/palette.dart';
-// import 'package:dio_hub/common/misc/app_tab_bar.dart';
-// import 'package:dio_hub/common/misc/link_text.dart';
-// import 'package:dio_hub/common/misc/loading_indicator.dart';
-// import 'package:dio_hub/oss_licenses.dart';
-// import 'package:dio_hub/routes/router.gr.dart';
-// import 'package:dio_hub/style/border_radiuses.dart';
+// import 'package:diohub/app/settings/palette.dart';
+// import 'package:diohub/common/misc/app_tab_bar.dart';
+// import 'package:diohub/common/misc/link_text.dart';
+// import 'package:diohub/common/misc/loading_indicator.dart';
+// import 'package:diohub/oss_licenses.dart';
+// import 'package:diohub/routes/router.gr.dart';
+// import 'package:diohub/style/border_radiuses.dart';
 // import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
@@ -144,7 +144,7 @@
 //                   child: Text(description!,
 //                       style: Theme.of(context)
 //                           .textTheme
-//                           .bodyText2!
+//                           .bodyMedium!
 //                           .copyWith(fontWeight: FontWeight.bold))),
 //             if (homepage != null)
 //               Row(
@@ -162,7 +162,7 @@
 //               padding:
 //                   const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
 //               child: Text(_bodyText()!,
-//                   style: Theme.of(context).textTheme.bodyText2),
+//                   style: Theme.of(context).textTheme.bodyMedium),
 //             ),
 //           ])),
 //     );

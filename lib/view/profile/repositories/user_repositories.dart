@@ -1,42 +1,42 @@
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/search_overlay/filters.dart';
-import 'package:dio_hub/common/search_overlay/search_overlay.dart';
-import 'package:dio_hub/common/wrappers/search_scroll_wrapper.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:diohub/common/search_overlay/filters.dart';
+import 'package:diohub/common/search_overlay/search_overlay.dart';
+import 'package:diohub/common/wrappers/search_scroll_wrapper.dart';
+import 'package:diohub/models/users/user_info_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class UserRepositories extends StatelessWidget {
-  const UserRepositories(this.userInfoModel,
-      {this.currentUser = false, required this.scrollController, Key? key})
-      : super(key: key);
+  const UserRepositories(
+    this.userInfoModel, {
+    this.currentUser = false,
+    super.key,
+  });
   final UserInfoModel userInfoModel;
   final bool? currentUser;
-  final ScrollController scrollController;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-      child: SearchScrollWrapper(
+  Widget build(final BuildContext context) => SearchScrollWrapper(
         SearchData(
-            searchFilters: SearchFilters.repositories(
-                blacklist: [SearchQueryStrings.user, SearchQueryStrings.org]),
-            defaultHiddenFilters: [
-              SearchQueries().user.toQueryString(userInfoModel.login!)
-            ]),
-        quickFilters: {
+          searchFilters: SearchFilters.repositories(
+            blacklist: <String>[
+              SearchQueryStrings.user,
+              SearchQueryStrings.org,
+            ],
+          ),
+          defaultHiddenFilters: <String>[
+            SearchQueries().user.toQueryString(userInfoModel.login!),
+          ],
+        ),
+        quickFilters: <String, String>{
           SearchQueries().iS.toQueryString('public'): 'Public',
           SearchQueries().iS.toQueryString('private'): 'Private',
           SearchQueries().archived.toQueryString('true'): 'Archived',
           SearchQueries().mirror.toQueryString('true'): 'Mirrors',
         },
-        quickOptions: {
+        quickOptions: <String, String>{
           SearchQueries().fork.toQueryString('true'): 'Include forks',
         },
-        nestedScrollViewController: scrollController,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        searchBarMessage: 'Search in ${userInfoModel.login}\'s repositories',
+        searchBarMessage: "Search in ${userInfoModel.login}'s repositories",
         searchHeroTag: '${userInfoModel.login}Search',
         // nonSearchFuture: (pageNumber, pageSize, refresh, _, sort, order) {
         //   if (currentUser!)
@@ -46,7 +46,5 @@ class UserRepositories extends StatelessWidget {
         //   return UserInfoService.getUserRepos(
         //       userInfoModel.login, pageSize, pageNumber, refresh, sort);
         // },
-      ),
-    );
-  }
+      );
 }

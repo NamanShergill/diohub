@@ -1,24 +1,24 @@
-import 'package:dio_hub/style/anim_durations.dart';
+import 'package:diohub/style/anim_durations.dart';
 import 'package:flutter/material.dart';
 
 class SlideExpandedSection extends StatefulWidget {
-  const SlideExpandedSection(
-      {this.expand = true,
-      this.child,
-      this.animationCurve,
-      this.duration,
-      Key? key})
-      : super(key: key);
+  const SlideExpandedSection({
+    this.expand = true,
+    this.child,
+    this.animationCurve,
+    this.duration,
+    super.key,
+  });
   final Widget? child;
   final bool expand;
   final Curve? animationCurve;
   final Duration? duration;
 
   @override
-  _SlideExpandedSectionState createState() => _SlideExpandedSectionState();
+  SlideExpandedSectionState createState() => SlideExpandedSectionState();
 }
 
-class _SlideExpandedSectionState extends State<SlideExpandedSection>
+class SlideExpandedSectionState extends State<SlideExpandedSection>
     with SingleTickerProviderStateMixin {
   late AnimationController expandController;
   late Animation<Offset> animation;
@@ -32,14 +32,18 @@ class _SlideExpandedSectionState extends State<SlideExpandedSection>
   //Setting up the animation
   void prepareAnimations() {
     expandController = AnimationController(
-        vsync: this, duration: widget.duration ?? transitionAnimDuration);
+      vsync: this,
+      duration: widget.duration ?? transitionAnimDuration,
+    );
     animation = Tween<Offset>(
-      begin: const Offset(0.0, 1.0),
+      begin: const Offset(0, 1),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: expandController,
-      curve: widget.animationCurve ?? Curves.easeIn,
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: expandController,
+        curve: widget.animationCurve ?? Curves.easeIn,
+      ),
+    );
     if (widget.expand) {
       _runExpandCheck();
     }
@@ -54,7 +58,7 @@ class _SlideExpandedSectionState extends State<SlideExpandedSection>
   }
 
   @override
-  void didUpdateWidget(SlideExpandedSection oldWidget) {
+  void didUpdateWidget(final SlideExpandedSection oldWidget) {
     super.didUpdateWidget(oldWidget);
     _runExpandCheck();
   }
@@ -66,10 +70,8 @@ class _SlideExpandedSectionState extends State<SlideExpandedSection>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SlideTransition(
-      position: animation,
-      child: widget.child,
-    );
-  }
+  Widget build(final BuildContext context) => SlideTransition(
+        position: animation,
+        child: widget.child,
+      );
 }

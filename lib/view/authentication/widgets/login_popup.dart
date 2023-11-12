@@ -1,81 +1,85 @@
-import 'package:dio_hub/app/keys.dart';
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:dio_hub/common/animations/scale_expanded_widget.dart';
-import 'package:dio_hub/common/misc/app_dialog.dart';
-import 'package:dio_hub/common/misc/button.dart';
-import 'package:dio_hub/models/authentication/access_token_model.dart';
-import 'package:dio_hub/services/authentication/auth_service.dart';
+import 'package:diohub/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:diohub/common/animations/scale_expanded_widget.dart';
+import 'package:diohub/common/misc/app_dialog.dart';
+import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/models/authentication/access_token_model.dart';
+import 'package:diohub/services/authentication/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:provider/provider.dart';
 
 class LoginPopup extends StatefulWidget {
-  const LoginPopup({Key? key}) : super(key: key);
+  const LoginPopup({super.key});
 
   @override
-  _LoginPopupState createState() => _LoginPopupState();
+  LoginPopupState createState() => LoginPopupState();
 }
 
-class _LoginPopupState extends State<LoginPopup> {
+class LoginPopupState extends State<LoginPopup> {
   bool loading = false;
   @override
-  Widget build(BuildContext context) {
-    final theme = Provider.of<PaletteSettings>(context).currentSetting;
+  Widget build(final BuildContext context) {
+    // final DioHubPalette theme =
+    //     Provider.of<PaletteSettings>(context).currentSetting;
 
     return ScaleExpandedSection(
       child: StringButton(
         title: 'Login with GitHub',
-        listenToLoadingController: true,
         loading: loading,
-        leadingIcon: Icon(
+        leadingIcon: const Icon(
           Octicons.mark_github,
-          color:
-              Provider.of<PaletteSettings>(context).currentSetting.baseElements,
+          // color:
+          // Provider.of<PaletteSettings>(context).currentSetting.baseElements,
         ),
-        color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
+        // color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
         onTap: () async {
-          showDialog(
+          await showDialog(
             context: context,
-            builder: (_) => AppDialog(
+            builder: (final _) => AppDialog(
               title: 'Choose Login Method',
               content: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   StringButton(
-                      color: theme.secondary,
-                      listenToLoadingController: false,
-                      onTap: () async {
-                        Navigator.pop(context);
-                        try {
-                          setState(() {
-                            loading = true;
-                          });
-                          await _browserAuth().then((value) =>
-                              BlocProvider.of<AuthenticationBloc>(context)
-                                  .add(AuthSuccessful(value)));
-                        } catch (e) {
-                        } finally {
-                          setState(() {
-                            loading = false;
-                          });
+                    // color: theme.secondary,
+                    onTap: () async {
+                      Navigator.pop(context);
+                      try {
+                        setState(() {
+                          loading = true;
+                        });
+                        await AuthRepository().oauth2().then(
+                              (final AccessTokenModel value) =>
+                                  BlocProvider.of<AuthenticationBloc>(context)
+                                      .add(
+                                AuthSuccessful(value),
+                              ),
+                            );
+                      } catch (e) {
+                        if (context.mounted) {
+                          BlocProvider.of<AuthenticationBloc>(context)
+                              .add(AuthError(e.toString()));
                         }
-                      },
-                      title: 'Browser'),
+                      } finally {
+                        setState(() {
+                          loading = false;
+                        });
+                      }
+                    },
+                    title: 'Browser',
+                  ),
                   const SizedBox(
                     height: 8,
                   ),
                   StringButton(
-                      color: theme.secondary,
-                      listenToLoadingController: false,
-                      onTap: () {
-                        Navigator.pop(context);
-                        BlocProvider.of<AuthenticationBloc>(context)
-                            .add(RequestDeviceCode());
-                      },
-                      title: 'One-Time Code')
+                    // color: theme.secondary,
+                    onTap: () {
+                      Navigator.pop(context);
+                      BlocProvider.of<AuthenticationBloc>(context)
+                          .add(RequestDeviceCode());
+                    },
+                    title: 'One-Time Code',
+                  ),
                 ],
               ),
             ),
@@ -86,19 +90,16 @@ class _LoginPopupState extends State<LoginPopup> {
   }
 }
 
-Future<AccessTokenModel> _browserAuth() async {
-  final appAuth = FlutterAppAuth();
-  final result = await appAuth.authorizeAndExchangeCode(
-    AuthorizationTokenRequest(
-      PrivateKeys.clientID,
-      'auth.felix.diohub://login-callback',
-      clientSecret: PrivateKeys.clientSecret,
-      serviceConfiguration: const AuthorizationServiceConfiguration(
-          authorizationEndpoint: 'https://github.com/login/oauth/authorize',
-          tokenEndpoint: 'https://github.com/login/oauth/access_token'),
-      scopes: AuthService.scopes,
-    ),
-  );
-  return AccessTokenModel(
-      accessToken: result!.accessToken, scope: AuthService.scopeString);
-}
+//
+// Future<AccessTokenModel> _browserAuth() async {
+//   final authEndpoint = Uri.parse('https://github.com/login/oauth/authorize');
+//   final tokenEndpoint =
+//       Uri.parse('https://github.com/login/oauth/access_token');
+//   final redirectUri = Uri.parse('auth.felix.diohub://login-callback');
+//   final grant = AuthorizationCodeGrant(
+//       PrivateKeys.clientID, authEndpoint, tokenEndpoint,
+//       secret: PrivateKeys.clientSecret);
+//   final authUrl = grant.getAuthorizationUrl(redirectUri);
+//   return AccessTokenModel(
+//       accessToken: result!.accessToken, scope: AuthService.scopeString);
+// }

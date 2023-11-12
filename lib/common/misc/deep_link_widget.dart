@@ -1,24 +1,22 @@
-import 'package:dio_hub/controller/deep_linking_handler.dart';
+import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:flutter/material.dart';
 
 abstract class DeepLinkWidget extends StatefulWidget {
-  const DeepLinkWidget({Key? key, this.deepLinkData}) : super(key: key);
-  final DeepLinkData? deepLinkData;
+  const DeepLinkWidget({super.key, this.pathData});
+  final PathData? pathData;
 }
 
 abstract class DeepLinkWidgetState<T extends DeepLinkWidget> extends State<T> {
-  void handleDeepLink(DeepLinkData deepLinkData);
+  void handleDeepLink(final PathData deepLinkData);
 
   @override
   void initState() {
-    if (widget.deepLinkData != null) {
-      handleDeepLink(widget.deepLinkData!);
+    if (widget.pathData != null) {
+      handleDeepLink(widget.pathData!);
     }
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+  Widget build(final BuildContext context) => Container();
 }

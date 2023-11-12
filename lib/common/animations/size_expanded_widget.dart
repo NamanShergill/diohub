@@ -1,16 +1,16 @@
-import 'package:dio_hub/style/anim_durations.dart';
+import 'package:diohub/style/anim_durations.dart';
 import 'package:flutter/material.dart';
 
 class SizeExpandedSection extends StatefulWidget {
-  const SizeExpandedSection(
-      {this.expand = true,
-      this.child,
-      this.axisAlignment = 1.0,
-      this.axis = Axis.vertical,
-      this.duration,
-      this.animationCurve,
-      Key? key})
-      : super(key: key);
+  const SizeExpandedSection({
+    required this.child,
+    this.expand = true,
+    this.axisAlignment = 1.0,
+    this.axis = Axis.vertical,
+    this.duration,
+    this.animationCurve,
+    super.key,
+  });
   final Widget? child;
   final bool? expand;
   final Axis axis;
@@ -19,10 +19,10 @@ class SizeExpandedSection extends StatefulWidget {
   final Duration? duration;
 
   @override
-  _SizeExpandedSectionState createState() => _SizeExpandedSectionState();
+  SizeExpandedSectionState createState() => SizeExpandedSectionState();
 }
 
-class _SizeExpandedSectionState extends State<SizeExpandedSection>
+class SizeExpandedSectionState extends State<SizeExpandedSection>
     with SingleTickerProviderStateMixin {
   late AnimationController expandController;
   late Animation<double> animation;
@@ -35,7 +35,9 @@ class _SizeExpandedSectionState extends State<SizeExpandedSection>
 
   void prepareAnimations() {
     expandController = AnimationController(
-        vsync: this, duration: widget.duration ?? transitionAnimDuration);
+      vsync: this,
+      duration: widget.duration ?? transitionAnimDuration,
+    );
     animation = CurvedAnimation(
       parent: expandController,
       curve: widget.animationCurve ?? Curves.fastOutSlowIn,
@@ -54,7 +56,7 @@ class _SizeExpandedSectionState extends State<SizeExpandedSection>
   }
 
   @override
-  void didUpdateWidget(SizeExpandedSection oldWidget) {
+  void didUpdateWidget(final SizeExpandedSection oldWidget) {
     super.didUpdateWidget(oldWidget);
     _runExpandCheck();
   }
@@ -66,12 +68,35 @@ class _SizeExpandedSectionState extends State<SizeExpandedSection>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SizeTransition(
-      axisAlignment: widget.axisAlignment,
-      sizeFactor: animation,
-      axis: widget.axis,
-      child: widget.child,
-    );
-  }
+  Widget build(final BuildContext context) => SizeTransition(
+        axisAlignment: widget.axisAlignment,
+        sizeFactor: animation,
+        axis: widget.axis,
+        child: widget.child,
+      );
+}
+
+class SizeSwitch extends StatelessWidget {
+  const SizeSwitch({
+    super.key,
+    this.child,
+    this.duration,
+    this.visible = true,
+    this.replacement,
+  });
+  final Widget? child;
+  final Duration? duration;
+  final Widget? replacement;
+  final bool visible;
+  @override
+  Widget build(final BuildContext context) => AnimatedSwitcher(
+        duration: duration ?? defaultAnimDuration,
+        child: visible ? child : replacement ?? Container(),
+        transitionBuilder:
+            (final Widget child, final Animation<double> animation) =>
+                SizeTransition(
+          sizeFactor: animation,
+          child: child,
+        ),
+      );
 }

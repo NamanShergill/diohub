@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ProjectBoardScreen extends StatelessWidget {
-  const ProjectBoardScreen({Key? key}) : super(key: key);
+  const ProjectBoardScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+  Widget build(final BuildContext context) => Container();
 }

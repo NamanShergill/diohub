@@ -1,50 +1,56 @@
-import 'dart:ui';
-
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/animations/size_expanded_widget.dart';
-import 'package:dio_hub/common/misc/markdown_body.dart';
-import 'package:dio_hub/common/misc/profile_banner.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/providers/issue_pulls/comment_provider.dart';
-import 'package:dio_hub/style/text_styles.dart';
-import 'package:dio_hub/utils/copy_to_clipboard.dart';
-import 'package:dio_hub/utils/get_date.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:diohub/common/markdown_view/markdown_body.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/common/misc/menu_button.dart';
+import 'package:diohub/common/misc/profile_banner.dart';
+import 'package:diohub/common/misc/reaction_bar.dart';
+import 'package:diohub/common/misc/tappable_card.dart';
+import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/providers/issue_pulls/comment_provider.dart';
+import 'package:diohub/routes/router.gr.dart';
+import 'package:diohub/utils/copy_to_clipboard.dart';
+import 'package:diohub/utils/get_date.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_down_button/pull_down_button.dart';
 
 class BaseComment extends StatefulWidget {
-  const BaseComment(
-      {Key? key,
-      required this.onQuote,
-      this.headerPadding = const EdgeInsets.symmetric(horizontal: 16),
-      this.header,
-      required this.isMinimized,
-      this.minimizedReason,
-      this.leading,
-      required this.reactions,
-      required this.viewerCanDelete,
-      required this.viewerCanMinimize,
-      this.description,
-      this.footer,
-      this.footerPadding = const EdgeInsets.only(top: 8.0, left: 8, right: 8),
-      required this.viewerCannotUpdateReasons,
-      required this.viewerCanReact,
-      required this.viewerCanUpdate,
-      required this.viewerDidAuthor,
-      required this.createdAt,
-      required this.author,
-      required this.body,
-      required this.lastEditedAt,
-      required this.bodyHTML,
-      required this.authorAssociation})
-      : super(key: key);
-  final ActorMixin? author;
-  final CommentAuthorAssociation authorAssociation;
+  const BaseComment({
+    required this.onQuote,
+    required this.isMinimized,
+    required this.reactions,
+    required this.viewerCanDelete,
+    required this.viewerCanMinimize,
+    required this.viewerCannotUpdateReasons,
+    required this.viewerCanReact,
+    required this.viewerCanUpdate,
+    required this.viewerDidAuthor,
+    required this.createdAt,
+    required this.author,
+    required this.body,
+    required this.lastEditedAt,
+    required this.bodyHTML,
+    required this.authorAssociation,
+    super.key,
+    // this.headerPadding = const EdgeInsets.symmetric(horizontal: 16),
+    // this.header,
+    this.minimizedReason,
+    this.leading,
+    this.description,
+    this.footer,
+    this.footerPadding = const EdgeInsets.only(top: 8, left: 8, right: 8),
+  });
+  final Gactor? author;
+  final GCommentAuthorAssociation authorAssociation;
   final String body;
   final IconData? leading;
   final String? bodyHTML;
-  // Todo: Temp nullable
-  final List<ReactionsMixin>? reactions;
+  // TODO(namanshergill): Temp nullable
+  final List<GreactionGroups> reactions;
   final DateTime? lastEditedAt;
   final DateTime createdAt;
   final bool isMinimized;
@@ -53,92 +59,264 @@ class BaseComment extends StatefulWidget {
   final bool viewerCanDelete;
   final bool viewerCanUpdate;
   final bool viewerDidAuthor;
-  // Todo: Temp nullable
-  final List<CommentCannotUpdateReason>? viewerCannotUpdateReasons;
+  // TODO(namanshergill): Temp nullable
+  final List<GCommentCannotUpdateReason>? viewerCannotUpdateReasons;
   final bool viewerCanReact;
   final Widget? footer;
   final String? description;
-  final Widget? header;
+  // final Widget? header;
   final VoidCallback onQuote;
-  final EdgeInsets headerPadding;
+  // final EdgeInsets headerPadding;
   final EdgeInsets footerPadding;
 
   @override
-  _BaseCommentState createState() => _BaseCommentState();
+  BaseCommentState createState() => BaseCommentState();
 }
 
-class _BaseCommentState extends State<BaseComment> {
-  bool optionsExpanded = false;
-
-  void addQuote(String data) {
+class BaseCommentState extends State<BaseComment> {
+  void addQuote(final String data) {
     context.read<CommentProvider>().addQuote(widget.body);
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
+  Widget build(final BuildContext context) => MenuButton(
+        itemBuilder: (final BuildContext context) => <PullDownMenuEntry>[
+          PullDownMenuActionsRow.medium(
+            items: <PullDownMenuItem>[
+              PullDownMenuItem(
+                onTap: () {
+                  // addQuote(widget.body);
+                  // widget.onQuote();
+                },
+                title: 'Edit',
+                icon: Icons.edit_rounded,
+              ),
+              // PullDownMenuItem(
+              //   onTap: () {
+              //     // addQuote(widget.body);
+              //     // widget.onQuote();
+              //   },
+              //   title: 'History',
+              //   icon: Icons.history_rounded,
+              // ),
+              PullDownMenuItem(
+                onTap: () {
+                  // addQuote(widget.body);
+                  // widget.onQuote();
+                },
+                title: 'React',
+                icon: Icons.emoji_emotions_rounded,
+              ),
+              // PullDownMenuItem(
+              //   onTap: () async => showDialog(
+              //     context: context,
+              //     builder: (final BuildContext cxt) =>
+              //     ListenableProvider<CommentProvider>.value(
+              //       value: Provider.of<CommentProvider>(context),
+              //       builder: (final BuildContext context,
+              //           final Widget? child) =>
+              //           _SelectAndCopy(
+              //             widget.body,
+              //             onQuote: widget.onQuote,
+              //           ),
+              //     ),
+              //   ),
+              //   title: 'Select',
+              //   icon: MdiIcons.clipboardSearch,
+              // ),
+            ],
+          ),
+          PullDownMenuActionsRow.medium(
+            items: <PullDownMenuItem>[
+              PullDownMenuItem(
+                onTap: () {
+                  addQuote(widget.body);
+                  widget.onQuote();
+                },
+                title: 'Share',
+                icon: Icons.adaptive.share_rounded,
+              ),
+              PullDownMenuItem(
+                onTap: () {
+                  addQuote(widget.body);
+                  widget.onQuote();
+                },
+                title: 'Quote',
+                icon: Icons.format_quote_rounded,
+              ),
+              PullDownMenuItem(
+                onTap: () async => showDialog(
+                  context: context,
+                  builder: (final BuildContext cxt) =>
+                      ListenableProvider<CommentProvider>.value(
+                    value: Provider.of<CommentProvider>(context),
+                    builder:
+                        (final BuildContext context, final Widget? child) =>
+                            SelectAndCopy(
+                      widget.body,
+                      onQuote: widget.onQuote,
+                    ),
+                  ),
+                ),
+                title: 'Select',
+                icon: MdiIcons.clipboardSearch,
+              ),
+            ],
+          ),
+          const PullDownMenuDivider.large(),
+          PullDownMenuHeader(
+            leading: CachedNetworkImage(
+              imageUrl: widget.author!.avatarUrl.toString(),
+            ),
+            title: widget.author!.login,
+            subtitle: 'Go to profile',
+            onTap: () async {
+              await context.router.push(
+                OtherUserProfileRoute(login: widget.author!.login),
+              );
+            },
+          ).themed(context),
+        ],
+        builder: (
+          final BuildContext context,
+          final Widget button,
+          final Future<void> Function() showMenu,
+        ) =>
+            Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            CardHeader(
+              child: _buildHeader(context, button),
+            ),
+            // const SizedBox(height: 8),
+
+            BasicCard.linked(
+              cardLinkType:
+                  _reactionsNotEmpty() ? CardLinkType.both : CardLinkType.atTop,
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Column(
+                  children: <Widget>[
+                    if (widget.description != null)
+                      Text(
+                        widget.description!,
+                        // style: AppThemeTextStyles.basicIssueEventCardText(context)
+                        //     .copyWith(
+                        //   fontWeight: FontWeight.bold,
+                        //   fontStyle: FontStyle.italic,
+                        // ),
+                      ),
+                    if (widget.bodyHTML?.isNotEmpty ?? false)
+                      MarkdownBody(
+                        widget.bodyHTML!,
+                        buildAsync: false,
+                        style: MarkdownBodyStyle(
+                          codeBlockStyle: MarkdownBodyCodeBlockStyle(
+                            elevation: 3,
+                            headerColor:
+                                context.colorScheme.surfaceVariant.asHint(),
+                          ),
+                        ),
+                      ),
+                    if (widget.footer != null)
+                      Padding(
+                        padding: widget.footerPadding,
+                        child: widget.footer,
+                      ),
+                    if (widget.footer == null &&
+                        (widget.bodyHTML?.isEmpty ?? false))
+                      const SizedBox(
+                        height: 8,
+                      ),
+                  ],
+                ),
+              ),
+            ),
+
+            if (_reactionsNotEmpty())
+              BasicCard.linked(
+                color: context.colorScheme.surfaceVariant,
+                // elevation: 0,
+                cardLinkType: CardLinkType.atTop,
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: ReactionBar(
+                    widget.reactions,
+                    viewerCanReact: widget.viewerCanReact,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      );
+
+  bool _reactionsNotEmpty() => widget.reactions
+      .where(
+        (final GreactionGroups element) => element.reactors.totalCount > 0,
+      )
+      .isNotEmpty;
+
+  Widget _buildHeader(
+    final BuildContext context,
+    final Widget button,
+  ) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             Row(
-              children: [
+              children: <Widget>[
                 if (widget.leading != null)
                   Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
+                    padding: const EdgeInsets.only(right: 8),
                     child: Icon(
                       widget.leading,
                       size: 16,
-                      color: Provider.of<PaletteSettings>(context)
-                          .currentSetting
-                          .faded3,
+                      // color: Provider.of<PaletteSettings>(context)
+                      //     .currentSetting
+                      //     .faded3,
                     ),
                   ),
-                ProfileTile(
-                  widget.author?.avatarUrl.toString(),
+                const SizedBox(
+                  width: 4,
+                ),
+                ProfileTile.avatar(
+                  avatarUrl: widget.author?.avatarUrl.toString(),
                   userLogin: widget.author?.login,
-                  size: 25,
+                  padding: EdgeInsets.zero,
+                  size: 32,
                 ),
                 const SizedBox(
                   width: 8,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text(
                       widget.author?.login ?? 'N/A',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 12),
+                      style: context.textTheme.bodyMedium,
                     ),
                     if (widget.authorAssociation !=
-                            CommentAuthorAssociation.member &&
+                            GCommentAuthorAssociation.MEMBER &&
                         widget.authorAssociation !=
-                            CommentAuthorAssociation.none)
+                            GCommentAuthorAssociation.NONE)
                       Builder(
-                        builder: (context) {
+                        builder: (final BuildContext context) {
                           String? str;
                           if (widget.authorAssociation ==
-                              CommentAuthorAssociation.collaborator) {
+                              GCommentAuthorAssociation.COLLABORATOR) {
                             str = 'Collaborator';
                           } else if (widget.authorAssociation ==
-                              CommentAuthorAssociation.contributor) {
+                              GCommentAuthorAssociation.CONTRIBUTOR) {
                             str = 'Contributor';
                           } else if (widget.authorAssociation ==
-                              CommentAuthorAssociation.owner) {
+                              GCommentAuthorAssociation.OWNER) {
                             str = 'Owner';
                           }
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4.0),
-                            child: Text(
-                              str ?? '',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Provider.of<PaletteSettings>(context)
-                                      .currentSetting
-                                      .faded3),
-                            ),
+                          return Text(
+                            str ?? '',
+                            style: context.textTheme.bodySmall?.asHint(),
                           );
                         },
                       ),
@@ -147,210 +325,103 @@ class _BaseCommentState extends State<BaseComment> {
               ],
             ),
             Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      getDate(widget.createdAt.toString(), shorten: false),
-                      style: TextStyle(
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .faded3,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    if (widget.lastEditedAt != null)
-                      Text(
-                        'Edited ${getDate(widget.lastEditedAt.toString(), shorten: false)}',
-                        style: TextStyle(
-                            color: Provider.of<PaletteSettings>(context)
-                                .currentSetting
-                                .faded3,
-                            fontSize: 10),
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Text.rich(
+                      TextSpan(
+                        text: getDate(widget.createdAt.toString()),
+                        style: context.textTheme.bodySmall?.asHint(),
+                        children: <InlineSpan>[
+                          if (widget.lastEditedAt != null)
+                            TextSpan(
+                              text:
+                                  ' • Edited ${getDate(widget.lastEditedAt.toString())}',
+                              // style: context.textTheme.bodySmall?.asHint(),
+                            ),
+                        ],
                       ),
+                    ),
                   ],
                 ),
-                widget.body.isNotEmpty
-                    ? IconButton(
-                        onPressed: () {
-                          setState(() {
-                            optionsExpanded = !optionsExpanded;
-                          });
-                        },
-                        icon: Icon(
-                          Icons.more_vert_rounded,
-                          color: Provider.of<PaletteSettings>(context)
-                              .currentSetting
-                              .faded3,
-                        ))
-                    : const SizedBox(
-                        width: 8,
-                        height: 32,
-                      ),
+                button,
               ],
             ),
           ],
         ),
-        // const SizedBox(height: 8),
-        SizeExpandedSection(
-          expand: optionsExpanded,
-          child: Column(
-            children: [
-              const Divider(),
-              ListTile(
-                leading: const Icon(
-                  Icons.format_quote,
-                ),
-                onTap: () {
-                  addQuote(widget.body);
-                  widget.onQuote();
-                },
-                dense: true,
-                title: const Text(
-                  'Quote Reply',
-                  // style: TextStyle(fontSize: 13),
-                ),
-              ),
-              const Divider(),
-              ListTile(
-                dense: true,
-                leading: const Icon(Icons.content_copy),
-                title: const Text('Select Text'),
-                onTap: () => showDialog(
-                  context: context,
-                  builder: (cxt) => ListenableProvider.value(
-                    value: Provider.of<CommentProvider>(context),
-                    builder: (context, child) => _SelectAndCopy(
-                      widget.body,
-                      onQuote: widget.onQuote,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const Divider(),
-        if (widget.description != null)
-          Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-            child: Text(
-              widget.description!,
-              style:
-                  AppThemeTextStyles.basicIssueEventCardText(context).copyWith(
-                fontWeight: FontWeight.bold,
-                // fontStyle: FontStyle.italic,
-              ),
-            ),
-          ),
-        if (widget.header != null)
-          Padding(
-            padding: widget.headerPadding,
-            child: widget.header!,
-          ),
-        if (widget.bodyHTML?.isNotEmpty == true)
-          Row(
-            children: [
-              Flexible(
-                  child: MarkdownBody(
-                widget.bodyHTML!,
-              )),
-            ],
-          ),
-        if (widget.footer != null && widget.bodyHTML?.isEmpty == true)
-          const SizedBox(
-            height: 8,
-          ),
-        if (widget.footer != null)
-          Padding(
-            padding: widget.footerPadding,
-            child: widget.footer!,
-          ),
-        if (widget.footer == null && widget.bodyHTML?.isEmpty == true)
-          const SizedBox(
-            height: 8,
-          ),
-        // if (url != null)
-        //   ReactionBar(
-        //     url,
-        //     Provider.of<CurrentUserProvider>(context, listen: false)
-        //         .currentUserInfo
-        //         ?.login,
-        //     isEnabled: !isLocked!,
-        //   ),
-      ],
-    );
-  }
+      );
 }
 
-class _SelectAndCopy extends StatefulWidget {
-  const _SelectAndCopy(this.data, {Key? key, required this.onQuote})
-      : super(key: key);
+class SelectAndCopy extends StatefulWidget {
+  const SelectAndCopy(this.data, {super.key, this.onQuote});
   final String data;
-  final VoidCallback onQuote;
+  final VoidCallback? onQuote;
 
   @override
-  __SelectAndCopyState createState() => __SelectAndCopyState();
+  _SelectAndCopyState createState() => _SelectAndCopyState();
 }
 
-class __SelectAndCopyState extends State<_SelectAndCopy> {
+class _SelectAndCopyState extends State<SelectAndCopy> {
   String selectedText = '';
   @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(
-        'Select and copy',
-        style: Theme.of(context).textTheme.headline6,
-      ),
-      content: SingleChildScrollView(
-        child: SelectableText(
-          widget.data,
-          style: Theme.of(context).textTheme.bodyText2,
-          onSelectionChanged: (selection, cause) {
-            setState(() {
-              selectedText = selection.textInside(widget.data);
-            });
-          },
+  Widget build(final BuildContext context) => AlertDialog(
+        title: Text(
+          'Select and copy',
+          style: Theme.of(context).textTheme.titleLarge,
         ),
-      ),
-      actions: [
-        MaterialButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('Cancel'),
+        content: SingleChildScrollView(
+          child: SelectableText(
+            widget.data,
+            style: Theme.of(context).textTheme.bodyMedium,
+            onSelectionChanged: (
+              final TextSelection selection,
+              final SelectionChangedCause? cause,
+            ) {
+              setState(() {
+                selectedText = selection.textInside(widget.data);
+              });
+            },
           ),
         ),
-        MaterialButton(
-          onPressed: selectedText.isNotEmpty
-              ? () {
-                  copyToClipboard(selectedText);
-                  Navigator.pop(context);
-                }
-              : null,
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('Copy'),
+        actions: <Widget>[
+          MaterialButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(8),
+              child: Text('Cancel'),
+            ),
           ),
-        ),
-        MaterialButton(
-          onPressed: selectedText.isNotEmpty
-              ? () {
-                  context.read<CommentProvider>().addQuote(selectedText);
-                  Navigator.pop(context);
+          MaterialButton(
+            onPressed: selectedText.isNotEmpty
+                ? () async {
+                    await copyToClipboard(selectedText);
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                    }
+                  }
+                : null,
+            child: const Padding(
+              padding: EdgeInsets.all(8),
+              child: Text('Copy'),
+            ),
+          ),
+          if (widget.onQuote != null)
+            MaterialButton(
+              onPressed: selectedText.isNotEmpty
+                  ? () {
+                      context.read<CommentProvider>().addQuote(selectedText);
+                      Navigator.pop(context);
 
-                  widget.onQuote();
-                }
-              : null,
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('Quote'),
-          ),
-        ),
-      ],
-    );
-  }
+                      widget.onQuote!();
+                    }
+                  : null,
+              child: const Padding(
+                padding: EdgeInsets.all(8),
+                child: Text('Quote'),
+              ),
+            ),
+        ],
+      );
 }

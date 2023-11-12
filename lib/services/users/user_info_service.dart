@@ -1,109 +1,143 @@
-import 'package:dio_hub/app/Dio/cache.dart';
-import 'package:dio_hub/app/Dio/dio.dart';
-import 'package:dio_hub/graphql/graphql.dart';
-import 'package:dio_hub/models/repositories/repository_model.dart';
-import 'package:dio_hub/models/users/current_user_info_model.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
+import 'package:dio/dio.dart';
+import 'package:diohub/app/api_handler/dio.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.query.req.gql.dart';
+import 'package:diohub/graphql/queries/viewer/__generated__/viewer.query.data.gql.dart';
+import 'package:diohub/graphql/queries/viewer/__generated__/viewer.query.req.gql.dart';
+import 'package:diohub/models/repositories/repository_model.dart';
+import 'package:diohub/models/users/current_user_info_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/utils/type_cast.dart';
 
 class UserInfoService {
+  UserInfoService(this.temp);
+
+  static final GraphqlHandler _gqlHandler = GraphqlHandler();
+  final String temp;
+  static final RESTHandler _restHandler = RESTHandler();
+
   // Ref: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
   static Future<CurrentUserInfoModel> getCurrentUserInfo() async {
-    final response = await
-        request(cacheOptions: CacheManager.currentUserProfileInfo())
-        .get(
-          '/user',
-        );
-    return CurrentUserInfoModel.fromJson(response.data);
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
+      '/user',
+    );
+    return CurrentUserInfoModel.fromJson(response.data!);
   }
 
   // Ref: https://docs.github.com/en/rest/reference/repos#list-repositories-for-the-authenticated-user
   static Future<List<RepositoryModel>> getCurrentUserRepos(
-    int perPage,
-    int pageNumber, {
-    required bool refresh,
-    String? sort,
-    bool? ascending = false,
+    final int perPage,
+    final int pageNumber, {
+    required final bool refresh,
+    final String? sort,
+    final bool? ascending = false,
   }) async {
-    final response = await request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get('/user/repos', queryParameters: {
-      if (sort != null) 'sort': sort,
-      if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
-      'per_page': perPage,
-      'type': 'owner',
-      'page': pageNumber
-    });
-    final List unParsedData = response.data;
-    return unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
+    final Response<List<dynamic>> response =
+        await _restHandler.get<List<dynamic>>(
+      '/user/repos',
+      queryParameters: <String, dynamic>{
+        if (sort != null) 'sort': sort,
+        if (ascending != null) 'direction': ascending ? 'asc' : 'desc',
+        'per_page': perPage,
+        'type': 'owner',
+        'page': pageNumber,
+      },
+      refreshCache: refresh,
+    );
+    return response.data!
+        // ignore: unnecessary_lambdas
+        .map((final dynamic e) => RepositoryModel.fromJson(e))
+        .toList();
   }
 
   static Future<List<RepositoryModel>> getUserRepos(
-    String? username,
-    int perPage,
-    int pageNumber,
-    String? sort, {
-    required bool refresh,
+    final String? username,
+    final int perPage,
+    final int pageNumber,
+    final String? sort, {
+    required final bool refresh,
   }) async {
-    final response = await
-        request(cacheOptions: CacheManager.defaultCache(refresh: refresh))
-        .get(
+    final Response<DynamicList> response = await _restHandler.get<DynamicList>(
       '/users/$username/repos',
-      queryParameters: {
+      queryParameters: <String, dynamic>{
         'sort': 'updated',
         'per_page': perPage,
         'page': pageNumber,
         if (sort != null) 'sort': sort,
       },
+      refreshCache: refresh,
     );
-    final List unParsedData = response.data;
-    final data = unParsedData.map((e) => RepositoryModel.fromJson(e)).toList();
+    final DynamicList unParsedData = response.data!;
+    final List<RepositoryModel> data = unParsedData
+        .map(
+          // ignore: unnecessary_lambdas
+          (final dynamic e) => RepositoryModel.fromJson(e),
+        )
+        .toList();
     return data;
   }
 
-  static Future<UserInfoModel> getUserInfo(String? login) async {
-    final response =
-        await request(cacheOptions: CacheManager.defaultCache()).get(
-              '/users/$login',
-            );
-    return UserInfoModel.fromJson(response.data);
+  static Future<UserInfoModel> getUserInfo(final String? login) async {
+    final Response<TypeMap> response = await _restHandler.get<TypeMap>(
+      '/users/$login',
+    );
+    return UserInfoModel.fromJson(response.data!);
   }
 
-  static Future<List<GetUserPinnedRepos$Query$User$PinnedItems$Edges?>>
-      getUserPinnedRepos(String user) async {
-    final res = await gqlRequest(
-        GetUserPinnedReposQuery(
-            variables: GetUserPinnedReposArguments(user: user)),
-        cacheOptions: CacheManager.defaultGQLCache());
-    return GetUserPinnedRepos$Query.fromJson(res.data!)
+  static Future<List<GgetUserPinnedReposData_user_pinnedItems_edges?>>
+      getUserPinnedRepos(final String user) async {
+    final GQLResponse res = await _gqlHandler.query(
+      GgetUserPinnedReposReq((final GgetUserPinnedReposReqBuilder b) => b..vars.user = user),
+    );
+    return GgetUserPinnedReposData.fromJson(res.data!)!
         .user!
         .pinnedItems
-        .edges!;
+        .edges!
+        .toList();
   }
 
-  static Future<List<GetViewerOrgs$Query$Viewer$Organizations$Edges?>>
-      getViewerOrgs({String? after, required bool refresh}) async {
-    final res = await gqlRequest(
-        GetViewerOrgsQuery(variables: GetViewerOrgsArguments(cursor: after)),
-        cacheOptions: CacheManager.defaultGQLCache(refresh: refresh));
-    return GetViewerOrgs$Query.fromJson(res.data!).viewer.organizations.edges!;
+  static Future<List<GgetViewerOrgsData_viewer_organizations_edges?>>
+      getViewerOrgs({required final bool refresh, final String? after}) async {
+    final GQLResponse res = await _gqlHandler.query(
+      GgetViewerOrgsReq((final GgetViewerOrgsReqBuilder b) => b..vars.cursor = after),
+      refreshCache: refresh,
+    );
+    return GgetViewerOrgsData.fromJson(res.data!)!
+        .viewer
+        .organizations
+        .edges!
+        .toList();
   }
 
-  static Future<FollowStatusInfo$Query$User> getFollowInfo(String login) async {
-    return FollowStatusInfo$Query.fromJson((await gqlRequest(
-                FollowStatusInfoQuery(
-                    variables: FollowStatusInfoArguments(user: login))))
-            .data!)
-        .user!;
-  }
+  static Future<GfollowStatusInfoData_user> getFollowInfo(
+    final String login,
+  ) async =>
+      GfollowStatusInfoData.fromJson(
+        (await _gqlHandler.query(
+          GfollowStatusInfoReq(
+            (final GfollowStatusInfoReqBuilder b) => b..vars.user = login,
+          ),
+        ))
+            .data!,
+      )!
+          .user!;
 
-  static Future changeFollowStatus(String id, {required bool follow}) async {
+  static Future<GQLResponse> changeFollowStatus(
+    final String id, {
+    required final bool follow,
+  }) async {
     if (follow) {
-      return gqlRequest(
-          FollowUserMutation(variables: FollowUserArguments(user: id)),
-          debugLog: true);
+      return _gqlHandler.mutation(
+        GfollowUserReq(
+          (final GfollowUserReqBuilder b) => b..vars.user = id,
+        ),
+      );
     } else {
-      return gqlRequest(
-          UnfollowUserMutation(variables: UnfollowUserArguments(user: id)),
-          debugLog: true);
+      return _gqlHandler.mutation(
+        GunfollowUserReq(
+          (final GunfollowUserReqBuilder b) => b..vars.user = id,
+        ),
+      );
     }
   }
 }

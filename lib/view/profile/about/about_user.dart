@@ -1,154 +1,113 @@
-import 'package:dio_hub/app/settings/palette.dart';
-import 'package:dio_hub/common/misc/info_card.dart';
-import 'package:dio_hub/models/users/user_info_model.dart';
-import 'package:dio_hub/utils/get_date.dart';
-import 'package:dio_hub/utils/link_handler.dart';
+import 'package:diohub/common/bottom_sheet/url_actions.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/utils/get_date.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
 class AboutUser extends StatelessWidget {
-  const AboutUser(this.userInfoModel, {Key? key}) : super(key: key);
+  const AboutUser(this.userInfoModel, {super.key});
   final UserInfoModel? userInfoModel;
+
+  List<Widget> items(final BuildContext context) => <Widget>[
+        if (userInfoModel!.bio != null)
+          InfoCard(
+            title: 'Bio',
+            child: Text(userInfoModel!.bio!),
+          ),
+        if (userInfoModel!.twitterUsername != null)
+          MenuInfoCard(
+            title: 'Twitter',
+            leading: InfoCard.leadingIcon(
+              icon: MdiIcons.twitter,
+              context: context,
+            ),
+            onTap: () async => URLActions(
+              uri: Uri.parse(
+                'https://twitter.com/${userInfoModel!.twitterUsername}',
+              ),
+            ).launchURL(),
+            menuBuilder: (final BuildContext context) => URLActions(
+              uri: Uri.parse(
+                'https://twitter.com/${userInfoModel!.twitterUsername}',
+              ),
+            ).menuItems,
+            child: Text('@${userInfoModel!.twitterUsername}'),
+          ),
+        if (userInfoModel!.email != null)
+          MenuInfoCard(
+            title: 'Email',
+            onTap: () async =>
+                URLActions(uri: Uri.parse('mailto:${userInfoModel!.email}'))
+                    .launchURL(),
+            menuBuilder: (final BuildContext context) =>
+                URLActions(uri: Uri.parse('mailto:${userInfoModel!.email}'))
+                    .menuItems,
+            leading: InfoCard.leadingIcon(
+              icon: MdiIcons.at,
+              context: context,
+            ),
+            child: Text(userInfoModel!.email!),
+          ),
+        if (userInfoModel!.blog?.isNotEmpty ?? false)
+          MenuInfoCard(
+            leading: InfoCard.leadingIcon(
+              icon: MdiIcons.bio,
+              context: context,
+            ),
+            title: 'Blog',
+            onTap: URLActions(uri: Uri.parse(userInfoModel!.blog!)).launchURL,
+            menuBuilder: (final BuildContext context) =>
+                URLActions(uri: Uri.parse(userInfoModel!.blog!)).menuItems,
+            child: Text(userInfoModel!.blog!),
+          ),
+        if (userInfoModel!.company != null)
+          InfoCard(
+            title: 'Company',
+            leading: InfoCard.leadingIcon(
+              icon: MdiIcons.officeBuilding,
+              context: context,
+            ),
+            child: Text(userInfoModel!.company!),
+          ),
+        if (userInfoModel!.location != null)
+          InfoCard(
+            title: 'Location',
+            leading: InfoCard.leadingIcon(
+              icon: MdiIcons.mapMarker,
+              context: context,
+            ),
+            child: Text(userInfoModel!.location!),
+          ),
+        if (userInfoModel!.createdAt != null)
+          InfoCard(
+            leading: InfoCard.leadingIcon(
+              icon: MdiIcons.calendar,
+              context: context,
+            ),
+            title: 'Joined',
+            child: Text(
+              getDate(
+                userInfoModel!.createdAt.toString(),
+                shorten: false,
+              ),
+            ),
+          ),
+      ];
+
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      child: Column(
-        children: [
+  Widget build(final BuildContext context) => ListView(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
           const SizedBox(
             height: 16,
           ),
-          if (userInfoModel!.bio != null)
-            InfoCard(
-              'Bio',
-              child: Row(
-                children: [
-                  Flexible(child: Text(userInfoModel!.bio!)),
-                ],
-              ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: WrappedCollection(
+              children: items(context),
             ),
-          if (userInfoModel!.twitterUsername != null)
-            InfoCard(
-              'Twitter',
-              onTap: () {
-                linkHandler(context,
-                    'https://twitter.com/${userInfoModel!.twitterUsername}');
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.twitter,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text('@${userInfoModel!.twitterUsername}'),
-                ],
-              ),
-            ),
-          if (userInfoModel!.email != null)
-            InfoCard(
-              'Email',
-              onTap: () {
-                linkHandler(context, 'mailto:${userInfoModel!.email}');
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.at,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(userInfoModel!.email!),
-                ],
-              ),
-            ),
-          if (userInfoModel!.blog != null && userInfoModel!.blog!.isNotEmpty)
-            InfoCard(
-              'Blog',
-              onTap: () {
-                linkHandler(context, userInfoModel!.blog);
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.blog,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Flexible(child: Text(userInfoModel!.blog!)),
-                ],
-              ),
-            ),
-          if (userInfoModel!.company != null)
-            InfoCard(
-              'Company',
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.building,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(userInfoModel!.company!),
-                ],
-              ),
-            ),
-          if (userInfoModel!.location != null)
-            InfoCard(
-              'Location',
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.locationArrow,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(userInfoModel!.location!),
-                ],
-              ),
-            ),
-          if (userInfoModel!.createdAt != null)
-            InfoCard(
-              'Joined',
-              child: Row(
-                children: [
-                  Icon(
-                    LineIcons.calendar,
-                    color: Provider.of<PaletteSettings>(context)
-                        .currentSetting
-                        .faded3,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(getDate(userInfoModel!.createdAt.toString(),
-                      shorten: false)),
-                ],
-              ),
-            ),
+          ),
         ],
-      ),
-    );
-  }
+      );
 }

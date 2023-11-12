@@ -1,0 +1,16 @@
+# import './timeline.query.graphql'
+
+
+query fetchReview($id: ID!){
+    node(id: $id){
+        __typename
+        ... on PullRequestReviewComment{
+            bodyHTML
+            author{
+                ... actor
+            }
+            diffHunk
+            path
+        }
+    }
+}
