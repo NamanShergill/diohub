@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/common/issues/issue_label.dart';
+import 'package:diohub/common/misc/info_card.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
 import 'package:diohub/common/pulls/pull_loading_card.dart';
 import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
@@ -38,92 +39,63 @@ class IssueListCard extends StatelessWidget {
         compact: compact,
       );
     }
-    return InkWell(
-      borderRadius: medBorderRadius,
-      onTap: () async {
-        await AutoRouter.of(context)
-            .push(issuePullScreenRoute(PathData.fromURL(item.url!)));
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                getIcon(item.state!),
-                const SizedBox(
-                  width: 4,
-                ),
-                if (showRepoName)
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 4),
-                      child: Text(
-                        item.url!
-                            .replaceAll('https://api.github.com/repos/', '')
-                            .split('/')
-                            .sublist(0, 2)
-                            .join('/'),
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            // color: Provider.of<PaletteSettings>(context)
-                            //     .currentSetting
-                            //     .faded3,
-                            ),
-                      ),
+    final Padding child = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              getIcon(item.state!),
+              const SizedBox(
+                width: 4,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Text(
+                '${item.number}',
+                style: context.textTheme.bodyMedium?.asHint(),
+              ),
+              if (item.comments != 0)
+                Row(
+                  children: <Widget>[
+                    const SizedBox(
+                      width: 16,
                     ),
-                  ),
-                Text(
-                  '#${item.number}',
-                  style: context.textTheme.labelMedium?.asHint(),
+                    Icon(
+                      Octicons.comment,
+                      color: context.colorScheme.onSurface.asHint(),
+                      size: 11,
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Text(
+                      '${item.comments} comments',
+                      style: context.textTheme.labelMedium?.asHint(),
+                    ),
+                  ],
                 ),
-                if (item.comments != 0)
-                  Row(
-                    children: <Widget>[
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Icon(
-                        Octicons.comment,
-                        color: context.colorScheme.onSurface.asHint(),
-                        size: 11,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        '${item.comments} comments',
-                        style: context.textTheme.labelMedium?.asHint(),
-                      ),
-                    ],
-                  ),
-              ],
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              item.title!,
-              style: context.textTheme.bodyLarge?.asBold(),
-            ),
-            if (!compact)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    item.state == GIssueState.CLOSED
-                        ? 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
-                        : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
-                    style: context.textTheme.bodySmall?.asHint(),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Wrap(
+            ],
+          ),
+          Text(
+            item.title!,
+            style: context.textTheme.bodyMedium,
+          ),
+          if (!compact)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  item.state == IssueState.CLOSED
+                      ? 'By ${item.user!.login}, closed ${getDate(item.closedAt.toString(), shorten: false)}.'
+                      : 'Opened ${getDate(item.createdAt.toString(), shorten: false)} by ${item.user!.login}',
+                  style: context.textTheme.bodySmall?.asHint(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Wrap(
                     children: List<Widget>.generate(
                       item.labels!.length,
                       (final int index) => Padding(
@@ -135,11 +107,32 @@ class IssueListCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                ],
-              ),
-          ],
-        ),
+                ),
+              ],
+            ),
+        ],
       ),
+    );
+    return InkWell(
+      borderRadius: medBorderRadius,
+      onTap: () async {
+        await AutoRouter.of(context)
+            .push(issuePullScreenRoute(PathData.fromURL(item.url!)));
+      },
+      child: showRepoName
+          ? InfoCard(
+              leading: Text(
+                item.url!
+                    .replaceAll('https://api.github.com/repos/', '')
+                    .split('/')
+                    .sublist(0, 2)
+                    .join('/'),
+                overflow: TextOverflow.ellipsis,
+                style: context.textTheme.bodySmall?.asHint(),
+              ),
+              child: child,
+            )
+          : child,
     );
   }
 }

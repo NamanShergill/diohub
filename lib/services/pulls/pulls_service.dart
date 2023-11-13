@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:diohub/app/api_handler/dio.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/pr_review_comment.query.data.gql.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/pr_review_comment.query.req.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/pr_review_comment.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/pr_review_comment.req.gql.dart';
 import 'package:diohub/models/commits/commit_model.dart';
 import 'package:diohub/models/pull_requests/pull_request_model.dart';
 import 'package:diohub/models/pull_requests/review_model.dart';

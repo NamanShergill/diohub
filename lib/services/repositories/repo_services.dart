@@ -1,10 +1,10 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
 import 'package:diohub/app/api_handler/dio.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.data.gql.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.req.gql.dart';
-import 'package:diohub/graphql/queries/repositories/__generated__/repo_info.query.data.gql.dart';
-import 'package:diohub/graphql/queries/repositories/__generated__/repo_info.query.req.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.req.gql.dart';
+import 'package:diohub/graphql/queries/repositories/__generated__/repo_info.data.gql.dart';
+import 'package:diohub/graphql/queries/repositories/__generated__/repo_info.req.gql.dart';
 import 'package:diohub/models/commits/commit_model.dart';
 import 'package:diohub/models/repositories/branch_list_model.dart';
 import 'package:diohub/models/repositories/branch_model.dart';
@@ -182,12 +182,14 @@ class RepositoryServices {
     final String name,
   ) async {
     final GQLResponse res = await _gqlHandler.query(
-      GhasStarredReq((
-        final GhasStarredReqBuilder b,
-      ) =>
-          b
-            ..vars.name = name
-            ..vars.owner = name,),
+      GhasStarredReq(
+        (
+          final GhasStarredReqBuilder b,
+        ) =>
+            b
+              ..vars.name = name
+              ..vars.owner = name,
+      ),
       refreshCache: true,
     );
     return GhasStarredData.fromJson(res.data!)!.repository!;

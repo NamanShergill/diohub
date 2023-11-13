@@ -15,10 +15,8 @@ class WrappedCollection extends StatelessWidget {
   final double spacing;
   @override
   Widget build(final BuildContext context) => FlexList(
-        // crossAxisAlignment: WrapCrossAlignment.center,
         verticalSpacing: spacing,
         horizontalSpacing: spacing,
-        // runAlignment: WrapAlignment.center,
         children: children,
       );
 }
@@ -33,13 +31,14 @@ class InfoCard extends StatelessWidget {
     this.leading,
     this.headerPadding =
         const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-    this.onHeaderTap,
+    final VoidCallback? onHeaderTap,
     this.headerColor,
     this.elevation,
     final EdgeInsets? childPadding,
     // this.titleTextStyle,
     // this.leadingIconColor,
-  })  : children = <Widget>[
+  })  : onHeaderTap = onHeaderTap ?? onTap,
+        children = <Widget>[
           InkWell(
             onTap: onTap,
             child: Padding(
@@ -86,16 +85,18 @@ class InfoCard extends StatelessWidget {
         Icons.arrow_drop_down_rounded,
       );
 
-  static Icon leadingIcon({
+  static Widget leadingIcon({
     required final IconData icon,
-    required final BuildContext context,
     final Color? color,
   }) =>
-      Icon(
-        icon,
-        // size: 18,
-        color: color,
+      Builder(
+        builder: (final BuildContext context) => Icon(
+          icon,
+          // size: 18,
+          color: color ?? context.colorScheme.onSurfaceVariant.asHint(),
+        ),
       );
+
   Widget _buildUI(final BuildContext context) => IntrinsicWidth(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -264,16 +265,17 @@ class CardHeader extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => BasicCard.linked(
         cardLinkType: cardLinkType, elevation: elevation,
-        color: color ?? context.colorScheme.surfaceVariant,
+        // color: color ?? context.colorScheme.surfaceVariant.asHint(),
+        color: color ?? context.colorScheme.secondaryContainer,
         // elevation: 0,
         onTap: onTap,
         child: DefaultTextStyle(
           style: context.textTheme.bodySmall!.copyWith(
-            color: context.colorScheme.onSurfaceVariant,
+            color: context.colorScheme.onSecondaryContainer,
           ),
           child: IconTheme.merge(
             data: IconThemeData(
-              color: context.colorScheme.onSurfaceVariant,
+              color: context.colorScheme.onSecondaryContainer,
               size: 16,
             ),
             child: child,

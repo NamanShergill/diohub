@@ -166,9 +166,18 @@ class RESTHandler extends BaseAPIHandler {
         onSendProgress: onSendProgress,
       );
       return response;
-    } catch (e) {
+    } on Exception catch (e) {
       rethrow;
     }
+  }
+
+  static const String _githubAPIVersion = '2022-11-28';
+
+  @override
+  Future<void> onRequest(
+      final RequestOptions options, final RequestInterceptorHandler handler) {
+    options.headers['X-GitHub-Api-Version'] = _githubAPIVersion;
+    return super.onRequest(options, handler);
   }
 }
 
@@ -341,7 +350,7 @@ abstract class BaseAPIHandler {
               final String? token = await authRepo.getAccessTokenFromDevice();
               options.headers['Authorization'] = 'token $token';
               handler.next(options);
-            } catch (e) {
+            } on Exception catch (e) {
               log.e('Could not fetch auth token from device.', error: e);
               handler.reject(
                 DioException(

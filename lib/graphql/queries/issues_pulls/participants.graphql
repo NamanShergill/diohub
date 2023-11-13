@@ -1,4 +1,4 @@
-# import './timeline.query.graphql'
+# import './timeline.graphql'
 
 query getParticipants($id: ID!, $after:String){
     node(id: $id){

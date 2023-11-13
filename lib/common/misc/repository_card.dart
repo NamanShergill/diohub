@@ -5,11 +5,22 @@ import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
 import 'package:diohub/models/repositories/repository_model.dart';
 import 'package:diohub/routes/router.gr.dart';
 import 'package:diohub/services/repositories/repo_services.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/get_date.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+
+class PaddedBuilder {
+  const PaddedBuilder({
+    required this.padding,
+  });
+
+  final EdgeInsets padding;
+  Widget applyPadding(final Widget child) => Padding(
+        padding: padding,
+        child: child,
+      );
+}
 
 class RepositoryCard extends StatelessWidget {
   const RepositoryCard(
@@ -19,26 +30,17 @@ class RepositoryCard extends StatelessWidget {
     // this.padding = const EdgeInsets.symmetric(vertical: 8),
     super.key,
   });
+
   final RepositoryModel? repo;
+
   // final bool isThemed;
   final String? branch;
+
   // final EdgeInsets padding;
-  @override
-  Widget build(final BuildContext context) => InkWell(
-        // borderRadius: medBorderRadius,
-        onTap: () async {
-          await AutoRouter.of(context).push(
-            RepositoryRoute(
-              repositoryURL: repo!.url!,
-              branch: branch,
-            ),
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: repoUnthemedWidget(context),
-        ),
-      );
+
+  static const PaddedBuilder paddedBuilderData = PaddedBuilder(
+    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  );
 
   Column repoUnthemedWidget(final BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,17 +98,20 @@ class RepositoryCard extends StatelessWidget {
             ],
           ),
           if (repo?.description != null)
-            Row(
-              children: <Widget>[
-                Flexible(
-                  child: Text(
-                    repo!.description!,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.bodyMedium?.asHint(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Row(
+                children: <Widget>[
+                  Flexible(
+                    child: Text(
+                      repo!.description!,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.textTheme.bodyMedium?.asHint(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           const SizedBox(
             height: 8,
@@ -139,7 +144,7 @@ class RepositoryCard extends StatelessWidget {
                         width: 4,
                       ),
                       Text(
-                        repo!.stargazersCount.toString(),
+                        repo!.stargazersCount!.toShortenedStr(),
                         style: context.textTheme.bodySmall?.asHint(),
                         // style: AppThemeTextStyles.eventCardChildFooter(
                         //   context,
@@ -170,6 +175,25 @@ class RepositoryCard extends StatelessWidget {
           ),
         ],
       );
+
+  @override
+  Widget build(final BuildContext context) => InkWell(
+        onTap: () async {
+          await pushToRepo(context);
+        },
+        child: paddedBuilderData.applyPadding(
+          repoUnthemedWidget(context),
+        ),
+      );
+
+  Future<void> pushToRepo(final BuildContext context) async {
+    await AutoRouter.of(context).push(
+      RepositoryRoute(
+        repositoryURL: repo!.url!,
+        branch: branch,
+      ),
+    );
+  }
 }
 
 class RepoCardLoading extends StatelessWidget {
@@ -186,52 +210,38 @@ class RepoCardLoading extends StatelessWidget {
   final bool refresh;
   final String? branch;
   @override
-  Widget build(final BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: APIWrapper<RepositoryModel>.deferred(
-          // fadeIntoView: false,
-          apiCall: ({required final bool refresh}) async =>
-              RepositoryServices.fetchRepository(repoURL!, refresh: refresh),
-          loadingBuilder: (final BuildContext context) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                repoName!.split('/').last,
-                // style: AppThemeTextStyles.eventCardChildTitle(context),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              ShimmerWidget(
-                borderRadius: smallBorderRadius,
-                child: Container(
-                  height: 20,
-                  width: double.infinity,
-                  // color: context.colorScheme.onSurface,
-                ),
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              ShimmerWidget(
-                borderRadius: smallBorderRadius,
-                child: Container(
-                  height: 20,
-                  width: 200,
-                  // color: context.colorScheme.onSurface,
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-            ],
-          ),
-          builder: (final BuildContext context, final RepositoryModel repo) =>
-              RepositoryCard(
-            repo,
-            branch: branch,
-            // isThemed: false,
-          ),
+  Widget build(final BuildContext context) =>
+      APIWrapper<RepositoryModel>.deferred(
+        // fadeIntoView: false,
+        apiCall: ({required final bool refresh}) async =>
+            RepositoryServices.fetchRepository(repoURL!, refresh: refresh),
+        loadingBuilder: (final BuildContext context) => buildLoading(),
+        builder: (final BuildContext context, final RepositoryModel repo) =>
+            RepositoryCard(repo, branch: branch),
+      );
+
+  Widget buildLoading() => RepositoryCard.paddedBuilderData.applyPadding(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              repoName!.split('/').last,
+              // style: AppThemeTextStyles.eventCardChildTitle(context),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            ShimmerWidget.container(),
+            const SizedBox(
+              height: 4,
+            ),
+            ShimmerWidget.container(
+              width: 200,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+          ],
         ),
       );
 }

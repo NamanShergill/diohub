@@ -20,8 +20,8 @@ import 'package:diohub/common/wrappers/dynamic_tabs_parent.dart';
 import 'package:diohub/common/wrappers/editing_wrapper.dart';
 import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.data.gql.dart';
 import 'package:diohub/providers/issue_pulls/comment_provider.dart';
 import 'package:diohub/providers/issue_pulls/issue_provider.dart';
 import 'package:diohub/providers/issue_pulls/pull_provider.dart';
@@ -92,6 +92,10 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
     // TODO(namanshergill): implement handleDeepLink
   }
 
+  Future<void> onRefresh() async {
+    await key.currentState?.refreshData();
+  }
+
   @override
   Widget build(final BuildContext context) =>
       APIWrapper<GissuePullInfoData_repository_issueOrPullRequest>.deferred(
@@ -109,6 +113,14 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
           ),
           body: const LoadingIndicator(),
         ),
+        errorBuilder: (context, data) => Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+          ),
+          body: Center(
+            child: Text(data.toString()),
+          ),
+        ),
         builder: (
           final BuildContext context,
           final GissuePullInfoData_repository_issueOrPullRequest data,
@@ -123,7 +135,7 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
             builder: (final BuildContext context, final Widget? child) =>
                 IssueScreen(
               p0,
-              apiWrapperKey: key,
+              onRefresh: onRefresh,
             ),
           ),
           pullRequest: (
@@ -135,7 +147,7 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
             lazy: false,
             builder: (final BuildContext context, final Widget? child) =>
                 PullScreen(
-              data as GpullInfo,
+              data as GpullInfo, onRefresh: onRefresh,
               // apiWrapperController: apiWrapperController,
             ),
           ),
@@ -154,7 +166,6 @@ class IssuePullInfoTemplate extends StatefulWidget {
     required this.labels,
     required this.createdAt,
     required this.createdBy,
-    required this.apiWrapperKey,
     required this.body,
     required this.commentCount,
     required this.reactionGroups,
@@ -165,11 +176,9 @@ class IssuePullInfoTemplate extends StatefulWidget {
     required this.uri,
     super.key,
     this.dynamicTabs = const <DynamicTab>[],
+    required this.onRefresh,
   });
 
-  final GlobalKey<
-          APIWrapperState<GissuePullInfoData_repository_issueOrPullRequest>>
-      apiWrapperKey;
   final GassigneeInfo assigneesInfo;
   final String body;
   final String bodyHTML;
@@ -187,6 +196,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
   final bool viewerCanReact;
   final UnfinishedList<Gactor> participantsInfo;
   final bool isPinned;
+  final Future<void> Function() onRefresh;
 
   @override
   State<IssuePullInfoTemplate> createState() => _IssuePullInfoTemplateState();
@@ -197,6 +207,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   late EditingController<String> descEditingController;
   final DynamicTabsController dynamicTabsController = DynamicTabsController();
   late EditingController<List<Glabel?>> labelsEditingController;
+
   // final ScrollController scrollController = ScrollController();
   // final ScrollController scrollController2 = ScrollController();
   late EditingController<String> titleEditingController;
@@ -251,9 +262,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
               wrapperBuilder:
                   (final BuildContext context, final Widget child) =>
                       RefreshIndicator(
-                onRefresh: () => Future<void>.sync(
-                  () async => widget.apiWrapperKey.currentState?.refreshData(),
-                ),
+                onRefresh: widget.onRefresh,
                 triggerMode: RefreshIndicatorTriggerMode.anywhere,
                 child: child,
               ),
@@ -563,7 +572,6 @@ class _AboutTab extends StatelessWidget {
                   },
                   leading: InfoCard.leadingIcon(
                     icon: Octicons.repo,
-                    context: context,
                   ),
                   title: '${widget.number}',
 
@@ -622,12 +630,7 @@ class _AboutTab extends StatelessWidget {
                         _ => 'Assignees',
                       },
                       fetchActorsList: (
-                        final ({
-                          NodeWithPaginationInfo<Gactor>? lastItem,
-                          int pageNumber,
-                          int pageSize,
-                          bool refresh
-                        }) data,
+                        data,
                       ) async =>
                           (await context
                                   .issueProvider(listen: false)
@@ -654,12 +657,7 @@ class _AboutTab extends StatelessWidget {
                     await BottomSheetPagination<NodeWithPaginationInfo<Gactor>>(
                       paginatedListItemBuilder: _paginatedListItemBuilder,
                       paginationFuture: (
-                        final ({
-                          NodeWithPaginationInfo<Gactor>? lastItem,
-                          int pageNumber,
-                          int pageSize,
-                          bool refresh
-                        }) data,
+                        data,
                       ) async =>
                           context.issueProvider(listen: false).getParticipants(
                                 after: data.lastItem?.cursor,
@@ -727,6 +725,7 @@ class _ScreenHeader extends StatelessWidget {
                       (final BuildContext context, final String? newValue) =>
                           MarkdownBody(
                     newValue != null ? mdToHtml(newValue) : widget.title,
+                    textStyle: context.textTheme.headlineSmall,
                     // defaultBodyStyle: Style(
                     //   padding: HtmlPaddings.zero,
                     //   margin: Margins.zero,
@@ -874,6 +873,7 @@ class _AssigneeInfoCard extends StatelessWidget {
     this.onTap,
     this.trailing,
   });
+
   final UnfinishedList<NodeWithPaginationInfo<Gactor>> availableList;
   final String Function(
     UnfinishedList<NodeWithPaginationInfo<Gactor>> availableList,
@@ -881,6 +881,7 @@ class _AssigneeInfoCard extends StatelessWidget {
   final ScrollWrapperFuture<NodeWithPaginationInfo<Gactor>> fetchActorsList;
   final VoidCallback? onTap;
   final Widget? trailing;
+
   @override
   Widget build(final BuildContext context) => InfoCard(
         onTap: availableList.limitedAvailableList.isEmpty
@@ -966,11 +967,7 @@ StatelessWidget _buildChild(final UnfinishedList<Gactor> availableList) =>
 ScrollWrapperBuilder<NodeWithPaginationInfo<Gactor>>
     get _paginatedListItemBuilder => (
           final BuildContext context,
-          final ({
-            int index,
-            NodeWithPaginationInfo<Gactor> item,
-            bool refresh,
-          }) data,
+          ScrollWrapperBuilderData<NodeWithPaginationInfo<Gactor>> data,
         ) =>
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -987,6 +984,7 @@ ScrollWrapperBuilder<NodeWithPaginationInfo<Gactor>>
                 ),
               ),
             );
+
 Icon? _getIcon(final int listLength) => switch (listLength) {
       0 => null,
       1 => Icon(Icons.adaptive.arrow_forward_rounded),
@@ -994,8 +992,9 @@ Icon? _getIcon(final int listLength) => switch (listLength) {
           Icons.arrow_drop_down_rounded,
         ),
     };
+
 List<Widget> _buildListItemChildren(
-  final ({int index, NodeWithPaginationInfo<Gactor> item, bool refresh}) data,
+  final ScrollWrapperBuilderData<NodeWithPaginationInfo<Gactor>> data,
   final BuildContext context,
   final Widget child,
 ) =>

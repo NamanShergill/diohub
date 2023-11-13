@@ -124,12 +124,7 @@ class CommitBrowserState extends State<CommitBrowser> {
                 shrinkWrap: true,
                 scrollController: widget.controller,
                 future: (
-                  final ({
-                    CommitListModel? lastItem,
-                    int pageNumber,
-                    int pageSize,
-                    bool refresh
-                  }) data,
+                  data,
                 ) async =>
                     RepositoryServices.getCommitsList(
                   repoURL: widget.repoURL!,
@@ -146,7 +141,7 @@ class CommitBrowserState extends State<CommitBrowser> {
                 ),
                 builder: (
                   final BuildContext context,
-                  final ({int index, CommitListModel item, bool refresh}) data,
+                  final data,
                 ) =>
                     CommitTilesREST(
                   highlighted: isLocked! && widget.currentSHA == data.item.sha,

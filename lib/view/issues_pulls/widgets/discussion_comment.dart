@@ -7,7 +7,7 @@ import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/common/misc/reaction_bar.dart';
 import 'package:diohub/common/misc/tappable_card.dart';
 import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.data.gql.dart';
 import 'package:diohub/providers/issue_pulls/comment_provider.dart';
 import 'package:diohub/routes/router.gr.dart';
 import 'package:diohub/utils/copy_to_clipboard.dart';
@@ -49,7 +49,6 @@ class BaseComment extends StatefulWidget {
   final String body;
   final IconData? leading;
   final String? bodyHTML;
-  // TODO(namanshergill): Temp nullable
   final List<GreactionGroups> reactions;
   final DateTime? lastEditedAt;
   final DateTime createdAt;
@@ -207,14 +206,17 @@ class BaseCommentState extends State<BaseComment> {
                         // ),
                       ),
                     if (widget.bodyHTML?.isNotEmpty ?? false)
-                      MarkdownBody(
-                        widget.bodyHTML!,
-                        buildAsync: false,
-                        style: MarkdownBodyStyle(
-                          codeBlockStyle: MarkdownBodyCodeBlockStyle(
-                            elevation: 3,
-                            headerColor:
-                                context.colorScheme.surfaceVariant.asHint(),
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: MarkdownBody(
+                          widget.bodyHTML!,
+                          buildAsync: false,
+                          style: MarkdownBodyStyle(
+                            codeBlockStyle: MarkdownBodyCodeBlockStyle(
+                              elevation: 3,
+                              headerColor:
+                                  context.colorScheme.surfaceVariant.asHint(),
+                            ),
                           ),
                         ),
                       ),
@@ -234,8 +236,7 @@ class BaseCommentState extends State<BaseComment> {
             ),
 
             if (_reactionsNotEmpty())
-              BasicCard.linked(
-                color: context.colorScheme.surfaceVariant,
+              CardHeader(
                 // elevation: 0,
                 cardLinkType: CardLinkType.atTop,
                 child: Padding(
@@ -261,7 +262,7 @@ class BaseCommentState extends State<BaseComment> {
     final Widget button,
   ) =>
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -292,6 +293,7 @@ class BaseCommentState extends State<BaseComment> {
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
                       widget.author?.login ?? 'N/A',

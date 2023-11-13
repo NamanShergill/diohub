@@ -8,23 +8,30 @@ import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:diohub/models/events/events_model.dart' hide Key;
 import 'package:diohub/providers/users/current_user_provider.dart';
 import 'package:diohub/services/activity/events_service.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:timeline_tile/timeline_tile.dart';
 
 class Events extends StatelessWidget {
-  const Events({this.privateEvents = true, this.specificUser, super.key});
+  const Events({
+    this.privateEvents = true,
+    this.specificUser,
+    super.key,
+    this.isTimeline = true,
+  });
   final bool privateEvents;
   final String? specificUser;
-
+  final bool isTimeline;
   @override
   Widget build(final BuildContext context) {
     final CurrentUserProvider user = Provider.of<CurrentUserProvider>(context);
     return InfiniteScrollWrapper<EventsModel>(
-      separatorBuilder: (final BuildContext context, final int index) =>
-          const SizedBox(
-        height: 16,
-      ),
+      // separatorBuilder: (final BuildContext context, final int index) =>
+      //     const Divider(
+      //   height: 16,
+      // ),
       header: (final BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -42,7 +49,6 @@ class Events extends StatelessWidget {
                 ),
                 trailing: InfoCard.leadingIcon(
                   icon: Icons.arrow_right_rounded,
-                  context: context,
                 ),
                 // child: const Text('1'),
               ),
@@ -61,7 +67,6 @@ class Events extends StatelessWidget {
                 ),
                 trailing: InfoCard.leadingIcon(
                   icon: Icons.arrow_right_rounded,
-                  context: context,
                 ),
                 // child: const Text('7 Open'),
               ),
@@ -79,7 +84,6 @@ class Events extends StatelessWidget {
                 title: const Text('Issues'),
                 trailing: InfoCard.leadingIcon(
                   icon: Icons.arrow_right_rounded,
-                  context: context,
                 ),
                 subtitle: const Text('27 Open'),
                 // child: const Text('27 Open'),
@@ -115,12 +119,7 @@ class Events extends StatelessWidget {
         return temp;
       },
       future: (
-        final ({
-          EventsModel? lastItem,
-          int pageNumber,
-          int pageSize,
-          bool refresh
-        }) data,
+        final ScrollWrapperFutureArguments<EventsModel> data,
       ) async {
         if (specificUser != null) {
           return EventsService.getUserEvents(
@@ -146,88 +145,142 @@ class Events extends StatelessWidget {
       },
       builder: (
         final BuildContext context,
-        final ({int index, EventsModel item, bool refresh}) data,
+        final ScrollWrapperBuilderData<EventsModel> data,
       ) {
         final EventsModel item = data.item;
+        Widget child = buildCard(item, data);
+        if (isTimeline) {
+          child = TimelineTile(
+            indicatorStyle: IndicatorStyle(
+              width: 25,
+              height: 25,
+              indicatorXY: 0.5,
+              drawGap: true,
+              indicator: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: context.colorScheme.secondaryContainer,
+                ),
+                child: Icon(
+                  Octicons.git_commit,
+                  size: 15,
+                  color: context.colorScheme.onSecondaryContainer,
+                ),
+              ),
+            ),
+            beforeLineStyle: LineStyle(
+              thickness: 0.3,
+              color: context.colorScheme.surfaceVariant,
+            ),
+            endChild: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
+              child: child,
+            ),
+          );
+        }
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Builder(
-            builder: (final BuildContext context) {
-              if (item.type == EventsType.PushEvent) {
-                return PushEventCard(item, item.payload!);
-              } else if (item.type == EventsType.WatchEvent) {
-                return RepoEventCard(
-                  item,
-                  'starred',
-                  refresh: data.refresh,
-                );
-              } else if (item.type == EventsType.CreateEvent) {
-                if (item.payload!.refType == RefType.REPOSITORY) {
-                  return RepoEventCard(
-                    item,
-                    'created',
-                    refresh: data.refresh,
-                  );
-                } else if (item.payload!.refType == RefType.BRANCH) {
-                  return RepoEventCard(
-                    item,
-                    "created a new branch '${item.payload!.ref}' in",
-                    branch: item.payload!.ref,
-                    refresh: data.refresh,
-                  );
-                }
-              } else if (item.type == EventsType.PublicEvent) {
-                return RepoEventCard(
-                  item,
-                  'made',
-                  eventTextEnd: 'public',
-                  refresh: data.refresh,
-                );
-              } else if (item.type == EventsType.MemberEvent) {
-                return AddedEventCard(
-                  item,
-                  '${item.payload!.action} ${item.payload!.member!.login} to',
-                );
-              } else if (item.type == EventsType.DeleteEvent) {
-                return RepoEventCard(
-                  item,
-                  "deleted a ${refTypeValues.reverse![item.payload!.refType]} '${item.payload!.ref}' in",
-                  refresh: data.refresh,
-                );
-              } else if (item.type == EventsType.PullRequestEvent) {
-                return PullEventCard(
-                  item,
-                );
-              } else if (item.type == EventsType.ForkEvent) {
-                return RepoEventCard(
-                  item,
-                  'forked',
-                  repo: item.payload!.forkee,
-                  refresh: data.refresh,
-                );
-              } else if (item.type == EventsType.IssuesEvent) {
-                return IssuesEventCard(item, 'an issue in');
-              } else if (item.type == EventsType.IssueCommentEvent) {
-                return IssuesEventCard(
-                  item,
-                  'a comment in',
-                  time: item.createdAt,
-                );
-              }
-              return Padding(
-                padding: const EdgeInsets.all(
-                  42,
-                ),
-                child: Center(
-                  child: Text(
-                    'Unimplemented: ${eventsValues.reverse![item.type]}',
-                  ),
-                ),
-              );
-            },
-          ),
+          padding: EdgeInsets.symmetric(
+              horizontal: 16, vertical: isTimeline ? 0 : 8),
+          child: child,
         );
       },
     );
   }
+
+  Builder buildCard(
+    final EventsModel item,
+    final ScrollWrapperBuilderData<EventsModel> data,
+  ) =>
+      Builder(
+        builder: (final BuildContext context) {
+          if (item.type == EventsType.PushEvent) {
+            return PushEventCard(
+              isInTimeline: isTimeline,
+              item,
+              item.payload!,
+            );
+          } else if (item.type == EventsType.WatchEvent) {
+            return RepoEventCard(
+              isInTimeline: isTimeline,
+              item,
+              'starred',
+              refresh: data.refresh,
+            );
+          } else if (item.type == EventsType.CreateEvent) {
+            if (item.payload!.refType == RefType.REPOSITORY) {
+              return RepoEventCard(
+                isInTimeline: isTimeline,
+                item,
+                'created',
+                refresh: data.refresh,
+              );
+            } else if (item.payload!.refType == RefType.BRANCH) {
+              return RepoEventCard(
+                isInTimeline: isTimeline,
+                item,
+                "created a new branch '${item.payload!.ref}'",
+                branch: item.payload!.ref,
+                refresh: data.refresh,
+              );
+            }
+          } else if (item.type == EventsType.PublicEvent) {
+            return RepoEventCard(
+              isInTimeline: isTimeline,
+              item,
+              'made',
+              eventTextEnd: 'public',
+              refresh: data.refresh,
+            );
+          } else if (item.type == EventsType.MemberEvent) {
+            return AddedEventCard(
+              isInTimeline: isTimeline,
+              item,
+              '${item.payload!.action} ${item.payload!.member!.login} to',
+            );
+          } else if (item.type == EventsType.DeleteEvent) {
+            return RepoEventCard(
+              isInTimeline: isTimeline,
+              item,
+              "deleted a ${refTypeValues.reverse![item.payload!.refType]} '${item.payload!.ref}'",
+              refresh: data.refresh,
+            );
+          } else if (item.type == EventsType.PullRequestEvent) {
+            return PullEventCard(
+              isInTimeline: isTimeline,
+              item,
+            );
+          } else if (item.type == EventsType.ForkEvent) {
+            return RepoEventCard(
+              isInTimeline: isTimeline,
+              item,
+              'forked',
+              repo: item.payload!.forkee,
+              refresh: data.refresh,
+            );
+          } else if (item.type == EventsType.IssuesEvent) {
+            return IssuesEventCard(
+              isInTimeline: isTimeline,
+              item,
+              'an issue',
+            );
+          } else if (item.type == EventsType.IssueCommentEvent) {
+            return IssuesEventCard(
+              isInTimeline: isTimeline,
+              item,
+              'a comment',
+              time: item.createdAt,
+            );
+          }
+          return Padding(
+            padding: const EdgeInsets.all(
+              42,
+            ),
+            child: Center(
+              child: Text(
+                'Unimplemented: ${eventsValues.reverse![item.type]}',
+              ),
+            ),
+          );
+        },
+      );
 }

@@ -1,3 +1,4 @@
+// ignore_for_file: type=lint
 // Todo: Redo Model. Ref: https://app.quicktype.io/
 
 class UserInfoModel {

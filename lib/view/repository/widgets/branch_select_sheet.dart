@@ -29,12 +29,7 @@ class BranchSelectSheet extends StatelessWidget {
           height: 16,
         ),
         future: (
-          final ({
-            RepoBranchListItemModel? lastItem,
-            int pageNumber,
-            int pageSize,
-            bool refresh
-          }) data,
+          data,
         ) async =>
             RepositoryServices.fetchBranchList(
           repoURL,
@@ -45,7 +40,7 @@ class BranchSelectSheet extends StatelessWidget {
         scrollController: controller,
         builder: (
           final BuildContext context,
-          final ({int index, RepoBranchListItemModel item, bool refresh}) data,
+          final data,
         ) =>
             Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

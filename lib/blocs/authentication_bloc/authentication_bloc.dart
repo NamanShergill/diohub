@@ -43,7 +43,7 @@ class AuthenticationBloc
       } else {
         emit(AuthenticationError('Something went wrong, please try again.'));
       }
-    } catch (e) {
+    } on Exception catch (e) {
       add(AuthError(e.toString()));
     }
   }
@@ -84,7 +84,7 @@ class AuthenticationBloc
             // Execute the function again.
             await requestAccessToken(deviceCode, interval);
           }
-        } catch (error) {
+        } on Exception catch (error) {
           add(AuthError(error.toString()));
         }
       }

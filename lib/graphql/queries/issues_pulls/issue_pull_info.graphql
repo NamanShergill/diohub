@@ -1,4 +1,4 @@
-# import './timeline.query.graphql'
+# import './timeline.graphql'
 
 query issuePullInfo($user: String!, $repo: String!, $number: Int!){
     repository(name: $repo, owner: $user){
@@ -117,12 +117,7 @@ fragment issueInfo on Issue{
     author{
         ...actor
     }
-    participants(first: 5){
-        totalCount
-        nodes {
-            ...actor
-        }
-    }
+
     authorAssociation
     bodyHTML
     body
@@ -188,6 +183,12 @@ fragment issueInfo on Issue{
         }
     }
     number
+    participants(first: 5){
+        totalCount
+        nodes {
+            ...actor
+        }
+    }
     projectCards{
         totalCount
     }
@@ -241,6 +242,12 @@ fragment pullInfo on PullRequest{
     }
     locked
     number
+    participants(first: 5){
+        totalCount
+        nodes {
+            ...actor
+        }
+    }
     projectCards{
         totalCount
     }

@@ -3,7 +3,7 @@ import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/common/misc/profile_card.dart';
 import 'package:diohub/common/search_overlay/filters.dart';
 import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:diohub/graphql/queries/users/__generated__/user_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.data.gql.dart';
 import 'package:diohub/services/search/search_service.dart';
 import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/utils.dart';
@@ -49,12 +49,7 @@ class UserSearchDropdown extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     listEndIndicator: false,
                     future: (
-                      final ({
-                        GsearchMentionUsersData_search_edges? lastItem,
-                        int pageNumber,
-                        int pageSize,
-                        bool refresh
-                      }) data,
+                      data,
                     ) async =>
                         SearchService.searchMentionUsers(
                       query,
@@ -63,11 +58,7 @@ class UserSearchDropdown extends StatelessWidget {
                     ).toAsyncList(),
                     builder: (
                       final BuildContext context,
-                      final ({
-                        int index,
-                        GsearchMentionUsersData_search_edges? item,
-                        bool refresh
-                      }) data,
+                      data,
                     ) {
                       final GsearchMentionUsersData_search_edges_node item =
                           data.item!.node!;

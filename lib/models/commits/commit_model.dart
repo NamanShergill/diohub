@@ -1,6 +1,7 @@
 // To parse this JSON data, do
 //
 //     final commitModel = commitModelFromJson(jsonString);
+// ignore_for_file: type=lint
 
 import 'dart:convert';
 

@@ -1,6 +1,6 @@
 import 'package:diohub/common/misc/info_card.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.data.gql.dart';
 import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/models/users/user_info_model.dart';
 import 'package:diohub/providers/base_provider.dart';

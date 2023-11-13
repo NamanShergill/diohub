@@ -148,7 +148,22 @@ query getTimeline($repoName: String!, $owner : String!, $number : Int!, $after: 
                             } ... on ReviewDismissedEvent{
                                 ...reviewDismissed
                             } ... on ReviewRequestedEvent{
-                                ...reviewRequested
+                                # Fragment disabled: https://github.com/gql-dart/ferry/issues/543
+                                #...reviewRequested
+                                id
+                                createdAt
+                                actor{
+                                    ...actor
+                                }
+                                requestedReviewer{
+                                    __typename
+                                    ... on User{
+                                        ...actor
+                                    } ... on Team{
+                                        avatar: avatarUrl
+                                        name
+                                    }
+                                }
                             }... on UnassignedEvent{
                                 ...unassigned
                             } ... on UnlabeledEvent{
@@ -500,22 +515,22 @@ fragment reviewDismissed on ReviewDismissedEvent{
     previousReviewState
 }
 
-fragment reviewRequested on ReviewRequestedEvent{
-    id
-    createdAt
-    actor{
-        ...actor
-    }
-    requestedReviewer{
-        __typename
-        ... on User{
-            ...actor
-        } ... on Team{
-            avatar: avatarUrl
-            name
-        }
-    }
-}
+#fragment reviewRequested on ReviewRequestedEvent{
+#    id
+#    createdAt
+#    actor{
+#        ...actor
+#    }
+#    requestedReviewer{
+#        __typename
+#        ... on User{
+#            ...actor
+#        } ... on Team{
+#            avatar: avatarUrl
+#            name
+#        }
+#    }
+#}
 
 fragment unassigned on UnassignedEvent{
     id

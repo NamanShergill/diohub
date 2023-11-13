@@ -270,7 +270,7 @@ class EditingProvider extends ChangeNotifier {
     editingState = EditingState.loading;
     try {
       await onEdit();
-    } catch (e) {
+    } on Exception catch (e) {
       rethrow;
     } finally {
       viewMode();

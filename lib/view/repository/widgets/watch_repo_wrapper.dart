@@ -2,7 +2,7 @@
 // import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
 // import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
 // import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
-// import 'package:diohub/graphql/queries/repositories/__generated__/repo_info.query.data.gql.dart';
+// import 'package:diohub/graphql/queries/repositories/repo_info.data.gql.dart';
 // import 'package:diohub/models/popup/popup_type.dart';
 // import 'package:diohub/services/repositories/repo_services.dart';
 // import 'package:diohub/utils/utils.dart';

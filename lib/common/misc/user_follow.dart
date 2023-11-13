@@ -1,7 +1,7 @@
 // import 'package:diohub/app/api_handler/response_handler.dart';
 // import 'package:diohub/common/misc/shimmer_widget.dart';
 // import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
-// import 'package:diohub/graphql/queries/users/__generated__/user_info.query.data.gql.dart';
+// import 'package:diohub/graphql/queries/users/__generated__/user_info.data.gql.dart';
 // import 'package:diohub/models/popup/popup_type.dart';
 // import 'package:diohub/services/users/user_info_service.dart';
 // import 'package:diohub/utils/utils.dart';

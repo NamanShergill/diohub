@@ -1,8 +1,8 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
 import 'package:diohub/app/api_handler/dio.dart';
-import 'package:diohub/graphql/queries/users/__generated__/user_info.query.data.gql.dart';
-import 'package:diohub/graphql/queries/users/__generated__/user_info.query.req.gql.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.data.gql.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.req.gql.dart';
 import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/models/repositories/repository_model.dart';
 import 'package:diohub/models/search/search_issues_model.dart';
@@ -100,7 +100,8 @@ class SearchService {
   }) async {
     final String q = '$query${' type:$type'}';
     final GQLResponse res = await _gqlHandler.query(
-      GsearchMentionUsersReq((final GsearchMentionUsersReqBuilder b) => b..vars.query = q),
+      GsearchMentionUsersReq(
+          (final GsearchMentionUsersReqBuilder b) => b..vars.query = q),
     );
     final BuiltList<GsearchMentionUsersData_search_edges?> userEdges =
         GsearchMentionUsersData.fromJson(res.data!)!.search.edges!;

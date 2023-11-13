@@ -68,12 +68,15 @@ class MarkdownBody extends StatefulWidget {
     this.imgSrcModifiers,
     this.style,
     this.buildAsync,
+    this.textStyle,
     // this.defaultBodyStyle,
   });
+
   final MarkdownBodyStyle? style;
   final bool? buildAsync;
   final String content;
   final List<MarkdownImgSrcModifiers>? imgSrcModifiers;
+  final TextStyle? textStyle;
 
   // final Style? defaultBodyStyle;
 
@@ -84,6 +87,7 @@ class MarkdownBody extends StatefulWidget {
 class MarkdownBodyState extends State<MarkdownBody> {
   // late String content;
   late dom.Document doc;
+
   @override
   void initState() {
     updateData(widget.content);
@@ -123,26 +127,51 @@ class MarkdownBodyState extends State<MarkdownBody> {
   }
 
   final GlobalKey<HtmlWidgetState> htmlWidgetKey = GlobalKey<HtmlWidgetState>();
+
   HtmlWidgetState? get currentMarkdownState => htmlWidgetKey.currentState;
+
   @override
   Widget build(final BuildContext context) => HtmlWidget(
-        doc.outerHtml, key: htmlWidgetKey, buildAsync: widget.buildAsync,
+        doc.outerHtml, key: htmlWidgetKey,
+        buildAsync: widget.buildAsync,
         factoryBuilder: () => MyWidgetFactory(
           fetchState: () => currentMarkdownState,
           // codeBlockStyle: widget.style?.codeBlockStyle,
         ),
+        textStyle: widget.textStyle,
         // onTapUrl: (final String url) async {
         //   await URLActions(
         //     uri: Uri.parse(url),
         //   ).showMenu(context);
         //   return true;
         // },
-        onLoadingBuilder: (final BuildContext context,
-                final dom.Element element, final double? loadingProgress,) =>
+        onLoadingBuilder: (
+          final BuildContext context,
+          final dom.Element element,
+          final double? loadingProgress,
+        ) =>
             const LoadingIndicator(),
 
         customStylesBuilder: (final dom.Element element) {
           // print(element.localName);
+          return switch (element.localName) {
+            'a' => <String, String>{
+                'text-decoration': 'none',
+              },
+            'blockquote' => <String, String>{
+                'margin': '0',
+                // 'padding': '0',
+              },
+            'ol' => {
+                'margin': '16',
+                // 'padding': '16',
+              },
+            'ul' => {
+                'margin': '16',
+                // 'padding': '16',
+              },
+            _ => null,
+          };
           if (element.isTag('a')) {
             return <String, String>{
               'text-decoration': 'none',
@@ -162,7 +191,8 @@ class MarkdownBodyState extends State<MarkdownBody> {
           //   };
           // }
           return null;
-        }, // rende
+        },
+        // rende
         // rMode: RenderMode.sliverList,
 
         customWidgetBuilder: (final dom.Element element) {
@@ -183,8 +213,10 @@ class MarkdownBodyState extends State<MarkdownBody> {
           //   return Container();
           // }
           if (element.isTag('img')) {
-            return buildImageTag(element,
-                imgSrcModifiers: widget.imgSrcModifiers,);
+            return buildImageTag(
+              element,
+              imgSrcModifiers: widget.imgSrcModifiers,
+            );
           }
           return null;
         },

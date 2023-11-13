@@ -4,10 +4,13 @@ import 'package:diohub/models/events/events_model.dart' hide Key;
 import 'package:flutter/material.dart';
 
 class PullEventCard extends StatelessWidget {
-  const PullEventCard(this.event, {super.key});
+  const PullEventCard(this.event, {super.key, required this.isInTimeline});
   final EventsModel event;
+  final bool isInTimeline;
+
   @override
   Widget build(final BuildContext context) => BaseEventCard.singular(
+        isInTimeline: isInTimeline,
         actor: event.actor!.login,
         headerText: <TextSpan>[
           TextSpan(text: ' ${event.payload!.action} a pull request in '),

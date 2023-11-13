@@ -1,4 +1,4 @@
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.data.gql.dart';
 import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/utils.dart';

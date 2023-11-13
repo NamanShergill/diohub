@@ -193,12 +193,7 @@ class IssuePullTimelineState extends State<IssuePullTimeline> {
       children: <Widget>[
         InfiniteScrollWrapper<dynamic>(
           future: (
-            final ({
-              dynamic lastItem,
-              int pageNumber,
-              int pageSize,
-              bool refresh
-            }) data,
+            data,
           ) async =>
               IssuesService.getTimeline(
             repo: widget.repoName,
@@ -221,7 +216,7 @@ class IssuePullTimelineState extends State<IssuePullTimeline> {
           // ),
           builder: (
             final BuildContext context,
-            final ({int index, dynamic item, bool refresh}) data,
+            final data,
           ) =>
               TimelineItem(
             data.item.node,

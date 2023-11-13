@@ -25,7 +25,7 @@ abstract class Settings<T> extends ChangeNotifier {
       } else {
         currentSetting = defaultSetting;
       }
-    } catch (e) {
+    } on Exception catch (e) {
       unawaited(sharedPrefs.remove(_path));
       currentSetting = defaultSetting;
     }

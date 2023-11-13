@@ -1,4 +1,4 @@
-# import './timeline.query.graphql'
+# import './timeline.graphql'
 
 query getPRReviewComments($id:ID!, $cursor:String){
     node(id: $id){

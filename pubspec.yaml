@@ -5,7 +5,7 @@ publish_to: 'none'
 
 version: 0.4.0-internal.1+5
 
-# flutter packages pub run build_runner watch --delete-conflicting-outputs
+# dart run build_runner watch --delete-conflicting-outputs
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -13,12 +13,12 @@ environment:
 dependencies:
   animations: ^2.0.8
   another_flushbar: ^1.12.31-dev.1
-#  artemis: '>=7.13.0-beta.2 <8.0.0'
+  #  artemis: '>=7.13.0-beta.2 <8.0.0'
   auto_route: ^7.8.4
   built_value: ^8.6.3
   cached_network_image: ^3.3.0
   chucker_flutter: ^1.5.1
-#  collection: ^1.18.0
+  #  collection: ^1.18.0
   connectivity_plus: ^5.0.1
   curl_logger_dio_interceptor: ^1.0.0
   dio: ^5.3.3
@@ -75,21 +75,22 @@ dependencies:
   flutter_svg: ^2.0.7
   flutter_vector_icons: ^2.0.0
   flutter_widget_from_html: ^0.14.2
-#  google_nav_bar: ^5.0.6
+  #  google_nav_bar: ^5.0.6
+  freezed: ^2.4.5
   gql: ^1.0.0
   gql_dio_link: ^1.0.1
   gql_exec: ^1.0.0
-#  gql_link: ^1.0.0
+  #  gql_link: ^1.0.0
 
-#  highlighting:
-#    path: dependencies/dart-highlighting/highlighting
+  #  highlighting:
+  #    path: dependencies/dart-highlighting/highlighting
 
   html: ^0.15.4
   image_stack: ^2.1.1
   infinite_scroll_pagination: ^4.0.0
   intl: ^0.18.1
-#  json_annotation: ^4.8.1
-#  line_icons: ^2.0.3
+  #  json_annotation: ^4.8.1
+  #  line_icons: ^2.0.3
   logger: ^2.0.2+1
   markdown: ^7.1.1
 
@@ -109,7 +110,8 @@ dependencies:
   shimmer: ^3.0.0
   sliver_tools: ^0.2.12
   sqlite3_flutter_libs: ^0.5.17
-#  tabbed_view: ^1.18.0
+  #  tabbed_view: ^1.18.0
+  timeline_tile: ^2.0.0
   uni_links: ^0.5.1
   url_launcher: ^6.1.14
   uuid: ^4.1.0
@@ -130,15 +132,15 @@ dev_dependencies:
   melos: ^3.1.1
 
 dependency_overrides:
-  # Override for conflict between artemis and flutter_test.
+# Override for conflict between artemis and flutter_test.
 #  collection: ^1.18.0
-  # flutter_html 2.1.2 uses a version not compatible with flutter >3.
+# flutter_html 2.1.2 uses a version not compatible with flutter >3.
 #  flutter_layout_grid: ^2.0.4
 #  flutter_math_fork: ^0.7.1
 #  flutter_svg: ^2.0.7
-  # Override until https://github.com/comigor/artemis/pull/415 is merged.
+# Override until https://github.com/comigor/artemis/pull/415 is merged.
 #  gql_link: 1.0.0
-  # chucker_flutter incompatibility.
+# chucker_flutter incompatibility.
 #  share_plus: ^7.2.0
 
 flutter_native_splash:
@@ -187,15 +189,15 @@ flutter:
         - asset: fonts/Manrope/Manrope-ExtraBoldItalic.ttf
           style: italic
           weight: 800
-#    - family: AtkinsonHyperlegible
-#      fonts:
-#        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Regular.ttf
-#          weight: 400
-#        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Italic.ttf
-#          style: italic
-#          weight: 400
-#        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Bold.ttf
-#          weight: 700
+    #    - family: AtkinsonHyperlegible
+    #      fonts:
+    #        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Regular.ttf
+    #          weight: 400
+    #        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Italic.ttf
+    #          style: italic
+    #          weight: 400
+    #        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Bold.ttf
+    #          weight: 700
     #        - asset: fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-BoldItalic.ttf
     #          style: italic
     #          weight: 700
@@ -207,7 +209,7 @@ flutter:
           weight: 700
 
 flutter_launcher_icons:
-#  android: "launcher_icon"
+  #  android: "launcher_icon"
   ios: true
   image_path: "assets/logo.png"
   remove_alpha_ios: true

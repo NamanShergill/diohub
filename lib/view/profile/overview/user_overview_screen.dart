@@ -4,7 +4,7 @@ import 'package:diohub/common/misc/loading_indicator.dart';
 import 'package:diohub/common/misc/repository_card.dart';
 import 'package:diohub/common/misc/shimmer_widget.dart';
 import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
-import 'package:diohub/graphql/queries/users/__generated__/user_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.data.gql.dart';
 import 'package:diohub/models/repositories/repository_model.dart';
 import 'package:diohub/models/users/user_info_model.dart';
 import 'package:diohub/services/users/user_info_service.dart';
@@ -36,7 +36,9 @@ class UserOverviewScreen extends StatelessWidget {
               title: 'Pinned Repos',
               children: snapshot.on(
                 loaded: (
-                  final APISnapshotLoaded<List<GgetUserPinnedReposData_user_pinnedItems_edges?>> snapshot,
+                  final APISnapshotLoaded<
+                          List<GgetUserPinnedReposData_user_pinnedItems_edges?>>
+                      snapshot,
                 ) =>
                     snapshot.data.isEmpty
                         ? <Widget>[
@@ -76,10 +78,18 @@ class UserOverviewScreen extends StatelessWidget {
                               );
                             },
                           ),
-                loading: (final APISnapshotLoading<List<GgetUserPinnedReposData_user_pinnedItems_edges?>> snapshot) => <Widget>[
+                loading: (final APISnapshotLoading<
+                            List<
+                                GgetUserPinnedReposData_user_pinnedItems_edges?>>
+                        snapshot) =>
+                    <Widget>[
                   const LoadingIndicator(),
                 ],
-                error: (final APISnapshotError<List<GgetUserPinnedReposData_user_pinnedItems_edges?>> snapshot) => <Widget>[snapshot.defaultErrorWidget()],
+                error: (final APISnapshotError<
+                            List<
+                                GgetUserPinnedReposData_user_pinnedItems_edges?>>
+                        snapshot) =>
+                    <Widget>[snapshot.defaultErrorWidget()],
               ),
             ),
           ),

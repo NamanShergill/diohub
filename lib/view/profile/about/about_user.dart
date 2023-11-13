@@ -20,7 +20,6 @@ class AboutUser extends StatelessWidget {
             title: 'Twitter',
             leading: InfoCard.leadingIcon(
               icon: MdiIcons.twitter,
-              context: context,
             ),
             onTap: () async => URLActions(
               uri: Uri.parse(
@@ -45,7 +44,6 @@ class AboutUser extends StatelessWidget {
                     .menuItems,
             leading: InfoCard.leadingIcon(
               icon: MdiIcons.at,
-              context: context,
             ),
             child: Text(userInfoModel!.email!),
           ),
@@ -53,7 +51,6 @@ class AboutUser extends StatelessWidget {
           MenuInfoCard(
             leading: InfoCard.leadingIcon(
               icon: MdiIcons.bio,
-              context: context,
             ),
             title: 'Blog',
             onTap: URLActions(uri: Uri.parse(userInfoModel!.blog!)).launchURL,
@@ -66,7 +63,6 @@ class AboutUser extends StatelessWidget {
             title: 'Company',
             leading: InfoCard.leadingIcon(
               icon: MdiIcons.officeBuilding,
-              context: context,
             ),
             child: Text(userInfoModel!.company!),
           ),
@@ -75,7 +71,6 @@ class AboutUser extends StatelessWidget {
             title: 'Location',
             leading: InfoCard.leadingIcon(
               icon: MdiIcons.mapMarker,
-              context: context,
             ),
             child: Text(userInfoModel!.location!),
           ),
@@ -83,7 +78,6 @@ class AboutUser extends StatelessWidget {
           InfoCard(
             leading: InfoCard.leadingIcon(
               icon: MdiIcons.calendar,
-              context: context,
             ),
             title: 'Joined',
             child: Text(

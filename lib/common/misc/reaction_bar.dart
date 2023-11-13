@@ -4,8 +4,8 @@ import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/common/misc/shimmer_widget.dart';
 import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
 import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.data.gql.dart';
 import 'package:diohub/services/issues/issues_service.dart';
 import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/utils.dart';
@@ -75,7 +75,7 @@ class _ReactionBarState extends State<ReactionBar> {
         // value.viewerHasReacted = true;
         // value.reactors.totalCount++;
       }
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint(e.toString());
     } finally {
       setState(() {
@@ -118,9 +118,9 @@ class _ReactionBarState extends State<ReactionBar> {
                               // shouldChangeReaction: false,
                               // boxPosition: VerticalPosition.bottom,
                               boxColor: context.colorScheme.primary,
-                              onReactionChanged:
-                                  (final Reaction<GreactionGroups>?
-                                      value,) async {
+                              onReactionChanged: (
+                                final Reaction<GreactionGroups>? value,
+                              ) async {
                                 await updateReaction(value!.value!);
                               },
                               selectedReaction: Reaction<GreactionGroups>(
@@ -181,7 +181,7 @@ class _ReactionBarState extends State<ReactionBar> {
                               : (final GreactionGroups group) async {
                                   try {
                                     await updateReaction(group);
-                                  } catch (e) {
+                                  } on Exception catch (e) {
                                     debugPrint(e.toString());
                                   }
                                 },
@@ -207,8 +207,6 @@ class ReactionItem extends StatefulWidget {
 }
 
 class ReactionItemState extends State<ReactionItem> {
-  bool loading = false;
-
   Future<void> changeReaction() async {
     if (mounted) {
       setState(
@@ -225,6 +223,8 @@ class ReactionItemState extends State<ReactionItem> {
       });
     }
   }
+
+  bool loading = false;
 
   @override
   Widget build(final BuildContext context) => Padding(

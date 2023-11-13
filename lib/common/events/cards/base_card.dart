@@ -1,7 +1,5 @@
-import 'package:diohub/common/misc/info_card.dart';
 import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/common/misc/tappable_card.dart';
-import 'package:diohub/utils/get_date.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +12,7 @@ class BaseEventCard extends StatelessWidget {
     this.userLogin,
     this.date,
     super.key,
+    required this.isInTimeline,
   });
   BaseEventCard.singular({
     required this.headerText,
@@ -24,17 +23,18 @@ class BaseEventCard extends StatelessWidget {
     this.userLogin,
     this.date,
     super.key,
+    required this.isInTimeline,
   }) : children = <Widget>[
           InkWell(onTap: onTap, child: child),
         ];
 
+  final bool isInTimeline;
   final List<Widget> children;
   final String? avatarUrl;
   final String? actor;
   final String? userLogin;
   final List<TextSpan> headerText;
   final DateTime? date;
-
   @override
   Widget build(final BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,76 +42,72 @@ class BaseEventCard extends StatelessWidget {
           // const SizedBox(
           //   height: 8,
           // ),
-          CardHeader(
-            // elevation: 0.6,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    child: Row(
-                      children: <Widget>[
-                        ProfileTile.avatar(
-                          avatarUrl: avatarUrl,
-                          userLogin: userLogin,
-                          padding: EdgeInsets.zero,
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Flexible(
-                          child: Text.rich(
-                            TextSpan(
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .asHint(),
-                              // .asBold(),
-                              children: <TextSpan>[
-                                    TextSpan(
-                                      text: actor,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                child: Row(
+                  children: <Widget>[
+                    if (!isInTimeline)
+                      ProfileTile.avatar(avatarUrl: avatarUrl, size: 20),
+                    Flexible(
+                      child: Text.rich(
+                        TextSpan(
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.asHint(),
+                          // .asBold(),
+                          children: <TextSpan>[
+                                if (!isInTimeline)
+                                  TextSpan(
+                                    text: '$actor ',
 
-                                      // style: AppThemeTextStyles.eventCardHeaderMed(
-                                      //   context,
-                                      // ),
-                                    ),
-                                  ] +
-                                  headerText,
-                            ),
-                          ),
+                                    // style: AppThemeTextStyles.eventCardHeaderMed(
+                                    //   context,
+                                    // ),
+                                  ),
+                              ] +
+                              headerText,
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  Text(
-                    getDate(date!.toString()),
-                    style: Theme.of(context).textTheme.bodySmall!.asHint(),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
           // const SizedBox(
           //   height: 4,
           // ),
-          ...List<Widget>.generate(children.length, (final int index) {
-            final bool isLast = index == children.length - 1;
-            return Column(
-              children: <Widget>[
-                if (index > 0)
-                  const Divider(
-                    height: 0,
-                  ),
-                BasicCard.linked(
-                  // elevation: 5,
-                  cardLinkType: isLast ? CardLinkType.atTop : CardLinkType.both,
-                  child: children[index],
-                  // surfaceTintColor: Colors.red,
-                ),
-              ],
-            );
-          }),
+
+          ...List<Widget>.generate(
+              children.length,
+              (final int index) => Column(
+                    children: <Widget>[
+                      if (index > 0)
+                        const Divider(
+                          height: 0,
+                        ),
+                      BasicCard.linked(
+                        // elevation: 5,
+                        cardLinkType: _cardLinkType(index, children.length),
+                        margin: EdgeInsets.zero,
+                        child: children[index],
+                        // surfaceTintColor: Colors.red,
+                      ),
+                    ],
+                  )),
         ],
       );
+
+  CardLinkType _cardLinkType(int index, int length) {
+    if (length == 1) {
+      return CardLinkType.none;
+    } else if (index == 0) {
+      return CardLinkType.atBottom;
+    } else if (index == length - 1) {
+      return CardLinkType.atTop;
+    } else {
+      return CardLinkType.both;
+    }
+  }
 }

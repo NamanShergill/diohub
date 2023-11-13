@@ -112,12 +112,7 @@ class AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
           Expanded(
             child: InfiniteScrollWrapper<UserInfoModel>(
               future: (
-                final ({
-                  UserInfoModel? lastItem,
-                  int pageNumber,
-                  int pageSize,
-                  bool refresh
-                }) data,
+                data,
               ) async =>
                   IssuesService.listAssignees(
                 widget.repoURL,
@@ -132,7 +127,7 @@ class AssigneeSelectSheetState extends State<AssigneeSelectSheet> {
               listEndIndicator: false,
               builder: (
                 final BuildContext context,
-                final ({int index, UserInfoModel item, bool refresh}) data,
+                final data,
               ) =>
                   CheckboxListTile(
                 // activeColor:

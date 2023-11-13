@@ -1,6 +1,7 @@
 // Todo: Redo Model. Ref: https://app.quicktype.io/
 
- import 'package:diohub/models/users/user_info_model.dart';
+import 'package:diohub/models/users/user_info_model.dart';
+// ignore_for_file: type=lint
 
 class CurrentUserInfoModel extends UserInfoModel {
   int? privateGists;

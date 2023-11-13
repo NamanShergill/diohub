@@ -5,7 +5,7 @@ import 'package:diohub/common/misc/link_text.dart';
 import 'package:diohub/common/misc/patch_viewer.dart';
 import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
 import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/pr_review_comment.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/pr_review_comment.data.gql.dart';
 import 'package:diohub/providers/issue_pulls/comment_provider.dart';
 import 'package:diohub/providers/users/current_user_provider.dart';
 import 'package:diohub/services/pulls/pulls_service.dart';
@@ -41,12 +41,7 @@ class PRReviewScreen extends StatelessWidget {
             ) =>
                 InfiniteScrollWrapper<GPRReviewComments_comments_edges?>(
               future: (
-                final ({
-                  GPRReviewComments_comments_edges? lastItem,
-                  int pageNumber,
-                  int pageSize,
-                  bool refresh
-                }) data,
+                data,
               ) async =>
                   PullsService.getPRReview(
                 nodeID,
@@ -59,11 +54,7 @@ class PRReviewScreen extends StatelessWidget {
               ),
               builder: (
                 final BuildContext context,
-                final ({
-                  int index,
-                  GPRReviewComments_comments_edges? item,
-                  bool refresh
-                }) data,
+                final data,
               ) {
                 final GPRReviewComments_comments_edges_node comment =
                     data.item!.node!;
@@ -319,12 +310,7 @@ class PRReviewScreen extends StatelessWidget {
                     height: 8,
                   ),
                   future: (
-                    final ({
-                      GreviewThreadCommentsQueryData_node__asPullRequestReviewThread_comments_edges? lastItem,
-                      int pageNumber,
-                      int pageSize,
-                      bool refresh
-                    }) data,
+                    final data,
                   ) =>
                       PullsService.getReviewThreadReplies(
                     edgeData.node!.id,
@@ -350,11 +336,7 @@ class PRReviewScreen extends StatelessWidget {
                   },
                   builder: (
                     final BuildContext context,
-                    final ({
-                      int index,
-                      GreviewThreadCommentsQueryData_node__asPullRequestReviewThread_comments_edges? item,
-                      bool refresh
-                    }) data,
+                    final data,
                   ) {
                     final GreviewThreadCommentsQueryData_node__asPullRequestReviewThread_comments_edges_node
                         reply = data.item!.node!;

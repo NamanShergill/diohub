@@ -1,6 +1,6 @@
 import 'package:diohub/common/issues/issue_label.dart';
 import 'package:diohub/common/misc/profile_banner.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.data.gql.dart';
 import 'package:diohub/models/events/events_model.dart' hide Key;
 import 'package:diohub/models/issues/issue_timeline_event_model.dart';
 import 'package:diohub/models/users/user_info_model.dart';

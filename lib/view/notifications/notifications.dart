@@ -205,12 +205,7 @@ class NotificationsScreenState extends State<NotificationsScreen>
                     height: 0,
                   ),
                   future: (
-                    final ({
-                      NotificationModel? lastItem,
-                      int pageNumber,
-                      int pageSize,
-                      bool refresh
-                    }) data,
+                    data,
                   ) async =>
                       NotificationsService.getNotifications(
                     page: data.pageNumber,
@@ -229,11 +224,7 @@ class NotificationsScreenState extends State<NotificationsScreen>
                   },
                   builder: (
                     final BuildContext context,
-                    final ({
-                      int index,
-                      NotificationModel item,
-                      bool refresh
-                    }) data,
+                    final data,
                   ) {
                     if (data.item.subject!.type == SubjectType.ISSUE) {
                       return IssueNotificationCard(

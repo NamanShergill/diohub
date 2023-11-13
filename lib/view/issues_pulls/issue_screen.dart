@@ -1,8 +1,7 @@
 import 'package:diohub/common/misc/info_card.dart';
-import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
 import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.data.gql.dart';
 import 'package:diohub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -10,7 +9,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 class IssueScreen extends StatefulWidget {
   const IssueScreen(
     this.issueInfo, {
-    required this.apiWrapperKey,
+    required this.onRefresh,
     this.initialIndex = 0,
     this.commentsSince,
     super.key,
@@ -18,9 +17,7 @@ class IssueScreen extends StatefulWidget {
   final GissueInfo issueInfo;
   final DateTime? commentsSince;
   final int initialIndex;
-  final GlobalKey<
-          APIWrapperState<GissuePullInfoData_repository_issueOrPullRequest>>
-      apiWrapperKey;
+  final Future<void> Function() onRefresh;
 
   @override
   IssueScreenState createState() => IssueScreenState();
@@ -59,7 +56,7 @@ class IssueScreenState extends State<IssueScreen>
       labels: data.labels!.nodes!.toList(),
       createdAt: data.createdAt,
       createdBy: data.author,
-      apiWrapperKey: widget.apiWrapperKey,
+      onRefresh: widget.onRefresh,
       participantsInfo: UnfinishedList<Gactor>(
         limitedAvailableList: data.participants.nodes!
             .map((final GissueInfo_participants_nodes? e) => e!)

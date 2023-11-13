@@ -1,4 +1,4 @@
-# import './timeline.query.graphql'
+# import './timeline.graphql'
 
 
 query issueTemplates($name: String!, $owner: String!) {

@@ -63,12 +63,7 @@ class LabelSelectSheetState extends State<LabelSelectSheet> {
           Expanded(
             child: InfiniteScrollWrapper<Label>(
               future: (
-                final ({
-                  Label? lastItem,
-                  int pageNumber,
-                  int pageSize,
-                  bool refresh
-                }) data,
+                data,
               ) async =>
                   IssuesService.listAvailableLabels(
                 widget.repoURL,
@@ -83,7 +78,7 @@ class LabelSelectSheetState extends State<LabelSelectSheet> {
               listEndIndicator: false,
               builder: (
                 final BuildContext context,
-                final ({int index, Label item, bool refresh}) data,
+                final data,
               ) =>
                   CheckboxListTile(
                 // activeColor:

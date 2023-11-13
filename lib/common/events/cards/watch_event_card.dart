@@ -14,6 +14,7 @@ class RepoEventCard extends StatelessWidget {
     this.repo,
     this.refresh = false,
     super.key,
+    required this.isInTimeline,
   });
   final EventsModel event;
   final String eventTextMiddle;
@@ -21,8 +22,11 @@ class RepoEventCard extends StatelessWidget {
   final String? eventTextEnd;
   final String? branch;
   final bool refresh;
+  final bool isInTimeline;
+
   @override
   Widget build(final BuildContext context) => BaseEventCard.singular(
+        isInTimeline: isInTimeline,
         actor: event.actor!.login,
         headerText: <TextSpan>[
           TextSpan(text: ' $eventTextMiddle '),

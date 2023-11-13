@@ -5,7 +5,7 @@ import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/common/misc/profile_card.dart';
 import 'package:diohub/common/pulls/pull_loading_card.dart';
 import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.data.gql.dart';
 import 'package:diohub/routes/router.gr.dart';
 import 'package:diohub/utils/http_to_api.dart';
 import 'package:diohub/utils/utils.dart';
@@ -21,7 +21,9 @@ class PaddingWrap extends StatelessWidget {
     required this.child,
     super.key,
   });
+
   final Widget child;
+
   // final double? elevation;
   @override
   Widget build(final BuildContext context) => Padding(
@@ -37,6 +39,7 @@ class TimelineItem extends StatelessWidget {
     super.key,
     this.pullNodeID,
   });
+
   final dynamic timelineItem;
   final String? pullNodeID;
   final VoidCallback onQuote;
@@ -53,7 +56,7 @@ class TimelineItem extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final dynamic item = timelineItem;
-    final Widget child = switch (item) {
+    Widget child = switch (item) {
       final Gassigned item => _buildBasicEventAssignedCard(item),
       final GbaseRefChanged item => _buildBaseRefChangedCard(item),
       final GbaseRefDeleted item => _buildRefDeletedCard(item),
@@ -78,7 +81,9 @@ class TimelineItem extends StatelessWidget {
       final GreadyForReview item => _buildReadForReviewCard(item),
       final GrenamedTitle item => _buildRenamedTitleCard(item, context),
       final Greopened item => _buildReopenedCard(item),
-      final GreviewRequested item => _buildReviewRequestedCard(item),
+      final GgetTimelineData_repository_issueOrPullRequest__asPullRequest_timelineItems_edges_node__asReviewRequestedEvent
+        item =>
+        _buildReviewRequestedCard(item),
       final Gunassigned item => _buildUnassignedCard(item),
       final Gunlabeled item => _buildUnlabeledCard(item),
       final Gunlocked item => _buildUnlockedCard(item),
@@ -87,14 +92,18 @@ class TimelineItem extends StatelessWidget {
       _ => const Text('Unimplemented.'),
     };
 
-    return Column(
-      children: <Widget>[
-        PaddingWrap(child: child),
-        const Divider(
-            // height: 0,
-            ),
-      ],
-    );
+    if (item is! GissueComment) {
+      child = Card(
+        margin: EdgeInsets.zero,
+        elevation: 0.7,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: child,
+        ),
+      );
+    }
+
+    return PaddingWrap(child: child);
   }
 
   BasicEventTextCard _buildUnpinnedCard(final Gunpinned item) =>
@@ -164,40 +173,45 @@ class TimelineItem extends StatelessWidget {
         isAssigned: false,
       );
 
-  BasicEventCard _buildReviewRequestedCard(final GreviewRequested item) =>
-      BasicEventCard(
-        user: item.actor,
-        date: item.createdAt,
-        leading: const Icon(Icons.remove_red_eye_rounded),
-        content: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: <Widget>[
-            const Text('Requested a review from'),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: ProfileTile.login(
-                avatarUrl: item.requestedReviewer!.when<String>(
-                  user: actorAvatarStringUri,
-                  team: (final GreviewRequested_requestedReviewer__asTeam p0) =>
-                      p0.avatar.toString(),
-                  orElse: unimplementedString,
-                ),
-                size: 20,
-                padding: EdgeInsets.zero,
-                // textStyle: cont,
-                userLogin: item.requestedReviewer!.when<String>(
-                  user: actorLogin,
-                  team: (
-                    final GreviewRequested_requestedReviewer__asTeam p0,
-                  ) =>
-                      p0.name,
-                  orElse: unimplementedString,
-                ),
+  BasicEventCard _buildReviewRequestedCard(
+      final GgetTimelineData_repository_issueOrPullRequest__asPullRequest_timelineItems_edges_node__asReviewRequestedEvent
+          item) {
+    print(item
+        is GgetTimelineData_repository_issueOrPullRequest__asPullRequest_timelineItems_edges_node__asReviewRequestedEvent);
+    print(item.requestedReviewer.runtimeType);
+    return BasicEventCard(
+      user: item.actor,
+      date: item.createdAt,
+      leading: const Icon(Icons.remove_red_eye_rounded),
+      content: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: <Widget>[
+          const Text('Requested a review from'),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: ProfileTile.login(
+              avatarUrl: item.requestedReviewer!.when<String>(
+                user: actorAvatarStringUri,
+                team: (final p0) => p0.avatar.toString(),
+                orElse: unimplementedString,
+              ),
+              size: 20,
+              padding: EdgeInsets.zero,
+              // textStyle: cont,
+              userLogin: item.requestedReviewer!.when<String>(
+                user: actorLogin,
+                team: (
+                  final p0,
+                ) =>
+                    p0.name,
+                orElse: unimplementedString,
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 
   BasicEventTextCard _buildReopenedCard(final Greopened item) =>
       BasicEventTextCard(
@@ -506,23 +520,7 @@ class TimelineItem extends StatelessWidget {
       return BasicEventTextCard(
         textContent: str,
         footer: Builder(
-          builder: (final BuildContext context) => item.source.when(
-            issue: (final GcrossReference_source__asIssue p0) =>
-                IssueLoadingCard(
-              toRepoAPIResource(p0.url.toString()),
-              padding: EdgeInsets.zero,
-              compact: true,
-            ),
-            pullRequest: (final GcrossReference_source__asPullRequest p0) =>
-                PullLoadingCard(
-              toRepoAPIResource(
-                p0.url.toString(),
-                isPull: true,
-              ),
-              compact: true,
-            ),
-            orElse: unimplemented,
-          ),
+          builder: (final BuildContext context) => switch (item.G__typename) {},
         ),
         user: item.actor,
         leading: const Icon(Octicons.link_external),

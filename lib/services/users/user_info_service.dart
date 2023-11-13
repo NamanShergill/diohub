@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:diohub/app/api_handler/dio.dart';
-import 'package:diohub/graphql/queries/users/__generated__/user_info.query.data.gql.dart';
-import 'package:diohub/graphql/queries/users/__generated__/user_info.query.req.gql.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.data.gql.dart';
+import 'package:diohub/graphql/queries/users/__generated__/user_info.req.gql.dart';
 import 'package:diohub/graphql/queries/viewer/__generated__/viewer.query.data.gql.dart';
 import 'package:diohub/graphql/queries/viewer/__generated__/viewer.query.req.gql.dart';
 import 'package:diohub/models/repositories/repository_model.dart';
@@ -87,7 +87,8 @@ class UserInfoService {
   static Future<List<GgetUserPinnedReposData_user_pinnedItems_edges?>>
       getUserPinnedRepos(final String user) async {
     final GQLResponse res = await _gqlHandler.query(
-      GgetUserPinnedReposReq((final GgetUserPinnedReposReqBuilder b) => b..vars.user = user),
+      GgetUserPinnedReposReq(
+          (final GgetUserPinnedReposReqBuilder b) => b..vars.user = user),
     );
     return GgetUserPinnedReposData.fromJson(res.data!)!
         .user!
@@ -99,7 +100,8 @@ class UserInfoService {
   static Future<List<GgetViewerOrgsData_viewer_organizations_edges?>>
       getViewerOrgs({required final bool refresh, final String? after}) async {
     final GQLResponse res = await _gqlHandler.query(
-      GgetViewerOrgsReq((final GgetViewerOrgsReqBuilder b) => b..vars.cursor = after),
+      GgetViewerOrgsReq(
+          (final GgetViewerOrgsReqBuilder b) => b..vars.cursor = after),
       refreshCache: refresh,
     );
     return GgetViewerOrgsData.fromJson(res.data!)!

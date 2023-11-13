@@ -7,7 +7,7 @@ import 'package:diohub/common/search_overlay/filters.dart';
 import 'package:diohub/common/search_overlay/search_overlay.dart';
 import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:diohub/common/wrappers/search_scroll_wrapper.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_templates.data.gql.dart';
 import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/models/repositories/repository_model.dart';
 import 'package:diohub/models/users/current_user_info_model.dart';

@@ -1,4 +1,4 @@
-# import '../issues_pulls/timeline.query.graphql'
+# import '../issues_pulls/timeline.graphql'
 
 query searchMentionUsers($query: String!, $after: String){
     search(query: $query, type: USER, first: 20, after: $after) {

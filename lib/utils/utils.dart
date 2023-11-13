@@ -105,3 +105,10 @@ extension BuiltListExtn<T> on Future<BuiltList<T>> {
 }
 
 T returnItself<T>(final T data) => data;
+
+extension StringIntp on int {
+  String toShortenedStr() => switch (this) {
+        > 1000 => '${toString()[0]}.${toString()[1]}k',
+        _ => toString(),
+      };
+}

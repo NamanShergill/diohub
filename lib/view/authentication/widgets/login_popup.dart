@@ -55,7 +55,7 @@ class LoginPopupState extends State<LoginPopup> {
                                 AuthSuccessful(value),
                               ),
                             );
-                      } catch (e) {
+                      } on Exception catch (e) {
                         if (context.mounted) {
                           BlocProvider.of<AuthenticationBloc>(context)
                               .add(AuthError(e.toString()));

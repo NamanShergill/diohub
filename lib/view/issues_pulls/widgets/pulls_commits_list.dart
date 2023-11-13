@@ -12,12 +12,7 @@ class PullsCommitsList extends StatelessWidget {
   Widget build(final BuildContext context) =>
       InfiniteScrollWrapper<CommitListModel>(
         future: (
-          final ({
-            CommitListModel? lastItem,
-            int pageNumber,
-            int pageSize,
-            bool refresh
-          }) data,
+          data,
         ) async =>
             PullsService.getPullCommits(
           Provider.of<PullProvider>(context, listen: false).data.url.toString(),
@@ -31,7 +26,7 @@ class PullsCommitsList extends StatelessWidget {
         ),
         builder: (
           final BuildContext context,
-          final ({int index, CommitListModel item, bool refresh}) data,
+          final data,
         ) =>
             Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),

@@ -38,7 +38,7 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, length: 5);
+    _tabController = TabController(vsync: this, length: 5, initialIndex: 4);
     if (widget.deepLinkData?.components.first == 'issues') {
       _tabController.index = 1;
     } else if (widget.deepLinkData?.components.first == 'pulls') {
@@ -130,7 +130,9 @@ class HomeScreenState extends State<HomeScreen>
         controller: _tabController,
         physics: const BouncingScrollPhysics(),
         children: <Widget>[
-          const Events(),
+          const Events(
+            isTimeline: false,
+          ),
           IssuesTab(
             deepLinkData: widget.deepLinkData?.components.first == 'issues'
                 ? widget.deepLinkData
@@ -143,12 +145,7 @@ class HomeScreenState extends State<HomeScreen>
           ),
           InfiniteScrollWrapper<GgetViewerOrgsData_viewer_organizations_edges?>(
             future: (
-              final ({
-                GgetViewerOrgsData_viewer_organizations_edges? lastItem,
-                int pageNumber,
-                int pageSize,
-                bool refresh
-              }) data,
+              data,
             ) async =>
                 UserInfoService.getViewerOrgs(
               refresh: data.refresh,
@@ -162,11 +159,7 @@ class HomeScreenState extends State<HomeScreen>
             // divider: false,
             builder: (
               final BuildContext context,
-              final ({
-                int index,
-                GgetViewerOrgsData_viewer_organizations_edges? item,
-                bool refresh
-              }) data,
+              data,
             ) =>
                 Row(
               children: <Widget>[
@@ -183,6 +176,7 @@ class HomeScreenState extends State<HomeScreen>
           ),
           const Events(
             privateEvents: false,
+            isTimeline: false,
           ),
         ],
       ),

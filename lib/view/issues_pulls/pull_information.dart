@@ -1,4 +1,4 @@
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.data.gql.dart';
 import 'package:diohub/providers/issue_pulls/pull_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

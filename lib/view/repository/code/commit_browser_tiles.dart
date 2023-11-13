@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:diohub/app/api_handler/response_handler.dart';
 import 'package:diohub/common/animations/size_expanded_widget.dart';
 import 'package:diohub/common/misc/profile_banner.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.data.gql.dart';
 import 'package:diohub/models/popup/popup_type.dart';
 import 'package:diohub/models/repositories/commit_list_model.dart';
 import 'package:diohub/routes/router.gr.dart';

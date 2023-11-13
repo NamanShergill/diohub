@@ -8,7 +8,6 @@ import 'package:diohub/common/misc/button.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 
 typedef ResponseBuilder<T> = Widget Function(
   BuildContext context,
@@ -135,9 +134,6 @@ class APIWrapperState<T> extends State<APIWrapper<T>> {
           onRefresh: refreshData,
         ),
       );
-    } on Error catch (e) {
-      Logger().e('erorr', error: e, stackTrace: e.stackTrace);
-      rethrow;
     }
   }
 

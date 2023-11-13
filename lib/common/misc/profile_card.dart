@@ -1,3 +1,18 @@
+/// A widget that displays the profile card of a user.
+///
+/// This widget displays the user's avatar, name, bio, and number of followers.
+/// It also allows the user to navigate to the profile page of the user when tapped.
+///
+/// The [ProfileCard] widget requires a [UserInfoModel] object and an optional
+/// boolean value to indicate whether the card should be compact or not.
+///
+/// The [ProfileCardLoading] widget is a loading state for the [ProfileCard]
+/// widget. It requires a [String] login and an optional boolean value to
+/// indicate whether the card should be compact or not.
+///
+/// The [actorLogin], [actorAvatarUri], and [actorAvatarStringUri] functions
+/// are utility functions that extract the login and avatar URL of a [Gactor]
+/// object from the `timeline.data.gql.dart` file.
 import 'package:auto_route/auto_route.dart';
 import 'package:diohub/common/animations/size_expanded_widget.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
@@ -19,6 +34,7 @@ class ProfileCard extends StatelessWidget {
   });
   final UserInfoModel user;
   final bool compact;
+
   @override
   Widget build(final BuildContext context) => InkWell(
         borderRadius: medBorderRadius,

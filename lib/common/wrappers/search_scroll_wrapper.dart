@@ -142,12 +142,7 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
             searchData: searchData,
             filterFn: widget.filterFn,
             searchFuture: (
-              final ({
-                RepositoryModel? lastItem,
-                int pageNumber,
-                int pageSize,
-                bool refresh
-              }) data,
+              data,
             ) async =>
                 SearchService.searchRepos(
               searchData.toQuery,
@@ -161,7 +156,7 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
             pinnedHeader: searchData.isActive ? header : null,
             builder: (
               final BuildContext context,
-              final ({int index, RepositoryModel item, bool refresh}) data,
+              final data,
             ) =>
                 Padding(
               padding: widget.padding,
@@ -178,12 +173,7 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
             controller: controller,
             searchData: searchData,
             searchFuture: (
-              final ({
-                IssueModel? lastItem,
-                int pageNumber,
-                int pageSize,
-                bool refresh
-              }) data,
+              data,
             ) async =>
                 SearchService.searchIssues(
               searchData.toQuery,
@@ -197,7 +187,7 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
             pinnedHeader: searchData.isActive ? header : null,
             builder: (
               final BuildContext context,
-              final ({int index, IssueModel item, bool refresh}) data,
+              final data,
             ) =>
                 Padding(
               padding: widget.padding,
@@ -215,12 +205,7 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
             header: (final BuildContext context) => header(context, null),
             pinnedHeader: searchData.isActive ? header : null,
             searchFuture: (
-              final ({
-                UserInfoModel? lastItem,
-                int pageNumber,
-                int pageSize,
-                bool refresh
-              }) data,
+              data,
             ) async =>
                 SearchService.searchUsers(
               searchData.toQuery,
@@ -232,11 +217,7 @@ class SearchScrollWrapperState extends State<SearchScrollWrapper> {
             ),
             builder: (
               final BuildContext context,
-              final ({
-                int index,
-                UserInfoModel item,
-                bool refresh,
-              }) data,
+              data,
             ) =>
                 Row(
               children: <Widget>[

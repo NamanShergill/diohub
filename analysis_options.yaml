@@ -4,7 +4,7 @@ include:
 analyzer:
   exclude:
     [
-      lib/models/**,
+#      lib/models/**,
      dependencies/**/example/**
     ]
   errors:

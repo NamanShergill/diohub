@@ -8,6 +8,7 @@ targets:
         enabled: true
         options:
           schema: diohub|lib/graphql/schema.graphql
+#          output_dir: ''
           when_extensions:
             when: true
             maybeWhen: true

@@ -1,3 +1,4 @@
+// ignore_for_file: type=lint
 // To parse this JSON data, do
 //
 //     final searchUsersModel = searchUsersModelFromJson(jsonString);

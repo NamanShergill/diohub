@@ -2,6 +2,7 @@ import 'package:diohub/common/animations/fade_animation_widget.dart';
 import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:diohub/common/misc/info_card.dart';
 import 'package:diohub/common/misc/shimmer_widget.dart';
+import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:diohub/models/repositories/branch_list_model.dart';
 import 'package:diohub/models/repositories/repository_model.dart';
@@ -29,7 +30,6 @@ class BranchButton extends StatelessWidget {
           InfoCard(
         leading: InfoCard.leadingIcon(
           icon: Octicons.git_branch,
-          context: context,
         ),
         trailing: InfoCard.dropdownTrailingIcon,
         onTap: () async {
@@ -46,11 +46,7 @@ class BranchButton extends StatelessWidget {
             await BottomSheetPagination<RepoBranchListItemModel>(
               paginatedListItemBuilder: (
                 final BuildContext context,
-                final ({
-                  int index,
-                  RepoBranchListItemModel item,
-                  bool refresh
-                }) data,
+                final ScrollWrapperBuilderData<RepoBranchListItemModel> data,
               ) =>
                   Padding(
                 padding: const EdgeInsets.symmetric(
@@ -75,12 +71,7 @@ class BranchButton extends StatelessWidget {
                 ),
               ),
               paginationFuture: (
-                final ({
-                  RepoBranchListItemModel? lastItem,
-                  int pageNumber,
-                  int pageSize,
-                  bool refresh
-                }) data,
+                data,
               ) async =>
                   RepositoryServices.fetchBranchList(
                 _repo!.url!,
@@ -90,8 +81,8 @@ class BranchButton extends StatelessWidget {
               ),
               title: 'Branches in ${_repo?.owner?.login!}/${_repo?.name}',
             ).openSheet(context);
-          } catch (e) {
-            print(e);
+          } on Exception catch (e) {
+            rethrow;
           }
         },
         child: Row(
@@ -209,7 +200,7 @@ class BranchButton extends StatelessWidget {
   }
 
   Padding _buildListBranchItem(
-    final ({int index, RepoBranchListItemModel item, bool refresh}) data,
+    final ScrollWrapperBuilderData<RepoBranchListItemModel> data,
     final String currentBranch,
     final BuildContext context,
   ) =>

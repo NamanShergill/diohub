@@ -15,21 +15,40 @@ class InfiniteScrollWrapperController {
   late void Function() refresh;
 }
 
+class ScrollWrapperFutureArguments<T> {
+  ScrollWrapperFutureArguments({
+    required this.pageNumber,
+    required this.pageSize,
+    required this.refresh,
+    required this.lastItem,
+  });
+
+  final int pageNumber;
+  final int pageSize;
+  final bool refresh;
+  final T? lastItem;
+}
+
+class ScrollWrapperBuilderData<T> {
+  ScrollWrapperBuilderData({
+    required this.item,
+    required this.index,
+    required this.refresh,
+    required this.isCurrentlyLast,
+  });
+
+  final T item;
+  final int index;
+  final bool refresh;
+  final bool isCurrentlyLast;
+}
+
 typedef ScrollWrapperFuture<T> = Future<List<T>> Function(
-  ({
-    int pageNumber,
-    int pageSize,
-    bool refresh,
-    T? lastItem,
-  }) data,
+  ScrollWrapperFutureArguments<T> data,
 );
 typedef ScrollWrapperBuilder<T> = Widget Function(
   BuildContext context,
-  ({
-    T item,
-    int index,
-    bool refresh,
-  }) data,
+  ScrollWrapperBuilderData<T> data,
 );
 typedef FilterFn<T> = Function(List<T> items);
 
@@ -285,6 +304,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
     setupController();
     pageNumber = widget.pageNumber;
     _pagingController.addPageRequestListener(_fetchPage);
+
     super.initState();
   }
 
@@ -311,7 +331,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
       // log.log(Level.debug, 'Fetching page $pageNumber, key:$pageKey, $this');
       // Use the supplied APIs accordingly, based on the *refresh* value.
       final List<T> newItems = await widget.future(
-        (
+        ScrollWrapperFutureArguments<T>(
           pageNumber: pageNumber,
           pageSize: widget.pageSize,
           refresh: refresh,
@@ -356,11 +376,12 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
         _pagingController.error = error.response?.data;
       }
       rethrow;
+      // Can't really do anything about this, the widget is not propagating the error above.
+      // ignore: avoid_catches_without_on_clauses
     } catch (error) {
       {
         log.e(
-          'Pagination future error',
-          stackTrace: (error is Error) ? error.stackTrace : null,
+          'Pagination exception',
           error: error,
         );
         if (mounted) {
@@ -391,10 +412,12 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
                 ),
               widget.builder(
                 context,
-                (
+                ScrollWrapperBuilderData<T>(
                   item: item.item,
                   index: index,
                   refresh: item.refreshChildren,
+                  isCurrentlyLast:
+                      (_pagingController.itemList?.length ?? 0) - 1 == index,
                 ),
               ),
             ],

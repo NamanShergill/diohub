@@ -9,19 +9,18 @@ class IssuesEventCard extends StatelessWidget {
     this.trailingHeaderText, {
     this.time,
     super.key,
+    required this.isInTimeline,
   });
+  final bool isInTimeline;
   final EventsModel event;
   final DateTime? time;
   final String trailingHeaderText;
   @override
   Widget build(final BuildContext context) => BaseEventCard.singular(
+        isInTimeline: isInTimeline,
         actor: event.actor!.login,
         headerText: <TextSpan>[
-          TextSpan(text: ' ${event.payload!.action} $trailingHeaderText '),
-          TextSpan(
-            text: event.repo!.name,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+          TextSpan(text: '${event.payload!.action} $trailingHeaderText'),
         ],
         userLogin: event.actor!.login,
         date: event.createdAt,

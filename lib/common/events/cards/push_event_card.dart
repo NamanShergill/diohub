@@ -9,11 +9,15 @@ import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class PushEventCard extends StatelessWidget {
-  const PushEventCard(this.event, this.data, {super.key});
+  const PushEventCard(this.event, this.data,
+      {super.key, required this.isInTimeline});
   final EventsModel event;
   final Payload data;
+  final bool isInTimeline;
+
   @override
   Widget build(final BuildContext context) => BaseEventCard.singular(
+        isInTimeline: isInTimeline,
         onTap: () async {
           await AutoRouter.of(context).push(
             RepositoryRoute(
@@ -55,53 +59,48 @@ class PushEventCard extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(16),
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemCount: data.commits!.length,
-                separatorBuilder:
-                    (final BuildContext context, final int index) =>
-                        const Divider(
-                  height: 0,
-                ),
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (final BuildContext context, final int index) =>
-                    InkWell(
-                  borderRadius: smallBorderRadius,
-                  onTap: () async {
-                    await AutoRouter.of(context).push(
-                      CommitInfoRoute(
-                        commitURL: data.commits![index].url!,
+              child: Column(
+                children: List.generate(
+                  data.commits!.length,
+                  (final int index) => InkWell(
+                    borderRadius: smallBorderRadius,
+                    onTap: () async {
+                      await AutoRouter.of(context).push(
+                        CommitInfoRoute(
+                          commitURL: data.commits![index].url!,
+                        ),
+                      );
+                    },
+                    onLongPress: () async {
+                      await AutoRouter.of(context).push(
+                        RepositoryRoute(
+                          index: 2,
+                          branch: data.ref!.split('/').last,
+                          repositoryURL: event.repo!.url!,
+                          initSHA: data.commits![index].sha,
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 8,
                       ),
-                    );
-                  },
-                  onLongPress: () async {
-                    await AutoRouter.of(context).push(
-                      RepositoryRoute(
-                        index: 2,
-                        branch: data.ref!.split('/').last,
-                        repositoryURL: event.repo!.url!,
-                        initSHA: data.commits![index].sha,
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 4,
-                      vertical: 8,
-                    ),
-                    child: Text.rich(
-                      TextSpan(
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        children: <InlineSpan>[
-                          TextSpan(
-                            text:
-                                '#${data.commits![index].sha!.substring(0, 6)}',
-                            style: TextStyle(
-                              color: context.colorScheme.primary,
+                      child: Text.rich(
+                        TextSpan(
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          children: <InlineSpan>[
+                            TextSpan(
+                              text:
+                                  '#${data.commits![index].sha!.substring(0, 6)}',
+                              style: TextStyle(
+                                color: context.colorScheme.primary,
+                              ),
                             ),
-                          ),
-                          TextSpan(text: '  ${data.commits![index].message!}'),
-                        ],
+                            TextSpan(
+                                text: '  ${data.commits![index].message!}'),
+                          ],
+                        ),
                       ),
                     ),
                   ),

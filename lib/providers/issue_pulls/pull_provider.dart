@@ -1,4 +1,4 @@
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_info.data.gql.dart';
 import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/models/pull_requests/pull_request_model.dart';
 import 'package:diohub/models/users/user_info_model.dart';

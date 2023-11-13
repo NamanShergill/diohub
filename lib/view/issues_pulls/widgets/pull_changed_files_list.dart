@@ -12,12 +12,7 @@ class PullChangedFilesList extends StatelessWidget {
   Widget build(final BuildContext context) =>
       InfiniteScrollWrapper<FileElement>(
         future: (
-          final ({
-            FileElement? lastItem,
-            int pageNumber,
-            int pageSize,
-            bool refresh
-          }) data,
+          data,
         ) async =>
             PullsService.getPullFiles(
           Provider.of<PullProvider>(context, listen: false).data.url.toString(),
@@ -31,7 +26,7 @@ class PullChangedFilesList extends StatelessWidget {
         ),
         builder: (
           final BuildContext context,
-          final ({int index, FileElement item, bool refresh}) data,
+          final data,
         ) =>
             Padding(
           padding: const EdgeInsets.symmetric(vertical: 2),
