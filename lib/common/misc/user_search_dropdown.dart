@@ -1,4 +1,5 @@
 import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/common/misc/profile_card.dart';
 import 'package:diohub/common/search_overlay/filters.dart';
@@ -29,7 +30,7 @@ class UserSearchDropdown extends StatelessWidget {
       ),
       child: Material(
         // color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-        borderRadius: medBorderRadius,
+        borderRadius: context.themeData.borderRadiusTheme?.medBorderRadius,
         elevation: 8,
         child: query.isNotEmpty
             ? SizeExpandedSection(
@@ -62,8 +63,7 @@ class UserSearchDropdown extends StatelessWidget {
                     ) {
                       final GsearchMentionUsersData_search_edges_node item =
                           data.item!.node!;
-                      return InkWell(
-                        borderRadius: medBorderRadius,
+                      return InkPot(
                         onTap: () {
                           onSelected?.call(
                             item.when(

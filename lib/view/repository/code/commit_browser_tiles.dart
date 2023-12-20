@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:diohub/app/api_handler/response_handler.dart';
 import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.data.gql.dart';
 import 'package:diohub/models/popup/popup_type.dart';
 import 'package:diohub/models/repositories/commit_list_model.dart';
 import 'package:diohub/routes/router.gr.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/get_date.dart';
 import 'package:diohub/utils/http_to_api.dart';
 import 'package:diohub/utils/utils.dart';
@@ -28,6 +28,7 @@ class _CommitTiles extends StatefulWidget {
     this.onSelected,
     // this.backgroundColor,
   });
+
   final bool highlighted;
   final ValueChanged<String>? onSelected;
   final String sha;
@@ -37,6 +38,7 @@ class _CommitTiles extends StatefulWidget {
   final DateTime date;
   final String url;
   final bool compact;
+
   // final Color? backgroundColor;
 
   @override
@@ -58,8 +60,7 @@ class _CommitTilesState extends State<_CommitTiles> {
         elevation: 2,
         // borderRadius: medBorderRadius,
         color: widget.highlighted ? context.colorScheme.primary : null,
-        child: InkWell(
-          borderRadius: medBorderRadius,
+        child: InkPot(
           onTap: () {
             setState(() {
               expanded = !expanded;
@@ -209,7 +210,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                     const Divider(
                       height: 0,
                     ),
-                    InkWell(
+                    InkPot(
                       onTap: () async {
                         if (widget.onSelected != null) {
                           widget.onSelected!(widget.sha);
@@ -244,7 +245,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                     const Divider(
                       height: 0,
                     ),
-                    InkWell(
+                    InkPot(
                       onTap: () async {
                         await AutoRouter.of(context)
                             .push(CommitInfoRoute(commitURL: widget.url));
@@ -269,7 +270,7 @@ class _CommitTilesState extends State<_CommitTiles> {
                     const Divider(
                       height: 0,
                     ),
-                    InkWell(
+                    InkPot(
                       onTap: copySha,
                       child: const Padding(
                         padding: EdgeInsets.all(16),
@@ -304,6 +305,7 @@ class CommitTilesREST extends StatelessWidget {
     this.highlighted = false,
     this.onSelected,
   });
+
   final CommitListModel item;
   final bool highlighted;
   final ValueChanged<String>? onSelected;
@@ -330,6 +332,7 @@ class CommitTilesGQL extends StatelessWidget {
     this.compact = true,
     this.backgroundColor,
   });
+
   final Gcommit item;
   final bool highlighted;
   final bool compact;

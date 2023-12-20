@@ -339,6 +339,7 @@ fragment issueComment on IssueComment{
     bodyHTML
     lastEditedAt
     isMinimized
+    url
     minimizedReason
     reactionGroups{
         ...reactionGroups

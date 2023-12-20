@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/adapters/internet_connectivity.dart';
 import 'package:diohub/app/api_handler/dio.dart';
@@ -35,6 +36,7 @@ Future<void> debugURLLauncher() async {
 }
 
 void main() async {
+  // ChuckerFlutter.showOnRelease = true;
   WidgetsFlutterBinding.ensureInitialized();
   // Error popup stream initialised.
   ResponseHandler.getErrorStream();
@@ -52,6 +54,7 @@ void main() async {
   // final initLink = await initUniLink();
   uniLinkStream();
   final bool auth = await AuthRepository().isAuthenticated;
+  // runApp(NewWidget());
   runApp(
     MyApp(
       authenticated: auth,
@@ -61,8 +64,64 @@ void main() async {
   await debugURLLauncher();
 }
 
+class NewWidget extends StatelessWidget {
+  const NewWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+        navigatorObservers: [
+          ChuckerFlutter.navigatorObserver,
+        ],
+        home: Builder(
+          builder: (BuildContext context) => Stack(
+            children: <Widget>[
+              SafeArea(
+                child: Scaffold(
+                  body: NestedScrollView(
+                    headerSliverBuilder:
+                        (BuildContext context, bool innerBoxIsScrolled) =>
+                            <Widget>[
+                      const SliverAppBar(
+                        title: Text('ajhs jhads '),
+                        expandedHeight: 500,
+                      ),
+                    ],
+                    body: ListView.builder(
+                      itemBuilder: (BuildContext context, int index) =>
+                          ListTile(title: Text(index.toString())),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                height: MediaQuery.of(context).padding.top,
+                child: GestureDetector(
+                  onTap: () {
+                    PrimaryScrollController.of(context).animateTo(
+                      0,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.bounceIn,
+                    );
+                  },
+                  child: Container(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({required this.authenticated, super.key});
+
   // final String? initDeepLink;
   final bool authenticated;
 
@@ -107,6 +166,7 @@ class MyApp extends StatelessWidget {
 
 class RootApp extends StatefulWidget {
   const RootApp({super.key});
+
   // final String? initDeepLink;
 
   @override
@@ -139,7 +199,8 @@ class _RootAppState extends State<RootApp> {
             DefaultMaterialLocalizations.delegate,
             DefaultCupertinoLocalizations.delegate,
             DefaultWidgetsLocalizations.delegate,
-          ], // getTheme(context, brightness: Brightness.light),
+          ],
+          // getTheme(context, brightness: Brightness.light),
           // darkTheme: getTheme(context, brightness: Brightness.dark),
           routerDelegate: customRouter.delegate(
             deepLinkBuilder: (final PlatformDeepLink deepLink) =>
@@ -148,6 +209,9 @@ class _RootAppState extends State<RootApp> {
                 initLink: deepLink.configuration.uri,
               ),
             ]),
+            navigatorObservers: () => [
+              ChuckerFlutter.navigatorObserver,
+            ],
             rebuildStackOnDeepLink: true,
           ),
           routeInformationParser: customRouter.defaultRouteParser(),
@@ -166,6 +230,7 @@ ThemeData getTheme(
         Brightness.light => _defaultLightColorScheme,
       };
   // cs= cs.copyWith(surfaceTint: Colors.transparent);
+  final BorderRadiusTheme borderRadiusTheme = BorderRadiusTheme();
   return ThemeData(
     useMaterial3: true,
     // tabBarTheme: TabBarTheme(
@@ -241,17 +306,19 @@ ThemeData getTheme(
       filled: true,
       enabledBorder: OutlineInputBorder(
         borderSide: const BorderSide(color: Colors.transparent),
-        borderRadius: medBorderRadius,
+        borderRadius: borderRadiusTheme.medBorderRadius,
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: medBorderRadius,
+        borderRadius: borderRadiusTheme.medBorderRadius,
       ),
       border: OutlineInputBorder(
-        borderRadius: medBorderRadius,
+        borderRadius: borderRadiusTheme.medBorderRadius,
       ),
     ),
-
     colorScheme: cs,
+    extensions: <ThemeExtension<dynamic>>[
+      borderRadiusTheme,
+    ],
   );
 }
 

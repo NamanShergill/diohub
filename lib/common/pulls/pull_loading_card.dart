@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:diohub/adapters/deep_linking_handler.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
 import 'package:diohub/common/misc/shimmer_widget.dart';
 import 'package:diohub/common/pulls/pull_list_card.dart';
@@ -7,8 +8,6 @@ import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
 import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/models/pull_requests/pull_request_model.dart';
 import 'package:diohub/services/pulls/pulls_service.dart';
-import 'package:diohub/style/border_radiuses.dart';
-import 'package:diohub/utils/utils.dart';
 import 'package:diohub/view/issues_pulls/issue_pull_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,9 +19,11 @@ class PullLoadingCard extends StatelessWidget {
     // this.disableMaterial = false,
     super.key,
   });
+
   final String url;
   final bool compact;
   final IssueModel? issueModel;
+
   // final bool disableMaterial;
 
   @override
@@ -32,8 +33,7 @@ class PullLoadingCard extends StatelessWidget {
             PullsService.getPullInformation(fullUrl: url, refresh: refresh),
         loadingBuilder: (final BuildContext context) {
           if (issueModel != null) {
-            return InkWell(
-              borderRadius: medBorderRadius,
+            return InkPot(
               onTap: () async {
                 await AutoRouter.of(context).push(
                   issuePullScreenRoute(PathData.fromURL(issueModel!.url!)),
@@ -94,14 +94,7 @@ class PullLoadingCard extends StatelessWidget {
                           const SizedBox(
                             height: 16,
                           ),
-                          ShimmerWidget(
-                            borderRadius: smallBorderRadius,
-                            child: Container(
-                              height: 20,
-                              width: double.infinity,
-                              color: context.colorScheme.onSurface,
-                            ),
-                          ),
+                          ShimmerWidget.container(),
                         ],
                       ),
                   ],

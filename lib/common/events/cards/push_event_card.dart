@@ -2,15 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:diohub/common/events/cards/base_card.dart';
 import 'package:diohub/common/misc/branch_label.dart';
 import 'package:diohub/common/misc/custom_expansion_tile.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/models/events/events_model.dart' hide Key;
 import 'package:diohub/routes/router.gr.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class PushEventCard extends StatelessWidget {
   const PushEventCard(this.event, this.data,
       {super.key, required this.isInTimeline});
+
   final EventsModel event;
   final Payload data;
   final bool isInTimeline;
@@ -62,8 +63,7 @@ class PushEventCard extends StatelessWidget {
               child: Column(
                 children: List.generate(
                   data.commits!.length,
-                  (final int index) => InkWell(
-                    borderRadius: smallBorderRadius,
+                  (final int index) => InkPot(
                     onTap: () async {
                       await AutoRouter.of(context).push(
                         CommitInfoRoute(

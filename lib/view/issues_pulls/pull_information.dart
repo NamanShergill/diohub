@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 class PullInformation extends StatelessWidget {
   const PullInformation({super.key});
+
   @override
   Widget build(final BuildContext context) {
     final GpullInfo pull = Provider.of<PullProvider>(context).data;
@@ -278,7 +279,7 @@ class PullInformation extends StatelessWidget {
 //         borderRadius: medBorderRadius,
 //         child: Container(
 //           decoration: BoxDecoration(borderRadius: medBorderRadius),
-//           child: InkWell(
+//           child: InkPot(
 //             onTap: () {
 //               AutoRouter.of(context).push(RepositoryRoute(
 //                   branch: base.label!.split(':').last,

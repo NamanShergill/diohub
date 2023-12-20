@@ -26,8 +26,8 @@ class IssuesService {
   final int number;
 
   static final GraphqlHandler _gqlHandler = GraphqlHandler(
-    apiLogSettings: APILoggingSettings.comprehensive(),
-  );
+      // apiLogSettings: APILoggingSettings.comprehensive(),
+      );
   static final RESTHandler _restHandler = RESTHandler(
       // apiLogSettings: APILoggingSettings.comprehensive(),
       );

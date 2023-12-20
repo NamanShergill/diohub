@@ -23,7 +23,7 @@
 //           elevation: 2,
 //           color: context.colorScheme.primary,
 //           borderRadius: medBorderRadius,
-//           child: InkWell(
+//           child: InkPot(
 //             borderRadius: medBorderRadius,
 //             onTap: () {},
 //             child: Padding(

@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:diohub/adapters/deep_linking_handler.dart';
+import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/common/misc/scroll_scaffold.dart';
 import 'package:diohub/common/misc/shimmer_widget.dart';
@@ -22,9 +24,13 @@ class HomeScreen extends StatefulWidget {
     required this.tabNavigators, // required this.parentTabController,
     super.key,
     this.deepLinkData,
+    this.buildThemePZero,
   });
+
+  final dynamic buildThemePZero;
   final PathData? deepLinkData;
   final ({VoidCallback toSearch, VoidCallback toProfile}) tabNavigators;
+
   // final TabController parentTabController;
   @override
   HomeScreenState createState() => HomeScreenState();
@@ -38,7 +44,7 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, length: 5, initialIndex: 4);
+    _tabController = TabController(vsync: this, length: 5, initialIndex: 0);
     if (widget.deepLinkData?.components.first == 'issues') {
       _tabController.index = 1;
     } else if (widget.deepLinkData?.components.first == 'pulls') {
@@ -57,7 +63,7 @@ class HomeScreenState extends State<HomeScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 ClipOval(
-                  child: InkWell(
+                  child: InkPot(
                     onTap: () {
                       widget.tabNavigators.toProfile();
                     },
@@ -66,6 +72,9 @@ class HomeScreenState extends State<HomeScreen>
                         final BuildContext context,
                         final CurrentUserProvider value,
                       ) =>
+                          // widget.buildThemePZero.call(
+                          //     imageUrl: value.data.avatarUrl,
+                          //     child:
                           CachedNetworkImage(
                         height: 32,
                         imageUrl: value.data.avatarUrl!,
@@ -75,6 +84,7 @@ class HomeScreenState extends State<HomeScreen>
                             color: context.colorScheme.surface,
                           ),
                         ),
+                        // )
                       ),
                       errorBuilder:
                           (final BuildContext context, final Object error) =>
@@ -99,33 +109,32 @@ class HomeScreenState extends State<HomeScreen>
           _ => null,
         },
       ),
-      // subHeader: Padding(
-      //   padding: const EdgeInsets.only(bottom: 8),
-      //   child: TabBar(
-      //     isScrollable: true,
-      //     controller: _tabController,
-      //     tabs: const <String>[
-      //       'Feed',
-      //       'Issues',
-      //       'Pull Requests',
-      //       'Organizations',
-      //       'Public Activity',
-      //     ]
-      //         .map(
-      //           (final String e) => Tab(
-      //             child: Padding(
-      //               padding: const EdgeInsets.all(8.0),
-      //               child: Text(e),
-      //             ),
-      //           ),
-      //         )
-      //         .toList(),
-      //   ),
-      // ),
-      // header: Padding(
-      //   padding: const EdgeInsets.all(8.0),
-      //   child: const SearchBar(),
-      // ),
+      subHeader: TabBar(
+        isScrollable: true,
+        controller: _tabController,
+        tabs: const <String>[
+          'Feed',
+          'Issues',
+          'Pull Requests',
+          'Organizations',
+          'Public Activity',
+        ]
+            .map(
+              (final String e) => Tab(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(e),
+                ),
+              ),
+            )
+            .toList(),
+      ),
+      header: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: WrappedCollection(
+          children: <Widget>[],
+        ),
+      ),
       body: TabBarView(
         controller: _tabController,
         physics: const BouncingScrollPhysics(),
@@ -145,7 +154,9 @@ class HomeScreenState extends State<HomeScreen>
           ),
           InfiniteScrollWrapper<GgetViewerOrgsData_viewer_organizations_edges?>(
             future: (
-              data,
+              final ScrollWrapperFutureArguments<
+                      GgetViewerOrgsData_viewer_organizations_edges?>
+                  data,
             ) async =>
                 UserInfoService.getViewerOrgs(
               refresh: data.refresh,
@@ -159,7 +170,9 @@ class HomeScreenState extends State<HomeScreen>
             // divider: false,
             builder: (
               final BuildContext context,
-              data,
+              final ScrollWrapperBuilderData<
+                      GgetViewerOrgsData_viewer_organizations_edges?>
+                  data,
             ) =>
                 Row(
               children: <Widget>[
@@ -200,7 +213,7 @@ class HomeScreenState extends State<HomeScreen>
     //           maxHeight: 300,
     //           title: 'Home',
     //           trailing: ClipOval(
-    //             child: InkWell(
+    //             child: InkPot(
     //               onTap: () {
     //                 widget.tabNavigators.toProfile();
     //               },

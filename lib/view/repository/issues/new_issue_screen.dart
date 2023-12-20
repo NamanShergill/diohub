@@ -8,7 +8,6 @@ import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_template
 import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/routes/router.dart';
 import 'package:diohub/services/issues/issues_service.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/style/text_field_themes.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:diohub/view/issues_pulls/issue_pull_screen.dart';
@@ -23,6 +22,7 @@ class NewIssueScreen extends StatefulWidget {
     super.key,
     this.template,
   });
+
   final GissueTemplatesData_repository_issueTemplates? template;
   final String owner;
   final String repo;
@@ -38,6 +38,7 @@ class NewIssueScreenState extends State<NewIssueScreen> {
   final TextEditingController controller = TextEditingController();
   String comment = '';
   PageStatus status = PageStatus.loaded;
+
   @override
   void initState() {
     if (widget.template?.body != null) {
@@ -239,11 +240,11 @@ class NewIssueScreenState extends State<NewIssueScreen> {
                         Expanded(
                           child: DecoratedBox(
                             decoration: BoxDecoration(
-                              // color: Provider.of<PaletteSettings>(context)
-                              //     .currentSetting
-                              //     .secondary,
-                              borderRadius: medBorderRadius,
-                            ),
+                                // color: Provider.of<PaletteSettings>(context)
+                                //     .currentSetting
+                                //     .secondary,
+                                // borderRadius: medBorderRadius,
+                                ),
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),

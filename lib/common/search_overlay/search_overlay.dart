@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/annotations.dart';
 import 'package:diohub/common/animations/size_expanded_widget.dart';
 import 'package:diohub/common/misc/custom_expand_tile.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/overlay_menu_widget.dart';
 import 'package:diohub/common/misc/user_search_dropdown.dart';
 import 'package:diohub/common/search_overlay/filters.dart';
@@ -29,11 +30,13 @@ class SearchOverlayScreen extends StatefulWidget {
     this.heroTag = 'search_bar',
     super.key,
   });
+
   final String? message;
   final ValueChanged<SearchData> onSubmit;
   final String heroTag;
   final SearchData searchData;
   final bool multiHero;
+
   @override
   SearchOverlayScreenState createState() => SearchOverlayScreenState();
 }
@@ -470,12 +473,14 @@ class _SearchBar extends StatefulWidget {
     required this.heroTag,
     this.message,
   });
+
   final SearchData searchData;
   final String heroTag;
   final String? message;
   final ValueChanged<SearchData> onChanged;
   final VoidCallback onSubmit;
   final bool multiHero;
+
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -750,8 +755,11 @@ class _SearchBarState extends State<_SearchBar> {
     });
   }
 
+  /// Parses the query from the entered pattern.
   void _parseQuery(final String pattern) {
+    // Copy the original pattern.
     String str = pattern;
+    // Lists to store filter-related strings and corresponding filters.
     final List<String> filterStrings = <String>[];
     final List<SearchQuery> filters = <SearchQuery>[];
 
@@ -759,12 +767,17 @@ class _SearchBarState extends State<_SearchBar> {
     str.splitMapJoin(
       widget.searchData.searchFilters!.allValidQueriesRegexp,
       onMatch: (final Match m) {
+        // Extract the matched string.
         String string = m[0]!;
+
+        // Check if it's a date query.
         if (widget.searchData.searchFilters!.dateQRegExp!.hasMatch(string)) {
+          // Process the date query.
           string = m[0]!.splitMapJoin(
             widget.searchData.searchFilters!.dateQRegExp!,
             onMatch: (final Match m) {
-              final String string = m[0]!.splitMapJoin(
+              // Extract and format the date range.
+              final String data = m[0]!.splitMapJoin(
                 RegExp(
                   '((([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])))([.][.])(([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))))',
                 ),
@@ -781,15 +794,19 @@ class _SearchBarState extends State<_SearchBar> {
                   return '${date(one)}..${date(two)}';
                 },
               );
-              return string;
+              return data;
             },
           );
-        } else if (widget.searchData.searchFilters!.numberQRegExp!
+        }
+        // Check if it's a number query.
+        else if (widget.searchData.searchFilters!.numberQRegExp!
             .hasMatch(string)) {
+          // Process the number query.
           string = string.splitMapJoin(
             widget.searchData.searchFilters!.numberQRegExp!,
             onMatch: (final Match m) {
-              final String string = m[0]!.splitMapJoin(
+              // Extract and format the number range.
+              final String data = m[0]!.splitMapJoin(
                 RegExp('((([0-9]+))([.][.])(([0-9]+)))'),
                 onMatch: (final Match m) {
                   final String data = m[0]!;
@@ -801,16 +818,19 @@ class _SearchBarState extends State<_SearchBar> {
                   return '$one..$two';
                 },
               );
-              return string;
+              return data;
             },
           );
         }
 
+        // Add the filter-related strings and filters to the lists.
         filterStrings.add(string);
         filters.add(
           widget.searchData.searchFilters!
               .queryFromString(string.split(':').first)!,
         );
+
+        // Return an empty string to replace the matched part.
         return '';
       },
     );
@@ -823,6 +843,7 @@ class _SearchBarState extends State<_SearchBar> {
 
     // Convert all extra spaces to just a single space.
     str = str.replaceAll(RegExp('(\\s+)'), ' ');
+
     // Send the new [SearchData] back.
     widget.onChanged(
       searchData.copyWith(
@@ -832,25 +853,29 @@ class _SearchBarState extends State<_SearchBar> {
     );
   }
 
+  /// Displays suggestions based on the entered pattern.
   void _suggestions(final String pattern) {
     // Close any previous overlays.
     _closeOverlay();
-    // Get matches on the option queries on the supplied text.
+
+    // Check if the cursor is at the end of the text.
     if (controller.selection.baseOffset == controller.text.length) {
-      // Get all invalid or valid queries in the string.
+      // Get all valid and invalid queries in the entered pattern.
       final List<String> matches = getMatches(
         RegExp(
           '${widget.searchData.searchFilters!.allValidQueriesRegexp.pattern}|${widget.searchData.searchFilters!.allInvalidQueriesRegExp.pattern}',
         ),
         pattern,
       );
-      // Current typed data of the latest filter.
+
+      // Variables to store information about the current typed data and query.
       String typedData = '';
-      // Current latest  query.
       SearchQuery? query;
-      // Check if any of the matches above are the query currently being typed.
+
+      // Check if any of the matches are the query currently being typed.
       for (final String element in matches) {
         if (isEndSame(pattern, element)) {
+          // Extract typed data and query information.
           typedData = element.substring(0).split(':')[1];
           String queryString = element.split(':').first;
           if (queryString.startsWith('-')) {
@@ -859,6 +884,7 @@ class _SearchBarState extends State<_SearchBar> {
           query = widget.searchData.searchFilters!.queryFromString(queryString);
         }
       }
+
       // Get all completed valid queries.
       final List<String?> completedQueries = getMatches(
         RegExp(
@@ -866,25 +892,32 @@ class _SearchBarState extends State<_SearchBar> {
         ),
         pattern,
       );
+
       // Check if the last query has been completed.
       final bool isLastQueryComplete = completedQueries.isNotEmpty &&
           isEndSame(pattern, completedQueries.last!);
+
       // Show filter suggestions if the last filter was not complete.
       if (!isLastQueryComplete) {
         final List<String> filteredOptions = <String>[];
+
         // Last filter being typed.
         typedData = pattern.split(' ').last;
+
         // Remove the '-' from the case.
         if (typedData.startsWith('-')) {
           typedData = typedData.substring(1);
         }
+
         if (typedData.isNotEmpty) {
+          // Filter options based on the typed data.
           for (final String element
               in widget.searchData.searchFilters!.whiteListedQueriesStrings) {
             if (element.startsWith(typedData)) {
               filteredOptions.add(element);
             }
           }
+
           // Show overlay with the filtered options.
           _showOverlay(
             list(
@@ -894,8 +927,9 @@ class _SearchBarState extends State<_SearchBar> {
                   // Get query info from the string.
                   final SearchQuery query = widget.searchData.searchFilters!
                       .queryFromString(filteredOptions[index])!;
+
                   // Add string to text on tap, with quotes at the end if it is
-                  // a spaced string with no auto complete options.
+                  // a spaced string with no auto-complete options.
                   addString(
                     '${filteredOptions[index]}:',
                     addQuotesAtEnd: query.options == null &&
@@ -916,10 +950,12 @@ class _SearchBarState extends State<_SearchBar> {
       } else if ((query?.type == QueryType.number ||
               query?.type == QueryType.date) &&
           (typedData.isEmpty)) {
+        // Show overlay for number or date range picker.
         _showOverlay(RangePicker(onAdded: addString, queryType: query!.type));
       } else if ((query?.type == QueryType.user ||
               query?.type == QueryType.org) &&
           !typedData.endsWith(' ')) {
+        // Show overlay for user or organization search dropdown.
         _showOverlay(
           SizeExpandedSection(
             child: UserSearchDropdown(
@@ -932,6 +968,7 @@ class _SearchBarState extends State<_SearchBar> {
           ),
         );
       } else if (query?.options?.keys != null) {
+        // Show overlay with filtered options based on the typed data.
         final List<String> filteredOptions = <String>[];
         query!.options?.keys.toList().forEach(
           (final String element) {
@@ -1004,6 +1041,7 @@ class _TextSpanBuilder extends SpecialTextSpanBuilder {
   final Map<RegExp, TextStyle> blacklistPatternMap;
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
+
   @override
   TextSpan build(
     final String data, {
@@ -1144,12 +1182,11 @@ class _ValidQuery extends SpecialText {
   InlineSpan finishText() => ExtendedWidgetSpan(
         alignment: PlaceholderAlignment.middle,
         child: Material(
-          borderRadius: smallBorderRadius,
+          borderRadius: context.themeData.borderRadiusTheme?.medBorderRadius,
           color: toString().startsWith('-')
               ? context.colorScheme.error
               : context.colorScheme.primary,
-          child: InkWell(
-            borderRadius: smallBorderRadius,
+          child: InkPot(
             onTap: () async {
               if (!toString().trim().startsWith('-')) {
                 onChanged(

@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:diohub/common/animations/size_expanded_widget.dart';
 import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
+import 'package:diohub/common/misc/tappable_card.dart';
 import 'package:diohub/common/wrappers/provider_loading_progress_wrapper.dart';
 import 'package:diohub/providers/base_provider.dart';
 import 'package:diohub/providers/repository/branch_provider.dart';
 import 'package:diohub/providers/repository/code_provider.dart';
 import 'package:diohub/providers/repository/repository_provider.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:diohub/view/repository/code/browser_list_tiles.dart';
 import 'package:diohub/view/repository/code/commit_browser.dart';
@@ -20,7 +21,9 @@ import 'package:provider/provider.dart';
 
 class CodeBrowser extends StatefulWidget {
   const CodeBrowser({this.showCommitHistory = false, super.key});
+
   final bool showCommitHistory;
+
   @override
   CodeBrowserState createState() => CodeBrowserState();
 }
@@ -119,7 +122,7 @@ class CodeBrowserState extends State<CodeBrowser>
                                 (final BuildContext context, final int index) =>
                                     Material(
                               // color: transparent,
-                              child: InkWell(
+                              child: InkPot(
                                 // borderRadius: smallBorderRadius,
                                 onTap: () {
                                   if (index != value.tree.length - 1) {
@@ -153,11 +156,11 @@ class CodeBrowserState extends State<CodeBrowser>
                 SizeExpandedSection(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
-                    child: ClipRRect(
-                      borderRadius: medBorderRadius,
+                    child: BasicCard(
+                      elevation: BasicCard.hintElevation,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          borderRadius: medBorderRadius,
+                          // borderRadius: medBorderRadius,
                           // color: Provider.of<PaletteSettings>(context)
                           //     .currentSetting
                           //     .secondary,

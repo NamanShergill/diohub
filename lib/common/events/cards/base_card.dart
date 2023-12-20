@@ -1,3 +1,4 @@
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/common/misc/tappable_card.dart';
 import 'package:diohub/utils/utils.dart';
@@ -14,18 +15,19 @@ class BaseEventCard extends StatelessWidget {
     super.key,
     required this.isInTimeline,
   });
+
   BaseEventCard.singular({
     required this.headerText,
     required final Widget child,
     this.actor,
     this.avatarUrl,
-    VoidCallback? onTap,
+    final VoidCallback? onTap,
     this.userLogin,
     this.date,
     super.key,
     required this.isInTimeline,
   }) : children = <Widget>[
-          InkWell(onTap: onTap, child: child),
+          InkPot(onTap: onTap, child: child),
         ];
 
   final bool isInTimeline;
@@ -35,6 +37,7 @@ class BaseEventCard extends StatelessWidget {
   final String? userLogin;
   final List<TextSpan> headerText;
   final DateTime? date;
+
   @override
   Widget build(final BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,34 +46,37 @@ class BaseEventCard extends StatelessWidget {
           //   height: 8,
           // ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              if (!isInTimeline)
+                Padding(
+                  padding: const EdgeInsets.only(left: 4.0),
+                  child: ProfileTile.avatar(
+                    avatarUrl: avatarUrl,
+                    size: 20,
+                    userLogin: userLogin,
+                  ),
+                ),
               Flexible(
-                child: Row(
-                  children: <Widget>[
-                    if (!isInTimeline)
-                      ProfileTile.avatar(avatarUrl: avatarUrl, size: 20),
-                    Flexible(
-                      child: Text.rich(
-                        TextSpan(
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.asHint(),
-                          // .asBold(),
-                          children: <TextSpan>[
-                                if (!isInTimeline)
-                                  TextSpan(
-                                    text: '$actor ',
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Text.rich(
+                    TextSpan(
+                      style: Theme.of(context).textTheme.bodySmall!.asHint(),
+                      // .asBold(),
+                      children: <TextSpan>[
+                            if (!isInTimeline)
+                              TextSpan(
+                                text: '$actor',
 
-                                    // style: AppThemeTextStyles.eventCardHeaderMed(
-                                    //   context,
-                                    // ),
-                                  ),
-                              ] +
-                              headerText,
-                        ),
-                      ),
+                                // style: AppThemeTextStyles.eventCardHeaderMed(
+                                //   context,
+                                // ),
+                              ),
+                          ] +
+                          headerText,
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],
@@ -79,27 +85,36 @@ class BaseEventCard extends StatelessWidget {
           //   height: 4,
           // ),
 
-          ...List<Widget>.generate(
-              children.length,
-              (final int index) => Column(
-                    children: <Widget>[
-                      if (index > 0)
-                        const Divider(
-                          height: 0,
-                        ),
-                      BasicCard.linked(
-                        // elevation: 5,
-                        cardLinkType: _cardLinkType(index, children.length),
-                        margin: EdgeInsets.zero,
-                        child: children[index],
-                        // surfaceTintColor: Colors.red,
+          Padding(
+            padding: isInTimeline
+                ? EdgeInsets.zero
+                : const EdgeInsets.symmetric(horizontal: 8).copyWith(bottom: 8),
+            child: Column(
+              children: List<Widget>.generate(
+                children.length,
+                (final int index) => Column(
+                  children: <Widget>[
+                    if (index > 0)
+                      const Divider(
+                        height: 0,
                       ),
-                    ],
-                  )),
+                    BasicCard.linked(
+                      // elevation: 5,
+                      cardLinkType: _cardLinkType(index, children.length),
+                      elevation: isInTimeline ? 1 : 1.2,
+                      margin: EdgeInsets.zero,
+                      child: children[index],
+                      // surfaceTintColor: Colors.red,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       );
 
-  CardLinkType _cardLinkType(int index, int length) {
+  CardLinkType _cardLinkType(final int index, final int length) {
     if (length == 1) {
       return CardLinkType.none;
     } else if (index == 0) {

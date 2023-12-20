@@ -1,4 +1,6 @@
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 enum CardLinkType {
@@ -19,10 +21,11 @@ class BasicCard extends StatelessWidget {
     this.borderOnForeground = true,
     this.margin,
     this.clipBehavior,
-    this.child,
+    required this.child,
     this.semanticContainer = true,
     this.onTap,
   }) : cardLinkType = CardLinkType.none;
+
   const BasicCard.linked({
     required this.cardLinkType,
     super.key,
@@ -34,10 +37,12 @@ class BasicCard extends StatelessWidget {
     this.elevation,
     this.borderOnForeground = true,
     this.clipBehavior,
-    this.child,
+    required this.child,
     this.semanticContainer = true,
     this.onTap,
   });
+
+  static double get hintElevation => 0.6;
 
   final CardLinkType cardLinkType;
   final VoidCallback? onTap;
@@ -125,17 +130,24 @@ class BasicCard extends StatelessWidget {
   /// The widget below this widget in the tree.
   ///
   /// {@macro flutter.widgets.ProxyWidget.child}
-  final Widget? child;
+  final Widget child;
 
-  BorderRadius _getLinkedBorder() => switch (cardLinkType) {
-        CardLinkType.atTop =>
-          medBorderRadius.copyWith(topLeft: Radius.zero, topRight: Radius.zero),
-        CardLinkType.atBottom => medBorderRadius.copyWith(
+  static BorderRadius getLinkedBorder(
+    final BuildContext context, {
+    required final CardLinkType cardLinkType,
+  }) =>
+      switch (cardLinkType) {
+        CardLinkType.atTop => context
+            .themeData.borderRadiusTheme!.medBorderRadius
+            .copyWith(topLeft: Radius.zero, topRight: Radius.zero),
+        CardLinkType.atBottom =>
+          context.themeData.borderRadiusTheme!.medBorderRadius.copyWith(
             bottomLeft: Radius.zero,
             bottomRight: Radius.zero,
           ),
         CardLinkType.both => BorderRadius.zero,
-        CardLinkType.none => medBorderRadius,
+        CardLinkType.none =>
+          context.themeData.borderRadiusTheme!.medBorderRadius,
       };
 
   @override
@@ -149,7 +161,8 @@ class BasicCard extends StatelessWidget {
         },
         shape: shape ??
             RoundedRectangleBorder(
-              borderRadius: _getLinkedBorder(),
+              borderRadius:
+                  getLinkedBorder(context, cardLinkType: cardLinkType),
             ),
         elevation: elevation,
         clipBehavior: clipBehavior ?? Clip.antiAlias,
@@ -158,6 +171,13 @@ class BasicCard extends StatelessWidget {
         semanticContainer: semanticContainer,
         shadowColor: shadowColor,
         surfaceTintColor: surfaceTintColor,
-        child: InkWell(onTap: onTap, child: child),
+        child: InkPot(
+          onTap: onTap,
+          borderRadius: getLinkedBorder(
+            context,
+            cardLinkType: cardLinkType,
+          ),
+          child: child,
+        ),
       );
 }

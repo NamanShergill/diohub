@@ -1,10 +1,11 @@
-import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/utils/copy_to_clipboard.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class CopyButton extends StatefulWidget {
   const CopyButton(this.data, {super.key, this.size = 24});
+
   final String data;
   final double size;
 
@@ -27,8 +28,7 @@ class CopyButtonState extends State<CopyButton> {
   }
 
   @override
-  Widget build(final BuildContext context) => InkWell(
-        borderRadius: smallBorderRadius,
+  Widget build(final BuildContext context) => InkPot(
         onTap: copied ? null : copy,
         child: Padding(
           padding: EdgeInsets.all(widget.size / 2),

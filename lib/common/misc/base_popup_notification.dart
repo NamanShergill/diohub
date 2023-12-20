@@ -14,6 +14,7 @@ class BasePopupNotification extends StatelessWidget {
     this.notificationController,
     super.key,
   });
+
   final String? title;
   final Function? onTap;
   final bool listenToLoadingController;
@@ -40,7 +41,7 @@ class BasePopupNotification extends StatelessWidget {
           // child: Material(
           //   borderRadius: AppThemeBorderRadius.medBorderRadius,
           //   color: Provider.of<PaletteSettings>(context).currentSetting.error,
-          //   child: InkWell(
+          //   child: InkPot(
           //     onTap: () {
           //       PopupNotificationController.addPopUpNotification(null);
           //       onTap(context);

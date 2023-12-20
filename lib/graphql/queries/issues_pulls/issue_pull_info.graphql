@@ -18,9 +18,9 @@ query getReactors($id:ID!){
     node(id: $id){
         __typename
         ... on Issue{
-           reactionGroups{
-               ...reactorsGroup
-           }
+            reactionGroups{
+                ...reactorsGroup
+            }
         }
         ... on PullRequest{
             reactionGroups{
@@ -241,6 +241,8 @@ fragment pullInfo on PullRequest{
         }
     }
     locked
+    mergedAt
+    resourcePath
     number
     participants(first: 5){
         totalCount

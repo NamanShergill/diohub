@@ -19,8 +19,10 @@ import 'package:provider/provider.dart';
 @RoutePage()
 class PRReviewScreen extends StatelessWidget {
   const PRReviewScreen(this.nodeID, {required this.pullNodeID, super.key});
+
   final String nodeID;
   final String pullNodeID;
+
   @override
   Widget build(final BuildContext context) => SafeArea(
         child: Scaffold(
@@ -191,6 +193,7 @@ class PRReviewScreen extends StatelessWidget {
                         ),
                         PaddingWrap(
                           child: BaseComment(
+                            resourceUri: Uri.parse('uri'),
                             isMinimized: comment.isMinimized,
                             reactions: comment.reactionGroups!.toList(),
                             viewerCanDelete: comment.viewerCanDelete,
@@ -342,6 +345,7 @@ class PRReviewScreen extends StatelessWidget {
                         reply = data.item!.node!;
                     return PaddingWrap(
                       child: BaseComment(
+                        resourceUri: Uri.parse('uri'),
                         isMinimized: reply.isMinimized,
                         onQuote: () {
                           Navigator.pop(context);

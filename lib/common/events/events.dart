@@ -3,14 +3,12 @@ import 'package:diohub/common/events/cards/issues_event_card.dart';
 import 'package:diohub/common/events/cards/pull_event_card.dart';
 import 'package:diohub/common/events/cards/push_event_card.dart';
 import 'package:diohub/common/events/cards/watch_event_card.dart';
-import 'package:diohub/common/misc/info_card.dart';
 import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:diohub/models/events/events_model.dart' hide Key;
 import 'package:diohub/providers/users/current_user_provider.dart';
 import 'package:diohub/services/activity/events_service.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
@@ -21,9 +19,11 @@ class Events extends StatelessWidget {
     super.key,
     this.isTimeline = true,
   });
+
   final bool privateEvents;
   final String? specificUser;
   final bool isTimeline;
+
   @override
   Widget build(final BuildContext context) {
     final CurrentUserProvider user = Provider.of<CurrentUserProvider>(context);
@@ -32,66 +32,66 @@ class Events extends StatelessWidget {
       //     const Divider(
       //   height: 16,
       // ),
-      header: (final BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: <Widget>[
-            // SizedBox(
-            //   height: 8,
-            // ),
-            Card(
-              margin: EdgeInsets.zero,
-              child: ListTile(
-                title: const Text('Organizations'),
-                leading: const Icon(
-                  Octicons.organization,
-                  // color: Colors.,
-                ),
-                trailing: InfoCard.leadingIcon(
-                  icon: Icons.arrow_right_rounded,
-                ),
-                // child: const Text('1'),
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Card(
-              margin: EdgeInsets.zero,
-              child: ListTile(
-                subtitle: const Text('2 open'),
-                title: const Text('Pull Requests'),
-                leading: const Icon(
-                  Octicons.git_pull_request,
-                  color: Colors.deepPurple,
-                ),
-                trailing: InfoCard.leadingIcon(
-                  icon: Icons.arrow_right_rounded,
-                ),
-                // child: const Text('7 Open'),
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Card(
-              margin: EdgeInsets.zero,
-              child: ListTile(
-                leading: const Icon(
-                  Octicons.issue_opened,
-                  color: Colors.green,
-                ),
-                title: const Text('Issues'),
-                trailing: InfoCard.leadingIcon(
-                  icon: Icons.arrow_right_rounded,
-                ),
-                subtitle: const Text('27 Open'),
-                // child: const Text('27 Open'),
-              ),
-            ),
-          ],
-        ),
-      ),
+      // header: (final BuildContext context) => Padding(
+      //   padding: const EdgeInsets.symmetric(horizontal: 16),
+      //   child: Column(
+      //     children: <Widget>[
+      //       // SizedBox(
+      //       //   height: 8,
+      //       // ),
+      //       Card(
+      //         margin: EdgeInsets.zero,
+      //         child: ListTile(
+      //           title: const Text('Organizations'),
+      //           leading: const Icon(
+      //             Octicons.organization,
+      //             // color: Colors.,
+      //           ),
+      //           trailing: InfoCard.leadingIcon(
+      //             icon: Icons.arrow_right_rounded,
+      //           ),
+      //           // child: const Text('1'),
+      //         ),
+      //       ),
+      //       const SizedBox(
+      //         height: 8,
+      //       ),
+      //       Card(
+      //         margin: EdgeInsets.zero,
+      //         child: ListTile(
+      //           subtitle: const Text('2 open'),
+      //           title: const Text('Pull Requests'),
+      //           leading: const Icon(
+      //             Octicons.git_pull_request,
+      //             color: Colors.deepPurple,
+      //           ),
+      //           trailing: InfoCard.leadingIcon(
+      //             icon: Icons.arrow_right_rounded,
+      //           ),
+      //           // child: const Text('7 Open'),
+      //         ),
+      //       ),
+      //       const SizedBox(
+      //         height: 8,
+      //       ),
+      //       Card(
+      //         margin: EdgeInsets.zero,
+      //         child: ListTile(
+      //           leading: const Icon(
+      //             Octicons.issue_opened,
+      //             color: Colors.green,
+      //           ),
+      //           title: const Text('Issues'),
+      //           trailing: InfoCard.leadingIcon(
+      //             icon: Icons.arrow_right_rounded,
+      //           ),
+      //           subtitle: const Text('27 Open'),
+      //           // child: const Text('27 Open'),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       filterFn: (final List<EventsModel> items) {
         final List<EventsModel> temp = <EventsModel>[];
         for (final EventsModel item in items) {
@@ -161,11 +161,7 @@ class Events extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: context.colorScheme.secondaryContainer,
                 ),
-                child: Icon(
-                  Octicons.git_commit,
-                  size: 15,
-                  color: context.colorScheme.onSecondaryContainer,
-                ),
+                child: const Placeholder(),
               ),
             ),
             beforeLineStyle: LineStyle(
@@ -180,7 +176,9 @@ class Events extends StatelessWidget {
         }
         return Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: 16, vertical: isTimeline ? 0 : 8),
+            horizontal: 8,
+            vertical: isTimeline ? 0 : 2,
+          ),
           child: child,
         );
       },

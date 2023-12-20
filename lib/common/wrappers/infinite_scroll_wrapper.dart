@@ -370,8 +370,8 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
           );
         }
       }
-    } on DioException catch (error) {
-      log.e(error.response?.data);
+    } on DioException catch (error, s) {
+      log.e(error.response?.data, stackTrace: s);
       if (mounted) {
         _pagingController.error = error.response?.data;
       }
@@ -490,6 +490,7 @@ class _InfinitePaginationState<T> extends State<_InfinitePagination<T>> {
 
 class _ListItem<T> {
   _ListItem(this.item, {required this.refresh});
+
   final T item;
   bool refresh;
 
@@ -505,6 +506,7 @@ class _FirstPageErrorIndicator extends StatelessWidget {
     required this.error,
     this.onTryAgain,
   });
+
   final Object? error;
   final VoidCallback? onTryAgain;
 

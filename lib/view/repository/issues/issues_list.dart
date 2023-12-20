@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:diohub/common/animations/slide_expanded_widget.dart';
 import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:diohub/common/issues/issue_list_card.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
 import 'package:diohub/common/search_overlay/filters.dart';
 import 'package:diohub/common/search_overlay/search_overlay.dart';
@@ -23,6 +24,7 @@ import 'package:provider/provider.dart';
 
 class IssuesList extends StatelessWidget {
   const IssuesList({super.key});
+
   @override
   Widget build(final BuildContext context) {
     final RepositoryProvider repo = Provider.of<RepositoryProvider>(context);
@@ -214,6 +216,7 @@ class IssuesList extends StatelessWidget {
 
 class IssueTemplateCard extends StatelessWidget {
   const IssueTemplateCard(this.template, {super.key, this.isBlank = false});
+
   final bool isBlank;
   final GissueTemplatesData_repository_issueTemplates template;
 
@@ -221,7 +224,7 @@ class IssueTemplateCard extends StatelessWidget {
   Widget build(final BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Card(
-          child: InkWell(
+          child: InkPot(
             onTap: () async {
               final RepositoryModel repo =
                   context.read<RepositoryProvider>().data;

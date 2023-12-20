@@ -1,8 +1,8 @@
 import 'package:diohub/common/misc/button.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:diohub/models/repositories/commit_list_model.dart';
 import 'package:diohub/services/repositories/repo_services.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:diohub/view/repository/code/commit_browser_tiles.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,7 @@ class CommitBrowser extends StatefulWidget {
     this.branchName,
     super.key,
   });
+
   final ScrollController? controller;
   final String? currentSHA;
   final bool? isLocked;
@@ -35,6 +36,7 @@ class CommitBrowserState extends State<CommitBrowser> {
   late List<String> path;
   InfiniteScrollWrapperController controller =
       InfiniteScrollWrapperController();
+
   @override
   void initState() {
     path = widget.path!.split('/');
@@ -84,8 +86,7 @@ class CommitBrowserState extends State<CommitBrowser> {
                               const Center(child: Text(' /')),
                       itemBuilder:
                           (final BuildContext context, final int index) =>
-                              InkWell(
-                        borderRadius: smallBorderRadius,
+                              InkPot(
                         onTap: () {
                           setState(() {
                             if (index == 0) {

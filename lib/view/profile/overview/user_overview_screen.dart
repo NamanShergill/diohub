@@ -8,7 +8,6 @@ import 'package:diohub/graphql/queries/users/__generated__/user_info.data.gql.da
 import 'package:diohub/models/repositories/repository_model.dart';
 import 'package:diohub/models/users/user_info_model.dart';
 import 'package:diohub/services/users/user_info_service.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/to_hex_string.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class UserOverviewScreen extends StatelessWidget {
   const UserOverviewScreen(this.userInfoModel, {super.key});
+
   final UserInfoModel? userInfoModel;
+
   @override
   Widget build(final BuildContext context) => ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -106,12 +107,8 @@ class UserOverviewScreen extends StatelessWidget {
                   SvgPicture.network(
                     'http://ghchart.rshah.org/${toHexString(context.colorScheme.primary).substring(2)}/${userInfoModel!.login}',
                     placeholderBuilder: (final BuildContext context) =>
-                        ShimmerWidget(
-                      // baseColor: Provider.of<PaletteSettings>(context)
-                      //     .currentSetting
-                      //     .secondary,
-                      // highlightColor: grey.shade800,
-                      borderRadius: medBorderRadius,
+                        ShimmerWidget.container(
+                      height: 60,
                     ),
                   ),
                   // Row(

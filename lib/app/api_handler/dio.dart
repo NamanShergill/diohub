@@ -1,4 +1,5 @@
 // import 'package:artemis/artemis.dart';
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
@@ -27,6 +28,7 @@ class RESTHandler extends BaseAPIHandler {
   }) : super(
           baseURL: apiBaseURL,
         );
+
   RESTHandler.external({
     required super.baseURL,
     super.apiLogSettings,
@@ -166,7 +168,7 @@ class RESTHandler extends BaseAPIHandler {
         onSendProgress: onSendProgress,
       );
       return response;
-    } on Exception catch (e) {
+    } on Exception {
       rethrow;
     }
   }
@@ -295,10 +297,12 @@ abstract class BaseAPIHandler {
     final DioException error,
     final ErrorInterceptorHandler handler,
   ) async {}
+
   Future<void> onRequest(
     final RequestOptions options,
     final RequestInterceptorHandler handler,
   ) async {}
+
   Future<void> onResponse(
     final Response<Object?> response,
     final ResponseInterceptorHandler handler,
@@ -315,6 +319,9 @@ abstract class BaseAPIHandler {
     // Log the request in the console if `apiLogSettings` is not null.
     final APILoggingSettings? logSettings =
         apiLogSettings ?? defaultAPILogSettings;
+    dio.interceptors.add(
+      ChuckerDioInterceptor(),
+    );
     if (logSettings != null) {
       if (logSettings.cURL) {
         dio.interceptors.add(

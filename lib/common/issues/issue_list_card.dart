@@ -2,13 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/common/issues/issue_label.dart';
 import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
 import 'package:diohub/common/pulls/pull_loading_card.dart';
 import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
-import 'package:diohub/graphql/__generated__/schema.schema.gql.dart';
 import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/services/issues/issues_service.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/get_date.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:diohub/view/issues_pulls/issue_pull_screen.dart';
@@ -24,11 +23,14 @@ class IssueListCard extends StatelessWidget {
     this.commentsSince,
     super.key,
   });
+
   final IssueModel item;
   final bool compact;
+
   // final bool disableMaterial;
   final DateTime? commentsSince;
   final bool showRepoName;
+
   @override
   Widget build(final BuildContext context) {
     if (item.pullRequest != null) {
@@ -113,26 +115,31 @@ class IssueListCard extends StatelessWidget {
         ],
       ),
     );
-    return InkWell(
-      borderRadius: medBorderRadius,
+    return InkPot(
       onTap: () async {
         await AutoRouter.of(context)
             .push(issuePullScreenRoute(PathData.fromURL(item.url!)));
       },
-      child: showRepoName
-          ? InfoCard(
-              leading: Text(
-                item.url!
-                    .replaceAll('https://api.github.com/repos/', '')
-                    .split('/')
-                    .sublist(0, 2)
-                    .join('/'),
-                overflow: TextOverflow.ellipsis,
-                style: context.textTheme.bodySmall?.asHint(),
-              ),
-              child: child,
-            )
-          : child,
+      child: Row(
+        children: [
+          Expanded(
+            child: showRepoName
+                ? InfoCard(
+                    leading: Text(
+                      item.url!
+                          .replaceAll('https://api.github.com/repos/', '')
+                          .split('/')
+                          .sublist(0, 2)
+                          .join('/'),
+                      overflow: TextOverflow.ellipsis,
+                      style: context.textTheme.bodySmall?.asHint(),
+                    ),
+                    child: child,
+                  )
+                : child,
+          )
+        ],
+      ),
     );
   }
 }
@@ -163,10 +170,13 @@ class IssueLoadingCard extends StatelessWidget {
     // this.backgroundColor,
     super.key,
   });
+
   final String url;
+
   // final Color? backgroundColor;
   final bool compact;
   final EdgeInsets padding;
+
   @override
   Widget build(final BuildContext context) => Padding(
         padding: padding,

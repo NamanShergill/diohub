@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_down_button/pull_down_button.dart';
+import 'package:share_plus/share_plus.dart';
 
 class BaseComment extends StatefulWidget {
   const BaseComment({
@@ -43,7 +44,9 @@ class BaseComment extends StatefulWidget {
     this.description,
     this.footer,
     this.footerPadding = const EdgeInsets.only(top: 8, left: 8, right: 8),
+    required this.resourceUri,
   });
+
   final Gactor? author;
   final GCommentAuthorAssociation authorAssociation;
   final String body;
@@ -58,15 +61,19 @@ class BaseComment extends StatefulWidget {
   final bool viewerCanDelete;
   final bool viewerCanUpdate;
   final bool viewerDidAuthor;
+
   // TODO(namanshergill): Temp nullable
   final List<GCommentCannotUpdateReason>? viewerCannotUpdateReasons;
   final bool viewerCanReact;
   final Widget? footer;
   final String? description;
+
   // final Widget? header;
   final VoidCallback onQuote;
+
   // final EdgeInsets headerPadding;
   final EdgeInsets footerPadding;
+  final Uri resourceUri;
 
   @override
   BaseCommentState createState() => BaseCommentState();
@@ -82,14 +89,14 @@ class BaseCommentState extends State<BaseComment> {
         itemBuilder: (final BuildContext context) => <PullDownMenuEntry>[
           PullDownMenuActionsRow.medium(
             items: <PullDownMenuItem>[
-              PullDownMenuItem(
-                onTap: () {
-                  // addQuote(widget.body);
-                  // widget.onQuote();
-                },
-                title: 'Edit',
-                icon: Icons.edit_rounded,
-              ),
+              // PullDownMenuItem(
+              //   onTap: () {
+              //     // addQuote(widget.body);
+              //     // widget.onQuote();
+              //   },
+              //   title: 'Edit',
+              //   icon: Icons.edit_rounded,
+              // ),
               // PullDownMenuItem(
               //   onTap: () {
               //     // addQuote(widget.body);
@@ -99,12 +106,12 @@ class BaseCommentState extends State<BaseComment> {
               //   icon: Icons.history_rounded,
               // ),
               PullDownMenuItem(
-                onTap: () {
-                  // addQuote(widget.body);
-                  // widget.onQuote();
-                },
-                title: 'React',
-                icon: Icons.emoji_emotions_rounded,
+                onTap: () {},
+                title: 'React (Placeholder)',
+                iconWidget: AppReactionButton(
+                  reactionGroups: widget.reactions,
+                  loading: false,
+                ),
               ),
               // PullDownMenuItem(
               //   onTap: () async => showDialog(
@@ -128,9 +135,8 @@ class BaseCommentState extends State<BaseComment> {
           PullDownMenuActionsRow.medium(
             items: <PullDownMenuItem>[
               PullDownMenuItem(
-                onTap: () {
-                  addQuote(widget.body);
-                  widget.onQuote();
+                onTap: () async {
+                  await Share.share(widget.resourceUri.toString());
                 },
                 title: 'Share',
                 icon: Icons.adaptive.share_rounded,
@@ -356,6 +362,7 @@ class BaseCommentState extends State<BaseComment> {
 
 class SelectAndCopy extends StatefulWidget {
   const SelectAndCopy(this.data, {super.key, this.onQuote});
+
   final String data;
   final VoidCallback? onQuote;
 
@@ -365,6 +372,7 @@ class SelectAndCopy extends StatefulWidget {
 
 class _SelectAndCopyState extends State<SelectAndCopy> {
   String selectedText = '';
+
   @override
   Widget build(final BuildContext context) => AlertDialog(
         title: Text(

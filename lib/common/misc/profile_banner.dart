@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/shimmer_widget.dart';
 import 'package:diohub/routes/router.gr.dart';
 import 'package:diohub/utils/utils.dart';
@@ -20,6 +21,7 @@ class ProfileTile extends StatelessWidget {
         fullName = null,
         disableTap = false,
         textStyle = null;
+
   const ProfileTile.login({
     required this.avatarUrl,
     required this.userLogin,
@@ -31,6 +33,7 @@ class ProfileTile extends StatelessWidget {
     this.wrapperBuilder,
   })  : _type = _UserCardType.login,
         fullName = null;
+
   const ProfileTile.extended({
     required this.avatarUrl,
     required this.userLogin,
@@ -51,8 +54,9 @@ class ProfileTile extends StatelessWidget {
   final bool disableTap;
   final _UserCardType _type;
   final Widget Function(Widget child)? wrapperBuilder;
+
   @override
-  Widget build(final BuildContext context) => InkWell(
+  Widget build(final BuildContext context) => InkPot(
         // borderRadius: smallBorderRadius,
         onTap: userLogin != null && !disableTap
             ? () {

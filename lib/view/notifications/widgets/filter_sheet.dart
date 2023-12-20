@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:diohub/common/animations/size_expanded_widget.dart';
 import 'package:diohub/common/misc/button.dart';
-import 'package:diohub/style/border_radiuses.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/utils/type_cast.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -431,8 +431,7 @@ class FilterSheetState extends State<FilterSheet> {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Card(
           // color: Provider.of<PaletteSettings>(context).currentSetting.secondary,
-          child: InkWell(
-            borderRadius: medBorderRadius,
+          child: InkPot(
             onTap: () {
               setState(() {
                 function?.call();

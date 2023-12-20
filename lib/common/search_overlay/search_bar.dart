@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:diohub/common/animations/size_expanded_widget.dart';
 import 'package:diohub/common/misc/custom_expand_tile.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/round_button.dart';
 import 'package:diohub/common/search_overlay/search_overlay.dart';
 import 'package:diohub/routes/router.gr.dart';
@@ -124,6 +125,7 @@ class AppSearchBarState extends State<AppSearchBar> {
   late bool quickActionsVisible;
   bool sortExpanded = false;
   bool quickFiltersExpanded = false;
+
   @override
   Widget build(final BuildContext context) {
     Widget quickActionsExpandAnim(
@@ -432,7 +434,7 @@ class AppSearchBarState extends State<AppSearchBar> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          InkWell(
+          InkPot(
             // borderRadius: medBorderRadius,
             onTap: () async {
               await AutoRouter.of(context).push(
@@ -459,7 +461,9 @@ class AppSearchBarState extends State<AppSearchBar> {
                   Material(
                     borderRadius: widget.isPinned
                         ? null
-                        : BorderRadius.vertical(top: bigBorderRadius.topRight),
+                        : BorderRadius.vertical(
+                            top: context.themeData.borderRadiusTheme!
+                                .medBorderRadius.topLeft),
                     color: context.colorScheme.primary,
                     child: Padding(
                       padding: widget.isPinned
@@ -560,9 +564,11 @@ class _ActiveSearch extends StatelessWidget {
     required this.onSubmit,
     this.trailing,
   });
+
   final SearchData searchData;
   final Widget? trailing;
   final ValueChanged<SearchData> onSubmit;
+
   @override
   Widget build(final BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

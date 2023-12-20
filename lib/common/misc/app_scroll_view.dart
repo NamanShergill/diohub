@@ -15,11 +15,13 @@ class AppScrollView extends StatefulWidget {
     this.loading = false,
     super.key,
   });
+
   final Widget scrollViewAppBar;
   final List<Widget>? tabViews;
   final Widget? child;
   final bool loading;
   final TabController? tabController;
+
   // final Color? childrenColor;
   // final ScrollController nestedScrollViewController;
 
@@ -71,6 +73,7 @@ class ScrollViewAppBar extends StatelessWidget {
     this.tabBar,
     super.key,
   });
+
   final List<String>? tabs;
   final Widget appBarWidget;
   final double? expandedHeight;
@@ -83,6 +86,7 @@ class ScrollViewAppBar extends StatelessWidget {
   final Widget? bottomHeader;
   final Color? backgroundColor;
   final EdgeInsets? padding;
+
   @override
   Widget build(final BuildContext context) {
     final bool hasTabs = tabs != null || tabBar != null;
@@ -150,7 +154,9 @@ class SliverAppBarTitle extends StatefulWidget {
     required this.child,
     super.key,
   });
+
   final Widget child;
+
   @override
   SliverAppBarTitleState createState() => SliverAppBarTitleState();
 }
@@ -158,6 +164,7 @@ class SliverAppBarTitle extends StatefulWidget {
 class SliverAppBarTitleState extends State<SliverAppBarTitle> {
   ScrollPosition? _position;
   bool? _visible;
+
   @override
   void dispose() {
     _removeListener();

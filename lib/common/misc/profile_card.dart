@@ -15,14 +15,14 @@
 /// object from the `timeline.data.gql.dart` file.
 import 'package:auto_route/auto_route.dart';
 import 'package:diohub/common/animations/size_expanded_widget.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
 import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
-import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.query.data.gql.dart';
+import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.data.gql.dart';
 import 'package:diohub/models/users/user_info_model.dart';
 import 'package:diohub/routes/router.gr.dart';
 import 'package:diohub/services/users/user_info_service.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
@@ -32,12 +32,12 @@ class ProfileCard extends StatelessWidget {
     this.compact = false,
     super.key,
   });
+
   final UserInfoModel user;
   final bool compact;
 
   @override
-  Widget build(final BuildContext context) => InkWell(
-        borderRadius: medBorderRadius,
+  Widget build(final BuildContext context) => InkPot(
         onTap: () async {
           await AutoRouter.of(context)
               .push(OtherUserProfileRoute(login: user.login!));
@@ -125,6 +125,7 @@ class ProfileCardLoading extends StatelessWidget {
     super.key,
     this.compact = false,
   });
+
   final String login;
   final bool compact;
 
@@ -154,5 +155,7 @@ class ProfileCardLoading extends StatelessWidget {
 }
 
 String actorLogin(final Gactor actor) => actor.login;
+
 Uri actorAvatarUri(final Gactor actor) => actor.avatarUrl;
+
 String actorAvatarStringUri(final Gactor actor) => actor.avatarUrl.toString();

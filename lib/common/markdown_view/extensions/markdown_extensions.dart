@@ -3,6 +3,7 @@ import 'package:diohub/common/markdown_view/markdown_body.dart';
 import 'package:diohub/common/misc/code_block_view.dart';
 import 'package:diohub/common/misc/image_loader.dart';
 import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/copy_to_clipboard.dart';
 import 'package:diohub/utils/lang_colors/get_language_color.dart';
@@ -102,8 +103,10 @@ class MyWidgetFactory extends WidgetFactory {
     required this.fetchState,
     // required this.codeBlockStyle,
   });
+
   // final MarkdownBodyCodeBlockStyle? codeBlockStyle;
   final HtmlWidgetState? Function() fetchState;
+
   @override
   void parse(final BuildTree meta) {
     meta
@@ -135,7 +138,9 @@ class MyWidgetFactory extends WidgetFactory {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: context.colorScheme.surfaceVariant,
-                borderRadius: smallBorderRadius,
+                borderRadius: context.themeData
+                    .extension<BorderRadiusTheme>()
+                    ?.medBorderRadius,
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -160,7 +165,7 @@ class MyWidgetFactory extends WidgetFactory {
           final String link = tree.element.attributes['href'] ?? '';
           print(link);
           if (link.startsWith('#')) {
-            return InkWell(
+            return InkPot(
               onTap: () async => fetchState()?.scrollToAnchor(
                 link.replaceAll('#', ''),
               ),
@@ -170,10 +175,9 @@ class MyWidgetFactory extends WidgetFactory {
           final URLActions urlActions = URLActions(
             uri: Uri.parse(link),
           );
-          return InkWell(
+          return InkPot(
             onTap: () async => urlActions.launchURL(),
             onLongPress: () async => urlActions.showMenu(context),
-            borderRadius: medBorderRadius,
             child: child,
           );
         },
@@ -319,6 +323,7 @@ class CodeView extends StatefulWidget {
   final String data;
   final String? language;
   final MarkdownBodyCodeBlockStyle? codeBlockStyle;
+
   @override
   _CodeViewState createState() => _CodeViewState();
 }

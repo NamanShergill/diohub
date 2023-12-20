@@ -1,7 +1,5 @@
 import 'package:diohub/common/misc/info_card.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class ColorSettingCard extends StatefulWidget {
   const ColorSettingCard({super.key});
@@ -169,84 +167,84 @@ class ColorSettingCardState extends State<ColorSettingCard> {
       );
 }
 
-class _ColorTab extends StatefulWidget {
-  const _ColorTab({
-    required this.type,
-    required this.color,
-    required this.onChange,
-  });
-  final Color color;
-  final String type;
-  final ValueChanged<Color> onChange;
+// class _ColorTab extends StatefulWidget {
+//   const _ColorTab({
+//     required this.type,
+//     required this.color,
+//     required this.onChange,
+//   });
+//   final Color color;
+//   final String type;
+//   final ValueChanged<Color> onChange;
+//
+//   @override
+//   __ColorTabState createState() => __ColorTabState();
+// }
 
-  @override
-  __ColorTabState createState() => __ColorTabState();
-}
-
-class __ColorTabState extends State<_ColorTab> {
-  late Color selectedColor;
-  @override
-  void initState() {
-    selectedColor = widget.color;
-    super.initState();
-  }
-
-  @override
-  Widget build(final BuildContext context) {
-    // final DioHubPalette theme =
-    //     Provider.of<PaletteSettings>(context).currentSetting;
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-      trailing: const Icon(
-        Icons.edit_rounded,
-        // color: theme.faded3,
-        size: 15,
-      ),
-      leading: Container(
-        width: 30,
-        height: 30,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: widget.color,
-        ),
-      ),
-      title: Text(widget.type),
-      onTap: () async {
-        await showDialog(
-          context: context,
-          builder: (final BuildContext context) => AlertDialog(
-            title: const Text('Pick a color!'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ColorPicker(
-                  pickerColor: widget.color,
-                  enableAlpha: false,
-                  pickerAreaBorderRadius: medBorderRadius,
-                  onColorChanged: (final Color value) {
-                    setState(() {
-                      selectedColor = value;
-                    });
-                  },
-                  pickerAreaHeightPercent: 0.8,
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              MaterialButton(
-                onPressed: () {
-                  widget.onChange(selectedColor);
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Select'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
+// class __ColorTabState extends State<_ColorTab> {
+//   late Color selectedColor;
+//   @override
+//   void initState() {
+//     selectedColor = widget.color;
+//     super.initState();
+//   }
+//
+//   @override
+//   Widget build(final BuildContext context) {
+//     // final DioHubPalette theme =
+//     //     Provider.of<PaletteSettings>(context).currentSetting;
+//     return ListTile(
+//       contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+//       trailing: const Icon(
+//         Icons.edit_rounded,
+//         // color: theme.faded3,
+//         size: 15,
+//       ),
+//       leading: Container(
+//         width: 30,
+//         height: 30,
+//         decoration: BoxDecoration(
+//           shape: BoxShape.circle,
+//           color: widget.color,
+//         ),
+//       ),
+//       title: Text(widget.type),
+//       onTap: () async {
+//         await showDialog(
+//           context: context,
+//           builder: (final BuildContext context) => AlertDialog(
+//             title: const Text('Pick a color!'),
+//             content: Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: <Widget>[
+//                 ColorPicker(
+//                   pickerColor: widget.color,
+//                   enableAlpha: false,
+//                   pickerAreaBorderRadius: medBorderRadius,
+//                   onColorChanged: (final Color value) {
+//                     setState(() {
+//                       selectedColor = value;
+//                     });
+//                   },
+//                   pickerAreaHeightPercent: 0.8,
+//                 ),
+//               ],
+//             ),
+//             actions: <Widget>[
+//               MaterialButton(
+//                 onPressed: () {
+//                   widget.onChange(selectedColor);
+//                   Navigator.of(context).pop();
+//                 },
+//                 child: const Text('Select'),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
 // Future<void> loadTheme(
 //   final BuildContext context,

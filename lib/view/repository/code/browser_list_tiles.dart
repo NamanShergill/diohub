@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/models/repositories/code_tree_model.dart';
 import 'package:diohub/providers/repository/branch_provider.dart';
 import 'package:diohub/providers/repository/code_provider.dart';
@@ -10,6 +11,7 @@ import 'package:provider/provider.dart';
 
 class BrowserListTile extends StatelessWidget {
   const BrowserListTile(this.tree, this.repoURL, this.index, {super.key});
+
   final Tree tree;
   final String? repoURL;
   final int index;
@@ -38,7 +40,7 @@ class BrowserListTile extends StatelessWidget {
 
     return Material(
       // color: transparent,
-      child: InkWell(
+      child: InkPot(
         onTap: () async {
           if (tree.type == Type.TREE) {
             Provider.of<CodeProvider>(context, listen: false)

@@ -8,6 +8,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class AboutRepository extends StatefulWidget {
   const AboutRepository(this.repo, {required this.onTabOpened, super.key});
+
   final RepositoryModel repo;
   final ValueChanged<String> onTabOpened;
 
@@ -56,115 +57,118 @@ class AboutRepositoryState extends State<AboutRepository> {
   }
 
   @override
-  Widget build(final BuildContext context) => true
-      ? ListView.separated(
-          separatorBuilder: (final BuildContext context, final int index) =>
-              const Divider(
-            height: 0,
-          ),
-          itemCount: tiles.length,
-          itemBuilder: (final BuildContext context, final int index) {
-            final AboutScreenTile item = tiles[index];
-            return ListTile(
-              leading: Icon(item.icon),
-              title: Text(item.label),
-              onTap: item.onTap,
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
+  Widget build(final BuildContext context) => SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Placeholder(
+              child: ListView.separated(
+                separatorBuilder:
+                    (final BuildContext context, final int index) =>
+                        const Divider(
+                  height: 0,
+                ),
+                shrinkWrap: true,
+                itemCount: tiles.length,
+                itemBuilder: (final BuildContext context, final int index) {
+                  final AboutScreenTile item = tiles[index];
+                  return ListTile(
+                    leading: Icon(item.icon),
+                    title: Text(item.label),
+                    onTap: item.onTap,
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        if (item.trailing != null) Text(item.trailing!),
+                        const Icon(Icons.arrow_right_rounded),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+            InfoCard(
+              title: 'Name',
+              child: Row(
                 children: <Widget>[
-                  if (item.trailing != null) Text(item.trailing!),
-                  const Icon(Icons.arrow_right_rounded),
+                  Flexible(child: Text(widget.repo.name!)),
                 ],
               ),
-            );
-          },
-        )
-      : SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
+            ),
+            if (widget.repo.description != null)
               InfoCard(
-                title: 'Name',
+                title: 'About',
                 child: Row(
                   children: <Widget>[
-                    Flexible(child: Text(widget.repo.name!)),
-                  ],
-                ),
-              ),
-              if (widget.repo.description != null)
-                InfoCard(
-                  title: 'About',
-                  child: Row(
-                    children: <Widget>[
-                      Flexible(
-                        child: Text(emoteText(widget.repo.description!)),
-                      ),
-                    ],
-                  ),
-                ),
-              if (widget.repo.language != null)
-                InfoCard(
-                  title: 'Language',
-                  child: Row(
-                    children: <Widget>[
-                      Flexible(
-                        child: LanguageIndicator(
-                          widget.repo.language,
-                          // size: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              if (widget.repo.fork!)
-                InfoCard(
-                  title: 'Forked from',
-                  child: RepositoryCard(widget.repo.source),
-                ),
-              if (widget.repo.homepage != null &&
-                  widget.repo.homepage!.isNotEmpty)
-                // InfoCard(
-                //   title: 'Homepage',
-                //   child: Row(
-                //     children: <Widget>[
-                //       Flexible(child: Text(widget.repo.homepage!)),
-                //     ],
-                //   ),
-                // ),
-                if (widget.repo.license != null)
-                  InfoCard(
-                    title: 'License',
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(child: Text(widget.repo.license!.name!)),
-                      ],
-                    ),
-                  ),
-              InfoCard(
-                title: 'Stats',
-                child: Row(
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Open issues: ${widget.repo.openIssuesCount}',
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text('Forks: ${widget.repo.forksCount}'),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text('Watchers: ${widget.repo.watchersCount}'),
-                      ],
+                    Flexible(
+                      child: Text(emoteText(widget.repo.description!)),
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
-        );
+            if (widget.repo.language != null)
+              InfoCard(
+                title: 'Language',
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: LanguageIndicator(
+                        widget.repo.language,
+                        // size: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (widget.repo.fork!)
+              InfoCard(
+                title: 'Forked from',
+                child: RepositoryCard(widget.repo.source),
+              ),
+            if (widget.repo.homepage != null &&
+                widget.repo.homepage!.isNotEmpty)
+              // InfoCard(
+              //   title: 'Homepage',
+              //   child: Row(
+              //     children: <Widget>[
+              //       Flexible(child: Text(widget.repo.homepage!)),
+              //     ],
+              //   ),
+              // ),
+              if (widget.repo.license != null)
+                InfoCard(
+                  title: 'License',
+                  child: Row(
+                    children: <Widget>[
+                      Flexible(child: Text(widget.repo.license!.name!)),
+                    ],
+                  ),
+                ),
+            InfoCard(
+              title: 'Stats',
+              child: Row(
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Open issues: ${widget.repo.openIssuesCount}',
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text('Forks: ${widget.repo.forksCount}'),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text('Watchers: ${widget.repo.watchersCount}'),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 }
 
 class AboutScreenTile {
@@ -174,6 +178,7 @@ class AboutScreenTile {
     required this.onTap,
     this.trailing,
   });
+
   final String label;
   final IconData icon;
   final String? trailing;

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/language_indicator.dart';
 import 'package:diohub/common/misc/shimmer_widget.dart';
 import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
@@ -16,6 +17,7 @@ class PaddedBuilder {
   });
 
   final EdgeInsets padding;
+
   Widget applyPadding(final Widget child) => Padding(
         padding: padding,
         child: child,
@@ -177,7 +179,7 @@ class RepositoryCard extends StatelessWidget {
       );
 
   @override
-  Widget build(final BuildContext context) => InkWell(
+  Widget build(final BuildContext context) => InkPot(
         onTap: () async {
           await pushToRepo(context);
         },
@@ -204,11 +206,14 @@ class RepoCardLoading extends StatelessWidget {
     this.refresh = false,
     super.key,
   });
+
   final String? repoURL;
   final String? repoName;
+
   // final double elevation;
   final bool refresh;
   final String? branch;
+
   @override
   Widget build(final BuildContext context) =>
       APIWrapper<RepositoryModel>.deferred(

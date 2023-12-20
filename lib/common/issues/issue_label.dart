@@ -21,7 +21,9 @@ class IssueLabel extends StatelessWidget {
         children: <Widget>[
           DecoratedBox(
             decoration: BoxDecoration(
-              borderRadius: smallBorderRadius,
+              borderRadius: context.themeData
+                  .extension<BorderRadiusTheme>()
+                  ?.smallBorderRadius,
               border: Border.all(
                 color: Color(int.tryParse('0xFF$color') ?? 0xFFFFFFFF),
               ),

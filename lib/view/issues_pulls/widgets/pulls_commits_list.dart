@@ -8,11 +8,12 @@ import 'package:provider/provider.dart';
 
 class PullsCommitsList extends StatelessWidget {
   const PullsCommitsList({super.key});
+
   @override
   Widget build(final BuildContext context) =>
       InfiniteScrollWrapper<CommitListModel>(
         future: (
-          data,
+          ScrollWrapperFutureArguments<CommitListModel> data,
         ) async =>
             PullsService.getPullCommits(
           Provider.of<PullProvider>(context, listen: false).data.url.toString(),
@@ -26,7 +27,7 @@ class PullsCommitsList extends StatelessWidget {
         ),
         builder: (
           final BuildContext context,
-          final data,
+          final ScrollWrapperBuilderData<CommitListModel> data,
         ) =>
             Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),

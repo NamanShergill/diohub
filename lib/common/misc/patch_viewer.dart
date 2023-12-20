@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:diohub/common/animations/size_expanded_widget.dart';
 import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:diohub/common/misc/code_block_view.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
 import 'package:diohub/models/repositories/blob_model.dart';
 import 'package:diohub/services/git_database/git_database_service.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/parse_base64.dart';
 import 'package:diohub/utils/type_cast.dart';
 import 'package:diohub/utils/utils.dart';
@@ -19,13 +19,13 @@ class WrapIconButton extends StatelessWidget {
     super.key,
     this.size = 24,
   });
+
   final bool wrap;
   final ValueChanged<bool> onWrap;
   final double size;
 
   @override
-  Widget build(final BuildContext context) => InkWell(
-        borderRadius: smallBorderRadius,
+  Widget build(final BuildContext context) => InkPot(
         onTap: () {
           onWrap(!wrap);
         },
@@ -53,6 +53,7 @@ class PatchViewer extends StatefulWidget {
     this.fileType,
     this.waitBeforeLoad = true,
   });
+
   final String? patch;
   final String? contentURL;
   final String? fileType;
@@ -267,7 +268,7 @@ class PatchViewerState extends State<PatchViewer> {
               itemBuilder: (final BuildContext context, final int index) {
                 final List<String> displayCode = codeChunks[index]['code'];
 
-                return InkWell(
+                return InkPot(
                   onTap: widget.limitLines != null &&
                           displayCode.length - 1 > widget.limitLines!
                       ? () async {
@@ -403,6 +404,7 @@ class CodeChunk {
     this.removeStartingLength,
     this.removeStartLine,
   });
+
   int? addStartLine;
   int? addStartingLength;
   int? removeStartLine;
@@ -432,6 +434,7 @@ class ChunkHeader extends StatefulWidget {
     this.displayCode,
     super.key,
   });
+
   final List<String>? rawData;
   final int? index;
   final List<String>? displayCode;
@@ -533,7 +536,7 @@ class ChunkHeaderState extends State<ChunkHeader> {
     }
     return Material(
       color: context.colorScheme.primary.withOpacity(0.7),
-      child: InkWell(
+      child: InkPot(
         onTap: () {
           setState(() {
             if (widget.rawData != null) {

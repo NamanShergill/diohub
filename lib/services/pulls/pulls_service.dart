@@ -218,7 +218,8 @@ class PullsService {
       ),
     );
     return GcheckPendingViewerReviewsData.fromJson(res.data!)!.node!.when(
-          pullRequest: (final GcheckPendingViewerReviewsData_node__asPullRequest p0) {
+          pullRequest:
+              (final GcheckPendingViewerReviewsData_node__asPullRequest p0) {
             if ((p0.reviews?.totalCount ?? 0) > 0) {
               return true;
             } else {

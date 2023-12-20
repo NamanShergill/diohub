@@ -1,7 +1,7 @@
 import 'package:diohub/common/bottom_sheet/bottom_sheets.dart';
 import 'package:diohub/common/markdown_view/markdown_body.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
 
@@ -40,8 +40,7 @@ Future<void> showCommentSheet(
             //     : context.palette.faded3,
           ),
           Expanded(
-            child: InkWell(
-              borderRadius: medBorderRadius,
+            child: InkPot(
               onTap: () {
                 Navigator.pop(context);
               },
@@ -110,6 +109,7 @@ class CommentBox extends StatefulWidget {
     super.key,
     this.scrollController,
   });
+
   final String repoName;
   final String? initialData;
   final ValueChanged<String>? onChanged;
@@ -149,7 +149,6 @@ class CommentBoxState extends State<CommentBox> {
           // toolbarDecoration: BoxDecoration(
           //   color: Provider.of<PaletteSettings>(context).currentSetting.primary,
           // ),
-          inkwellBorderRadius: medBorderRadius,
           // boxDecoration: BoxDecoration(
           //   color:
           //       Provider.of<PaletteSettings>(context).currentSetting.secondary,

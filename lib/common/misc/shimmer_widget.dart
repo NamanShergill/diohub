@@ -11,14 +11,15 @@ class ShimmerWidget extends StatelessWidget {
     this.highlightColor,
     super.key,
   });
+
   ShimmerWidget.container({
     this.baseColor,
     this.highlightColor,
     final double? height,
     final double? width,
+    this.borderRadius,
     super.key,
-  })  : child = _shimmerContainer(width: width, height: height),
-        borderRadius = medBorderRadius;
+  }) : child = _shimmerContainer(width: width, height: height);
   final Widget? child;
   final BorderRadius? borderRadius;
   final Color? baseColor;
@@ -35,9 +36,12 @@ class ShimmerWidget extends StatelessWidget {
           color: context.colorScheme.onSurface,
         ),
       );
+
   @override
   Widget build(final BuildContext context) => ClipRRect(
-        borderRadius: borderRadius ?? medBorderRadius,
+        borderRadius: borderRadius ??
+            context.themeData.borderRadiusTheme?.medBorderRadius ??
+            BorderRadius.circular(4),
         child: Shimmer.fromColors(
           baseColor: baseColor ?? context.colorScheme.surfaceVariant.asHint(),
           highlightColor: highlightColor ?? context.colorScheme.surfaceVariant,

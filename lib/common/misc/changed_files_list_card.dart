@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/models/commits/commit_model.dart';
 import 'package:diohub/routes/router.gr.dart';
 import 'package:diohub/utils/utils.dart';
@@ -6,7 +7,9 @@ import 'package:flutter/material.dart';
 
 class ChangedFilesListCard extends StatelessWidget {
   const ChangedFilesListCard(this.file, {super.key});
+
   final FileElement file;
+
   @override
   Widget build(final BuildContext context) {
     Widget getSubtitle(final FileElement file) {
@@ -75,7 +78,7 @@ class ChangedFilesListCard extends StatelessWidget {
             //     .baseElements,
             height: 0,
           ),
-          InkWell(
+          InkPot(
             onTap: file.patch != null
                 ? () async {
                     await AutoRouter.of(context).push(

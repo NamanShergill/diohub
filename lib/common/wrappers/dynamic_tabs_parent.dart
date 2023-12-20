@@ -5,15 +5,17 @@ import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 class DynamicTabsParent extends StatelessWidget {
   const DynamicTabsParent({
     required this.controller,
-    required this.tabs,
+    // required this.tabs,
     required this.builder,
     this.onTabClose,
     this.tabBuilder,
     super.key,
   });
+
   final DynamicTabsController controller;
   final Future<bool> Function(String idenitifier, String? label)? onTabClose;
-  final List<DynamicTab> tabs;
+
+  // final List<DynamicTab> tabs;
   final Widget Function(BuildContext context, DynamicTab tab)? tabBuilder;
   final Widget Function(
     BuildContext context,
@@ -24,7 +26,6 @@ class DynamicTabsParent extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => DynamicTabsWrapper(
         controller: controller,
-        tabs: tabs,
         tabBarSettings: DynamicTabSettings(
             // indicatorPadding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
             ),

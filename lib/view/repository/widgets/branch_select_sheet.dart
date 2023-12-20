@@ -1,7 +1,7 @@
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/wrappers/infinite_scroll_wrapper.dart';
 import 'package:diohub/models/repositories/branch_list_model.dart';
 import 'package:diohub/services/repositories/repo_services.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -15,11 +15,13 @@ class BranchSelectSheet extends StatelessWidget {
     this.controller,
     super.key,
   });
+
   final String repoURL;
   final String? defaultBranch;
   final String? currentBranch;
   final ValueChanged<String>? onSelected;
   final ScrollController? controller;
+
   @override
   Widget build(final BuildContext context) =>
       InfiniteScrollWrapper<RepoBranchListItemModel>(
@@ -49,8 +51,7 @@ class BranchSelectSheet extends StatelessWidget {
             color: data.item.name == currentBranch
                 ? context.colorScheme.primary
                 : null,
-            child: InkWell(
-              borderRadius: medBorderRadius,
+            child: InkPot(
               onTap: () {
                 onSelected!(data.item.name!);
                 Navigator.pop(context);

@@ -162,13 +162,7 @@ class TimelineItem extends StatelessWidget {
   BasicEventAssignedCard _buildUnassignedCard(final Gunassigned item) =>
       BasicEventAssignedCard(
         actor: item.actor,
-        assignee: item.assignee?.when(
-          user: returnItself,
-          bot: returnItself,
-          mannequin: returnItself,
-          organization: returnItself,
-          orElse: unimplemented,
-        ),
+        assignee: item.assignee as Gactor?,
         createdAt: item.createdAt,
         isAssigned: false,
       );
@@ -259,6 +253,7 @@ class TimelineItem extends StatelessWidget {
     final BuildContext context,
   ) =>
       BaseComment(
+        resourceUri: Uri.parse('asdhbj'),
         description: getReviewState(item.state),
         onQuote: onQuote,
         leading: Icons.remove_red_eye_rounded,
@@ -473,13 +468,7 @@ class TimelineItem extends StatelessWidget {
   ) =>
       BasicEventAssignedCard(
         actor: item.actor,
-        assignee: item.assignee?.when(
-          user: returnItself,
-          bot: returnItself,
-          mannequin: returnItself,
-          organization: returnItself,
-          orElse: unimplemented,
-        ),
+        assignee: item.assignee as Gactor?,
         createdAt: item.createdAt,
         isAssigned: true,
       );
@@ -487,6 +476,7 @@ class TimelineItem extends StatelessWidget {
   BaseComment _buildBaseComment(final GissueComment item) => BaseComment(
         isMinimized: item.isMinimized,
         onQuote: onQuote,
+        resourceUri: item.url,
         reactions: item.reactionGroups!.toList(),
         minimizedReason: item.minimizedReason,
         viewerCanDelete: item.viewerCanDelete,
@@ -505,14 +495,10 @@ class TimelineItem extends StatelessWidget {
 
   BasicEventTextCard _buildCrossReferenceCard(final GcrossReference item) {
     {
+      // TODO(ns): Change after fixed- https://github.com/gql-dart/ferry/issues/543
       String str;
-      final String repoNameWithOwner = item.source.when(
-        issue: (final GcrossReference_source__asIssue p0) =>
-            p0.repository.nameWithOwner,
-        pullRequest: (final GcrossReference_source__asPullRequest p0) =>
-            p0.repository.nameWithOwner,
-        orElse: unimplemented,
-      );
+      final String repoNameWithOwner =
+          (item.source as dynamic).repository.nameWithOwner;
       str = item.isCrossRepository
           ? 'Referenced this in $repoNameWithOwner.'
           : 'Referenced this.';
@@ -520,7 +506,22 @@ class TimelineItem extends StatelessWidget {
       return BasicEventTextCard(
         textContent: str,
         footer: Builder(
-          builder: (final BuildContext context) => switch (item.G__typename) {},
+          builder: (final BuildContext context) =>
+              switch (item.source.G__typename) {
+            'Issue' => IssueLoadingCard(
+                toRepoAPIResource((item.source as dynamic).url.toString()),
+                padding: EdgeInsets.zero,
+                compact: true,
+              ),
+            'PullRequest' => PullLoadingCard(
+                toRepoAPIResource(
+                  (item.source as dynamic).url.toString(),
+                  isPull: true,
+                ),
+                compact: true,
+              ),
+            _ => unimplemented(),
+          },
         ),
         user: item.actor,
         leading: const Icon(Octicons.link_external),

@@ -1,3 +1,4 @@
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/menu_button.dart';
 import 'package:diohub/common/misc/tappable_card.dart';
 import 'package:diohub/utils/utils.dart';
@@ -11,8 +12,10 @@ class WrappedCollection extends StatelessWidget {
     super.key,
     this.spacing = 8,
   });
+
   final List<Widget> children;
   final double spacing;
+
   @override
   Widget build(final BuildContext context) => FlexList(
         verticalSpacing: spacing,
@@ -39,14 +42,20 @@ class InfoCard extends StatelessWidget {
     // this.leadingIconColor,
   })  : onHeaderTap = onHeaderTap ?? onTap,
         children = <Widget>[
-          InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: childPadding ?? const EdgeInsets.all(8),
-              child: Row(
-                children: <Widget>[
-                  Flexible(child: child),
-                ],
+          Builder(
+            builder: (final BuildContext context) => InkPot(
+              onTap: onTap,
+              borderRadius: BasicCard.getLinkedBorder(
+                context,
+                cardLinkType: CardLinkType.atTop,
+              ),
+              child: Padding(
+                padding: childPadding ?? const EdgeInsets.all(8),
+                child: Row(
+                  children: <Widget>[
+                    Flexible(child: child),
+                  ],
+                ),
               ),
             ),
           ),
@@ -55,6 +64,7 @@ class InfoCard extends StatelessWidget {
           title != null || leading != null,
           'Provide at least one descriptor.',
         );
+
   const InfoCard.children({
     required this.children,
     this.trailing,
@@ -81,6 +91,7 @@ class InfoCard extends StatelessWidget {
   final EdgeInsets headerPadding;
   final Color? headerColor;
   final double? elevation;
+
   static Icon get dropdownTrailingIcon => const Icon(
         Icons.arrow_drop_down_rounded,
       );
@@ -184,10 +195,12 @@ class MenuInfoCard extends StatelessWidget {
     // this.titleTextStyle,
     // this.onTap,
   });
+
   final VoidCallback? onTap;
   final Widget? leading;
   final Color? headerColor;
   final double? elevation;
+
   // final TextStyle? titleTextStyle;
   // final VoidCallback? onTap;
   final String title;
@@ -217,14 +230,16 @@ class MenuInfoCard extends StatelessWidget {
                 GestureDetector(
           onLongPress: showMenu,
           child: InfoCard(
-            trailing: button, headerColor: headerColor,
+            trailing: button,
+            headerColor: headerColor,
             headerPadding: const EdgeInsets.only(
               left: 12,
               bottom: 2,
               top: 2,
             ),
             elevation: elevation,
-            onTap: onTap, onHeaderTap: showMenu,
+            onTap: onTap,
+            onHeaderTap: showMenu,
             title: title,
             leading: leading,
             // titleTextStyle: titleTextStyle,
@@ -255,16 +270,20 @@ class CardHeader extends StatelessWidget {
     this.elevation,
     // this.padding = const EdgeInsets.all(8),
   });
+
   final Color? color;
   final double? elevation;
+
   // final EdgeInsets padding;
   final CardLinkType cardLinkType;
   final Widget child;
   final List<PullDownMenuItem> menuItems;
   final VoidCallback? onTap;
+
   @override
   Widget build(final BuildContext context) => BasicCard.linked(
-        cardLinkType: cardLinkType, elevation: elevation,
+        cardLinkType: cardLinkType,
+        elevation: elevation,
         // color: color ?? context.colorScheme.surfaceVariant.asHint(),
         color: color ?? context.colorScheme.secondaryContainer,
         // elevation: 0,
@@ -363,11 +382,13 @@ class NodeWithPaginationInfo<T> {
     required this.cursor,
     // this.totalCount,
   });
+
   NodeWithPaginationInfo.pageKey({
     required this.node,
     required final int pageKey,
     // this.totalCount,
   }) : cursor = pageKey.toString();
+
   factory NodeWithPaginationInfo.fromEdge(final Object edge) =>
       NodeWithPaginationInfo<T>(
         // ignore: avoid_dynamic_calls
@@ -377,6 +398,7 @@ class NodeWithPaginationInfo<T> {
       );
 
   final T node;
+
   // final int? totalCount;
   final String cursor;
 

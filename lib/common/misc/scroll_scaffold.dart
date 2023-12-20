@@ -12,11 +12,13 @@ class ScrollScaffold extends StatelessWidget {
     this.appBar,
     this.wrapperBuilder,
   });
+
   final PreferredSizeWidget? appBar;
   final Widget? header;
   final Widget? subHeader;
   final Widget body;
   final Widget Function(BuildContext context, Widget child)? wrapperBuilder;
+
   @override
   Widget build(final BuildContext context) {
     final Scaffold child = Scaffold(

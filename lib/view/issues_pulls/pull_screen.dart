@@ -3,7 +3,10 @@ import 'package:diohub/graphql/queries/issues_pulls/__generated__/issue_pull_inf
 import 'package:diohub/graphql/queries/issues_pulls/__generated__/timeline.data.gql.dart';
 import 'package:diohub/models/issues/issue_model.dart';
 import 'package:diohub/view/issues_pulls/issue_pull_screen.dart';
+import 'package:diohub/view/issues_pulls/widgets/pull_changed_files_list.dart';
+import 'package:diohub/view/issues_pulls/widgets/pulls_commits_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_tabs/flutter_dynamic_tabs.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class PullScreen extends StatefulWidget {
@@ -39,10 +42,14 @@ class PullScreenState extends State<PullScreen>
     super.initState();
   }
 
+  final GlobalKey<IssuePullInfoTemplateState> _templateKey =
+      GlobalKey<IssuePullInfoTemplateState>();
+
   @override
   Widget build(final BuildContext context) {
     final GpullInfo data = widget.pullInfo;
     return IssuePullInfoTemplate(
+      key: _templateKey,
       number: data.number,
       isPinned: false,
       title: data.titleHTML,
@@ -63,8 +70,59 @@ class PullScreenState extends State<PullScreen>
             .toList(),
         totalCount: data.participants.totalCount,
       ),
+      dynamicTabs: <DynamicTab>[
+        DynamicTab(
+          identifier: 'files_changed',
+          tabViewBuilder: (final BuildContext context) =>
+              const PullChangedFilesList(),
+        ),
+        DynamicTab(
+          identifier: 'commits',
+          tabViewBuilder: (final BuildContext context) =>
+              const PullsCommitsList(),
+        ),
+      ],
       uri: data.url,
       onRefresh: widget.onRefresh,
+      additionalAboutWidgets: [
+        if (data.merged)
+          InfoCard(
+            title: 'Merged',
+            leading: const Icon(
+              Octicons.git_merge,
+              color: Colors.deepPurpleAccent,
+            ),
+            child: Text(
+              data.mergedAt!.toIso8601String(),
+            ),
+          ),
+        InfoCard(
+          title: 'Commits',
+          leading: const Icon(
+            Octicons.git_commit,
+          ),
+          child: Text(
+            data.commits.totalCount.toString(),
+          ),
+          onTap: () {
+            // _templateKey.currentState?.dynamicTabsController
+            //   .openTab('commits');
+          },
+        ),
+        InfoCard(
+          title: 'Changed Files',
+          leading: const Icon(
+            Octicons.file_diff,
+          ),
+          onTap: () {
+            // _templateKey.currentState?.dynamicTabsController
+            //   .openTab('files_changed');
+          },
+          child: Text(
+            data.changedFiles.toString(),
+          ),
+        ),
+      ],
     );
   }
 

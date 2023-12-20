@@ -1,8 +1,8 @@
 import 'package:diohub/common/animations/fade_animation_widget.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/shimmer_widget.dart';
 import 'package:diohub/models/events/notifications_model.dart';
 import 'package:diohub/services/activity/notifications_service.dart';
-import 'package:diohub/style/border_radiuses.dart';
 import 'package:diohub/utils/get_date.dart';
 import 'package:diohub/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +19,7 @@ class BasicNotificationCard extends StatefulWidget {
     this.iconBuilder,
     super.key,
   });
+
   final WidgetBuilder? iconBuilder;
   final WidgetBuilder? footerBuilder;
   final bool loading;
@@ -85,7 +86,7 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
           color: widget.notification.unread!
               ? context.colorScheme.surfaceVariant
               : context.colorScheme.surface,
-          child: InkWell(
+          child: InkPot(
             onTap: () async {
               if (widget.notification.unread ?? false) {
                 await markAsRead();
@@ -197,17 +198,7 @@ class BasicNotificationCardState extends State<BasicNotificationCard> {
             width: 8,
           ),
           Expanded(
-            child: ShimmerWidget(
-              borderRadius: medBorderRadius,
-              child: Container(
-                decoration: const BoxDecoration(
-                    // color: Provider.of<PaletteSettings>(context)
-                    //     .currentSetting
-                    //     .faded1,
-                    ),
-                height: 20,
-              ),
-            ),
+            child: ShimmerWidget.container(),
           ),
         ],
       );

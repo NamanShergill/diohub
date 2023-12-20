@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:diohub/adapters/deep_linking_handler.dart';
@@ -11,10 +12,12 @@ import 'package:diohub/common/misc/app_bar.dart';
 import 'package:diohub/common/misc/deep_link_widget.dart';
 import 'package:diohub/common/misc/editable_text.dart';
 import 'package:diohub/common/misc/info_card.dart';
+import 'package:diohub/common/misc/ink_pot.dart';
 import 'package:diohub/common/misc/loading_indicator.dart';
 import 'package:diohub/common/misc/profile_banner.dart';
 import 'package:diohub/common/misc/reaction_bar.dart';
 import 'package:diohub/common/misc/scroll_scaffold.dart';
+import 'package:diohub/common/misc/theme_from_image.dart';
 import 'package:diohub/common/wrappers/api_wrapper_widget.dart';
 import 'package:diohub/common/wrappers/dynamic_tabs_parent.dart';
 import 'package:diohub/common/wrappers/editing_wrapper.dart';
@@ -113,7 +116,8 @@ class _IssuePullScreenState extends DeepLinkWidgetState<IssuePullScreen> {
           ),
           body: const LoadingIndicator(),
         ),
-        errorBuilder: (context, data) => Scaffold(
+        errorBuilder: (final BuildContext context, final Object? data) =>
+            Scaffold(
           appBar: AppBar(
             elevation: 0,
           ),
@@ -177,6 +181,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
     super.key,
     this.dynamicTabs = const <DynamicTab>[],
     required this.onRefresh,
+    this.additionalAboutWidgets = const <Widget>[],
   });
 
   final GassigneeInfo assigneesInfo;
@@ -187,6 +192,7 @@ class IssuePullInfoTemplate extends StatefulWidget {
   final Gactor? createdBy;
   final List<DynamicTab> dynamicTabs;
   final List<Glabel?> labels;
+  final List<Widget> additionalAboutWidgets;
   final int number;
   final List<GreactionGroups> reactionGroups;
   final GrepoInfo repoInfo;
@@ -199,13 +205,18 @@ class IssuePullInfoTemplate extends StatefulWidget {
   final Future<void> Function() onRefresh;
 
   @override
-  State<IssuePullInfoTemplate> createState() => _IssuePullInfoTemplateState();
+  State<IssuePullInfoTemplate> createState() => IssuePullInfoTemplateState();
 }
 
-class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
+class IssuePullInfoTemplateState extends State<IssuePullInfoTemplate>
+    with TickerProviderStateMixin {
   late EditingController<Object> assigneeEditingController;
   late EditingController<String> descEditingController;
-  final DynamicTabsController dynamicTabsController = DynamicTabsController();
+  late final DynamicTabsController dynamicTabsController =
+      DynamicTabsController(
+    vsync: this,
+    tabs: _buildTabs(),
+  );
   late EditingController<List<Glabel?>> labelsEditingController;
 
   // final ScrollController scrollController = ScrollController();
@@ -231,65 +242,64 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
   }
 
   @override
-  Widget build(final BuildContext context) => SafeArea(
-        child: DynamicTabsParent(
-          controller: dynamicTabsController,
-          tabBuilder: (final BuildContext context, final DynamicTab tab) =>
-              buildDynamicTabMenuButton(
-            tab: tab,
-            tabController: dynamicTabsController,
-          ),
-          tabs: _buildTabs(),
-          builder: (
-            final BuildContext context,
-            final PreferredSizeWidget tabBar,
-            final Widget tabView,
-          ) =>
-              EditingWrapper(
-            onSave: () {},
-            editingControllers: <EditingController<dynamic>>[
-              titleEditingController,
-              labelsEditingController,
-              descEditingController,
-              assigneeEditingController,
-            ],
-            builder: (final BuildContext context) => ScrollScaffold(
-              subHeader: SizeExpandedSection(
-                expand: dynamicTabsController.activeLength > 1,
-                child: buildTabsView(tabBar),
-              ),
-              appBar: buildAppBar(context),
-              wrapperBuilder:
-                  (final BuildContext context, final Widget child) =>
-                      RefreshIndicator(
-                onRefresh: widget.onRefresh,
-                triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                child: child,
-              ),
-              header: _ScreenHeader(
-                widget: widget,
-                titleEditingController: titleEditingController,
-                labelsEditingController: labelsEditingController,
-              ),
-              body: tabView,
-            ),
-          ),
-        ),
+  Widget build(final BuildContext context) => ThemeFromImage(
+        builder: (
+          final BuildContext context,
+        ) {
+          return SafeArea(
+            child: buildDynamicTabsParent(),
+          );
+        },
       );
+
+  Widget buildDynamicTabsParent() {
+    return DynamicTabsParent(
+      controller: dynamicTabsController,
+      tabBuilder: (final BuildContext context, final DynamicTab tab) =>
+          buildDynamicTabMenuButton(
+        tab: tab,
+        tabController: dynamicTabsController,
+      ),
+      builder: (
+        final BuildContext context,
+        final PreferredSizeWidget tabBar,
+        final Widget tabView,
+      ) =>
+          EditingWrapper(
+        onSave: () {},
+        editingControllers: <EditingController<dynamic>>[
+          titleEditingController,
+          labelsEditingController,
+          descEditingController,
+          assigneeEditingController,
+        ],
+        builder: (final BuildContext context) => ScrollScaffold(
+          subHeader: SizeExpandedSection(
+            expand: dynamicTabsController.activeLength > 1,
+            child: buildTabsView(tabBar),
+          ),
+          appBar: buildAppBar(context),
+          wrapperBuilder: (final BuildContext context, final Widget child) =>
+              RefreshIndicator(
+            onRefresh: widget.onRefresh,
+            triggerMode: RefreshIndicatorTriggerMode.anywhere,
+            child: child,
+          ),
+          header: _ScreenHeader(
+            widget: widget,
+            titleEditingController: titleEditingController,
+            labelsEditingController: labelsEditingController,
+          ),
+          body: tabView,
+        ),
+      ),
+    );
+  }
 
   List<DynamicTab> _buildTabs() => List<DynamicTab>.from(widget.dynamicTabs)
     ..addAll(
       <DynamicTab>[
-        DynamicTab(
-          identifier: 'About',
-          isDismissible: false,
-          tabViewBuilder: (final BuildContext context) => _AboutTab(
-            widget: widget,
-            descEditingController: descEditingController,
-            assigneeEditingController: assigneeEditingController,
-            dynamicTabsController: dynamicTabsController,
-          ),
-        ),
+        _buildAboutTab(),
         DynamicTab(
           identifier: 'Conversation',
           keepViewAlive: true,
@@ -305,6 +315,7 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
               repoName: widget.repoInfo.name,
               initComment: BaseComment(
                 onQuote: () {},
+                resourceUri: Uri.parse('uri'),
                 isMinimized: false,
                 reactions: widget.reactionGroups,
                 viewerCanDelete: false,
@@ -328,6 +339,17 @@ class _IssuePullInfoTemplateState extends State<IssuePullInfoTemplate> {
         ),
       ],
     );
+
+  DynamicTab _buildAboutTab() => DynamicTab(
+        identifier: 'About',
+        isDismissible: false,
+        tabViewBuilder: (final BuildContext context) => _AboutTab(
+          widget: widget,
+          descEditingController: descEditingController,
+          assigneeEditingController: assigneeEditingController,
+          dynamicTabsController: dynamicTabsController,
+        ),
+      );
 
   DHAppBar buildAppBar(final BuildContext context) => DHAppBar(
         hasEditableChildren: true,
@@ -424,10 +446,18 @@ class _AboutTab extends StatelessWidget {
                   width: 4,
                 ),
                 if (widget.createdBy != null)
-                  ProfileTile.login(
-                    avatarUrl: widget.createdBy!.avatarUrl.toString(),
-                    userLogin: widget.createdBy!.login,
-                    size: 16,
+                  // ProfileTile.login(
+                  //   avatarUrl: widget.createdBy!.avatarUrl.toString(),
+                  //   userLogin: widget.createdBy!.login,
+                  //   size: 16,
+                  // ),
+                  ThemePZero(
+                    imageUrl: widget.createdBy!.avatarUrl.toString(),
+                    child: ProfileTile.login(
+                      avatarUrl: widget.createdBy!.avatarUrl.toString(),
+                      userLogin: widget.createdBy!.login,
+                      size: 16,
+                    ),
                   ),
                 Text(
                   getDate(widget.createdAt.toString(), shorten: false),
@@ -439,7 +469,6 @@ class _AboutTab extends StatelessWidget {
               height: 16,
             ),
             Card(
-              shape: RoundedRectangleBorder(borderRadius: medBorderRadius),
               margin: EdgeInsets.zero,
               child: Column(
                 children: <Widget>[
@@ -501,57 +530,56 @@ class _AboutTab extends StatelessWidget {
                   const SizedBox(
                     height: 8,
                   ),
-                  Material(
-                    color: context.colorScheme.primary,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: medBorderRadius.bottomLeft,
-                      bottomRight: medBorderRadius.bottomRight,
-                    ),
-                    child: InkWell(
-                      onTap: () {
+                  InkPot(
+                    onTap: () {
+                      try {
                         dynamicTabsController.openTab('Conversation');
-                      },
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: medBorderRadius.bottomLeft,
-                        bottomRight: medBorderRadius.bottomRight,
-                      ),
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: medBorderRadius.bottomLeft,
-                            bottomRight: medBorderRadius.bottomRight,
-                          ),
+                      } catch (e, s) {
+                        log(e.toString(), stackTrace: s);
+                      }
+                    },
+                    backgroundColor: context.colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.vertical(
+                      bottom: context.themeData.borderRadiusTheme!
+                          .medBorderRadius.bottomLeft,
+                    ),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.vertical(
+                          bottom: context.themeData.borderRadiusTheme!
+                              .medBorderRadius.bottomLeft,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Icon(
-                                      Octicons.comment_discussion,
-                                      size: 15,
-                                      color: context.colorScheme.onPrimary,
-                                    ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Icon(
+                                    Octicons.comment_discussion,
+                                    size: 15,
+                                    color:
+                                        context.colorScheme.onPrimaryContainer,
                                   ),
-                                  Text(
-                                    '${widget.commentCount} replies',
-                                    style:
-                                        context.textTheme.labelSmall?.copyWith(
-                                      color: context.colorScheme.onPrimary,
-                                    ),
+                                ),
+                                Text(
+                                  '${widget.commentCount} replies',
+                                  style: context.textTheme.labelSmall?.copyWith(
+                                    color:
+                                        context.colorScheme.onPrimaryContainer,
                                   ),
-                                ],
-                              ),
-                              Icon(
-                                Icons.arrow_right_rounded,
-                                color: context.colorScheme.onPrimary,
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                            Icon(
+                              Icons.arrow_right_rounded,
+                              color: context.colorScheme.onPrimaryContainer,
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -630,7 +658,9 @@ class _AboutTab extends StatelessWidget {
                         _ => 'Assignees',
                       },
                       fetchActorsList: (
-                        data,
+                        final ScrollWrapperFutureArguments<
+                                NodeWithPaginationInfo<Gactor>>
+                            data,
                       ) async =>
                           (await context
                                   .issueProvider(listen: false)
@@ -657,7 +687,9 @@ class _AboutTab extends StatelessWidget {
                     await BottomSheetPagination<NodeWithPaginationInfo<Gactor>>(
                       paginatedListItemBuilder: _paginatedListItemBuilder,
                       paginationFuture: (
-                        data,
+                        final ScrollWrapperFutureArguments<
+                                NodeWithPaginationInfo<Gactor>>
+                            data,
                       ) async =>
                           context.issueProvider(listen: false).getParticipants(
                                 after: data.lastItem?.cursor,
@@ -666,6 +698,7 @@ class _AboutTab extends StatelessWidget {
                     ).openSheet(context);
                   },
                 ),
+                ...widget.additionalAboutWidgets,
               ],
             ),
           ],
@@ -681,7 +714,6 @@ class _ScreenHeader extends StatelessWidget {
   });
 
   final IssuePullInfoTemplate widget;
-
   final EditingController<String> titleEditingController;
   final EditingController<List<Glabel?>> labelsEditingController;
 
@@ -918,10 +950,12 @@ class _AssigneeInfoCard extends StatelessWidget {
             totalCount: availableList.totalCount,
             // backgroundColor: context.palette.secondary,
             // widgetBorderColor: context.palette.secondary,
-            extraCountTextStyle: const TextStyle(
-                // color: context.palette.faded3,
-                ),
-            widgetRadius: 29,
+            // extraCountTextStyle: const TextStyle(
+            //     color: context.palette.faded3,
+            //     ),
+            // widgetRadius: 25,
+            widgetBorderColor: Colors.transparent,
+            widgetBorderWidth: 0,
             children: availableList.limitedAvailableList
                 .map(
                   (final NodeWithPaginationInfo<Gactor> e) =>
@@ -952,7 +986,9 @@ StatelessWidget _buildChild(final UnfinishedList<Gactor> availableList) =>
           extraCountTextStyle: const TextStyle(
               // color: context.palette.faded3,
               ),
-          widgetRadius: 29,
+          widgetBorderWidth: 0,
+          widgetBorderColor: Colors.transparent,
+          // widgetRadius: 29,
           children: availableList.limitedAvailableList
               .map(
                 (final Gactor e) => ProfileTile.avatar(
@@ -967,7 +1003,7 @@ StatelessWidget _buildChild(final UnfinishedList<Gactor> availableList) =>
 ScrollWrapperBuilder<NodeWithPaginationInfo<Gactor>>
     get _paginatedListItemBuilder => (
           final BuildContext context,
-          ScrollWrapperBuilderData<NodeWithPaginationInfo<Gactor>> data,
+          final ScrollWrapperBuilderData<NodeWithPaginationInfo<Gactor>> data,
         ) =>
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -1073,3 +1109,32 @@ List<Widget> _buildListItemChildren(
 //   @override
 //   String get title => titleBuilder.call(availableList);
 // }
+
+class _TEST extends StatefulWidget {
+  const _TEST({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  State<_TEST> createState() => _TESTState();
+}
+
+class _TESTState extends State<_TEST> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    print('dakjsdnjsdn');
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant _TEST oldWidget) {
+    print('kdsjnfkjbnfg');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
+  }
+}

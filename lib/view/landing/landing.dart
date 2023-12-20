@@ -2,18 +2,22 @@ import 'package:animations/animations.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:diohub/adapters/deep_linking_handler.dart';
 import 'package:diohub/common/misc/scaffold_body.dart';
+import 'package:diohub/providers/users/current_user_provider.dart';
 import 'package:diohub/view/home/home.dart';
 import 'package:diohub/view/notifications/notifications.dart';
 import 'package:diohub/view/profile/current_user_profile_screen.dart';
 import 'package:diohub/view/search/search.dart';
 import 'package:diohub/view/settings/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
 @RoutePage()
 class LandingScreen extends StatefulWidget {
   const LandingScreen({this.deepLinkData, super.key});
+
   final PathData? deepLinkData;
+
   @override
   LandingScreenState createState() => LandingScreenState();
 }
@@ -29,6 +33,14 @@ class LandingScreenState extends State<LandingScreen>
     //   vsync: this,
     //   initialIndex: getPath(widget.deepLinkData?.path),
     // );
+
+    ColorScheme.fromImageProvider(
+      brightness: Brightness.dark,
+      provider:
+          NetworkImage(context.read<CurrentUserProvider>().data.avatarUrl!),
+    ).then((value) {
+      print(value);
+    });
     super.initState();
   }
 
@@ -46,7 +58,10 @@ class LandingScreenState extends State<LandingScreen>
 
   @override
   Widget build(final BuildContext context) => SafeArea(
-        child: Scaffold(
+        child:
+            // ThemeFromImage(
+            //   builder: (context, buildThemePZero) =>
+            Scaffold(
           body: ScaffoldBody(
             child: PageTransitionSwitcher(
               transitionBuilder: (
@@ -62,6 +77,7 @@ class LandingScreenState extends State<LandingScreen>
               child: switch (currentIndex) {
                 0 => HomeScreen(
                     deepLinkData: widget.deepLinkData,
+                    // buildThemePZero: buildThemePZero,
                     tabNavigators: (
                       toProfile: () {
                         setState(() {
@@ -154,5 +170,6 @@ class LandingScreenState extends State<LandingScreen>
             ],
           ),
         ),
+        // ),
       );
 }

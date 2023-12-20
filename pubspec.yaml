@@ -3,30 +3,30 @@ description: A Github mobile client
 
 publish_to: 'none'
 
-version: 0.4.0-internal.1+5
+version: 1.0.0-dev.1+5
 
 # dart run build_runner watch --delete-conflicting-outputs
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.2.0 <4.0.0"
 
 dependencies:
-  animations: ^2.0.8
+  animated_theme_switcher:
+    path: ../animated_theme_switcher
+  animations: ^2.0.10
   another_flushbar: ^1.12.31-dev.1
-  #  artemis: '>=7.13.0-beta.2 <8.0.0'
   auto_route: ^7.8.4
-  built_value: ^8.6.3
+  built_value: ^8.8.1
   cached_network_image: ^3.3.0
-  chucker_flutter: ^1.5.1
-  #  collection: ^1.18.0
-  connectivity_plus: ^5.0.1
+  chucker_flutter: ^1.6.1
+  connectivity_plus: ^5.0.2
   curl_logger_dio_interceptor: ^1.0.0
-  dio: ^5.3.3
-  dio_cache_interceptor: ^3.4.4
+  dio: ^5.4.0
+  dio_cache_interceptor: ^3.5.0
   # https://github.com/tekartik/sqflite/issues/1008
   # When fixed, remove the change in ios/Podfile
-  dio_cache_interceptor_db_store: ^5.1.0
-  dynamic_color: ^1.6.7
+  dio_cache_interceptor_db_store: ^5.1.1
+  dynamic_color: ^1.6.8
   equatable: ^2.0.5
   expand_widget: ^3.1.1
 
@@ -34,7 +34,7 @@ dependencies:
   extended_text_field:
     path:
       dependencies/extended_text_field
-  ferry_flutter: ^0.8.1
+  ferry_flutter: ^0.9.0
   flex_list: ^1.0.0
   flutter:
     sdk: flutter
@@ -63,23 +63,23 @@ dependencies:
       ref: fix-xcode-17
 
   flutter_keyboard_visibility: ^5.4.1
-  flutter_material_design_icons: ^1.1.7296
+  flutter_material_design_icons: ^1.1.7367
   flutter_portal: ^1.1.4
-  flutter_reaction_button: ^3.0.0+2
-  flutter_riverpod: ^2.4.3
+  flutter_reaction_button: ^3.0.0+3
+  flutter_riverpod: ^3.0.0-dev.3
   flutter_scroll_to_top:
     path: dependencies/flutter_scroll_to_top
 
   flutter_secure_storage: ^9.0.0
-  flutter_slidable: ^3.0.0
-  flutter_svg: ^2.0.7
+  flutter_slidable: ^3.0.1
+  flutter_svg: ^2.0.9
   flutter_vector_icons: ^2.0.0
-  flutter_widget_from_html: ^0.14.2
+  flutter_widget_from_html: ^0.14.9
   #  google_nav_bar: ^5.0.6
-  freezed: ^2.4.5
-  gql: ^1.0.0
-  gql_dio_link: ^1.0.1
-  gql_exec: ^1.0.0
+  freezed: ^2.4.6
+  gql: ^1.0.1-alpha+1700868214564
+  gql_dio_link: ^1.0.2-alpha+1700868214632
+  gql_exec: ^1.0.1-alpha+1700868214571
   #  gql_link: ^1.0.0
 
   #  highlighting:
@@ -99,39 +99,39 @@ dependencies:
     path: dependencies/markdown-editable-textinput
 
   mime: ^1.0.4
-  package_info_plus: ^4.2.0
+  package_info_plus: ^5.0.1
   path_provider: ^2.1.1
   pretty_dio_logger: ^1.3.1
-  provider: ^6.1.0-dev.1
+  provider: ^6.1.1
   pull_down_button:
     path: dependencies/pull_down_button
-  share_plus: ^7.2.0
+  share_plus: ^7.2.1
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
   sliver_tools: ^0.2.12
-  sqlite3_flutter_libs: ^0.5.17
+  sqlite3_flutter_libs: ^0.5.18
   #  tabbed_view: ^1.18.0
   timeline_tile: ^2.0.0
   uni_links: ^0.5.1
-  url_launcher: ^6.1.14
-  uuid: ^4.1.0
+  url_launcher: ^6.2.2
+  uuid: ^4.2.2
 
 dev_dependencies:
   auto_route_generator: ^7.3.2
-  build_runner: ^2.4.6
+  build_runner: ^2.4.7
   # pub run dependency_validator
   dependency_validator: ^3.2.3
-  ferry_generator: ^0.8.1
+  ferry_generator: ^0.9.0-dev.1
   flutter_launcher_icons:
     git: https://github.com/fluttercommunity/flutter_launcher_icons.git
-  flutter_lints: ^2.0.3
-  flutter_native_splash: ^2.3.3
+  flutter_lints: ^3.0.1
+  flutter_native_splash: ^2.3.8
   flutter_test:
     sdk: flutter
   json_serializable: ^6.7.1
-  melos: ^3.1.1
+  melos: ^3.4.0
 
-dependency_overrides:
+#dependency_overrides:
 # Override for conflict between artemis and flutter_test.
 #  collection: ^1.18.0
 # flutter_html 2.1.2 uses a version not compatible with flutter >3.
