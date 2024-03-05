@@ -1,5 +1,5 @@
 <p align="center"><b>
-  <a href="https://github.com/NamanShergill/diohub"><img src="assets/logo.png" ></a>
+  <a href="https://github.com/NamanShergill/diohub"><img src="assets/logo.png" width="200vw"></a>
   <br>
   DioHub
 </b></p>
